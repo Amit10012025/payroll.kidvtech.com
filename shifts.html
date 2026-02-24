@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>KIDV Tech | Shifts</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f4f8;}
+.app{display:flex;height:100vh;}
+.sidebar{width:220px;min-width:220px;background:#fff;border-right:1px solid #e2e8f0;display:flex;flex-direction:column;padding:18px 12px;height:100vh;}
+.logo{display:flex;align-items:center;gap:10px;padding:6px 8px;margin-bottom:22px;}
+.logo-icon{width:36px;height:36px;background:#2563eb;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:900;box-shadow:0 4px 12px rgba(37,99,235,.28);}
+.logo-text{font-size:14px;font-weight:900;color:#1e293b;}.logo-text span{color:#2563eb;}
+.nav-sec{font-size:8px;color:#94a3b8;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:0 10px;margin:10px 0 4px;}
+.nav a{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;font-size:11px;font-weight:700;color:#64748b;text-decoration:none;margin-bottom:2px;text-transform:uppercase;letter-spacing:.03em;transition:all .15s;}
+.nav a:hover{background:#f1f5f9;color:#1e293b;}
+.nav a.active{background:#2563eb;color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.3);}
+.nav a .material-icons-round{font-size:16px;flex-shrink:0;}
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;}
+.topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.topbar h1{font-size:16px;font-weight:900;text-transform:uppercase;color:#1e293b;}
+.scroll{flex:1;overflow-y:auto;padding:20px 24px;}
+.scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+.btn{display:flex;align-items:center;gap:5px;padding:8px 16px;border-radius:10px;font-size:11px;font-weight:800;border:none;cursor:pointer;transition:all .15s;text-transform:uppercase;font-family:'Plus Jakarta Sans',sans-serif;}
+.btn-blue{background:#2563eb;color:#fff;}.btn-blue:hover{background:#1d4ed8;}
+.btn-red{background:#fef2f2;color:#ef4444;border:1px solid #fee2e2;}.btn-red:hover{background:#fee2e2;}
+.btn-sm{padding:5px 10px;font-size:10px;border-radius:8px;}
+.btn .material-icons-round{font-size:14px;}
+.shift-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
+.shift-card{background:#fff;border-radius:16px;border:1px solid #f1f5f9;padding:20px;position:relative;transition:all .2s;}
+.shift-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.08);}
+.sc-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.sc-icon{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.sc-name{font-size:14px;font-weight:900;color:#1e293b;text-transform:uppercase;}
+.sc-type{font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.06em;}
+.sc-info{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.sci{background:#f8fafc;border-radius:9px;padding:8px 10px;}
+.sci-l{font-size:7px;color:#94a3b8;text-transform:uppercase;font-weight:700;margin-bottom:2px;}
+.sci-v{font-size:11px;color:#1e293b;font-weight:800;text-transform:uppercase;}
+.sc-actions{display:flex;gap:6px;justify-content:flex-end;}
+.emp-count{display:inline-flex;align-items:center;gap:4px;background:#eff6ff;color:#2563eb;border-radius:99px;padding:3px 10px;font-size:9px;font-weight:800;text-transform:uppercase;cursor:pointer;}
+.emp-count:hover{background:#dbeafe;}
+.panel-overlay{position:fixed;inset:0;background:rgba(15,23,42,.5);backdrop-filter:blur(4px);z-index:100;display:flex;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .25s;}
+.panel-overlay.open{opacity:1;pointer-events:all;}
+.panel{width:500px;height:100vh;background:#fff;box-shadow:-10px 0 40px rgba(0,0,0,.12);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s;}
+.panel-overlay.open .panel{transform:translateX(0);}
+.ph{padding:20px 22px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;background:#f8fafc;}
+.pt{font-size:14px;font-weight:900;text-transform:uppercase;font-style:italic;color:#1e293b;}
+.pscroll{flex:1;overflow-y:auto;padding:20px 22px;}
+.pscroll::-webkit-scrollbar{width:4px;}.pscroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+.fl{font-size:8px;color:#64748b;font-weight:700;text-transform:uppercase;display:block;margin-bottom:5px;}
+input[type=text],input[type=time],input[type=number],select{width:100%;padding:10px 13px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;outline:none;transition:border .15s;}
+input:focus,select:focus{border-color:#2563eb;background:#fff;}
+.fg{margin-bottom:14px;}
+.xbtn{width:30px;height:30px;background:#f1f5f9;border:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.xbtn:hover{background:#fee2e2;color:#ef4444;}
+.mo{position:fixed;inset:0;background:rgba(15,23,42,.6);backdrop-filter:blur(4px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}
+.mo.open{opacity:1;pointer-events:all;}
+.mb{background:#fff;border-radius:20px;width:600px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 30px 70px rgba(0,0,0,.2);}
+.mh{padding:16px 20px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.mscroll{flex:1;overflow-y:auto;padding:16px 20px;}
+.mscroll::-webkit-scrollbar{width:4px;}.mscroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+.emp-row{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:10px;border:1px solid #f1f5f9;margin-bottom:6px;cursor:pointer;transition:all .15s;}
+.emp-row:hover{background:#f8fafc;border-color:#e2e8f0;}
+.emp-row.assigned{background:#eff6ff;border-color:#bfdbfe;}
+.er-info{display:flex;align-items:center;gap:10px;}
+.er-av{width:32px;height:32px;border-radius:9px;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;}
+.er-name{font-size:11px;font-weight:800;text-transform:uppercase;color:#1e293b;}
+.er-job{font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;}
+</style>
+</head>
+<body onload="loadShifts()">
+<div class="app">
+<aside class="sidebar">
+  <div class="logo"><div class="logo-icon">K</div><div class="logo-text">KIDV <span>Tech</span></div></div>
+  <nav class="nav">
+    <div class="nav-sec">Main</div>
+    <a href="index.html"><span class="material-icons-round">dashboard</span>Dashboard</a>
+    <a href="employees.html"><span class="material-icons-round">badge</span>Employees</a>
+    <div class="nav-sec">HR</div>
+    <a href="shifts.html" class="active"><span class="material-icons-round">schedule</span>Shifts</a>
+    <a href="holidays.html"><span class="material-icons-round">event</span>Holidays</a>
+    <div class="nav-sec">Operations</div>
+    <a href="attendance.html"><span class="material-icons-round">calendar_month</span>Attendance</a>
+    <a href="payroll.html"><span class="material-icons-round">receipt_long</span>Payroll</a>
+    <div class="nav-sec">Integration</div>
+    <a href="device-manager.html"><span class="material-icons-round">device_hub</span>Device Manager</a>
+  </nav>
+</aside>
+<div class="main">
+  <div class="topbar">
+    <h1>Shift Master</h1>
+    <button class="btn btn-blue" onclick="openPanel()"><span class="material-icons-round">add</span>Add Shift</button>
+  </div>
+  <div class="scroll">
+    <div id="shiftGrid" class="shift-grid"></div>
+  </div>
+</div>
+</div>
+
+<div id="panelOverlay" class="panel-overlay" onclick="if(event.target===this)closePanel()">
+  <div class="panel">
+    <div class="ph">
+      <div class="pt" id="panelTitle">Add New Shift</div>
+      <button class="xbtn" onclick="closePanel()"><span class="material-icons-round" style="font-size:16px;">close</span></button>
+    </div>
+    <div class="pscroll">
+      <input type="hidden" id="editIdx">
+      <div class="fg"><label class="fl">Shift Name *</label><input type="text" id="sName" placeholder="MORNING SHIFT"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="fg"><label class="fl">Start Time *</label><input type="time" id="sStart"></div>
+        <div class="fg"><label class="fl">End Time *</label><input type="time" id="sEnd"></div>
+      </div>
+      <div class="fg"><label class="fl">Shift Type</label>
+        <select id="sType"><option>GENERAL</option><option>MORNING</option><option>AFTERNOON</option><option>NIGHT</option><option>ROTATIONAL</option></select>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="fg"><label class="fl">Grace Time (Min)</label><input type="number" id="sGrace" value="10" min="0"></div>
+        <div class="fg"><label class="fl">Total Hours</label><input type="text" id="sHours" readonly placeholder="AUTO"></div>
+      </div>
+      <div class="fg"><label class="fl">Week Off Day</label>
+        <select id="sWeekOff"><option>SUNDAY</option><option>MONDAY</option><option>SATURDAY</option><option>SUNDAY & SATURDAY</option></select>
+      </div>
+      <div class="fg"><label class="fl">OT Calculation</label>
+        <select id="sOt"><option>AFTER SHIFT END</option><option>NOT APPLICABLE</option><option>DOUBLE RATE</option></select>
+      </div>
+      <div class="fg"><label class="fl">Description</label><input type="text" id="sDesc" placeholder="OPTIONAL"></div>
+      <button class="btn btn-blue" style="width:100%;justify-content:center;padding:12px;" onclick="saveShift()">Save Shift</button>
+    </div>
+  </div>
+</div>
+
+<div id="assignModal" class="mo" onclick="if(event.target===this)closeAssign()">
+  <div class="mb">
+    <div class="mh">
+      <div>
+        <div style="font-size:13px;font-weight:900;text-transform:uppercase;color:#1e293b;">Assign Employees</div>
+        <div id="assignShiftName" style="font-size:9px;color:#2563eb;font-weight:700;text-transform:uppercase;margin-top:2px;"></div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn btn-blue btn-sm" onclick="saveAssignments()"><span class="material-icons-round">save</span>Save</button>
+        <button class="xbtn" onclick="closeAssign()"><span class="material-icons-round" style="font-size:16px;">close</span></button>
+      </div>
+    </div>
+    <div class="mscroll" id="assignList"></div>
+  </div>
+</div>
+
+<script>
+let currentAssignShiftIdx=null;
+document.getElementById('sStart').addEventListener('change',calcHours);
+document.getElementById('sEnd').addEventListener('change',calcHours);
+function calcHours(){
+  const s=document.getElementById('sStart').value,e=document.getElementById('sEnd').value;
+  if(!s||!e)return;
+  let[sh,sm]=s.split(':').map(Number),[eh,em]=e.split(':').map(Number);
+  let mins=(eh*60+em)-(sh*60+sm);if(mins<0)mins+=1440;
+  document.getElementById('sHours').value=Math.floor(mins/60)+'H '+(mins%60)+'M';
+}
+const COLORS=['#eff6ff:#2563eb','#f0fdf4:#16a34a','#fff7ed:#f97316','#fef2f2:#ef4444','#f5f3ff:#7c3aed','#fef9c3:#d97706'];
+const TYPE_EMOJI={GENERAL:'🕐',MORNING:'🌅',AFTERNOON:'☀️',NIGHT:'🌙',ROTATIONAL:'🔄'};
+function loadShifts(){
+  const shifts=JSON.parse(localStorage.getItem('shifts')||'[]');
+  const grid=document.getElementById('shiftGrid');
+  if(!shifts.length){grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#94a3b8;"><span class="material-icons-round" style="font-size:56px;display:block;margin-bottom:12px;">schedule</span><div style="font-size:14px;font-weight:700;text-transform:uppercase;">No Shifts Yet</div></div>`;return;}
+  const emps=JSON.parse(localStorage.getItem('employees')||'[]');
+  grid.innerHTML=shifts.map((s,i)=>{
+    const ci=i%COLORS.length;const[bg,acc]=COLORS[ci].split(':');
+    const assignedCount=emps.filter(e=>(e.assignedShift||'')==String(i)).length;
+    return `<div class="shift-card">
+      <div class="sc-header"><div class="sc-icon" style="background:${bg};color:${acc};">${TYPE_EMOJI[s.type]||'🕐'}</div><div><div class="sc-name">${s.name}</div><div class="sc-type">${s.type}</div></div></div>
+      <div class="sc-info">
+        <div class="sci"><div class="sci-l">Start Time</div><div class="sci-v">${s.start}</div></div>
+        <div class="sci"><div class="sci-l">End Time</div><div class="sci-v">${s.end}</div></div>
+        <div class="sci"><div class="sci-l">Total Hours</div><div class="sci-v">${s.hours||'--'}</div></div>
+        <div class="sci"><div class="sci-l">Grace Time</div><div class="sci-v">${s.grace} Min</div></div>
+        <div class="sci"><div class="sci-l">Week Off</div><div class="sci-v">${s.weekoff}</div></div>
+        <div class="sci"><div class="sci-l">OT Rule</div><div class="sci-v">${s.ot}</div></div>
+      </div>
+      ${s.desc?`<div style="font-size:9px;color:#94a3b8;margin-bottom:10px;text-transform:uppercase;">${s.desc}</div>`:''}
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <span class="emp-count" onclick="openAssign(${i})"><span class="material-icons-round" style="font-size:12px;">group</span>${assignedCount} Employee${assignedCount!==1?'s':''}</span>
+        <div class="sc-actions">
+          <button class="btn btn-sm" style="background:#f8fafc;border:1px solid #e2e8f0;" onclick="editShift(${i})"><span class="material-icons-round" style="font-size:13px;">edit</span></button>
+          <button class="btn btn-sm btn-red" onclick="delShift(${i})"><span class="material-icons-round" style="font-size:13px;">delete</span></button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function openPanel(title='Add New Shift'){document.getElementById('panelTitle').textContent=title;document.getElementById('panelOverlay').classList.add('open');}
+function closePanel(){document.getElementById('panelOverlay').classList.remove('open');document.getElementById('editIdx').value='';['sName','sStart','sEnd','sGrace','sHours','sDesc'].forEach(id=>document.getElementById(id).value='');document.getElementById('sGrace').value=10;}
+function saveShift(){
+  const name=document.getElementById('sName').value.trim().toUpperCase();
+  if(!name){alert('Shift name required!');return;}
+  const shifts=JSON.parse(localStorage.getItem('shifts')||'[]');
+  const obj={name,start:document.getElementById('sStart').value,end:document.getElementById('sEnd').value,type:document.getElementById('sType').value,grace:document.getElementById('sGrace').value,hours:document.getElementById('sHours').value,weekoff:document.getElementById('sWeekOff').value,ot:document.getElementById('sOt').value,desc:document.getElementById('sDesc').value.toUpperCase()};
+  const idx=document.getElementById('editIdx').value;
+  if(idx!=='')shifts[idx]=obj;else shifts.push(obj);
+  localStorage.setItem('shifts',JSON.stringify(shifts));closePanel();loadShifts();
+}
+function editShift(i){
+  const s=JSON.parse(localStorage.getItem('shifts')||'[]')[i];
+  document.getElementById('editIdx').value=i;document.getElementById('sName').value=s.name;document.getElementById('sStart').value=s.start;document.getElementById('sEnd').value=s.end;document.getElementById('sType').value=s.type;document.getElementById('sGrace').value=s.grace;document.getElementById('sHours').value=s.hours;document.getElementById('sWeekOff').value=s.weekoff;document.getElementById('sOt').value=s.ot;document.getElementById('sDesc').value=s.desc||'';
+  openPanel('Edit Shift');
+}
+function delShift(i){if(!confirm('Delete this shift?'))return;const shifts=JSON.parse(localStorage.getItem('shifts')||'[]');shifts.splice(i,1);localStorage.setItem('shifts',JSON.stringify(shifts));loadShifts();}
+function openAssign(shiftIdx){
+  currentAssignShiftIdx=shiftIdx;
+  const shifts=JSON.parse(localStorage.getItem('shifts')||'[]');
+  document.getElementById('assignShiftName').textContent=shifts[shiftIdx].name;
+  const emps=JSON.parse(localStorage.getItem('employees')||'[]');
+  const list=document.getElementById('assignList');
+  if(!emps.length){list.innerHTML='<div style="text-align:center;padding:30px;color:#94a3b8;">No employees found.</div>';document.getElementById('assignModal').classList.add('open');return;}
+  list.innerHTML=emps.map((e,i)=>{
+    const assigned=(e.assignedShift||'')==String(shiftIdx);
+    return `<div class="emp-row ${assigned?'assigned':''}" id="erow-${i}" onclick="toggleAssign(${i},${shiftIdx})">
+      <div class="er-info"><div class="er-av">${e.fName[0]}${e.lName[0]}</div><div><div class="er-name">${e.fName} ${e.lName}</div><div class="er-job">${e.job||'--'} | ${e.dept||'--'}</div></div></div>
+      <span class="material-icons-round" style="color:${assigned?'#2563eb':'#e2e8f0'};font-size:18px;" id="echeck-${i}">${assigned?'check_circle':'radio_button_unchecked'}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('assignModal').classList.add('open');
+}
+function toggleAssign(empIdx,shiftIdx){
+  const row=document.getElementById(`erow-${empIdx}`),chk=document.getElementById(`echeck-${empIdx}`);
+  const isAssigned=row.classList.contains('assigned');
+  if(isAssigned){row.classList.remove('assigned');chk.textContent='radio_button_unchecked';chk.style.color='#e2e8f0';row.dataset.newShift='';}
+  else{row.classList.add('assigned');chk.textContent='check_circle';chk.style.color='#2563eb';row.dataset.newShift=String(shiftIdx);}
+}
+function saveAssignments(){
+  const emps=JSON.parse(localStorage.getItem('employees')||'[]');
+  const shifts=JSON.parse(localStorage.getItem('shifts')||'[]');
+  document.querySelectorAll('[id^="erow-"]').forEach(row=>{
+    const i=parseInt(row.id.split('-')[1]);
+    const newShift='newShift' in row.dataset?row.dataset.newShift:emps[i].assignedShift||'';
+    emps[i].assignedShift=newShift;
+    if(newShift!==''&&shifts[parseInt(newShift)]){emps[i].shift=shifts[parseInt(newShift)].name;emps[i].weekoff=shifts[parseInt(newShift)].weekoff;}
+  });
+  localStorage.setItem('employees',JSON.stringify(emps));closeAssign();loadShifts();alert('Assignments saved!');
+}
+function closeAssign(){document.getElementById('assignModal').classList.remove('open');currentAssignShiftIdx=null;}
+</script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIDV Tech | Smart Payroll</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-effect { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
+        .sidebar-active { background: #eff6ff; color: #3b82f6; border-radius: 12px; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 flex h-screen overflow-hidden">
+
+    <aside class="w-72 bg-white border-r border-slate-200 p-6 flex flex-col">
+        <div class="flex items-center gap-3 mb-10 px-2">
+            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl">K</div>
+            <h1 class="text-xl font-bold tracking-tight">KIDV <span class="text-blue-600">Tech</span></h1>
+        </div>
+
+        <nav class="space-y-2 flex-1">
+    <a href="dashboard.html" class="flex items-center gap-3 p-3 sidebar-active font-semibold">
+        <span class="material-icons-round">grid_view</span> Dashboard
+    </a>
+    
+    <a href="employees.html" class="flex items-center gap-3 p-3 text-slate-500 hover:bg-slate-50 rounded-xl transition-all">
+        <span class="material-icons-round">badge</span> Employees
+    </a>
+    
+    <a href="attendance.html" class="flex items-center gap-3 p-3 text-slate-500 hover:bg-slate-50 rounded-xl transition-all">
+        <span class="material-icons-round">today</span> Attendance
+    </a>
+</nav>
+
+        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center">
+            <span class="material-icons-round text-blue-600">help_outline</span>
+            <p class="text-xs text-slate-500 my-2">Need professional help?</p>
+            <button class="w-full py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold hover:bg-slate-100 transition-all">Contact Support</button>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col overflow-y-auto">
+        <header class="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-10 shrink-0">
+            <div class="flex items-center bg-slate-100 px-4 py-2 rounded-full w-96 border border-slate-200">
+                <span class="material-icons-round text-slate-400 text-sm">search</span>
+                <input type="text" placeholder="Search for employees..." class="bg-transparent border-none outline-none ml-2 text-sm w-full">
+            </div>
+            
+            <div class="flex items-center gap-6">
+                <div class="relative cursor-pointer">
+                    <span class="material-icons-round text-slate-400">notifications</span>
+                    <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+                </div>
+                <div class="flex items-center gap-3 bg-slate-50 p-1.5 pr-4 rounded-full border border-slate-200 cursor-pointer">
+                    <img src="https://ui-avatars.com/api/?name=Amit+Patel&background=3b82f6&color=fff" class="w-8 h-8 rounded-full">
+                    <div class="text-left">
+                        <p class="text-xs font-bold leading-none">Amit Patel</p>
+                        <p class="text-[10px] text-slate-500">Administrator</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="p-10">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold">Hello, Amit 👋</h2>
+                <p class="text-slate-500 text-sm mt-1">Here is your company's payroll overview for today.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-5 hover:shadow-md transition-all">
+                    <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center"><span class="material-icons-round">event_repeat</span></div>
+                    <div><p class="text-xs text-slate-500 font-medium">Next Pay Day</p><p class="text-lg font-bold">01 March 2026</p></div>
+                </div>
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-5 hover:shadow-md transition-all">
+                    <div class="w-14 h-14 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center"><span class="material-icons-round">umbrella</span></div>
+                    <div><p class="text-xs text-slate-500 font-medium">Holidays Left</p><p class="text-lg font-bold">12 Days</p></div>
+                </div>
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-5 hover:shadow-md transition-all">
+                    <div class="w-14 h-14 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center"><span class="material-icons-round">groups</span></div>
+                    <div><p class="text-xs text-slate-500 font-medium">Total Staff</p><p class="text-lg font-bold">25 Employees</p></div>
+                </div>
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-5 hover:shadow-md transition-all">
+                    <div class="w-14 h-14 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center"><span class="material-icons-round">hourglass_empty</span></div>
+                    <div><p class="text-xs text-slate-500 font-medium">Pending Tasks</p><p class="text-lg font-bold">04 Requests</p></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-[32px] p-8 shadow-sm border border-slate-100 min-h-[400px]">
+                <div class="flex items-center justify-between mb-8">
+                    <h3 class="text-lg font-bold">Recent Payroll Activity</h3>
+                    <div class="flex gap-2">
+                        <button class="px-4 py-2 bg-slate-50 text-slate-600 rounded-xl text-sm font-semibold border border-slate-200">Filter</button>
+                        <button class="px-4 py-2 bg-blue-600 text-white rounded-xl text-sm font-semibold hover:bg-blue-700 transition-all shadow-lg shadow-blue-100">View Report</button>
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center justify-center py-20">
+                    <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-4">
+                        <span class="material-icons-round text-slate-300 text-4xl">analytics</span>
+                    </div>
+                    <p class="text-slate-400 font-medium">No activity data available for the current period.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

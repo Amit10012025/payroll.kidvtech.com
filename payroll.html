@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>KIDV Tech | Payroll</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f4f8;}
+.app{display:flex;height:100vh;}
+.sidebar{width:220px;min-width:220px;background:#fff;border-right:1px solid #e2e8f0;display:flex;flex-direction:column;padding:18px 12px;height:100vh;}
+.logo{display:flex;align-items:center;gap:10px;padding:6px 8px;margin-bottom:22px;}
+.logo-icon{width:36px;height:36px;background:#2563eb;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:900;box-shadow:0 4px 12px rgba(37,99,235,.28);}
+.logo-text{font-size:14px;font-weight:900;color:#1e293b;}.logo-text span{color:#2563eb;}
+.nav-sec{font-size:8px;color:#94a3b8;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:0 10px;margin:10px 0 4px;}
+.nav a{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;font-size:11px;font-weight:700;color:#64748b;text-decoration:none;margin-bottom:2px;text-transform:uppercase;letter-spacing:.03em;transition:all .15s;}
+.nav a:hover{background:#f1f5f9;color:#1e293b;}
+.nav a.active{background:#2563eb;color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.3);}
+.nav a .material-icons-round{font-size:16px;flex-shrink:0;}
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;}
+.topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;flex-wrap:wrap;}
+.topbar h1{font-size:15px;font-weight:900;text-transform:uppercase;color:#1e293b;flex-shrink:0;}
+.scroll{flex:1;overflow-y:auto;padding:16px 24px;}
+.scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+.btn{display:flex;align-items:center;gap:5px;padding:7px 14px;border-radius:9px;font-size:10px;font-weight:800;border:none;cursor:pointer;transition:all .15s;text-transform:uppercase;font-family:'Plus Jakarta Sans',sans-serif;}
+.btn-blue{background:#2563eb;color:#fff;}.btn-blue:hover{background:#1d4ed8;}
+.btn-green{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;}.btn-green:hover{background:#dcfce7;}
+.btn-dark{background:#1e293b;color:#fff;}.btn-dark:hover{background:#334155;}
+.btn .material-icons-round{font-size:13px;}
+select.ctrl{padding:7px 11px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;text-transform:uppercase;}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+.stat{background:#fff;border-radius:12px;padding:14px 16px;border:1px solid #f1f5f9;}
+.stat-l{font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;margin-bottom:4px;}
+.stat-n{font-size:20px;font-weight:900;color:#1e293b;}
+.stat-sub{font-size:8px;color:#64748b;font-weight:700;text-transform:uppercase;margin-top:2px;}
+.ptbl{width:100%;border-collapse:collapse;font-size:11px;}
+.ptbl thead th{background:#1e293b;color:#fff;padding:10px 14px;font-size:8px;text-transform:uppercase;font-weight:700;text-align:right;white-space:nowrap;}
+.ptbl thead th:first-child,.ptbl thead th:nth-child(2),.ptbl thead th:nth-child(3){text-align:left;}
+.ptbl tbody tr{border-bottom:1px solid #f1f5f9;transition:background .12s;}
+.ptbl tbody tr:hover{background:#f8fafc;}
+.ptbl td{padding:10px 14px;font-weight:700;text-transform:uppercase;text-align:right;vertical-align:middle;font-size:11px;}
+.ptbl td:first-child,.ptbl td:nth-child(2),.ptbl td:nth-child(3){text-align:left;}
+.ptbl tfoot td{background:#f8fafc;font-weight:900;font-size:11px;padding:10px 14px;text-align:right;border-top:2px solid #e2e8f0;}
+.ptbl tfoot td:first-child,.ptbl tfoot td:nth-child(2),.ptbl tfoot td:nth-child(3){text-align:left;}
+.emp-cell{display:flex;align-items:center;gap:8px;}
+.eav{width:30px;height:30px;border-radius:9px;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;flex-shrink:0;}
+.amt-green{color:#16a34a;font-weight:900;}
+.amt-red{color:#ef4444;font-weight:800;}
+.amt-blue{color:#2563eb;font-weight:900;}
+.amt-org{color:#f97316;font-weight:800;}
+.mo{position:fixed;inset:0;background:rgba(15,23,42,.6);backdrop-filter:blur(4px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}
+.mo.open{opacity:1;pointer-events:all;}
+.mb{background:#fff;border-radius:20px;width:680px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 30px 70px rgba(0,0,0,.22);}
+.mh{padding:14px 18px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.mscroll{flex:1;overflow-y:auto;padding:18px;}
+.mscroll::-webkit-scrollbar{width:4px;}.mscroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+.xbtn{width:28px;height:28px;background:#f1f5f9;border:none;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.xbtn:hover{background:#fee2e2;color:#ef4444;}
+@media print{body *{visibility:hidden!important;}#printSlip,#printSlip *{visibility:visible!important;}#printSlip{position:fixed!important;inset:0!important;background:white!important;padding:20px!important;z-index:9999!important;overflow:auto!important;}}
+</style>
+</head>
+<body onload="init()">
+<div id="printSlip" style="display:none;position:fixed;inset:0;background:white;padding:20px;z-index:9999;overflow:auto;"></div>
+<div class="app">
+<aside class="sidebar">
+  <div class="logo"><div class="logo-icon">K</div><div class="logo-text">KIDV <span>Tech</span></div></div>
+  <nav class="nav">
+    <div class="nav-sec">Main</div>
+    <a href="index.html"><span class="material-icons-round">dashboard</span>Dashboard</a>
+    <a href="employees.html"><span class="material-icons-round">badge</span>Employees</a>
+    <div class="nav-sec">HR</div>
+    <a href="shifts.html"><span class="material-icons-round">schedule</span>Shifts</a>
+    <a href="holidays.html"><span class="material-icons-round">event</span>Holidays</a>
+    <div class="nav-sec">Operations</div>
+    <a href="attendance.html"><span class="material-icons-round">calendar_month</span>Attendance</a>
+    <a href="payroll.html" class="active"><span class="material-icons-round">receipt_long</span>Payroll</a>
+    <div class="nav-sec">Integration</div>
+    <a href="device-manager.html"><span class="material-icons-round">device_hub</span>Device Manager</a>
+  </nav>
+</aside>
+<div class="main">
+  <div class="topbar">
+    <h1>Payroll</h1>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <select class="ctrl" id="monthSel" onchange="loadPayroll()"></select>
+      <select class="ctrl" id="yearSel" onchange="loadPayroll()"></select>
+      <button class="btn btn-green" onclick="loadPayroll()"><span class="material-icons-round">sync</span>Calculate</button>
+      <button class="btn btn-blue" onclick="lockPayroll()"><span class="material-icons-round">lock</span>Lock & Finalize</button>
+      <button class="btn btn-dark" onclick="exportCSV()"><span class="material-icons-round">download</span>Export CSV</button>
+    </div>
+  </div>
+  <div class="scroll">
+    <div class="stats">
+      <div class="stat"><div class="stat-l">Total Employees</div><div class="stat-n" id="stEmp">0</div><div class="stat-sub">In Payroll</div></div>
+      <div class="stat"><div class="stat-l">Total Gross Payable</div><div class="stat-n amt-blue" id="stGross">₹0</div><div class="stat-sub">Before Deductions</div></div>
+      <div class="stat"><div class="stat-l">Total Net Payable</div><div class="stat-n amt-green" id="stNet">₹0</div><div class="stat-sub">Take Home</div></div>
+      <div class="stat"><div class="stat-l">Total CTC Outflow</div><div class="stat-n" style="color:#7c3aed;" id="stCTC">₹0</div><div class="stat-sub">Including ER Contrib.</div></div>
+    </div>
+    <div style="background:#fff;border-radius:14px;border:1px solid #f1f5f9;overflow:hidden;">
+      <div style="padding:14px 18px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;">
+        <div style="font-size:12px;font-weight:900;text-transform:uppercase;color:#1e293b;" id="payrollTitle">Payroll — --</div>
+        <div id="lockBadge" style="font-size:9px;font-weight:800;padding:3px 10px;border-radius:99px;background:#fef9c3;color:#d97706;text-transform:uppercase;">Draft</div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="ptbl">
+          <thead><tr>
+            <th>Employee</th><th>Department</th><th>Att. Days</th>
+            <th>Gross (Full)</th><th>Payable Gross</th>
+            <th style="color:#fca5a5;">PF (EMP)</th><th style="color:#fca5a5;">ESIC (EMP)</th><th style="color:#fca5a5;">PT</th><th style="color:#fca5a5;">Total Ded.</th>
+            <th style="color:#86efac;">Net Pay</th>
+            <th style="color:#fdba74;">PF (ER)</th><th style="color:#fdba74;">ESIC (ER)</th><th style="color:#fdba74;">Gratuity</th>
+            <th>Action</th>
+          </tr></thead>
+          <tbody id="payrollBody"></tbody>
+          <tfoot id="payrollFoot"></tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div id="slipModal" class="mo" onclick="if(event.target===this)closeSlip()">
+  <div class="mb">
+    <div class="mh">
+      <div style="font-size:13px;font-weight:900;text-transform:uppercase;color:#1e293b;">Salary Slip</div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-blue" onclick="printSlip()" style="padding:6px 12px;font-size:10px;"><span class="material-icons-round">print</span>Print</button>
+        <button class="xbtn" onclick="closeSlip()"><span class="material-icons-round" style="font-size:14px;">close</span></button>
+      </div>
+    </div>
+    <div class="mscroll" id="slipContent"></div>
+  </div>
+</div>
+<script>
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const fmt=v=>'₹'+parseFloat(v||0).toLocaleString('en-IN',{minimumFractionDigits:0,maximumFractionDigits:0});
+const n=v=>parseFloat(v||0);
+function init(){
+  const now=new Date();const mSel=document.getElementById('monthSel'),ySel=document.getElementById('yearSel');
+  MONTHS.forEach((m,i)=>{const o=document.createElement('option');o.value=i;o.textContent=m;if(i===now.getMonth())o.selected=true;mSel.appendChild(o);});
+  for(let y=now.getFullYear()-3;y<=now.getFullYear()+1;y++){const o=document.createElement('option');o.value=y;o.textContent=y;if(y===now.getFullYear())o.selected=true;ySel.appendChild(o);}
+  loadPayroll();
+}
+function getM(){return parseInt(document.getElementById('monthSel').value);}
+function getY(){return parseInt(document.getElementById('yearSel').value);}
+function getPayKey(){return `payroll_${getY()}_${getM()}`;}
+function getAttStatus(empId,date){return localStorage.getItem(`att_${empId}_${date}`)||'';}
+function calcAttDays(e){
+  const m=getM(),y=getY(),days=new Date(y,m+1,0).getDate();
+  let present=0,absent=0,half=0,leave=0,workingDays=0;
+  for(let d=1;d<=days;d++){
+    const dt=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dow=new Date(dt).getDay();const s=getAttStatus(e.id||'',dt);
+    if(s==='WO'||s==='HD')continue;
+    workingDays++;
+    if(s==='P')present++;else if(s==='A')absent++;else if(s==='H')half++;else if(s==='L')leave++;else if(s==='OH')present++;else present++;
+  }
+  return{present,absent,half,leave,workingDays,attDays:present+half*.5+leave};
+}
+function loadPayroll(){
+  const emps=JSON.parse(localStorage.getItem('employees')||'[]');
+  const m=getM(),y=getY();
+  document.getElementById('payrollTitle').textContent=`Payroll — ${MONTHS[m]} ${y}`;
+  const locked=localStorage.getItem(getPayKey()+'_locked')==='true';
+  document.getElementById('lockBadge').textContent=locked?'Finalized':'Draft';
+  document.getElementById('lockBadge').style.background=locked?'#f0fdf4':'#fef9c3';
+  document.getElementById('lockBadge').style.color=locked?'#16a34a':'#d97706';
+  if(!emps.length){document.getElementById('payrollBody').innerHTML='<tr><td colspan="14" style="text-align:center;padding:30px;color:#94a3b8;text-transform:uppercase;font-weight:700;">No employees.</td></tr>';return;}
+  let tGross=0,tNet=0,tCtc=0,tDed=0;
+  const rows=emps.map((e,ei)=>{
+    const att=calcAttDays(e);
+    const basic=n(e.sal_basic),wash=n(e.sal_wash),gross=n(e.sal_gross);
+    const ratio=att.workingDays>0?att.attDays/att.workingDays:1;
+    const payGross=Math.round(gross*ratio),payBasic=Math.round(basic*ratio);
+    const pfApp=(e.pf||'').toUpperCase()==='YES';
+    const pfEmp=pfApp?Math.round(payBasic*.12):0,pfEr=pfApp?Math.round(payBasic*.12):0;
+    const esicOk=payGross<21000,esicBase=payGross-Math.round(wash*ratio);
+    const esicEmp=esicOk?Math.round(esicBase*.0075):0,esicEr=esicOk?Math.round(esicBase*.0375):0;
+    const grat=Math.round(payBasic*.0481),pt=n(e.ded_pt);
+    const totDed=pfEmp+esicEmp+pt,netPay=payGross-totDed;
+    tGross+=payGross;tNet+=netPay;tCtc+=payGross+pfEr+esicEr+grat;tDed+=totDed;
+    return `<tr>
+      <td><div class="emp-cell"><div class="eav">${e.fName[0]}${e.lName[0]}</div><div><div style="font-size:11px;font-weight:800;color:#1e293b;">${e.fName} ${e.lName}</div><div style="font-size:8px;color:#94a3b8;text-transform:uppercase;">${e.id||''}</div></div></div></td>
+      <td style="font-size:10px;color:#64748b;">${e.dept||'--'}</td>
+      <td><span style="font-size:11px;font-weight:800;">${att.attDays}</span><span style="font-size:8px;color:#94a3b8;">/${att.workingDays}</span></td>
+      <td>${fmt(gross)}</td><td class="amt-blue">${fmt(payGross)}</td>
+      <td class="amt-red">${pfEmp>0?fmt(pfEmp):'--'}</td><td class="amt-red">${esicEmp>0?fmt(esicEmp):'--'}</td>
+      <td class="amt-red">${pt>0?fmt(pt):'--'}</td><td class="amt-red">${totDed>0?fmt(totDed):'--'}</td>
+      <td class="amt-green">${fmt(netPay)}</td>
+      <td class="amt-org">${pfEr>0?fmt(pfEr):'--'}</td><td class="amt-org">${esicEr>0?fmt(esicEr):'--'}</td>
+      <td class="amt-org">${fmt(grat)}</td>
+      <td><button class="btn btn-blue" style="padding:5px 10px;font-size:9px;" onclick='showSlip(${JSON.stringify({e,att,payGross,payBasic,pfEmp,esicEmp,pt,totDed,netPay,pfEr,esicEr,grat,ratio,m,y})})'>
+        <span class="material-icons-round">receipt</span>Slip
+      </button></td>
+    </tr>`;
+  }).join('');
+  document.getElementById('payrollBody').innerHTML=rows;
+  document.getElementById('payrollFoot').innerHTML=`<tr><td colspan="3" style="text-align:left;color:#1e293b;font-weight:900;font-size:12px;text-transform:uppercase;">TOTALS</td><td></td><td class="amt-blue" style="font-size:12px;">${fmt(tGross)}</td><td colspan="3"></td><td class="amt-red" style="font-size:12px;">${fmt(tDed)}</td><td class="amt-green" style="font-size:12px;">${fmt(tNet)}</td><td colspan="3" style="color:#f97316;font-size:12px;text-align:right;font-weight:900;">CTC: ${fmt(tCtc)}</td><td></td></tr>`;
+  document.getElementById('stEmp').textContent=emps.length;document.getElementById('stGross').textContent=fmt(tGross);document.getElementById('stNet').textContent=fmt(tNet);document.getElementById('stCTC').textContent=fmt(tCtc);
+}
+function lockPayroll(){if(!confirm(`Finalize payroll for ${MONTHS[getM()]} ${getY()}?`))return;localStorage.setItem(getPayKey()+'_locked','true');loadPayroll();alert('Payroll finalized!');}
+function showSlip(d){
+  const{e,att,payGross,payBasic,pfEmp,esicEmp,pt,totDed,netPay,pfEr,esicEr,grat,m,y}=d;
+  const today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+  const monthLabel=`${MONTHS[m]} ${y}`;
+  const slipRow=(l,v,col='#1e293b')=>v>0?`<tr><td style="padding:5px 10px;color:#64748b;font-weight:700;text-transform:uppercase;font-size:10px;">${l}</td><td style="padding:5px 10px;text-align:right;font-weight:800;color:${col};font-size:10px;">${fmt(v)}</td></tr>`:'';
+  document.getElementById('slipContent').innerHTML=`<div style="font-family:'Plus Jakarta Sans',sans-serif;">
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #2563eb;padding-bottom:12px;margin-bottom:14px;">
+      <div><div style="font-size:18px;font-weight:900;text-transform:uppercase;">KIDV TECH</div><div style="font-size:8px;color:#94a3b8;text-transform:uppercase;">SALARY SLIP — ${monthLabel}</div></div>
+      <div style="text-align:right;"><div style="font-size:8px;color:#94a3b8;">Generated: ${today}</div></div>
+    </div>
+    <div style="background:#f1f5f9;border-radius:10px;padding:12px 16px;display:flex;justify-content:space-between;margin-bottom:14px;">
+      <div><div style="font-size:14px;font-weight:900;text-transform:uppercase;">${e.fName} ${e.mName||''} ${e.lName}</div><div style="font-size:8px;color:#2563eb;text-transform:uppercase;">${e.job||'--'} | ${e.dept||'--'}</div></div>
+      <div style="text-align:right;"><div style="font-size:8px;color:#94a3b8;">Emp ID</div><div style="font-size:12px;font-weight:900;color:#2563eb;">${e.id||'--'}</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;">
+      <div style="border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;">
+        <div style="background:#eff6ff;padding:8px 10px;font-size:8px;font-weight:800;color:#2563eb;text-transform:uppercase;border-left:3px solid #2563eb;">Earnings</div>
+        <table style="width:100%;border-collapse:collapse;">
+          ${slipRow('Basic Pay',payBasic)}${slipRow('HRA',Math.round(parseFloat(e.sal_hra||0)*att.attDays/att.workingDays))}
+          ${slipRow('Conveyance',Math.round(parseFloat(e.sal_conv||0)*att.attDays/att.workingDays))}
+          ${slipRow('Attendance Allw.',Math.round(parseFloat(e.sal_att||0)*att.attDays/att.workingDays))}
+          ${slipRow('Washing Allw.',Math.round(parseFloat(e.sal_wash||0)*att.attDays/att.workingDays))}
+          <tr style="border-top:2px solid #2563eb;"><td style="padding:6px 10px;font-size:10px;font-weight:900;text-transform:uppercase;color:#2563eb;">Gross Payable</td><td style="padding:6px 10px;text-align:right;font-size:12px;font-weight:900;color:#2563eb;">${fmt(payGross)}</td></tr>
+        </table>
+      </div>
+      <div style="border:1px solid #fee2e2;border-radius:10px;overflow:hidden;background:#fff5f5;">
+        <div style="background:#fee2e2;padding:8px 10px;font-size:8px;font-weight:800;color:#ef4444;text-transform:uppercase;border-left:3px solid #ef4444;">Deductions</div>
+        <table style="width:100%;border-collapse:collapse;">
+          ${pfEmp>0?slipRow('PF (EMP) 12%',pfEmp,'#ef4444'):''}${esicEmp>0?slipRow('ESIC (EMP) 0.75%',esicEmp,'#ef4444'):''}${pt>0?slipRow('Professional Tax',pt,'#ef4444'):''}
+          ${totDed===0?'<tr><td colspan="2" style="padding:8px 10px;text-align:center;color:#94a3b8;font-size:10px;">No Deductions</td></tr>':''}
+          <tr style="border-top:2px solid #ef4444;"><td style="padding:6px 10px;font-size:10px;font-weight:900;text-transform:uppercase;color:#ef4444;">Total Deduction</td><td style="padding:6px 10px;text-align:right;font-size:12px;font-weight:900;color:#ef4444;">${fmt(totDed)}</td></tr>
+        </table>
+      </div>
+      <div style="border:1px solid #fed7aa;border-radius:10px;overflow:hidden;background:#fff7ed;">
+        <div style="background:#fed7aa;padding:8px 10px;font-size:8px;font-weight:800;color:#f97316;text-transform:uppercase;border-left:3px solid #f97316;">ER Contributions</div>
+        <table style="width:100%;border-collapse:collapse;">
+          ${pfEr>0?slipRow('PF (ER) 12%',pfEr,'#f97316'):''}${esicEr>0?slipRow('ESIC (ER) 3.75%',esicEr,'#f97316'):''}${slipRow('Gratuity 4.81%',grat,'#f97316')}
+          <tr style="border-top:2px solid #f97316;"><td style="padding:6px 10px;font-size:10px;font-weight:900;text-transform:uppercase;color:#f97316;">Total ER</td><td style="padding:6px 10px;text-align:right;font-size:12px;font-weight:900;color:#f97316;">${fmt(pfEr+esicEr+grat)}</td></tr>
+        </table>
+      </div>
+    </div>
+    <div style="background:#1e293b;border-radius:12px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;">
+      <div><div style="font-size:9px;color:rgba(255,255,255,.5);text-transform:uppercase;font-weight:700;">Net Pay (Take Home)</div><div style="font-size:26px;font-weight:900;color:#fff;font-style:italic;">${fmt(netPay)}</div></div>
+      <div style="text-align:right;"><div style="font-size:9px;color:rgba(255,255,255,.5);">Bank: ${e.bankName||'--'}</div><div style="font-size:11px;color:#fff;font-weight:800;">${e.bankAcc||'--'}</div></div>
+    </div>
+  </div>`;
+  document.getElementById('slipModal').classList.add('open');
+}
+function closeSlip(){document.getElementById('slipModal').classList.remove('open');}
+function printSlip(){const ps=document.getElementById('printSlip');ps.innerHTML=document.getElementById('slipContent').innerHTML;ps.style.display='block';window.print();ps.style.display='none';ps.innerHTML='';}
+function exportCSV(){
+  const emps=JSON.parse(localStorage.getItem('employees')||'[]');
+  if(!emps.length){alert('No employees!');return;}
+  let csv='Emp ID,Name,Department,Working Days,Present,Gross Full,Gross Payable,PF Emp,ESIC Emp,PT,Total Ded,Net Pay,PF ER,ESIC ER,Gratuity\n';
+  emps.forEach(e=>{
+    const att=calcAttDays(e);
+    const basic=parseFloat(e.sal_basic||0),wash=parseFloat(e.sal_wash||0),gross=parseFloat(e.sal_gross||0);
+    const ratio=att.workingDays>0?att.attDays/att.workingDays:1;
+    const payGross=Math.round(gross*ratio),payBasic=Math.round(basic*ratio);
+    const pfApp=(e.pf||'').toUpperCase()==='YES';
+    const pfEmp=pfApp?Math.round(payBasic*.12):0,pfEr=pfApp?Math.round(payBasic*.12):0;
+    const esicOk=payGross<21000,esicBase=payGross-Math.round(wash*ratio);
+    const esicEmp=esicOk?Math.round(esicBase*.0075):0,esicEr=esicOk?Math.round(esicBase*.0375):0;
+    const grat=Math.round(payBasic*.0481),pt=parseFloat(e.ded_pt||0);
+    const totDed=pfEmp+esicEmp+pt,netPay=payGross-totDed;
+    csv+=`${e.id},"${e.fName} ${e.lName}",${e.dept||''},${att.workingDays},${att.attDays},${gross},${payGross},${pfEmp},${esicEmp},${pt},${totDed},${netPay},${pfEr},${esicEr},${grat}\n`;
+  });
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download=`Payroll_${MONTHS[getM()]}_${getY()}.csv`;a.click();
+}
+</script>
+</body>
+</html>

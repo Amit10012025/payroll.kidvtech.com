@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>KIDV Tech | Attendance</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f4f8;}
+.app{display:flex;height:100vh;}
+.sidebar{width:220px;min-width:220px;background:#fff;border-right:1px solid #e2e8f0;display:flex;flex-direction:column;padding:18px 12px;height:100vh;}
+.logo{display:flex;align-items:center;gap:10px;padding:6px 8px;margin-bottom:22px;}
+.logo-icon{width:36px;height:36px;background:#2563eb;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:900;box-shadow:0 4px 12px rgba(37,99,235,.28);}
+.logo-text{font-size:14px;font-weight:900;color:#1e293b;}.logo-text span{color:#2563eb;}
+.nav-sec{font-size:8px;color:#94a3b8;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:0 10px;margin:10px 0 4px;}
+.nav a{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;font-size:11px;font-weight:700;color:#64748b;text-decoration:none;margin-bottom:2px;text-transform:uppercase;letter-spacing:.03em;transition:all .15s;}
+.nav a:hover{background:#f1f5f9;color:#1e293b;}
+.nav a.active{background:#2563eb;color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.3);}
+.nav a .material-icons-round{font-size:16px;flex-shrink:0;}
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;}
+.topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;flex-wrap:wrap;}
+.topbar h1{font-size:15px;font-weight:900;text-transform:uppercase;color:#1e293b;flex-shrink:0;}
+.scroll{flex:1;overflow-y:auto;padding:16px 24px;}
+.scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+.btn{display:flex;align-items:center;gap:5px;padding:7px 14px;border-radius:9px;font-size:10px;font-weight:800;border:none;cursor:pointer;transition:all .15s;text-transform:uppercase;font-family:'Plus Jakarta Sans',sans-serif;}
+.btn-blue{background:#2563eb;color:#fff;}.btn-blue:hover{background:#1d4ed8;}
+.btn .material-icons-round{font-size:13px;}
+select.ctrl{padding:7px 11px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;text-transform:uppercase;}
+.tabs{display:flex;gap:4px;background:#f1f5f9;padding:4px;border-radius:10px;flex-shrink:0;}
+.tab{padding:6px 14px;border-radius:8px;font-size:10px;font-weight:800;color:#64748b;cursor:pointer;text-transform:uppercase;transition:all .15s;border:none;background:none;font-family:'Plus Jakarta Sans',sans-serif;}
+.tab.active{background:#fff;color:#2563eb;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px;}
+.stat{background:#fff;border-radius:12px;padding:14px;border:1px solid #f1f5f9;text-align:center;}
+.stat-n{font-size:22px;font-weight:900;color:#1e293b;}
+.stat-l{font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;margin-top:2px;}
+.atbl{width:100%;border-collapse:collapse;font-size:11px;}
+.atbl thead th{background:#1e293b;color:#fff;padding:10px 12px;font-size:8px;text-transform:uppercase;font-weight:700;text-align:center;position:sticky;top:0;}
+.atbl thead th:first-child{text-align:left;}
+.atbl tbody tr{border-bottom:1px solid #f8fafc;}
+.atbl tbody tr:hover{background:#f8fafc;}
+.atbl td{padding:8px 12px;text-align:center;font-weight:700;text-transform:uppercase;vertical-align:middle;}
+.atbl td:first-child{text-align:left;}
+.emp-info{display:flex;align-items:center;gap:8px;}
+.eav{width:28px;height:28px;border-radius:8px;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;flex-shrink:0;}
+.ename{font-size:11px;font-weight:800;color:#1e293b;}
+.ejob{font-size:8px;color:#94a3b8;text-transform:uppercase;}
+.status-cell{display:flex;justify-content:center;}
+.sb{width:26px;height:26px;border-radius:7px;border:none;cursor:pointer;font-size:10px;font-weight:800;transition:all .12s;display:flex;align-items:center;justify-content:center;}
+.sb-P{background:#f0fdf4;color:#16a34a;border:1.5px solid #bbf7d0;}
+.sb-A{background:#fef2f2;color:#ef4444;border:1.5px solid #fee2e2;}
+.sb-H{background:#fff7ed;color:#f97316;border:1.5px solid #fed7aa;}
+.sb-L{background:#fef9c3;color:#d97706;border:1.5px solid #fde68a;}
+.sb-WO{background:#f1f5f9;color:#64748b;border:1.5px solid #e2e8f0;}
+.sb-OH{background:#f5f3ff;color:#7c3aed;border:1.5px solid #ddd6fe;}
+.sb-HD{background:#eff6ff;color:#2563eb;border:1.5px solid #bfdbfe;}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+.leg{display:flex;align-items:center;gap:4px;font-size:9px;font-weight:700;text-transform:uppercase;color:#64748b;}
+.leg-dot{width:10px;height:10px;border-radius:3px;}
+.mo-summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-bottom:16px;}
+.emp-summary-card{background:#fff;border-radius:12px;border:1px solid #f1f5f9;padding:14px;}
+.esc-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.esc-counts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center;}
+.esc-count{background:#f8fafc;border-radius:8px;padding:6px;}
+.esc-n{font-size:14px;font-weight:900;}
+.esc-l{font-size:7px;color:#94a3b8;text-transform:uppercase;font-weight:700;}
+</style>
+</head>
+<body onload="init()">
+<div class="app">
+<aside class="sidebar">
+  <div class="logo"><div class="logo-icon">K</div><div class="logo-text">KIDV <span>Tech</span></div></div>
+  <nav class="nav">
+    <div class="nav-sec">Main</div>
+    <a href="index.html"><span class="material-icons-round">dashboard</span>Dashboard</a>
+    <a href="employees.html"><span class="material-icons-round">badge</span>Employees</a>
+    <div class="nav-sec">HR</div>
+    <a href="shifts.html"><span class="material-icons-round">schedule</span>Shifts</a>
+    <a href="holidays.html"><span class="material-icons-round">event</span>Holidays</a>
+    <div class="nav-sec">Operations</div>
+    <a href="attendance.html" class="active"><span class="material-icons-round">calendar_month</span>Attendance</a>
+    <a href="payroll.html"><span class="material-icons-round">receipt_long</span>Payroll</a>
+    <div class="nav-sec">Integration</div>
+    <a href="device-manager.html"><span class="material-icons-round">device_hub</span>Device Manager</a>
+  </nav>
+</aside>
+<div class="main">
+  <div class="topbar">
+    <h1>Attendance</h1>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <div class="tabs">
+        <button class="tab active" id="tab-daily" onclick="switchTab('daily')">Daily</button>
+        <button class="tab" id="tab-monthly" onclick="switchTab('monthly')">Monthly Summary</button>
+      </div>
+      <select class="ctrl" id="monthSel" onchange="render()"></select>
+      <select class="ctrl" id="yearSel" onchange="render()"></select>
+      <button class="btn btn-blue" id="markBtn" onclick="saveAttendance()"><span class="material-icons-round">save</span>Save</button>
+    </div>
+  </div>
+  <div class="scroll">
+    <div class="stats">
+      <div class="stat"><div class="stat-n" id="sP" style="color:#16a34a;">0</div><div class="stat-l">Present</div></div>
+      <div class="stat"><div class="stat-n" id="sA" style="color:#ef4444;">0</div><div class="stat-l">Absent</div></div>
+      <div class="stat"><div class="stat-n" id="sH" style="color:#f97316;">0</div><div class="stat-l">Half Day</div></div>
+      <div class="stat"><div class="stat-n" id="sL" style="color:#d97706;">0</div><div class="stat-l">Leave</div></div>
+      <div class="stat"><div class="stat-n" id="sWO" style="color:#64748b;">0</div><div class="stat-l">Week Off</div></div>
+    </div>
+    <div class="legend">
+      <div class="leg"><div class="leg-dot" style="background:#16a34a;"></div>P = Present</div>
+      <div class="leg"><div class="leg-dot" style="background:#ef4444;"></div>A = Absent</div>
+      <div class="leg"><div class="leg-dot" style="background:#f97316;"></div>H = Half Day</div>
+      <div class="leg"><div class="leg-dot" style="background:#d97706;"></div>L = Leave</div>
+      <div class="leg"><div class="leg-dot" style="background:#64748b;"></div>WO = Week Off</div>
+      <div class="leg"><div class="leg-dot" style="background:#7c3aed;"></div>OH = On Holiday</div>
+      <div class="leg"><div class="leg-dot" style="background:#2563eb;"></div>HD = Holiday</div>
+    </div>
+    <div id="tabContent"></div>
+  </div>
+</div>
+</div>
+<script>
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+let currentTab='daily';
+function init(){
+  const now=new Date();
+  const mSel=document.getElementById('monthSel'),ySel=document.getElementById('yearSel');
+  MONTHS.forEach((m,i)=>{const o=document.createElement('option');o.value=i;o.textContent=m;if(i===now.getMonth())o.selected=true;mSel.appendChild(o);});
+  for(let y=now.getFullYear()-3;y<=now.getFullYear()+1;y++){const o=document.createElement('option');o.value=y;o.textContent=y;if(y===now.getFullYear())o.selected=true;ySel.appendChild(o);}
+  render();
+}
+function switchTab(t){currentTab=t;document.getElementById('tab-daily').classList.toggle('active',t==='daily');document.getElementById('tab-monthly').classList.toggle('active',t==='monthly');render();}
+function getMonthYear(){return{m:parseInt(document.getElementById('monthSel').value),y:parseInt(document.getElementById('yearSel').value)};}
+function getAttKey(empId,date){return `att_${empId}_${date}`;}
+function getStatus(empId,date){return localStorage.getItem(getAttKey(empId,date))||'';}
+function setStatus(empId,date,status){localStorage.setItem(getAttKey(empId,date),status);}
+function isHoliday(date){const{y}=getMonthYear();const holidays=JSON.parse(localStorage.getItem(`holidays_${y}`)||'[]');return holidays.find(h=>h.date===date)||null;}
+function render(){currentTab==='daily'?renderDaily():renderMonthly();}
+function renderDaily(){
+  const{m,y}=getMonthYear();
+  const emps=JSON.parse(localStorage.getItem('employees')||'[]');
+  const daysInMonth=new Date(y,m+1,0).getDate();
+  if(!emps.length){document.getElementById('tabContent').innerHTML='<div style="text-align:center;padding:40px;color:#94a3b8;font-weight:700;text-transform:uppercase;">No employees found.</div>';updateStats({});return;}
+  let headCells='<th style="min-width:180px;">Employee</th>';
+  for(let d=1;d<=daysInMonth;d++){const dt=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;const dow=new Date(dt).getDay();const isWe=dow===0||dow===6;const hol=isHoliday(dt);headCells+=`<th style="${isWe?'background:#334155;':''}${hol?'background:#92400e;':''}min-width:38px;"><div>${DAYS[dow]}</div><div style="font-size:10px;">${d}</div>${hol?`<div style="font-size:7px;opacity:.7;">H</div>`:''}</th>`;}
+  headCells+='<th>Total</th>';
+  let statMap={P:0,A:0,H:0,L:0,WO:0,OH:0,HD:0};
+  let bodyRows=emps.map((e,ei)=>{
+    let cells=`<td><div class="emp-info"><div class="eav">${e.fName[0]}${e.lName[0]}</div><div><div class="ename">${e.fName} ${e.lName}</div><div class="ejob">${e.job||'--'}</div></div></div></td>`;
+    let p=0,a=0,h=0,l=0,wo=0;
+    for(let d=1;d<=daysInMonth;d++){
+      const dt=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const dow=new Date(dt).getDay();const isWe=dow===0||dow===6;const hol=isHoliday(dt);
+      let cur=getStatus(e.id||ei,dt);
+      if(!cur){cur=hol?'HD':isWe?'WO':'';if(cur)setStatus(e.id||ei,dt,cur);}
+      const labels={P:'P',A:'A',H:'H',L:'L',WO:'WO',OH:'OH',HD:'HD','':'·'};
+      cells+=`<td><div class="status-cell"><button class="sb sb-${cur||''}${!cur?'" style="background:#f1f5f9;color:#cbd5e1;border-color:#f1f5f9':''}onclick="cycleStatus('${e.id||ei}','${dt}',this)">${labels[cur]||'·'}</button></div></td>`;
+      if(cur==='P')p++;else if(cur==='A')a++;else if(cur==='H')h++;else if(cur==='L')l++;else if(cur==='WO')wo++;
+      if(statMap[cur]!==undefined)statMap[cur]++;
+    }
+    const pct=daysInMonth>0?Math.round((p+(h*.5))/daysInMonth*100):0;
+    cells+=`<td style="font-size:10px;min-width:80px;"><div style="font-weight:900;color:#1e293b;">${p}P ${a}A ${h}H ${l}L</div><div style="font-size:8px;color:${pct>=90?'#16a34a':pct>=75?'#f97316':'#ef4444'};">${pct}%</div></td>`;
+    return `<tr>${cells}</tr>`;
+  }).join('');
+  document.getElementById('tabContent').innerHTML=`<div style="overflow-x:auto;border-radius:12px;border:1px solid #f1f5f9;"><table class="atbl"><thead><tr>${headCells}</tr></thead><tbody>${bodyRows}</tbody></table></div>`;
+  document.getElementById('sP').textContent=statMap.P;document.getElementById('sA').textContent=statMap.A;document.getElementById('sH').textContent=statMap.H;document.getElementById('sL').textContent=statMap.L;document.getElementById('sWO').textContent=statMap.WO;
+}
+const STATUS_CYCLE=['P','A','H','L','WO','OH','HD',''];
+function cycleStatus(empId,date,btn){
+  const cur=getStatus(empId,date)||'';const idx=STATUS_CYCLE.indexOf(cur);const next=STATUS_CYCLE[(idx+1)%STATUS_CYCLE.length];
+  setStatus(empId,date,next);
+  const labels={P:'P',A:'A',H:'H',L:'L',WO:'WO',OH:'OH',HD:'HD','':'·'};
+  btn.textContent=labels[next];btn.className=`sb sb-${next}${!next?' style="background:#f1f5f9;color:#cbd5e1;"':''}`;render();
+}
+function saveAttendance(){alert('Attendance auto-saved! All changes are stored in real-time.');}
+function renderMonthly(){
+  const{m,y}=getMonthYear();const emps=JSON.parse(localStorage.getItem('employees')||'[]');const daysInMonth=new Date(y,m+1,0).getDate();
+  if(!emps.length){document.getElementById('tabContent').innerHTML='<div style="text-align:center;padding:40px;color:#94a3b8;font-weight:700;text-transform:uppercase;">No employees found.</div>';return;}
+  let totalP=0,totalA=0,totalH=0,totalL=0,totalWO=0;
+  const cards=emps.map(e=>{
+    let p=0,a=0,h=0,l=0,wo=0;
+    for(let d=1;d<=daysInMonth;d++){const dt=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;const s=getStatus(e.id||emps.indexOf(e),dt);if(s==='P')p++;else if(s==='A')a++;else if(s==='H')h++;else if(s==='L')l++;else if(s==='WO')wo++;}
+    totalP+=p;totalA+=a;totalH+=h;totalL+=l;totalWO+=wo;
+    const pct=daysInMonth>0?Math.round((p+(h*.5))/daysInMonth*100):0;
+    return `<div class="emp-summary-card">
+      <div class="esc-header"><div class="eav">${e.fName[0]}${e.lName[0]}</div><div><div style="font-size:11px;font-weight:800;text-transform:uppercase;color:#1e293b;">${e.fName} ${e.lName}</div><div class="ejob">${e.job||'--'}</div></div><div style="margin-left:auto;text-align:right;"><div style="font-size:16px;font-weight:900;color:${pct>=90?'#16a34a':pct>=75?'#f97316':'#ef4444'};">${pct}%</div><div style="font-size:7px;color:#94a3b8;text-transform:uppercase;">Attendance</div></div></div>
+      <div class="esc-counts"><div class="esc-count"><div class="esc-n" style="color:#16a34a;">${p}</div><div class="esc-l">Present</div></div><div class="esc-count"><div class="esc-n" style="color:#ef4444;">${a}</div><div class="esc-l">Absent</div></div><div class="esc-count"><div class="esc-n" style="color:#f97316;">${h}</div><div class="esc-l">Half Day</div></div><div class="esc-count"><div class="esc-n" style="color:#d97706;">${l}</div><div class="esc-l">Leave</div></div></div>
+    </div>`;
+  }).join('');
+  document.getElementById('tabContent').innerHTML=`<div class="mo-summary-grid">${cards}</div>`;
+  document.getElementById('sP').textContent=totalP;document.getElementById('sA').textContent=totalA;document.getElementById('sH').textContent=totalH;document.getElementById('sL').textContent=totalL;document.getElementById('sWO').textContent=totalWO;
+}
+</script>
+</body>
+</html>
