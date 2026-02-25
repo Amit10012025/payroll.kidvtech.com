@@ -124,18 +124,21 @@ tbody td{padding:10px 14px;font-weight:700;color:#475569;text-transform:uppercas
     <a href="index.html"><span class="material-icons-round">dashboard</span>Dashboard</a>
     <a href="employees.html"><span class="material-icons-round">badge</span>Employees</a>
     <div class="nav-sec">HR</div>
+    <a href="leave-management.html"><span class="material-icons-round">event_available</span>Leave</a>
     <a href="shifts.html"><span class="material-icons-round">schedule</span>Shifts</a>
     <a href="holidays.html"><span class="material-icons-round">event</span>Holidays</a>
     <div class="nav-sec">Operations</div>
     <a href="attendance.html"><span class="material-icons-round">calendar_month</span>Attendance</a>
     <a href="payroll.html"><span class="material-icons-round">receipt_long</span>Payroll</a>
+    <a href="payslip.html"><span class="material-icons-round">description</span>Payslips</a>
+    <a href="statutory-compliance.html"><span class="material-icons-round">gavel</span>Compliance</a>
+    <a href="reports.html"><span class="material-icons-round">bar_chart</span>Reports</a>
     <div class="nav-sec">Integration</div>
     <a href="device-manager.html"><span class="material-icons-round">device_hub</span>Device Manager</a>
     <div class="nav-sec">Admin</div>
     <a href="users.html" class="active"><span class="material-icons-round">manage_accounts</span>Users</a>
     <a href="roles.html"><span class="material-icons-round">shield</span>Roles & Perms</a>
   </nav>
-  <!-- nav-bottom OUTSIDE nav, INSIDE sidebar -->
   <div class="nav-bottom">
     <div class="user-info">
       <div class="user-av" id="sideAvatar">SA</div>
@@ -226,7 +229,6 @@ tbody td{padding:10px 14px;font-weight:700;color:#475569;text-transform:uppercas
 /* ── SIDEBAR ── */
 function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');document.body.style.overflow='hidden';}
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');document.body.style.overflow='';}
-document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',closeSidebar));
 function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
 
 /* ── DATA ── */
