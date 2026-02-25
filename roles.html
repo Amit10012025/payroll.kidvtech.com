@@ -122,18 +122,21 @@ html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f
     <a href="index.html"><span class="material-icons-round">dashboard</span>Dashboard</a>
     <a href="employees.html"><span class="material-icons-round">badge</span>Employees</a>
     <div class="nav-sec">HR</div>
+    <a href="leave-management.html"><span class="material-icons-round">event_available</span>Leave</a>
     <a href="shifts.html"><span class="material-icons-round">schedule</span>Shifts</a>
     <a href="holidays.html"><span class="material-icons-round">event</span>Holidays</a>
     <div class="nav-sec">Operations</div>
     <a href="attendance.html"><span class="material-icons-round">calendar_month</span>Attendance</a>
     <a href="payroll.html"><span class="material-icons-round">receipt_long</span>Payroll</a>
+    <a href="payslip.html"><span class="material-icons-round">description</span>Payslips</a>
+    <a href="statutory-compliance.html"><span class="material-icons-round">gavel</span>Compliance</a>
+    <a href="reports.html"><span class="material-icons-round">bar_chart</span>Reports</a>
     <div class="nav-sec">Integration</div>
     <a href="device-manager.html"><span class="material-icons-round">device_hub</span>Device Manager</a>
     <div class="nav-sec">Admin</div>
     <a href="users.html"><span class="material-icons-round">manage_accounts</span>Users</a>
     <a href="roles.html" class="active"><span class="material-icons-round">shield</span>Roles & Perms</a>
   </nav>
-  <!-- nav-bottom OUTSIDE nav, INSIDE sidebar -->
   <div class="nav-bottom">
     <div class="user-info">
       <div class="user-av" id="sideAvatar">SA</div>
@@ -206,16 +209,15 @@ html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f
 /* ── SIDEBAR ── */
 function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');document.body.style.overflow='hidden';}
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');document.body.style.overflow='';}
-document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',closeSidebar));
 function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
 
 /* ── PERMISSIONS ── */
-const PERMS={'Dashboard & Reports':['View Dashboard','View Reports','Export Reports'],'Employee Management':['View Employees','Add Employee','Edit Employee','Delete Employee'],'HR Operations':['View Attendance','Mark Attendance','View Shifts','Manage Shifts','View Holidays','Manage Holidays'],'Payroll':['View Payroll','Run Payroll','Edit Payroll','Export Payslip'],'Device & Integration':['View Device Manager','Fetch Attendance','Configure Device'],'Administration':['View Users','Create User','Edit User','Delete User','Manage Roles']};
+const PERMS={'Dashboard & Reports':['View Dashboard','View Reports','Export Reports'],'Employee Management':['View Employees','Add Employee','Edit Employee','Delete Employee'],'HR Operations':['View Attendance','Mark Attendance','View Shifts','Manage Shifts','View Holidays','Manage Holidays','View Leave','Manage Leave'],'Payroll & Compliance':['View Payroll','Run Payroll','Edit Payroll','Export Payslip','View Compliance','Manage Salary Structure'],'Device & Integration':['View Device Manager','Fetch Attendance','Configure Device'],'Administration':['View Users','Create User','Edit User','Delete User','Manage Roles']};
 
 const DEF_ROLES=[
   {id:1,name:'Super Admin',color:'red',desc:'Full system access — all permissions enabled',perms:Object.values(PERMS).flat()},
-  {id:2,name:'HR Manager',color:'green',desc:'HR operations — employees, attendance, shifts, holidays',perms:['View Dashboard','View Reports','Export Reports','View Employees','Add Employee','Edit Employee','View Attendance','Mark Attendance','View Shifts','Manage Shifts','View Holidays','Manage Holidays','View Payroll']},
-  {id:3,name:'Accountant',color:'purple',desc:'Payroll and financial reporting access',perms:['View Dashboard','View Reports','Export Reports','View Employees','View Attendance','View Payroll','Run Payroll','Edit Payroll','Export Payslip']},
+  {id:2,name:'HR Manager',color:'green',desc:'HR operations — employees, attendance, shifts, holidays, leave',perms:['View Dashboard','View Reports','Export Reports','View Employees','Add Employee','Edit Employee','View Attendance','Mark Attendance','View Shifts','Manage Shifts','View Holidays','Manage Holidays','View Leave','Manage Leave','View Payroll','Export Payslip']},
+  {id:3,name:'Accountant',color:'purple',desc:'Payroll, compliance and financial reporting access',perms:['View Dashboard','View Reports','Export Reports','View Employees','View Attendance','View Payroll','Run Payroll','Edit Payroll','Export Payslip','View Compliance','Manage Salary Structure']},
   {id:4,name:'Viewer',color:'blue',desc:'Read-only access to dashboard and reports',perms:['View Dashboard','View Reports']},
 ];
 let roles=JSON.parse(localStorage.getItem('kidv_roles')||'null')||DEF_ROLES;
