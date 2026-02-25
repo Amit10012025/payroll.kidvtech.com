@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>KIDV Tech | Users</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<script>if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}
+const _u=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+if((_u.role||'').toLowerCase()!=='super admin'&&(_u.role||'').toLowerCase()!=='admin'){window.location.replace('index.html');}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f4f8;}
+.app{display:flex;height:100vh;}
+
+/* ── SIDEBAR ── */
+.sidebar{width:220px;min-width:220px;background:#fff;border-right:1px solid #e2e8f0;display:flex;flex-direction:column;padding:18px 12px;height:100vh;position:fixed;left:0;top:0;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1);overflow-y:auto;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:199;}
+.logo{display:flex;align-items:center;gap:10px;padding:6px 8px;margin-bottom:22px;}
+.logo-icon{width:36px;height:36px;background:#2563eb;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:900;box-shadow:0 4px 12px rgba(37,99,235,.28);flex-shrink:0;}
+.logo-text{font-size:14px;font-weight:900;color:#1e293b;}.logo-text span{color:#2563eb;}
+.nav-sec{font-size:8px;color:#94a3b8;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:0 10px;margin:10px 0 4px;}
+.nav a{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;font-size:11px;font-weight:700;color:#64748b;text-decoration:none;margin-bottom:2px;text-transform:uppercase;letter-spacing:.03em;transition:all .15s;}
+.nav a:hover{background:#f1f5f9;color:#1e293b;}
+.nav a.active{background:#2563eb;color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.3);}
+.nav a .material-icons-round{font-size:16px;flex-shrink:0;}
+.nav-bottom{margin-top:auto;padding-top:12px;border-top:1px solid #f1f5f9;flex-shrink:0;}
+.user-info{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;background:#f8fafc;margin-bottom:6px;}
+.user-av{width:30px;height:30px;border-radius:8px;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0;}
+.user-name{font-size:10px;font-weight:800;color:#1e293b;text-transform:uppercase;line-height:1.2;}
+.user-role{font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;}
+.logout-btn{display:flex;align-items:center;gap:7px;width:100%;padding:8px 10px;border-radius:10px;background:none;border:1px solid #fee2e2;color:#ef4444;font-size:10px;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s;}
+.logout-btn:hover{background:#fef2f2;}
+.logout-btn .material-icons-round{font-size:14px;}
+
+/* ── MAIN ── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;margin-left:220px;transition:margin-left .3s;}
+.topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;}
+.topbar-left{display:flex;align-items:center;gap:12px;}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;}
+.menu-btn .material-icons-round{font-size:22px;}
+.scroll{flex:1;overflow-y:auto;padding:20px 24px;}
+.scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+
+/* ── PAGE CONTENT ── */
+.card{background:#fff;border-radius:14px;border:1px solid #f1f5f9;padding:20px;}
+.actions-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap;}
+.search-box{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:8px 14px;flex:1;max-width:280px;}
+.search-box .material-icons-round{font-size:16px;color:#94a3b8;}
+.search-box input{border:none;outline:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;color:#1e293b;width:100%;background:transparent;}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;border-radius:9px;font-size:11px;font-weight:800;border:none;cursor:pointer;transition:all .15s;text-transform:uppercase;font-family:'Plus Jakarta Sans',sans-serif;text-decoration:none;white-space:nowrap;}
+.btn-blue{background:#2563eb;color:#fff;}.btn-blue:hover{background:#1d4ed8;}
+.btn-red{background:#fef2f2;color:#ef4444;border:1px solid #fecaca;}.btn-red:hover{background:#fee2e2;}
+.btn-gray{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}.btn-gray:hover{background:#e2e8f0;}
+.btn .material-icons-round{font-size:14px;}
+.tbl-wrap{overflow-x:auto;border-radius:10px;border:1px solid #f1f5f9;}
+table{width:100%;border-collapse:collapse;font-size:11px;}
+thead th{background:#f8fafc;padding:10px 14px;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;text-align:left;border-bottom:1px solid #f1f5f9;white-space:nowrap;}
+tbody tr{border-bottom:1px solid #f8fafc;transition:background .12s;}
+tbody tr:hover{background:#f8fafc;}
+tbody td{padding:10px 14px;font-weight:700;color:#475569;text-transform:uppercase;vertical-align:middle;}
+.badge{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;}
+.badge-green{background:#f0fdf4;color:#16a34a;}
+.badge-red{background:#fef2f2;color:#ef4444;}
+.badge-blue{background:#eff6ff;color:#2563eb;}
+.badge-yellow{background:#fefce8;color:#ca8a04;}
+.badge-purple{background:#f5f3ff;color:#7c3aed;}
+.badge-gray{background:#f1f5f9;color:#64748b;}
+.av{width:30px;height:30px;border-radius:8px;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;flex-shrink:0;}
+
+/* ── MODAL ── */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;padding:20px;}
+.modal-bg.open{display:flex;}
+.modal{background:#fff;border-radius:18px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.2);animation:mIn .25s cubic-bezier(.16,1,.3,1);}
+@keyframes mIn{from{opacity:0;transform:scale(.94) translateY(16px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-hd{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid #f1f5f9;}
+.modal-hd h2{font-size:14px;font-weight:900;color:#1e293b;text-transform:uppercase;}
+.modal-close{background:none;border:none;cursor:pointer;color:#94a3b8;display:flex;padding:4px;border-radius:6px;}
+.modal-close:hover{background:#f1f5f9;color:#1e293b;}
+.modal-close .material-icons-round{font-size:18px;}
+.modal-body{padding:20px 24px;}
+.modal-ft{padding:12px 24px 20px;display:flex;justify-content:flex-end;gap:8px;border-top:1px solid #f1f5f9;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#64748b;margin-bottom:5px;}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;color:#1e293b;outline:none;transition:all .15s;background:#fff;}
+.field input:focus,.field select:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
+.pass-wrap{position:relative;}
+.pass-wrap input{padding-right:40px;}
+.eye-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#94a3b8;display:flex;}
+.eye-btn .material-icons-round{font-size:16px;}
+.strength{display:flex;gap:3px;margin-top:5px;}
+.strength span{flex:1;height:3px;border-radius:3px;background:#e2e8f0;transition:background .3s;}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;border-radius:10px;padding:12px 18px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(60px);opacity:0;transition:all .3s;box-shadow:0 8px 24px rgba(0,0,0,.2);}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast .material-icons-round{font-size:16px;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);}
+  .sidebar-overlay.open{display:block;}
+  .main{margin-left:0 !important;}
+  .menu-btn{display:flex !important;}
+  .form-row{grid-template-columns:1fr;}
+  .topbar{padding:10px 14px;}
+  .scroll{padding:12px 14px;}
+  thead th:nth-child(n+5),tbody td:nth-child(n+5){display:none;}
+}
+</style>
+</head>
+<body onload="init()">
+<div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
+<div class="app">
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar" id="sidebar">
+  <div class="logo"><div class="logo-icon">K</div><div class="logo-text">KIDV <span>Tech</span></div></div>
+  <nav class="nav">
+    <div class="nav-sec">Main</div>
+    <a href="index.html"><span class="material-icons-round">dashboard</span>Dashboard</a>
+    <a href="employees.html"><span class="material-icons-round">badge</span>Employees</a>
+    <div class="nav-sec">HR</div>
+    <a href="shifts.html"><span class="material-icons-round">schedule</span>Shifts</a>
+    <a href="holidays.html"><span class="material-icons-round">event</span>Holidays</a>
+    <div class="nav-sec">Operations</div>
+    <a href="attendance.html"><span class="material-icons-round">calendar_month</span>Attendance</a>
+    <a href="payroll.html"><span class="material-icons-round">receipt_long</span>Payroll</a>
+    <div class="nav-sec">Integration</div>
+    <a href="device-manager.html"><span class="material-icons-round">device_hub</span>Device Manager</a>
+    <div class="nav-sec">Admin</div>
+    <a href="users.html" class="active"><span class="material-icons-round">manage_accounts</span>Users</a>
+    <a href="roles.html"><span class="material-icons-round">shield</span>Roles & Perms</a>
+  </nav>
+  <!-- nav-bottom OUTSIDE nav, INSIDE sidebar -->
+  <div class="nav-bottom">
+    <div class="user-info">
+      <div class="user-av" id="sideAvatar">SA</div>
+      <div>
+        <div class="user-name" id="sideName">Admin</div>
+        <div class="user-role" id="sideRole">Super Admin</div>
+      </div>
+    </div>
+    <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
+  </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="menu-btn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
+      <div>
+        <div style="font-size:15px;font-weight:900;text-transform:uppercase;color:#1e293b;">User Management</div>
+        <div style="font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;margin-top:1px;">Manage system users and access</div>
+      </div>
+    </div>
+    <button class="btn btn-blue" onclick="openModal()"><span class="material-icons-round">person_add</span>New User</button>
+  </div>
+
+  <div class="scroll">
+    <div class="actions-bar">
+      <div class="search-box"><span class="material-icons-round">search</span><input type="text" id="searchInp" placeholder="Search users..." oninput="renderTable(this.value)"></div>
+      <div style="font-size:10px;color:#94a3b8;font-weight:700;text-transform:uppercase;" id="userCount">0 Users</div>
+    </div>
+    <div class="card" style="padding:0;">
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr>
+            <th>User</th><th>Username</th><th>Role</th><th>Department</th><th>Status</th><th>Last Login</th><th>Actions</th>
+          </tr></thead>
+          <tbody id="usersTbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <div class="modal-hd">
+      <h2 id="modalTitle">Create New User</h2>
+      <button class="modal-close" onclick="closeModal()"><span class="material-icons-round">close</span></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="field"><label>First Name *</label><input type="text" id="fFirstName" placeholder="Amit"></div>
+        <div class="field"><label>Last Name *</label><input type="text" id="fLastName" placeholder="Patel"></div>
+      </div>
+      <div class="field"><label>Email *</label><input type="email" id="fEmail" placeholder="amit@kidvtech.com"></div>
+      <div class="form-row">
+        <div class="field"><label>Username *</label><input type="text" id="fUsername" placeholder="amit.patel"></div>
+        <div class="field"><label>Role *</label><select id="fRole"><option value="">Select Role</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="field"><label>Department</label><input type="text" id="fDept" placeholder="HR / Finance"></div>
+        <div class="field"><label>Status</label><select id="fStatus"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
+      </div>
+      <div class="field">
+        <label id="passLabel">Password *</label>
+        <div class="pass-wrap">
+          <input type="password" id="fPass" placeholder="Min 6 characters" oninput="checkStrength(this.value)">
+          <button class="eye-btn" type="button" onclick="toggleEye()"><span class="material-icons-round" id="eyeIco">visibility</span></button>
+        </div>
+        <div class="strength"><span id="s1"></span><span id="s2"></span><span id="s3"></span><span id="s4"></span></div>
+        <div style="font-size:9px;margin-top:3px;color:#94a3b8;font-weight:700;" id="sLabel"></div>
+      </div>
+      <div class="field"><label id="cpassLabel">Confirm Password *</label><input type="password" id="fCPass" placeholder="Repeat password"></div>
+      <input type="hidden" id="editId">
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-gray" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-blue" onclick="saveUser()"><span class="material-icons-round">save</span>Save User</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="material-icons-round" id="toastIco">check_circle</span><span id="toastMsg"></span></div>
+
+<script>
+/* ── SIDEBAR ── */
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');document.body.style.overflow='hidden';}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');document.body.style.overflow='';}
+document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',closeSidebar));
+function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
+
+/* ── DATA ── */
+const DEF_USERS=[
+  {id:1,firstName:'Super',lastName:'Admin',email:'admin@kidvtech.com',username:'admin',password:'admin123',role:'Super Admin',dept:'IT',status:'Active',lastLogin:'25-02-2026 09:15',createdAt:'01-01-2026'},
+  {id:2,firstName:'Priya',lastName:'Shah',email:'priya@kidvtech.com',username:'priya.shah',password:'priya123',role:'HR Manager',dept:'HR',status:'Active',lastLogin:'25-02-2026 08:42',createdAt:'15-01-2026'},
+  {id:3,firstName:'Rahul',lastName:'Mehta',email:'rahul@kidvtech.com',username:'rahul.mehta',password:'rahul123',role:'Accountant',dept:'Finance',status:'Inactive',lastLogin:'20-02-2026 14:30',createdAt:'20-01-2026'},
+];
+let users=JSON.parse(localStorage.getItem('kidv_users')||'null')||DEF_USERS;
+let nextId=users.reduce((m,u)=>Math.max(m,u.id),0)+1;
+function save(){localStorage.setItem('kidv_users',JSON.stringify(users));}
+function getRoles(){const def=[{name:'Super Admin'},{name:'HR Manager'},{name:'Accountant'},{name:'Viewer'}];return JSON.parse(localStorage.getItem('kidv_roles')||JSON.stringify(def));}
+function roleBadge(r){const m={'Super Admin':'badge-blue','HR Manager':'badge-yellow','Accountant':'badge-green','Viewer':'badge-gray'};return m[r]||'badge-purple';}
+
+function renderTable(q=''){
+  const list=users.filter(u=>(u.firstName+u.lastName+u.email+u.username+u.role+u.dept).toLowerCase().includes(q.toLowerCase()));
+  document.getElementById('userCount').textContent=list.length+' Users';
+  const b=document.getElementById('usersTbody');
+  if(!list.length){b.innerHTML=`<tr><td colspan="7" style="text-align:center;padding:28px;color:#94a3b8;font-weight:700;text-transform:uppercase;">No users found</td></tr>`;return;}
+  b.innerHTML=list.map(u=>`<tr>
+    <td><div style="display:flex;align-items:center;gap:9px;">
+      <div class="av">${(u.firstName[0]+u.lastName[0]).toUpperCase()}</div>
+      <div><div style="font-size:11px;font-weight:800;color:#1e293b;">${u.firstName} ${u.lastName}</div><div style="font-size:9px;color:#94a3b8;font-weight:700;">${u.email}</div></div>
+    </div></td>
+    <td style="font-family:monospace;font-size:11px;">${u.username}</td>
+    <td><span class="badge ${roleBadge(u.role)}">${u.role}</span></td>
+    <td style="color:#64748b;">${u.dept||'—'}</td>
+    <td><span class="badge ${u.status==='Active'?'badge-green':'badge-red'}">● ${u.status}</span></td>
+    <td style="color:#94a3b8;font-size:10px;">${u.lastLogin||'Never'}</td>
+    <td><div style="display:flex;gap:6px;">
+      <button class="btn btn-gray" style="padding:5px 10px;" onclick="editUser(${u.id})"><span class="material-icons-round" style="font-size:13px;">edit</span></button>
+      <button class="btn btn-red" style="padding:5px 10px;" onclick="deleteUser(${u.id})"><span class="material-icons-round" style="font-size:13px;">delete</span></button>
+    </div></td>
+  </tr>`).join('');
+}
+
+function fillRoles(){
+  const sel=document.getElementById('fRole');const cur=sel.value;
+  sel.innerHTML='<option value="">Select Role</option>'+getRoles().map(r=>`<option value="${r.name}">${r.name}</option>`).join('');
+  if(cur)sel.value=cur;
+}
+
+function openModal(){
+  document.getElementById('editId').value='';
+  ['fFirstName','fLastName','fEmail','fUsername','fDept','fPass','fCPass'].forEach(f=>document.getElementById(f).value='');
+  document.getElementById('fStatus').value='Active';document.getElementById('fRole').value='';
+  document.getElementById('passLabel').textContent='Password *';document.getElementById('cpassLabel').textContent='Confirm Password *';
+  document.getElementById('modalTitle').textContent='Create New User';
+  fillRoles();document.getElementById('modalBg').classList.add('open');
+}
+
+function editUser(id){
+  const u=users.find(x=>x.id===id);if(!u)return;fillRoles();
+  document.getElementById('editId').value=id;document.getElementById('fFirstName').value=u.firstName;
+  document.getElementById('fLastName').value=u.lastName;document.getElementById('fEmail').value=u.email;
+  document.getElementById('fUsername').value=u.username;document.getElementById('fRole').value=u.role;
+  document.getElementById('fDept').value=u.dept||'';document.getElementById('fStatus').value=u.status;
+  document.getElementById('fPass').value='';document.getElementById('fCPass').value='';
+  document.getElementById('passLabel').textContent='New Password (blank = no change)';
+  document.getElementById('cpassLabel').textContent='Confirm New Password';
+  document.getElementById('modalTitle').textContent='Edit User';
+  document.getElementById('modalBg').classList.add('open');
+}
+function closeModal(){document.getElementById('modalBg').classList.remove('open');}
+
+function saveUser(){
+  const eid=document.getElementById('editId').value;
+  const fn=document.getElementById('fFirstName').value.trim(),ln=document.getElementById('fLastName').value.trim();
+  const em=document.getElementById('fEmail').value.trim(),un=document.getElementById('fUsername').value.trim();
+  const rl=document.getElementById('fRole').value,dt=document.getElementById('fDept').value.trim();
+  const st=document.getElementById('fStatus').value,pw=document.getElementById('fPass').value,cp=document.getElementById('fCPass').value;
+  if(!fn||!ln||!em||!un||!rl){showToast('error','Please fill all required fields');return;}
+  if(!eid&&!pw){showToast('error','Password is required for new users');return;}
+  if(pw&&pw!==cp){showToast('error','Passwords do not match');return;}
+  if(pw&&pw.length<6){showToast('error','Password must be at least 6 characters');return;}
+  const dup=users.find(x=>x.username===un&&x.id!=eid);
+  if(dup){showToast('error','Username already exists');return;}
+  if(eid){const u=users.find(x=>x.id==eid);if(u){Object.assign(u,{firstName:fn,lastName:ln,email:em,username:un,role:rl,dept:dt,status:st});if(pw)u.password=pw;}showToast('success','User updated');}
+  else{users.push({id:nextId++,firstName:fn,lastName:ln,email:em,username:un,password:pw,role:rl,dept:dt,status:st,lastLogin:'Never',createdAt:new Date().toLocaleDateString('en-GB')});showToast('success','User created');}
+  save();renderTable();closeModal();
+}
+
+function deleteUser(id){
+  const u=users.find(x=>x.id===id);if(!u)return;
+  if(u.username==='admin'){showToast('error','Cannot delete default admin');return;}
+  if(!confirm(`Delete user "${u.firstName} ${u.lastName}"?`))return;
+  users=users.filter(x=>x.id!==id);save();renderTable();showToast('success','User deleted');
+}
+
+function toggleEye(){const i=document.getElementById('fPass');const ic=document.getElementById('eyeIco');i.type=i.type==='password'?'text':'password';ic.textContent=i.type==='password'?'visibility':'visibility_off';}
+
+function checkStrength(v){
+  let s=0;if(v.length>=6)s++;if(/[A-Z]/.test(v))s++;if(/[0-9]/.test(v))s++;if(/[^A-Za-z0-9]/.test(v))s++;
+  const c=['','#ef4444','#f97316','#2563eb','#16a34a'],l=['','Weak','Fair','Good','Strong'];
+  for(let i=1;i<=4;i++)document.getElementById('s'+i).style.background=i<=s?c[s]:'#e2e8f0';
+  const sl=document.getElementById('sLabel');sl.textContent=v?l[s]:'';sl.style.color=c[s];
+}
+
+function showToast(type,msg){
+  const t=document.getElementById('toast'),ico=document.getElementById('toastIco');
+  document.getElementById('toastMsg').textContent=msg;
+  ico.textContent=type==='error'?'error':'check_circle';ico.style.color=type==='error'?'#f87171':'#4ade80';
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+function init(){
+  const user=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+  if(user.name){
+    const p=user.name.trim().split(' ');
+    document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();
+    document.getElementById('sideName').textContent=user.name;
+    document.getElementById('sideRole').textContent=user.role||'';
+  }
+  renderTable();
+  document.getElementById('modalBg').addEventListener('click',function(e){if(e.target===this)closeModal();});
+}
+</script>
+</body>
+</html>

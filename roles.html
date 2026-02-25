@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>KIDV Tech | Roles & Permissions</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<script>if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}
+const _u=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+if((_u.role||'').toLowerCase()!=='super admin'&&(_u.role||'').toLowerCase()!=='admin'){window.location.replace('index.html');}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f4f8;}
+.app{display:flex;height:100vh;}
+
+/* ── SIDEBAR ── */
+.sidebar{width:220px;min-width:220px;background:#fff;border-right:1px solid #e2e8f0;display:flex;flex-direction:column;padding:18px 12px;height:100vh;position:fixed;left:0;top:0;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1);overflow-y:auto;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:199;}
+.logo{display:flex;align-items:center;gap:10px;padding:6px 8px;margin-bottom:22px;}
+.logo-icon{width:36px;height:36px;background:#2563eb;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:900;box-shadow:0 4px 12px rgba(37,99,235,.28);flex-shrink:0;}
+.logo-text{font-size:14px;font-weight:900;color:#1e293b;}.logo-text span{color:#2563eb;}
+.nav-sec{font-size:8px;color:#94a3b8;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:0 10px;margin:10px 0 4px;}
+.nav a{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;font-size:11px;font-weight:700;color:#64748b;text-decoration:none;margin-bottom:2px;text-transform:uppercase;letter-spacing:.03em;transition:all .15s;}
+.nav a:hover{background:#f1f5f9;color:#1e293b;}
+.nav a.active{background:#2563eb;color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.3);}
+.nav a .material-icons-round{font-size:16px;flex-shrink:0;}
+.nav-bottom{margin-top:auto;padding-top:12px;border-top:1px solid #f1f5f9;flex-shrink:0;}
+.user-info{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;background:#f8fafc;margin-bottom:6px;}
+.user-av{width:30px;height:30px;border-radius:8px;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0;}
+.user-name{font-size:10px;font-weight:800;color:#1e293b;text-transform:uppercase;line-height:1.2;}
+.user-role{font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;}
+.logout-btn{display:flex;align-items:center;gap:7px;width:100%;padding:8px 10px;border-radius:10px;background:none;border:1px solid #fee2e2;color:#ef4444;font-size:10px;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s;}
+.logout-btn:hover{background:#fef2f2;}
+.logout-btn .material-icons-round{font-size:14px;}
+
+/* ── MAIN ── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;margin-left:220px;transition:margin-left .3s;}
+.topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;}
+.topbar-left{display:flex;align-items:center;gap:12px;}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;}
+.menu-btn .material-icons-round{font-size:22px;}
+.scroll{flex:1;overflow-y:auto;padding:20px 24px;}
+.scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;border-radius:9px;font-size:11px;font-weight:800;border:none;cursor:pointer;transition:all .15s;text-transform:uppercase;font-family:'Plus Jakarta Sans',sans-serif;text-decoration:none;white-space:nowrap;}
+.btn-blue{background:#2563eb;color:#fff;}.btn-blue:hover{background:#1d4ed8;}
+.btn-gray{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}.btn-gray:hover{background:#e2e8f0;}
+.btn-red{background:#fef2f2;color:#ef4444;border:1px solid #fecaca;}.btn-red:hover{background:#fee2e2;}
+.btn .material-icons-round{font-size:14px;}
+
+/* ── ROLES GRID ── */
+.roles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
+.role-card{background:#fff;border-radius:14px;border:1px solid #f1f5f9;padding:20px;transition:all .2s;}
+.role-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.07);transform:translateY(-1px);}
+.role-card-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;}
+.role-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.role-name{font-size:13px;font-weight:900;color:#1e293b;text-transform:uppercase;margin-bottom:2px;}
+.role-desc{font-size:10px;color:#94a3b8;font-weight:600;}
+.perm-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px;}
+.perm-tag{padding:3px 8px;border-radius:6px;font-size:9px;font-weight:800;text-transform:uppercase;background:#eff6ff;color:#2563eb;}
+.user-count{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:99px;background:#f0fdf4;color:#16a34a;font-size:9px;font-weight:800;text-transform:uppercase;}
+
+/* ── MODAL ── */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;padding:20px;}
+.modal-bg.open{display:flex;}
+.modal{background:#fff;border-radius:18px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.2);animation:mIn .25s cubic-bezier(.16,1,.3,1);}
+@keyframes mIn{from{opacity:0;transform:scale(.94) translateY(16px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-hd{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid #f1f5f9;position:sticky;top:0;background:#fff;z-index:1;}
+.modal-hd h2{font-size:14px;font-weight:900;color:#1e293b;text-transform:uppercase;}
+.modal-close{background:none;border:none;cursor:pointer;color:#94a3b8;display:flex;padding:4px;border-radius:6px;}
+.modal-close:hover{background:#f1f5f9;color:#1e293b;}
+.modal-close .material-icons-round{font-size:18px;}
+.modal-body{padding:20px 24px;}
+.modal-ft{padding:12px 24px 20px;display:flex;justify-content:flex-end;gap:8px;border-top:1px solid #f1f5f9;}
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#64748b;margin-bottom:5px;}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;color:#1e293b;outline:none;transition:all .15s;background:#fff;}
+.field input:focus,.field select:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.perm-section{margin-bottom:16px;}
+.perm-section-title{font-size:9px;font-weight:800;text-transform:uppercase;color:#64748b;letter-spacing:.06em;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #f1f5f9;}
+.perm-checks{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;}
+.perm-check{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;transition:all .15s;}
+.perm-check:hover{border-color:#bfdbfe;background:#f0f9ff;}
+.perm-check.checked{border-color:#2563eb;background:#eff6ff;}
+.perm-check input{accent-color:#2563eb;width:13px;height:13px;flex-shrink:0;}
+.perm-check span{font-size:10px;font-weight:700;text-transform:uppercase;color:#475569;}
+.perm-check.checked span{color:#1d4ed8;}
+.check-all-btn{font-size:9px;font-weight:800;color:#2563eb;background:none;border:none;cursor:pointer;text-decoration:underline;text-transform:uppercase;}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;border-radius:10px;padding:12px 18px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(60px);opacity:0;transition:all .3s;box-shadow:0 8px 24px rgba(0,0,0,.2);}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast .material-icons-round{font-size:16px;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);}
+  .sidebar-overlay.open{display:block;}
+  .main{margin-left:0 !important;}
+  .menu-btn{display:flex !important;}
+  .topbar{padding:10px 14px;}
+  .scroll{padding:12px 14px;}
+  .roles-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .perm-checks{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body onload="init()">
+<div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
+<div class="app">
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar" id="sidebar">
+  <div class="logo"><div class="logo-icon">K</div><div class="logo-text">KIDV <span>Tech</span></div></div>
+  <nav class="nav">
+    <div class="nav-sec">Main</div>
+    <a href="index.html"><span class="material-icons-round">dashboard</span>Dashboard</a>
+    <a href="employees.html"><span class="material-icons-round">badge</span>Employees</a>
+    <div class="nav-sec">HR</div>
+    <a href="shifts.html"><span class="material-icons-round">schedule</span>Shifts</a>
+    <a href="holidays.html"><span class="material-icons-round">event</span>Holidays</a>
+    <div class="nav-sec">Operations</div>
+    <a href="attendance.html"><span class="material-icons-round">calendar_month</span>Attendance</a>
+    <a href="payroll.html"><span class="material-icons-round">receipt_long</span>Payroll</a>
+    <div class="nav-sec">Integration</div>
+    <a href="device-manager.html"><span class="material-icons-round">device_hub</span>Device Manager</a>
+    <div class="nav-sec">Admin</div>
+    <a href="users.html"><span class="material-icons-round">manage_accounts</span>Users</a>
+    <a href="roles.html" class="active"><span class="material-icons-round">shield</span>Roles & Perms</a>
+  </nav>
+  <!-- nav-bottom OUTSIDE nav, INSIDE sidebar -->
+  <div class="nav-bottom">
+    <div class="user-info">
+      <div class="user-av" id="sideAvatar">SA</div>
+      <div>
+        <div class="user-name" id="sideName">Admin</div>
+        <div class="user-role" id="sideRole">Super Admin</div>
+      </div>
+    </div>
+    <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
+  </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="menu-btn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
+      <div>
+        <div style="font-size:15px;font-weight:900;text-transform:uppercase;color:#1e293b;">Roles & Permissions</div>
+        <div style="font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;margin-top:1px;">Define roles and control access</div>
+      </div>
+    </div>
+    <button class="btn btn-blue" onclick="openModal()"><span class="material-icons-round">add</span>New Role</button>
+  </div>
+
+  <div class="scroll">
+    <div class="roles-grid" id="rolesGrid"></div>
+  </div>
+</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <div class="modal-hd">
+      <h2 id="modalTitle">Create New Role</h2>
+      <button class="modal-close" onclick="closeModal()"><span class="material-icons-round">close</span></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="field"><label>Role Name *</label><input type="text" id="fName" placeholder="e.g. HR Manager"></div>
+        <div class="field"><label>Color / Icon</label>
+          <select id="fColor">
+            <option value="blue">🔵 Blue (Default)</option>
+            <option value="green">🟢 Green (HR/Operations)</option>
+            <option value="yellow">🟡 Yellow (Manager)</option>
+            <option value="red">🔴 Red (Admin)</option>
+            <option value="purple">🟣 Purple (Finance)</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>Description</label><input type="text" id="fDesc" placeholder="Brief description of this role"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div style="font-size:10px;font-weight:900;text-transform:uppercase;color:#1e293b;">Permissions</div>
+        <button class="check-all-btn" onclick="toggleAll()">Select All</button>
+      </div>
+      <div id="permSections"></div>
+      <input type="hidden" id="editId">
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-gray" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-blue" onclick="saveRole()"><span class="material-icons-round">save</span>Save Role</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="material-icons-round" id="toastIco">check_circle</span><span id="toastMsg"></span></div>
+
+<script>
+/* ── SIDEBAR ── */
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');document.body.style.overflow='hidden';}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');document.body.style.overflow='';}
+document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',closeSidebar));
+function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
+
+/* ── PERMISSIONS ── */
+const PERMS={'Dashboard & Reports':['View Dashboard','View Reports','Export Reports'],'Employee Management':['View Employees','Add Employee','Edit Employee','Delete Employee'],'HR Operations':['View Attendance','Mark Attendance','View Shifts','Manage Shifts','View Holidays','Manage Holidays'],'Payroll':['View Payroll','Run Payroll','Edit Payroll','Export Payslip'],'Device & Integration':['View Device Manager','Fetch Attendance','Configure Device'],'Administration':['View Users','Create User','Edit User','Delete User','Manage Roles']};
+
+const DEF_ROLES=[
+  {id:1,name:'Super Admin',color:'red',desc:'Full system access — all permissions enabled',perms:Object.values(PERMS).flat()},
+  {id:2,name:'HR Manager',color:'green',desc:'HR operations — employees, attendance, shifts, holidays',perms:['View Dashboard','View Reports','Export Reports','View Employees','Add Employee','Edit Employee','View Attendance','Mark Attendance','View Shifts','Manage Shifts','View Holidays','Manage Holidays','View Payroll']},
+  {id:3,name:'Accountant',color:'purple',desc:'Payroll and financial reporting access',perms:['View Dashboard','View Reports','Export Reports','View Employees','View Attendance','View Payroll','Run Payroll','Edit Payroll','Export Payslip']},
+  {id:4,name:'Viewer',color:'blue',desc:'Read-only access to dashboard and reports',perms:['View Dashboard','View Reports']},
+];
+let roles=JSON.parse(localStorage.getItem('kidv_roles')||'null')||DEF_ROLES;
+let nextId=roles.reduce((m,r)=>Math.max(m,r.id),0)+1;
+function saveStore(){localStorage.setItem('kidv_roles',JSON.stringify(roles));}
+
+const COLORS={red:{bg:'#fef2f2',icon:'🔴',text:'#ef4444'},blue:{bg:'#eff6ff',icon:'🔵',text:'#2563eb'},green:{bg:'#f0fdf4',icon:'🟢',text:'#16a34a'},yellow:{bg:'#fefce8',icon:'🟡',text:'#ca8a04'},purple:{bg:'#f5f3ff',icon:'🟣',text:'#7c3aed'}};
+
+function getUserCount(roleName){const users=JSON.parse(localStorage.getItem('kidv_users')||'[]');return users.filter(u=>u.role===roleName).length;}
+
+function renderRoles(){
+  const g=document.getElementById('rolesGrid');
+  if(!roles.length){g.innerHTML=`<div style="text-align:center;padding:40px;color:#94a3b8;font-weight:700;text-transform:uppercase;grid-column:1/-1;">No roles yet. Create one!</div>`;return;}
+  g.innerHTML=roles.map(r=>{
+    const c=COLORS[r.color]||COLORS.blue;const uc=getUserCount(r.name);const isDefault=r.name==='Super Admin';
+    return `<div class="role-card">
+      <div class="role-card-hd">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="role-icon" style="background:${c.bg};font-size:18px;">${c.icon}</div>
+          <div><div class="role-name">${r.name}</div><div class="role-desc">${r.desc||''}</div></div>
+        </div>
+        <div style="display:flex;gap:6px;flex-shrink:0;">
+          <button class="btn btn-gray" style="padding:5px 9px;" onclick="editRole(${r.id})"><span class="material-icons-round" style="font-size:13px;">edit</span></button>
+          ${!isDefault?`<button class="btn btn-red" style="padding:5px 9px;" onclick="deleteRole(${r.id})"><span class="material-icons-round" style="font-size:13px;">delete</span></button>`:''}
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div style="font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;">${r.perms.length} Permissions</div>
+        <div class="user-count"><span class="material-icons-round" style="font-size:11px;">group</span>${uc} Users</div>
+      </div>
+      <div class="perm-list">${r.perms.slice(0,8).map(p=>`<span class="perm-tag">${p}</span>`).join('')}${r.perms.length>8?`<span class="perm-tag" style="background:#f1f5f9;color:#64748b;">+${r.perms.length-8} more</span>`:''}</div>
+    </div>`;
+  }).join('');
+}
+
+function buildPermSections(selected=[]){
+  document.getElementById('permSections').innerHTML=Object.entries(PERMS).map(([sec,perms])=>`
+    <div class="perm-section">
+      <div class="perm-section-title">${sec}</div>
+      <div class="perm-checks">
+        ${perms.map(p=>{const chk=selected.includes(p);return `<label class="perm-check${chk?' checked':''}" onclick="togglePerm(this)">
+          <input type="checkbox" value="${p}"${chk?' checked':''}> <span>${p}</span>
+        </label>`;}).join('')}
+      </div>
+    </div>`).join('');
+}
+function togglePerm(el){el.classList.toggle('checked');}
+let allSelected=false;
+function toggleAll(){
+  allSelected=!allSelected;
+  document.querySelectorAll('#permSections .perm-check').forEach(el=>{const chk=el.querySelector('input');chk.checked=allSelected;el.classList.toggle('checked',allSelected);});
+  document.querySelector('.check-all-btn').textContent=allSelected?'Deselect All':'Select All';
+}
+
+function openModal(){
+  document.getElementById('editId').value='';document.getElementById('fName').value='';
+  document.getElementById('fDesc').value='';document.getElementById('fColor').value='blue';
+  document.getElementById('modalTitle').textContent='Create New Role';
+  allSelected=false;document.querySelector('.check-all-btn').textContent='Select All';
+  buildPermSections();document.getElementById('modalBg').classList.add('open');
+}
+function editRole(id){
+  const r=roles.find(x=>x.id===id);if(!r)return;
+  document.getElementById('editId').value=id;document.getElementById('fName').value=r.name;
+  document.getElementById('fDesc').value=r.desc||'';document.getElementById('fColor').value=r.color||'blue';
+  document.getElementById('modalTitle').textContent='Edit Role';
+  allSelected=false;document.querySelector('.check-all-btn').textContent='Select All';
+  buildPermSections(r.perms);document.getElementById('modalBg').classList.add('open');
+}
+function closeModal(){document.getElementById('modalBg').classList.remove('open');}
+
+function saveRole(){
+  const eid=document.getElementById('editId').value;
+  const name=document.getElementById('fName').value.trim(),desc=document.getElementById('fDesc').value.trim();
+  const color=document.getElementById('fColor').value;
+  const perms=[...document.querySelectorAll('#permSections input:checked')].map(x=>x.value);
+  if(!name){showToast('error','Role name is required');return;}
+  if(!perms.length){showToast('error','Select at least one permission');return;}
+  if(eid){const r=roles.find(x=>x.id==eid);if(r)Object.assign(r,{name,desc,color,perms});showToast('success','Role updated');}
+  else{roles.push({id:nextId++,name,desc,color,perms});showToast('success','Role created');}
+  saveStore();renderRoles();closeModal();
+}
+function deleteRole(id){
+  const r=roles.find(x=>x.id===id);if(!r)return;
+  const uc=getUserCount(r.name);
+  if(uc>0){showToast('error',`Cannot delete — ${uc} users have this role`);return;}
+  if(!confirm(`Delete role "${r.name}"?`))return;
+  roles=roles.filter(x=>x.id!==id);saveStore();renderRoles();showToast('success','Role deleted');
+}
+
+function showToast(type,msg){
+  const t=document.getElementById('toast'),ico=document.getElementById('toastIco');
+  document.getElementById('toastMsg').textContent=msg;
+  ico.textContent=type==='error'?'error':'check_circle';ico.style.color=type==='error'?'#f87171':'#4ade80';
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+function init(){
+  const user=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+  if(user.name){
+    const p=user.name.trim().split(' ');
+    document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();
+    document.getElementById('sideName').textContent=user.name;
+    document.getElementById('sideRole').textContent=user.role||'';
+  }
+  renderRoles();
+  document.getElementById('modalBg').addEventListener('click',function(e){if(e.target===this)closeModal();});
+}
+</script>
+</body>
+</html>
