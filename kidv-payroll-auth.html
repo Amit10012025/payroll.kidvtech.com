@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KIDV Tech Payroll — Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b3e;
+    --navy2: #112050;
+    --blue: #1a56c4;
+    --blue2: #2563eb;
+    --cyan: #38bdf8;
+    --cyan2: #0ea5e9;
+    --white: #f0f6ff;
+    --gray: #94a3b8;
+    --light: #e2eeff;
+    --glass: rgba(255,255,255,0.06);
+    --border: rgba(56,189,248,0.18);
+    --success: #22c55e;
+    --danger: #ef4444;
+    --warn: #f59e0b;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--white);min-height:100vh;overflow-x:hidden}
+
+  /* ─── BG ANIMATION ─── */
+  .bg{position:fixed;inset:0;z-index:0;overflow:hidden}
+  .bg::before{content:'';position:absolute;width:800px;height:800px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,0.25) 0%,transparent 70%);top:-200px;left:-200px;animation:pulse1 8s ease-in-out infinite}
+  .bg::after{content:'';position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(14,165,233,0.2) 0%,transparent 70%);bottom:-100px;right:-100px;animation:pulse2 10s ease-in-out infinite}
+  .bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(56,189,248,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,0.04) 1px,transparent 1px);background-size:40px 40px}
+  @keyframes pulse1{0%,100%{transform:scale(1) translate(0,0)}50%{transform:scale(1.15) translate(30px,20px)}}
+  @keyframes pulse2{0%,100%{transform:scale(1) translate(0,0)}50%{transform:scale(1.2) translate(-20px,-30px)}}
+
+  /* ─── PAGES ─── */
+  .page{position:relative;z-index:1;display:none;min-height:100vh}
+  .page.active{display:flex}
+
+  /* ═══════════════════════════════════════
+     LOGIN PAGE
+  ═══════════════════════════════════════ */
+  #loginPage{align-items:center;justify-content:center;padding:20px}
+  .login-card{width:100%;max-width:460px;background:rgba(13,27,62,0.85);backdrop-filter:blur(24px);border:1px solid var(--border);border-radius:24px;padding:48px 44px;box-shadow:0 40px 80px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.03) inset;animation:slideUp 0.6s cubic-bezier(0.16,1,0.3,1)}
+  @keyframes slideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+
+  .logo-wrap{display:flex;align-items:center;gap:14px;margin-bottom:36px}
+  .logo-hex{width:48px;height:48px;background:linear-gradient(135deg,var(--blue),var(--cyan));border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;letter-spacing:-1px;box-shadow:0 8px 24px rgba(37,99,235,0.4)}
+  .logo-text{display:flex;flex-direction:column}
+  .logo-text .brand{font-size:22px;font-weight:800;letter-spacing:-0.5px;line-height:1}
+  .logo-text .brand span{color:var(--cyan)}
+  .logo-text .tagline{font-size:11px;color:var(--gray);letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+
+  .login-title{font-size:28px;font-weight:700;margin-bottom:6px;letter-spacing:-0.5px}
+  .login-sub{font-size:14px;color:var(--gray);margin-bottom:32px}
+
+  .field{margin-bottom:20px}
+  .field label{display:block;font-size:12px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--cyan);margin-bottom:8px}
+  .field input{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(56,189,248,0.15);border-radius:12px;padding:14px 16px;font-family:'Outfit',sans-serif;font-size:15px;color:var(--white);outline:none;transition:all 0.2s}
+  .field input:focus{border-color:var(--cyan);background:rgba(56,189,248,0.05);box-shadow:0 0 0 3px rgba(56,189,248,0.1)}
+  .field input::placeholder{color:rgba(148,163,184,0.5)}
+
+  .pass-wrap{position:relative}
+  .pass-wrap input{padding-right:48px}
+  .toggle-pass{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--gray);cursor:pointer;font-size:18px;line-height:1}
+
+  .remember-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+  .check-label{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--gray);cursor:pointer}
+  .check-label input{accent-color:var(--cyan);width:15px;height:15px}
+  .forgot{font-size:13px;color:var(--cyan);text-decoration:none;opacity:0.8;transition:opacity 0.2s}
+  .forgot:hover{opacity:1}
+
+  .btn-login{width:100%;padding:15px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--blue2),var(--cyan2));color:#fff;font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;cursor:pointer;letter-spacing:0.3px;position:relative;overflow:hidden;transition:all 0.3s;box-shadow:0 8px 24px rgba(37,99,235,0.35)}
+  .btn-login::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.1),transparent);opacity:0;transition:opacity 0.3s}
+  .btn-login:hover{transform:translateY(-1px);box-shadow:0 12px 32px rgba(37,99,235,0.5)}
+  .btn-login:hover::before{opacity:1}
+  .btn-login:active{transform:translateY(0)}
+
+  .divider{display:flex;align-items:center;gap:12px;margin:24px 0;color:var(--gray);font-size:12px}
+  .divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.08)}
+
+  .error-msg{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:10px;padding:12px 16px;font-size:13px;color:#fca5a5;margin-bottom:20px;display:none}
+
+  .footer-note{text-align:center;margin-top:28px;font-size:12px;color:rgba(148,163,184,0.5)}
+  .footer-note span{color:var(--cyan);opacity:0.7}
+
+  /* ═══════════════════════════════════════
+     ADMIN DASHBOARD SHELL
+  ═══════════════════════════════════════ */
+  #adminPage{flex-direction:row}
+  .sidebar{width:240px;min-height:100vh;background:rgba(13,27,62,0.95);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:24px 16px;flex-shrink:0;position:sticky;top:0}
+  .sb-logo{display:flex;align-items:center;gap:10px;padding:0 8px;margin-bottom:32px}
+  .sb-logo .hex{width:36px;height:36px;background:linear-gradient(135deg,var(--blue),var(--cyan));border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+  .sb-logo .txt{font-size:16px;font-weight:800} .sb-logo .txt span{color:var(--cyan)}
+  .sb-section{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(148,163,184,0.5);padding:0 8px;margin:20px 0 8px}
+  .sb-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:500;color:var(--gray);transition:all 0.2s;margin-bottom:2px}
+  .sb-item:hover{background:rgba(255,255,255,0.05);color:var(--white)}
+  .sb-item.active{background:rgba(37,99,235,0.2);color:var(--cyan);border:1px solid rgba(37,99,235,0.2)}
+  .sb-item svg{width:16px;height:16px;flex-shrink:0}
+  .sb-bottom{margin-top:auto;padding-top:20px;border-top:1px solid var(--border)}
+  .user-pill{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,0.04)}
+  .user-pill .avatar{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+  .user-pill .info{flex:1} .user-pill .info .name{font-size:13px;font-weight:600} .user-pill .info .role{font-size:11px;color:var(--gray)}
+  .logout-btn{background:none;border:none;color:var(--gray);cursor:pointer;font-size:16px;transition:color 0.2s} .logout-btn:hover{color:#ef4444}
+
+  .main-content{flex:1;overflow-y:auto;min-height:100vh}
+  .top-bar{display:flex;align-items:center;justify-content:space-between;padding:20px 28px;border-bottom:1px solid var(--border);background:rgba(13,27,62,0.6);backdrop-filter:blur(12px);position:sticky;top:0;z-index:10}
+  .top-bar h1{font-size:20px;font-weight:700;letter-spacing:-0.3px}
+  .top-bar .breadcrumb{font-size:12px;color:var(--gray);margin-top:2px}
+  .tab-content{display:none;padding:28px} .tab-content.active{display:block}
+
+  /* ─── CARDS ─── */
+  .card{background:rgba(13,27,62,0.7);border:1px solid var(--border);border-radius:16px;padding:24px}
+  .card-title{font-size:16px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+  .card-title svg{color:var(--cyan)}
+
+  /* ─── BUTTONS ─── */
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:10px;border:none;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s}
+  .btn-primary{background:linear-gradient(135deg,var(--blue2),var(--cyan2));color:#fff;box-shadow:0 4px 12px rgba(37,99,235,0.3)}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(37,99,235,0.45)}
+  .btn-secondary{background:rgba(255,255,255,0.06);color:var(--white);border:1px solid var(--border)}
+  .btn-secondary:hover{background:rgba(255,255,255,0.1)}
+  .btn-danger{background:rgba(239,68,68,0.15);color:#fca5a5;border:1px solid rgba(239,68,68,0.25)}
+  .btn-danger:hover{background:rgba(239,68,68,0.25)}
+  .btn-sm{padding:6px 14px;font-size:12px;border-radius:8px}
+
+  /* ─── TABLE ─── */
+  .tbl-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border)}
+  table{width:100%;border-collapse:collapse}
+  thead tr{background:rgba(37,99,235,0.15)}
+  thead th{padding:13px 16px;text-align:left;font-size:11px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--cyan)}
+  tbody tr{border-top:1px solid rgba(255,255,255,0.05);transition:background 0.15s}
+  tbody tr:hover{background:rgba(255,255,255,0.03)}
+  tbody td{padding:13px 16px;font-size:13px;color:rgba(240,246,255,0.85)}
+
+  .badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}
+  .badge-green{background:rgba(34,197,94,0.15);color:#86efac;border:1px solid rgba(34,197,94,0.25)}
+  .badge-blue{background:rgba(37,99,235,0.15);color:#93c5fd;border:1px solid rgba(37,99,235,0.25)}
+  .badge-red{background:rgba(239,68,68,0.15);color:#fca5a5;border:1px solid rgba(239,68,68,0.25)}
+  .badge-yellow{background:rgba(245,158,11,0.15);color:#fcd34d;border:1px solid rgba(245,158,11,0.25)}
+  .badge-gray{background:rgba(148,163,184,0.1);color:var(--gray);border:1px solid rgba(148,163,184,0.2)}
+
+  /* ─── MODAL ─── */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
+  .modal-overlay.open{display:flex}
+  .modal{background:var(--navy2);border:1px solid var(--border);border-radius:20px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;animation:modalIn 0.3s cubic-bezier(0.16,1,0.3,1)}
+  @keyframes modalIn{from{opacity:0;transform:scale(0.92) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+  .modal-header{display:flex;align-items:center;justify-content:space-between;padding:24px 28px;border-bottom:1px solid var(--border)}
+  .modal-header h2{font-size:18px;font-weight:700}
+  .modal-close{background:none;border:none;color:var(--gray);font-size:22px;cursor:pointer;line-height:1;padding:2px 6px;border-radius:6px;transition:all 0.2s}
+  .modal-close:hover{background:rgba(255,255,255,0.08);color:var(--white)}
+  .modal-body{padding:24px 28px}
+  .modal-footer{padding:16px 28px 24px;display:flex;justify-content:flex-end;gap:10px}
+
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .form-field{margin-bottom:16px}
+  .form-field label{display:block;font-size:11px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--cyan);margin-bottom:6px}
+  .form-field input,.form-field select,.form-field textarea{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(56,189,248,0.15);border-radius:10px;padding:11px 14px;font-family:'Outfit',sans-serif;font-size:14px;color:var(--white);outline:none;transition:all 0.2s}
+  .form-field select option{background:var(--navy2);color:var(--white)}
+  .form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--cyan);background:rgba(56,189,248,0.05);box-shadow:0 0 0 3px rgba(56,189,248,0.08)}
+
+  /* ─── PERMISSIONS GRID ─── */
+  .perm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:12px}
+  .perm-item{display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;cursor:pointer;transition:all 0.2s}
+  .perm-item:hover{border-color:rgba(56,189,248,0.25);background:rgba(56,189,248,0.05)}
+  .perm-item.checked{border-color:rgba(56,189,248,0.4);background:rgba(56,189,248,0.1)}
+  .perm-item input{accent-color:var(--cyan);width:14px;height:14px}
+  .perm-item span{font-size:12px;font-weight:500}
+
+  /* ─── STATS ROW ─── */
+  .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+  .stat-card{background:rgba(13,27,62,0.7);border:1px solid var(--border);border-radius:14px;padding:20px;position:relative;overflow:hidden}
+  .stat-card::before{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;opacity:0.15}
+  .stat-card.blue::before{background:var(--blue2)}
+  .stat-card.cyan::before{background:var(--cyan)}
+  .stat-card.green::before{background:#22c55e}
+  .stat-card.yellow::before{background:#f59e0b}
+  .stat-val{font-size:30px;font-weight:800;letter-spacing:-1px}
+  .stat-lbl{font-size:12px;color:var(--gray);margin-top:4px}
+  .stat-icon{font-size:22px;margin-bottom:8px}
+
+  /* ─── ROLE CARDS ─── */
+  .role-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+  .role-card{background:rgba(13,27,62,0.7);border:1px solid var(--border);border-radius:14px;padding:20px;transition:all 0.2s}
+  .role-card:hover{border-color:rgba(56,189,248,0.3);transform:translateY(-2px)}
+  .role-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .role-name{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px}
+  .role-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px}
+  .role-perms{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+  .perm-tag{padding:3px 8px;border-radius:5px;font-size:10px;font-weight:600;background:rgba(37,99,235,0.15);color:#93c5fd;border:1px solid rgba(37,99,235,0.2)}
+
+  /* ─── SEARCH ─── */
+  .search-bar{position:relative;flex:1;max-width:300px}
+  .search-bar input{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:10px;padding:9px 14px 9px 36px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--white);outline:none;transition:all 0.2s}
+  .search-bar input:focus{border-color:var(--cyan);background:rgba(56,189,248,0.04)}
+  .search-bar::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:12px}
+
+  /* ─── ACTIONS ROW ─── */
+  .actions-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:12px;flex-wrap:wrap}
+
+  /* ─── TOAST ─── */
+  .toast{position:fixed;bottom:24px;right:24px;background:rgba(13,27,62,0.95);border:1px solid var(--border);border-radius:12px;padding:14px 20px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;z-index:999;transform:translateY(80px);opacity:0;transition:all 0.4s cubic-bezier(0.16,1,0.3,1);box-shadow:0 20px 40px rgba(0,0,0,0.4);max-width:320px}
+  .toast.show{transform:translateY(0);opacity:1}
+  .toast-icon{font-size:16px}
+
+  /* ─── ACTIVITY ─── */
+  .activity-list{display:flex;flex-direction:column;gap:12px}
+  .act-item{display:flex;align-items:flex-start;gap:12px;padding:12px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid rgba(255,255,255,0.05)}
+  .act-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+  .act-text{font-size:13px;line-height:1.5} .act-time{font-size:11px;color:var(--gray);margin-top:2px}
+
+  /* ─── PASSWORD STRENGTH ─── */
+  .strength-bar{display:flex;gap:4px;margin-top:6px}
+  .strength-seg{height:3px;flex:1;border-radius:3px;background:rgba(255,255,255,0.1);transition:background 0.3s}
+  .strength-text{font-size:11px;margin-top:4px;color:var(--gray)}
+
+  @media(max-width:768px){
+    #adminPage{flex-direction:column}
+    .sidebar{width:100%;min-height:auto}
+    .stats-row{grid-template-columns:repeat(2,1fr)}
+    .form-row{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg"><div class="bg-grid"></div></div>
+
+<!-- ═══════════ LOGIN PAGE ═══════════ -->
+<div id="loginPage" class="page active">
+  <div class="login-card">
+    <div class="logo-wrap">
+      <div class="logo-hex">KD</div>
+      <div class="logo-text">
+        <div class="brand">KIDV<span> Tech</span></div>
+        <div class="tagline">Smart Business & Automation</div>
+      </div>
+    </div>
+    <h2 class="login-title">Welcome Back 👋</h2>
+    <p class="login-sub">Sign in to your Payroll account</p>
+
+    <div class="error-msg" id="loginError">⚠️ Invalid username or password. Please try again.</div>
+
+    <div class="field">
+      <label>Username / Email</label>
+      <input type="text" id="loginUser" placeholder="admin@kidvtech.com" autocomplete="username">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <div class="pass-wrap">
+        <input type="password" id="loginPass" placeholder="Enter your password" autocomplete="current-password">
+        <button class="toggle-pass" onclick="togglePass('loginPass',this)" type="button">👁</button>
+      </div>
+    </div>
+    <div class="remember-row">
+      <label class="check-label"><input type="checkbox"> Remember me</label>
+      <a href="#" class="forgot">Forgot password?</a>
+    </div>
+    <button class="btn-login" onclick="doLogin()">🔐 Sign In to Payroll</button>
+    <div class="divider">Secured by KIDV Tech</div>
+    <p class="footer-note">© 2026 <span>KIDV Tech</span> — Smart Business & Automation</p>
+  </div>
+</div>
+
+<!-- ═══════════ ADMIN PAGE ═══════════ -->
+<div id="adminPage" class="page">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sb-logo">
+      <div class="hex">KD</div>
+      <div class="txt">KIDV<span> Tech</span></div>
+    </div>
+    <div class="sb-section">Main</div>
+    <div class="sb-item active" onclick="switchTab('dashboard',this)">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="3" width="7" height="7" rx="1" stroke-width="2"/><rect x="14" y="3" width="7" height="7" rx="1" stroke-width="2"/><rect x="3" y="14" width="7" height="7" rx="1" stroke-width="2"/><rect x="14" y="14" width="7" height="7" rx="1" stroke-width="2"/></svg>
+      Dashboard
+    </div>
+    <div class="sb-section">User Management</div>
+    <div class="sb-item" onclick="switchTab('users',this)">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Users
+    </div>
+    <div class="sb-item" onclick="switchTab('roles',this)">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Roles & Permissions
+    </div>
+    <div class="sb-section">Operations</div>
+    <div class="sb-item">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Attendance
+    </div>
+    <div class="sb-item">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      Payroll
+    </div>
+    <div class="sb-bottom">
+      <div class="user-pill">
+        <div class="avatar" id="sidebarAvatar">SA</div>
+        <div class="info">
+          <div class="name" id="sidebarName">Super Admin</div>
+          <div class="role">Administrator</div>
+        </div>
+        <button class="logout-btn" onclick="doLogout()" title="Logout">⏻</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main-content">
+    <div class="top-bar">
+      <div>
+        <h1 id="pageTitle">Dashboard</h1>
+        <div class="breadcrumb" id="pageBreadcrumb">KIDV Tech Payroll › Dashboard</div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-primary btn-sm" onclick="openModal('userModal')">+ Add User</button>
+      </div>
+    </div>
+
+    <!-- DASHBOARD TAB -->
+    <div class="tab-content active" id="tab-dashboard">
+      <div class="stats-row">
+        <div class="stat-card blue"><div class="stat-icon">👤</div><div class="stat-val" id="statUsers">3</div><div class="stat-lbl">Total Users</div></div>
+        <div class="stat-card cyan"><div class="stat-icon">🛡️</div><div class="stat-val">4</div><div class="stat-lbl">Roles Defined</div></div>
+        <div class="stat-card green"><div class="stat-icon">✅</div><div class="stat-val" id="statActive">2</div><div class="stat-lbl">Active Users</div></div>
+        <div class="stat-card yellow"><div class="stat-icon">🔑</div><div class="stat-val">18</div><div class="stat-lbl">Permissions</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:20px">
+        <div class="card">
+          <div class="card-title">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Recent Activity
+          </div>
+          <div class="activity-list">
+            <div class="act-item"><div class="act-dot" style="background:#22c55e"></div><div><div class="act-text">User <strong>Amit Patel</strong> logged in successfully</div><div class="act-time">2 minutes ago</div></div></div>
+            <div class="act-item"><div class="act-dot" style="background:#38bdf8"></div><div><div class="act-text">New user <strong>Priya Shah</strong> created by Admin</div><div class="act-time">1 hour ago</div></div></div>
+            <div class="act-item"><div class="act-dot" style="background:#f59e0b"></div><div><div class="act-text">Role <strong>HR Manager</strong> permissions updated</div><div class="act-time">3 hours ago</div></div></div>
+            <div class="act-item"><div class="act-dot" style="background:#ef4444"></div><div><div class="act-text">Failed login attempt for user <strong>unknown</strong></div><div class="act-time">5 hours ago</div></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Quick Roles Overview
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:rgba(255,255,255,0.03);border-radius:8px">
+              <span style="font-size:13px">🔴 Super Admin</span><span class="badge badge-blue">All Access</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:rgba(255,255,255,0.03);border-radius:8px">
+              <span style="font-size:13px">🟡 HR Manager</span><span class="badge badge-yellow">HR + Reports</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:rgba(255,255,255,0.03);border-radius:8px">
+              <span style="font-size:13px">🟢 Accountant</span><span class="badge badge-green">Payroll Only</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:rgba(255,255,255,0.03);border-radius:8px">
+              <span style="font-size:13px">🔵 Viewer</span><span class="badge badge-gray">Read Only</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- USERS TAB -->
+    <div class="tab-content" id="tab-users">
+      <div class="actions-row">
+        <div class="search-bar"><input type="text" placeholder="Search users..." oninput="searchUsers(this.value)"></div>
+        <button class="btn btn-primary" onclick="openModal('userModal')">+ New User</button>
+      </div>
+      <div class="tbl-wrap">
+        <table id="usersTable">
+          <thead><tr>
+            <th>Name</th><th>Email</th><th>Role</th><th>Department</th><th>Status</th><th>Last Login</th><th>Actions</th>
+          </tr></thead>
+          <tbody id="usersBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ROLES TAB -->
+    <div class="tab-content" id="tab-roles">
+      <div class="actions-row">
+        <div style="font-size:14px;color:var(--gray)">Define roles and assign permissions to control access</div>
+        <button class="btn btn-primary" onclick="openModal('roleModal')">+ New Role</button>
+      </div>
+      <div class="role-grid" id="roleGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL: CREATE/EDIT USER ═══════════ -->
+<div class="modal-overlay" id="userModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="userModalTitle">➕ Create New User</h2>
+      <button class="modal-close" onclick="closeModal('userModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-field"><label>First Name</label><input type="text" id="uFirstName" placeholder="Amit"></div>
+        <div class="form-field"><label>Last Name</label><input type="text" id="uLastName" placeholder="Patel"></div>
+      </div>
+      <div class="form-field"><label>Email Address</label><input type="email" id="uEmail" placeholder="amit@kidvtech.com"></div>
+      <div class="form-row">
+        <div class="form-field"><label>Username</label><input type="text" id="uUsername" placeholder="amit.patel"></div>
+        <div class="form-field">
+          <label>Role</label>
+          <select id="uRole">
+            <option value="">Select Role</option>
+            <option value="Super Admin">Super Admin</option>
+            <option value="HR Manager">HR Manager</option>
+            <option value="Accountant">Accountant</option>
+            <option value="Viewer">Viewer</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Department</label><input type="text" id="uDept" placeholder="Quality / HR / Finance"></div>
+        <div class="form-field">
+          <label>Status</label>
+          <select id="uStatus">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-field">
+        <label>Password</label>
+        <div class="pass-wrap">
+          <input type="password" id="uPassword" placeholder="Min 8 characters" oninput="checkStrength(this.value)">
+          <button class="toggle-pass" onclick="togglePass('uPassword',this)" type="button">👁</button>
+        </div>
+        <div class="strength-bar">
+          <div class="strength-seg" id="s1"></div>
+          <div class="strength-seg" id="s2"></div>
+          <div class="strength-seg" id="s3"></div>
+          <div class="strength-seg" id="s4"></div>
+        </div>
+        <div class="strength-text" id="strengthTxt"></div>
+      </div>
+      <div class="form-field">
+        <label>Confirm Password</label>
+        <input type="password" id="uConfirmPass" placeholder="Repeat password">
+      </div>
+      <input type="hidden" id="editUserId" value="">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('userModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveUser()">💾 Save User</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL: ROLE ═══════════ -->
+<div class="modal-overlay" id="roleModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="roleModalTitle">🛡️ Create New Role</h2>
+      <button class="modal-close" onclick="closeModal('roleModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-field"><label>Role Name</label><input type="text" id="rName" placeholder="e.g. HR Manager"></div>
+        <div class="form-field">
+          <label>Icon</label>
+          <select id="rIcon">
+            <option value="🔴">🔴 Admin</option>
+            <option value="🟡">🟡 Manager</option>
+            <option value="🟢">🟢 Staff</option>
+            <option value="🔵">🔵 Viewer</option>
+            <option value="🟣">🟣 Custom</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-field"><label>Description</label><input type="text" id="rDesc" placeholder="Brief description of this role"></div>
+      <div class="form-field">
+        <label>Permissions</label>
+        <div class="perm-grid" id="permGrid"></div>
+      </div>
+      <input type="hidden" id="editRoleId" value="">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('roleModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveRole()">💾 Save Role</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-icon" id="toastIcon">✅</span>
+  <span id="toastMsg">Done!</span>
+</div>
+
+<script>
+/* ─── DATA ─── */
+const USERS = [
+  {id:1,firstName:'Super',lastName:'Admin',email:'admin@kidvtech.com',username:'admin',role:'Super Admin',dept:'IT',status:'Active',lastLogin:'25-02-2026 09:15'},
+  {id:2,firstName:'Priya',lastName:'Shah',email:'priya@kidvtech.com',username:'priya.shah',role:'HR Manager',dept:'HR',status:'Active',lastLogin:'25-02-2026 08:42'},
+  {id:3,firstName:'Rahul',lastName:'Mehta',email:'rahul@kidvtech.com',username:'rahul.mehta',role:'Accountant',dept:'Finance',status:'Inactive',lastLogin:'20-02-2026 14:30'},
+];
+const ROLES = [
+  {id:1,name:'Super Admin',icon:'🔴',desc:'Full system access with all permissions',perms:['Dashboard','Employees','Attendance','Payroll','Reports','Users','Roles','Settings','Import','Export']},
+  {id:2,name:'HR Manager',icon:'🟡',desc:'Manage employees, attendance and HR reports',perms:['Dashboard','Employees','Attendance','Reports','Export']},
+  {id:3,name:'Accountant',icon:'🟢',desc:'Access to payroll and financial reports',perms:['Dashboard','Payroll','Reports','Export']},
+  {id:4,name:'Viewer',icon:'🔵',desc:'Read-only access to approved sections',perms:['Dashboard','Reports']},
+];
+const ALL_PERMS=['Dashboard','Employees','Attendance','Payroll','Reports','Users','Roles','Settings','Import','Export','Shifts','Holidays','Leave','Loans','Device Manager','Bulk Upload','Notifications','Audit Log'];
+let nextUserId=4, nextRoleId=5;
+
+/* ─── AUTH ─── */
+const VALID_LOGINS=[{u:'admin',p:'admin123'},{u:'admin@kidvtech.com',p:'admin123'}];
+function doLogin(){
+  const u=document.getElementById('loginUser').value.trim();
+  const p=document.getElementById('loginPass').value;
+  const ok=VALID_LOGINS.some(x=>x.u===u&&x.p===p);
+  if(!ok){document.getElementById('loginError').style.display='block';return;}
+  document.getElementById('loginError').style.display='none';
+  document.getElementById('loginPage').classList.remove('active');
+  document.getElementById('adminPage').classList.add('active');
+  renderUsers(); renderRoles();
+  showToast('✅','Welcome back, '+u+'!');
+}
+function doLogout(){
+  document.getElementById('adminPage').classList.remove('active');
+  document.getElementById('loginPage').classList.add('active');
+  document.getElementById('loginUser').value='';
+  document.getElementById('loginPass').value='';
+}
+document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+document.getElementById('loginUser').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+
+/* ─── TABS ─── */
+function switchTab(name,el){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.sb-item').forEach(s=>s.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  el.classList.add('active');
+  const titles={dashboard:'Dashboard',users:'User Management',roles:'Roles & Permissions'};
+  document.getElementById('pageTitle').textContent=titles[name]||name;
+  document.getElementById('pageBreadcrumb').textContent='KIDV Tech Payroll › '+(titles[name]||name);
+  if(name==='users')renderUsers();
+  if(name==='roles')renderRoles();
+}
+
+/* ─── USERS TABLE ─── */
+function renderUsers(filter=''){
+  const body=document.getElementById('usersBody');
+  const list=USERS.filter(u=>(u.firstName+u.lastName+u.email+u.role+u.dept).toLowerCase().includes(filter.toLowerCase()));
+  body.innerHTML=list.map(u=>`
+    <tr>
+      <td><strong>${u.firstName} ${u.lastName}</strong></td>
+      <td style="color:var(--gray)">${u.email}</td>
+      <td><span class="badge ${roleBadge(u.role)}">${u.role}</span></td>
+      <td>${u.dept}</td>
+      <td><span class="badge ${u.status==='Active'?'badge-green':'badge-red'}">${u.status==='Active'?'● Active':'○ Inactive'}</span></td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gray)">${u.lastLogin}</td>
+      <td><div style="display:flex;gap:6px">
+        <button class="btn btn-secondary btn-sm" onclick="editUser(${u.id})">✏️ Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteUser(${u.id})">🗑</button>
+      </div></td>
+    </tr>`).join('');
+  document.getElementById('statUsers').textContent=USERS.length;
+  document.getElementById('statActive').textContent=USERS.filter(u=>u.status==='Active').length;
+}
+function roleBadge(r){return{' Super Admin':'badge-red','HR Manager':'badge-yellow','Accountant':'badge-green','Viewer':'badge-gray'}[r]||'badge-blue';}
+function searchUsers(v){renderUsers(v);}
+function editUser(id){
+  const u=USERS.find(x=>x.id===id);
+  if(!u)return;
+  document.getElementById('userModalTitle').textContent='✏️ Edit User';
+  document.getElementById('uFirstName').value=u.firstName;
+  document.getElementById('uLastName').value=u.lastName;
+  document.getElementById('uEmail').value=u.email;
+  document.getElementById('uUsername').value=u.username;
+  document.getElementById('uRole').value=u.role;
+  document.getElementById('uDept').value=u.dept;
+  document.getElementById('uStatus').value=u.status;
+  document.getElementById('uPassword').value='';
+  document.getElementById('uConfirmPass').value='';
+  document.getElementById('editUserId').value=id;
+  openModal('userModal');
+}
+function deleteUser(id){
+  const i=USERS.findIndex(x=>x.id===id);
+  if(i>-1){const name=USERS[i].firstName;USERS.splice(i,1);renderUsers();showToast('🗑️','User removed successfully');}
+}
+function saveUser(){
+  const fn=document.getElementById('uFirstName').value.trim();
+  const ln=document.getElementById('uLastName').value.trim();
+  const em=document.getElementById('uEmail').value.trim();
+  const un=document.getElementById('uUsername').value.trim();
+  const rl=document.getElementById('uRole').value;
+  const dt=document.getElementById('uDept').value.trim();
+  const st=document.getElementById('uStatus').value;
+  const pw=document.getElementById('uPassword').value;
+  const cp=document.getElementById('uConfirmPass').value;
+  const eid=document.getElementById('editUserId').value;
+  if(!fn||!em||!rl){showToast('⚠️','Please fill required fields');return;}
+  if(pw&&pw!==cp){showToast('⚠️','Passwords do not match');return;}
+  if(!eid&&!pw){showToast('⚠️','Password is required for new users');return;}
+  const now=new Date().toLocaleDateString('en-GB').replace(/\//g,'-')+' '+new Date().toTimeString().slice(0,5);
+  if(eid){
+    const u=USERS.find(x=>x.id==eid);
+    if(u){Object.assign(u,{firstName:fn,lastName:ln,email:em,username:un,role:rl,dept:dt,status:st});}
+    showToast('✅','User updated successfully');
+  }else{
+    USERS.push({id:nextUserId++,firstName:fn,lastName:ln,email:em,username:un,role:rl,dept:dt,status:st,lastLogin:'Never'});
+    showToast('✅','User created successfully!');
+  }
+  closeModal('userModal');renderUsers();
+}
+
+/* ─── ROLES ─── */
+function renderRoles(){
+  document.getElementById('roleGrid').innerHTML=ROLES.map(r=>`
+    <div class="role-card">
+      <div class="role-card-header">
+        <div class="role-name"><span>${r.icon}</span> ${r.name}</div>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-secondary btn-sm" onclick="editRole(${r.id})">✏️</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteRole(${r.id})">🗑</button>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--gray);margin-bottom:10px">${r.desc}</p>
+      <div style="font-size:11px;color:var(--gray);font-weight:600;margin-bottom:8px;letter-spacing:0.5px">PERMISSIONS (${r.perms.length})</div>
+      <div class="role-perms">${r.perms.map(p=>`<span class="perm-tag">${p}</span>`).join('')}</div>
+    </div>`).join('');
+}
+function editRole(id){
+  const r=ROLES.find(x=>x.id===id);if(!r)return;
+  document.getElementById('roleModalTitle').textContent='✏️ Edit Role';
+  document.getElementById('rName').value=r.name;
+  document.getElementById('rIcon').value=r.icon;
+  document.getElementById('rDesc').value=r.desc;
+  document.getElementById('editRoleId').value=id;
+  buildPermGrid(r.perms);openModal('roleModal');
+}
+function deleteRole(id){
+  const i=ROLES.findIndex(x=>x.id===id);
+  if(i>-1){ROLES.splice(i,1);renderRoles();showToast('🗑️','Role deleted');}
+}
+function buildPermGrid(selected=[]){
+  document.getElementById('permGrid').innerHTML=ALL_PERMS.map(p=>{
+    const chk=selected.includes(p);
+    return`<label class="perm-item${chk?' checked':''}" onclick="togglePerm(this)">
+      <input type="checkbox" name="perm" value="${p}"${chk?' checked':''}> <span>${p}</span>
+    </label>`;
+  }).join('');
+}
+function togglePerm(el){el.classList.toggle('checked');}
+function saveRole(){
+  const n=document.getElementById('rName').value.trim();
+  const ic=document.getElementById('rIcon').value;
+  const d=document.getElementById('rDesc').value.trim();
+  const eid=document.getElementById('editRoleId').value;
+  const perms=[...document.querySelectorAll('#permGrid input:checked')].map(x=>x.value);
+  if(!n){showToast('⚠️','Role name required');return;}
+  if(eid){const r=ROLES.find(x=>x.id==eid);if(r)Object.assign(r,{name:n,icon:ic,desc:d,perms});showToast('✅','Role updated');}
+  else{ROLES.push({id:nextRoleId++,name:n,icon:ic,desc:d,perms});showToast('✅','Role created!');}
+  closeModal('roleModal');renderRoles();
+}
+
+/* ─── MODAL ─── */
+function openModal(id){
+  if(id==='userModal'){
+    if(!document.getElementById('editUserId').value){
+      document.getElementById('userModalTitle').textContent='➕ Create New User';
+      ['uFirstName','uLastName','uEmail','uUsername','uDept','uPassword','uConfirmPass'].forEach(f=>document.getElementById(f).value='');
+      document.getElementById('uRole').value='';document.getElementById('uStatus').value='Active';
+      document.getElementById('editUserId').value='';
+    }
+  }
+  if(id==='roleModal'){
+    if(!document.getElementById('editRoleId').value){
+      document.getElementById('roleModalTitle').textContent='🛡️ Create New Role';
+      document.getElementById('rName').value='';document.getElementById('rDesc').value='';
+      document.getElementById('editRoleId').value='';buildPermGrid();
+    }
+  }
+  document.getElementById(id).classList.add('open');
+}
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+  document.getElementById('editUserId').value='';
+  document.getElementById('editRoleId').value='';
+}
+document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')}));
+
+/* ─── UTILS ─── */
+function togglePass(inputId,btn){
+  const inp=document.getElementById(inputId);
+  inp.type=inp.type==='password'?'text':'password';
+  btn.textContent=inp.type==='password'?'👁':'🙈';
+}
+function showToast(icon,msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toastIcon').textContent=icon;
+  document.getElementById('toastMsg').textContent=msg;
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);
+}
+function checkStrength(v){
+  let score=0;
+  if(v.length>=8)score++;if(/[A-Z]/.test(v))score++;if(/[0-9]/.test(v))score++;if(/[^A-Za-z0-9]/.test(v))score++;
+  const colors=['','#ef4444','#f59e0b','#3b82f6','#22c55e'];
+  const labels=['','Weak','Fair','Good','Strong'];
+  for(let i=1;i<=4;i++){document.getElementById('s'+i).style.background=i<=score?colors[score]:'rgba(255,255,255,0.1)';}
+  document.getElementById('strengthTxt').textContent=v?labels[score]:'';
+  document.getElementById('strengthTxt').style.color=colors[score];
+}
+
+// Pre-fill demo credentials hint
+window.addEventListener('DOMContentLoaded',()=>{
+  setTimeout(()=>{
+    document.getElementById('loginUser').value='admin';
+    document.getElementById('loginPass').value='admin123';
+  },800);
+});
+</script>
+</body>
+</html>
