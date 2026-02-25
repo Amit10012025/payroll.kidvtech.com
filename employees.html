@@ -8,9 +8,11 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f4f8;}
-.app{display:flex;height:100vh;}
-.sidebar{width:220px;min-width:220px;background:#fff;border-right:1px solid #e2e8f0;display:flex;flex-direction:column;padding:18px 12px;height:100vh;}
+html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f4f8;}
+.app{display:flex;height:100vh;overflow:hidden;}
+
+/* ── SIDEBAR ── */
+.sidebar{width:220px;min-width:220px;background:#fff;border-right:1px solid #e2e8f0;display:flex;flex-direction:column;padding:18px 12px;height:100vh;transition:transform .3s;z-index:300;}
 .logo{display:flex;align-items:center;gap:10px;padding:6px 8px;margin-bottom:22px;}
 .logo-icon{width:36px;height:36px;background:#2563eb;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:900;box-shadow:0 4px 12px rgba(37,99,235,.28);}
 .logo-text{font-size:14px;font-weight:900;color:#1e293b;}.logo-text span{color:#2563eb;}
@@ -19,16 +21,29 @@ html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif
 .nav a:hover{background:#f1f5f9;color:#1e293b;}
 .nav a.active{background:#2563eb;color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.3);}
 .nav a .material-icons-round{font-size:16px;flex-shrink:0;}
+
+/* ── MOBILE SIDEBAR OVERLAY ── */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:250;backdrop-filter:blur(2px);}
+
+/* ── MAIN ── */
 .main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;}
-.topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;}
 .scroll{flex:1;overflow-y:auto;padding:20px 24px;}
 .scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+
+/* ── HAMBURGER ── */
+.hamburger{display:none;width:36px;height:36px;background:#f1f5f9;border:none;border-radius:9px;cursor:pointer;align-items:center;justify-content:center;flex-shrink:0;}
+.hamburger .material-icons-round{font-size:20px;color:#1e293b;}
+
+/* ── BUTTONS ── */
 .btn{display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;font-size:11px;font-weight:800;border:none;cursor:pointer;transition:all .15s;text-transform:uppercase;font-family:'Plus Jakarta Sans',sans-serif;}
 .btn-blue{background:#2563eb;color:#fff;}.btn-blue:hover{background:#1d4ed8;}
 .btn .material-icons-round{font-size:14px;}
+
+/* ── PANEL ── */
 .panel-overlay{position:fixed;inset:0;background:rgba(15,23,42,.4);backdrop-filter:blur(4px);z-index:50;display:flex;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .25s;}
 .panel-overlay.open{opacity:1;pointer-events:all;}
-.panel{width:680px;height:100vh;background:#fff;box-shadow:-10px 0 40px rgba(0,0,0,.12);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s;}
+.panel{width:680px;max-width:100vw;height:100vh;background:#fff;box-shadow:-10px 0 40px rgba(0,0,0,.12);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s;}
 .panel-overlay.open .panel{transform:translateX(0);}
 .ph{padding:18px 22px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;background:#f8fafc;flex-shrink:0;}
 .pt{font-size:15px;font-weight:900;text-transform:uppercase;font-style:italic;color:#1e293b;}
@@ -42,14 +57,46 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
 .fg{margin-bottom:12px;}
 .xbtn{width:30px;height:30px;background:#f1f5f9;border:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
 .xbtn:hover{background:#fee2e2;color:#ef4444;}
-/* Device Code highlight box */
 .device-code-box{background:#f5f3ff;border:1.5px solid #ddd6fe;border-radius:12px;padding:12px 14px;margin-bottom:14px;}
 .device-code-label{font-size:8px;color:#7c3aed;font-weight:800;text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:5px;margin-bottom:8px;}
+
+/* ── MOBILE RESPONSIVE ── */
+@media(max-width:768px){
+  .sidebar{position:fixed;left:0;top:0;height:100vh;transform:translateX(-100%);z-index:300;}
+  .sidebar.open{transform:translateX(0);}
+  .sidebar-overlay.open{display:block;}
+  .hamburger{display:flex;}
+  .topbar{padding:10px 14px;}
+  .scroll{padding:14px;}
+  #empGrid{grid-template-columns:1fr!important;}
+  .form-grid-3{grid-template-columns:1fr 1fr!important;}
+  .form-grid-4{grid-template-columns:1fr 1fr!important;}
+  .device-code-inner{grid-template-columns:1fr!important;}
+  .sal-grid-3{grid-template-columns:1fr 1fr!important;}
+  .sal-grid-4{grid-template-columns:1fr 1fr!important;}
+  .addr-grid{grid-template-columns:1fr!important;}
+  .edu-table-wrap{overflow-x:auto;}
+  .pscroll{padding:14px;}
+}
+@media(max-width:480px){
+  .form-grid-3{grid-template-columns:1fr!important;}
+  .form-grid-4{grid-template-columns:1fr!important;}
+  .sal-grid-3{grid-template-columns:1fr!important;}
+  .topbar h1{font-size:13px;}
+}
 </style>
 </head>
 <body onload="loadEmployees()">
 <div class="app">
-<aside class="sidebar">
+
+<!-- Sidebar overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <!-- Close btn (mobile) -->
+  <button onclick="closeSidebar()" style="display:none;position:absolute;top:14px;right:14px;background:#f1f5f9;border:none;border-radius:8px;width:30px;height:30px;cursor:pointer;align-items:center;justify-content:center;" id="sidebarCloseBtn">
+    <span class="material-icons-round" style="font-size:16px;color:#64748b;">close</span>
+  </button>
   <div class="logo"><div class="logo-icon">K</div><div class="logo-text">KIDV <span>Tech</span></div></div>
   <nav class="nav">
     <div class="nav-sec">Main</div>
@@ -65,10 +112,16 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
     <a href="device-manager.html"><span class="material-icons-round">device_hub</span>Device Manager</a>
   </nav>
 </aside>
+
 <div class="main">
   <div class="topbar">
-    <h1 style="font-size:16px;font-weight:900;text-transform:uppercase;color:#1e293b;">Workforce Master</h1>
-    <button class="btn btn-blue" onclick="openPanel('Add Employee')"><span class="material-icons-round">add</span>Add Employee</button>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <button class="hamburger" id="hamburgerBtn" onclick="openSidebar()">
+        <span class="material-icons-round">menu</span>
+      </button>
+      <h1 style="font-size:16px;font-weight:900;text-transform:uppercase;color:#1e293b;">Workforce Master</h1>
+    </div>
+    <button class="btn btn-blue" onclick="openPanel('Add Employee')"><span class="material-icons-round">add</span><span class="hide-xs">Add Employee</span><span class="show-xs" style="display:none;">Add</span></button>
   </div>
   <div class="scroll">
     <div id="empGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;"></div>
@@ -89,7 +142,7 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
     <!-- 1. Personal -->
     <div style="margin-bottom:18px;">
       <div class="sec-head" style="color:#2563eb;border-color:#2563eb;">1. Personal & Identity</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;" class="form-grid-3">
         <div class="fg"><label class="fl">First Name *</label><input id="fName" required></div>
         <div class="fg"><label class="fl">Middle Name</label><input id="mName"></div>
         <div class="fg"><label class="fl">Last Name *</label><input id="lName" required></div>
@@ -105,7 +158,7 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
     <!-- 2. Legal -->
     <div style="margin-bottom:18px;">
       <div class="sec-head" style="color:#7c3aed;border-color:#7c3aed;">2. Legal & Statutory IDs</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;" class="form-grid-3">
         <div class="fg"><label class="fl">Aadhar No.</label><input id="aadhar" maxlength="12"></div>
         <div class="fg"><label class="fl">PAN No.</label><input id="pan" maxlength="10"></div>
         <div class="fg"><label class="fl">UAN (PF)</label><input id="uan"></div>
@@ -118,14 +171,12 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
     <!-- 3. Work -->
     <div style="margin-bottom:18px;">
       <div class="sec-head" style="color:#f97316;border-color:#f97316;">3. Work & Designation</div>
-
-      <!-- ★ DEVICE CODE BOX — Smart Office Integration ★ -->
       <div class="device-code-box">
         <div class="device-code-label">
           <span class="material-icons-round" style="font-size:14px;color:#7c3aed;">device_hub</span>
           Smart Office / Attendance Device Link
         </div>
-        <div style="display:grid;grid-template-columns:1fr 2fr;gap:10px;align-items:end;">
+        <div style="display:grid;grid-template-columns:1fr 2fr;gap:10px;align-items:end;" class="device-code-inner">
           <div class="fg" style="margin-bottom:0;">
             <label class="fl" style="color:#7c3aed;">Device Employee Code *</label>
             <input id="deviceCode" placeholder="EMP001" style="border-color:#ddd6fe;background:#fff;text-transform:uppercase;font-weight:900;font-size:13px;">
@@ -137,8 +188,7 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
           </div>
         </div>
       </div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;" class="form-grid-3">
         <div class="fg"><label class="fl">Designation *</label><input id="job" required></div>
         <div class="fg"><label class="fl">Department *</label><input id="dept" required></div>
         <div class="fg"><label class="fl">Work Location</label><input id="workLocation"></div>
@@ -154,11 +204,9 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
     <!-- 4. Shift -->
     <div style="margin-bottom:18px;">
       <div class="sec-head" style="color:#0891b2;border-color:#0891b2;">4. Shift & Policy</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;" class="form-grid-4">
         <div class="fg"><label class="fl">Shift</label>
-          <select id="shift" onchange="fillShiftDetails()">
-            <option value="">-- Select --</option>
-          </select>
+          <select id="shift" onchange="fillShiftDetails()"><option value="">-- Select Shift --</option></select>
         </div>
         <div class="fg"><label class="fl">Week Off</label><select id="weekoff"><option>SUNDAY</option><option>SATURDAY</option><option>MONDAY</option></select></div>
         <div class="fg"><label class="fl">OT Eligible</label><select id="otEligible"><option>YES</option><option>NO</option></select></div>
@@ -169,14 +217,13 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
     <!-- 5. Bank -->
     <div style="margin-bottom:18px;">
       <div class="sec-head" style="color:#16a34a;border-color:#16a34a;">5. Bank Details</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;" class="form-grid-3">
         <div class="fg" style="grid-column:span 2;"><label class="fl">Bank Name</label>
           <select id="bankName">
             <option value="">-- Select Bank --</option>
-            <optgroup label="Public Sector"><option>STATE BANK OF INDIA (SBI)</option><option>BANK OF BARODA</option><option>BANK OF INDIA</option><option>BANK OF MAHARASHTRA</option><option>CANARA BANK</option><option>CENTRAL BANK OF INDIA</option><option>INDIAN BANK</option><option>INDIAN OVERSEAS BANK</option><option>PUNJAB NATIONAL BANK (PNB)</option><option>UCO BANK</option><option>UNION BANK OF INDIA</option><option>PUNJAB AND SIND BANK</option></optgroup>
-            <optgroup label="Private Sector"><option>AXIS BANK</option><option>BANDHAN BANK</option><option>CITY UNION BANK</option><option>DCB BANK</option><option>FEDERAL BANK</option><option>HDFC BANK</option><option>ICICI BANK</option><option>IDBI BANK</option><option>IDFC FIRST BANK</option><option>INDUSIND BANK</option><option>J&K BANK</option><option>KARNATAKA BANK</option><option>KARUR VYSYA BANK</option><option>KOTAK MAHINDRA BANK</option><option>RBL BANK</option><option>SOUTH INDIAN BANK</option><option>TAMILNAD MERCANTILE BANK</option><option>YES BANK</option><option>CSB BANK</option></optgroup>
-            <optgroup label="Small Finance Banks"><option>AU SMALL FINANCE BANK</option><option>EQUITAS SMALL FINANCE BANK</option><option>ESAF SMALL FINANCE BANK</option><option>JANA SMALL FINANCE BANK</option><option>UJJIVAN SMALL FINANCE BANK</option><option>UTKARSH SMALL FINANCE BANK</option></optgroup>
-            <optgroup label="Payments Banks"><option>AIRTEL PAYMENTS BANK</option><option>INDIA POST PAYMENTS BANK</option><option>PAYTM PAYMENTS BANK</option></optgroup>
+            <optgroup label="Public Sector"><option>STATE BANK OF INDIA (SBI)</option><option>BANK OF BARODA</option><option>BANK OF INDIA</option><option>CANARA BANK</option><option>PUNJAB NATIONAL BANK (PNB)</option><option>UNION BANK OF INDIA</option></optgroup>
+            <optgroup label="Private Sector"><option>AXIS BANK</option><option>HDFC BANK</option><option>ICICI BANK</option><option>IDBI BANK</option><option>IDFC FIRST BANK</option><option>INDUSIND BANK</option><option>KOTAK MAHINDRA BANK</option><option>YES BANK</option></optgroup>
+            <optgroup label="Small Finance"><option>AU SMALL FINANCE BANK</option><option>EQUITAS SMALL FINANCE BANK</option><option>UJJIVAN SMALL FINANCE BANK</option></optgroup>
           </select>
         </div>
         <div class="fg"><label class="fl">Account Type</label><select id="accType"><option value="">--</option><option>SAVINGS</option><option>CURRENT</option><option>SALARY</option></select></div>
@@ -189,11 +236,11 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
     <!-- 6. Family -->
     <div style="margin-bottom:18px;">
       <div class="sec-head" style="color:#db2777;border-color:#db2777;">6. Family & Emergency</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;" class="form-grid-3">
         <div class="fg"><label class="fl">Father's Name</label><input id="fatherName"></div>
         <div class="fg"><label class="fl">Mother's Name</label><input id="motherName"></div>
         <div class="fg"><label class="fl">Spouse Name</label><input id="spouseName"></div>
-        <div class="fg"><label class="fl">Emergency Contact Name</label><input id="emergName"></div>
+        <div class="fg"><label class="fl">Emergency Contact</label><input id="emergName"></div>
         <div class="fg"><label class="fl">Emergency Mobile</label><input id="emergMobile"></div>
         <div class="fg"><label class="fl">Relationship</label><select id="emergRelation"><option value="">--</option><option>FATHER</option><option>MOTHER</option><option>SPOUSE</option><option>SIBLING</option><option>OTHER</option></select></div>
       </div>
@@ -202,12 +249,12 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
     <!-- 7. Address -->
     <div style="margin-bottom:18px;">
       <div class="sec-head" style="color:#4f46e5;border-color:#4f46e5;">7. Address</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;" class="addr-grid">
         <div>
           <div style="font-size:8px;color:#2563eb;font-weight:800;text-transform:uppercase;margin-bottom:8px;">Current Address</div>
           <div class="fg"><input id="currAddr" placeholder="Street / Area"></div>
           <div class="fg"><input id="currCity" placeholder="City / Town"></div>
-          <div class="fg"><select id="currState" style="text-transform:uppercase;"><option value="">-- Select State --</option><option>ANDHRA PRADESH</option><option>ARUNACHAL PRADESH</option><option>ASSAM</option><option>BIHAR</option><option>CHHATTISGARH</option><option>GOA</option><option>GUJARAT</option><option>HARYANA</option><option>HIMACHAL PRADESH</option><option>JHARKHAND</option><option>KARNATAKA</option><option>KERALA</option><option>MADHYA PRADESH</option><option>MAHARASHTRA</option><option>MANIPUR</option><option>MEGHALAYA</option><option>MIZORAM</option><option>NAGALAND</option><option>ODISHA</option><option>PUNJAB</option><option>RAJASTHAN</option><option>SIKKIM</option><option>TAMIL NADU</option><option>TELANGANA</option><option>TRIPURA</option><option>UTTAR PRADESH</option><option>UTTARAKHAND</option><option>WEST BENGAL</option><optgroup label="UT"><option>DELHI (NCT)</option><option>CHANDIGARH</option><option>JAMMU AND KASHMIR</option><option>LADAKH</option><option>PUDUCHERRY</option><option>ANDAMAN AND NICOBAR ISLANDS</option><option>DADRA AND NAGAR HAVELI AND DAMAN AND DIU</option><option>LAKSHADWEEP</option></optgroup></select></div>
+          <div class="fg"><select id="currState" style="text-transform:uppercase;"><option value="">-- Select State --</option><option>GUJARAT</option><option>MAHARASHTRA</option><option>RAJASTHAN</option><option>DELHI (NCT)</option><option>UTTAR PRADESH</option><option>KARNATAKA</option><option>TAMIL NADU</option><option>TELANGANA</option><option>ANDHRA PRADESH</option><option>WEST BENGAL</option><option>BIHAR</option><option>MADHYA PRADESH</option><option>HARYANA</option><option>PUNJAB</option><option>OTHER</option></select></div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
             <div class="fg"><input id="currPin" placeholder="Pincode" maxlength="6"></div>
             <div class="fg"><select id="currCountry"><option>INDIA</option><option>OTHER</option></select></div>
@@ -220,7 +267,7 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
           </div>
           <div class="fg"><input id="permAddr" placeholder="Street / Area"></div>
           <div class="fg"><input id="permCity" placeholder="City / Town"></div>
-          <div class="fg"><select id="permState" style="text-transform:uppercase;"><option value="">-- Select State --</option><option>ANDHRA PRADESH</option><option>ARUNACHAL PRADESH</option><option>ASSAM</option><option>BIHAR</option><option>CHHATTISGARH</option><option>GOA</option><option>GUJARAT</option><option>HARYANA</option><option>HIMACHAL PRADESH</option><option>JHARKHAND</option><option>KARNATAKA</option><option>KERALA</option><option>MADHYA PRADESH</option><option>MAHARASHTRA</option><option>MANIPUR</option><option>MEGHALAYA</option><option>MIZORAM</option><option>NAGALAND</option><option>ODISHA</option><option>PUNJAB</option><option>RAJASTHAN</option><option>SIKKIM</option><option>TAMIL NADU</option><option>TELANGANA</option><option>TRIPURA</option><option>UTTAR PRADESH</option><option>UTTARAKHAND</option><option>WEST BENGAL</option><optgroup label="UT"><option>DELHI (NCT)</option><option>CHANDIGARH</option><option>JAMMU AND KASHMIR</option><option>LADAKH</option><option>PUDUCHERRY</option><option>ANDAMAN AND NICOBAR ISLANDS</option><option>DADRA AND NAGAR HAVELI AND DAMAN AND DIU</option><option>LAKSHADWEEP</option></optgroup></select></div>
+          <div class="fg"><select id="permState" style="text-transform:uppercase;"><option value="">-- Select State --</option><option>GUJARAT</option><option>MAHARASHTRA</option><option>RAJASTHAN</option><option>DELHI (NCT)</option><option>UTTAR PRADESH</option><option>KARNATAKA</option><option>TAMIL NADU</option><option>TELANGANA</option><option>ANDHRA PRADESH</option><option>WEST BENGAL</option><option>BIHAR</option><option>MADHYA PRADESH</option><option>HARYANA</option><option>PUNJAB</option><option>OTHER</option></select></div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
             <div class="fg"><input id="permPin" placeholder="Pincode" maxlength="6"></div>
             <div class="fg"><select id="permCountry"><option>INDIA</option><option>OTHER</option></select></div>
@@ -239,21 +286,23 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
             <span class="material-icons-round" style="font-size:13px;">add</span>Add Education
           </button>
         </div>
-        <table style="width:100%;border-collapse:collapse;font-size:11px;" id="eduTable">
-          <thead>
-            <tr style="background:#f8fafc;">
-              <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Degree / Qualification</th>
-              <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">University / Board</th>
-              <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Passing Year</th>
-              <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Grade / %</th>
-              <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Specialization</th>
-              <th style="padding:8px 12px;width:40px;"></th>
-            </tr>
-          </thead>
-          <tbody id="eduBody">
-            <tr id="eduEmpty"><td colspan="6" style="padding:16px;text-align:center;color:#94a3b8;font-size:11px;font-weight:700;">No education records. Click "Add Education" to start.</td></tr>
-          </tbody>
-        </table>
+        <div class="edu-table-wrap" style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:11px;min-width:500px;" id="eduTable">
+            <thead>
+              <tr style="background:#f8fafc;">
+                <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Degree</th>
+                <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">University</th>
+                <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Year</th>
+                <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Grade</th>
+                <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Specialization</th>
+                <th style="padding:8px 12px;width:40px;"></th>
+              </tr>
+            </thead>
+            <tbody id="eduBody">
+              <tr id="eduEmpty"><td colspan="6" style="padding:16px;text-align:center;color:#94a3b8;font-size:11px;font-weight:700;">No education records. Click "Add Education" to start.</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div class="sec-head" style="color:#0891b2;border-color:#0891b2;margin-top:16px;">Work Experience History</div>
@@ -264,32 +313,34 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
             <span class="material-icons-round" style="font-size:13px;">add</span>Add Experience
           </button>
         </div>
-        <table style="width:100%;border-collapse:collapse;font-size:11px;" id="expTable">
-          <thead>
-            <tr style="background:#f8fafc;">
-              <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Company Name</th>
-              <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Designation</th>
-              <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">From</th>
-              <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">To</th>
-              <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">CTC (Annual)</th>
-              <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Reason Leaving</th>
-              <th style="padding:8px 12px;width:40px;"></th>
-            </tr>
-          </thead>
-          <tbody id="expBody">
-            <tr id="expEmpty"><td colspan="7" style="padding:16px;text-align:center;color:#94a3b8;font-size:11px;font-weight:700;">No experience records. Click "Add Experience" to start.</td></tr>
-          </tbody>
-        </table>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:11px;min-width:600px;" id="expTable">
+            <thead>
+              <tr style="background:#f8fafc;">
+                <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Company</th>
+                <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Designation</th>
+                <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">From</th>
+                <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">To</th>
+                <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">CTC</th>
+                <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Reason</th>
+                <th style="padding:8px 12px;width:40px;"></th>
+              </tr>
+            </thead>
+            <tbody id="expBody">
+              <tr id="expEmpty"><td colspan="7" style="padding:16px;text-align:center;color:#94a3b8;font-size:11px;font-weight:700;">No experience records.</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
     <!-- 9. Salary -->
     <div style="background:#1e293b;border-radius:18px;padding:20px;margin-bottom:18px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:12px;margin-bottom:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:12px;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
         <div style="font-size:10px;font-weight:800;color:#60a5fa;text-transform:uppercase;letter-spacing:.08em;">9. Salary Structure</div>
         <div style="display:flex;align-items:center;gap:8px;"><label style="font-size:8px;color:#64748b;text-transform:uppercase;">Effective:</label><input type="date" id="sal_effective_date" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#fff;width:auto;"></div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px;" class="sal-grid-3">
         <div><label style="font-size:7px;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;">Basic *</label><input type="number" id="sal_basic" oninput="calcSalary()" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff;"></div>
         <div><label style="font-size:7px;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;">HRA</label><input type="number" id="sal_hra" oninput="calcSalary()" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff;"></div>
         <div><label style="font-size:7px;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;">Conveyance</label><input type="number" id="sal_conv" oninput="calcSalary()" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff;"></div>
@@ -300,13 +351,13 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
         <div><label style="font-size:7px;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;">Flexi Pay</label><input type="number" id="sal_flexi" oninput="calcSalary()" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff;"></div>
         <div style="background:rgba(37,99,235,.3);border-radius:10px;padding:10px;"><label style="font-size:7px;color:#93c5fd;text-transform:uppercase;display:block;margin-bottom:3px;">Gross Monthly</label><input type="number" id="sal_gross" readonly style="background:transparent;border:none;color:#60a5fa;font-size:16px;font-weight:900;padding:0;"></div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);margin-bottom:10px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);margin-bottom:10px;" class="sal-grid-4">
         <div><label style="font-size:7px;color:#f87171;text-transform:uppercase;display:block;margin-bottom:3px;">PF Emp (12%)</label><input type="number" id="ded_pf" readonly style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);color:#fff;opacity:.6;"></div>
         <div><label style="font-size:7px;color:#f87171;text-transform:uppercase;display:block;margin-bottom:3px;">ESIC Emp (0.75%)</label><input type="number" id="ded_esic" readonly style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);color:#fff;opacity:.6;"></div>
         <div><label style="font-size:7px;color:#f87171;text-transform:uppercase;display:block;margin-bottom:3px;">PT</label><input type="number" id="ded_pt" oninput="calcSalary()" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff;"></div>
         <div style="background:rgba(22,163,74,.2);border-radius:10px;padding:10px;"><label style="font-size:7px;color:#86efac;text-transform:uppercase;display:block;margin-bottom:3px;">Take Home</label><input type="number" id="sal_takehome" readonly style="background:transparent;border:none;color:#4ade80;font-size:16px;font-weight:900;padding:0;"></div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);" class="sal-grid-3">
         <div><label style="font-size:7px;color:#94a3b8;text-transform:uppercase;display:block;margin-bottom:3px;">EPF ER (12%)</label><input type="number" id="epf_contri" readonly style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);color:#fff;opacity:.6;"></div>
         <div><label style="font-size:7px;color:#94a3b8;text-transform:uppercase;display:block;margin-bottom:3px;">ESIC ER (3.75%)</label><input type="number" id="esic_contri" readonly style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);color:#fff;opacity:.6;"></div>
         <div><label style="font-size:7px;color:#94a3b8;text-transform:uppercase;display:block;margin-bottom:3px;">Gratuity (4.81%)</label><input type="number" id="sal_gratuity" readonly style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);color:#fff;opacity:.6;"></div>
@@ -326,7 +377,18 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
 </div>
 
 <script>
-const ALL_FIELDS=['fName','mName','lName','gender','dob','mobile','blood','marital','nationality','aadhar','pan','uan','esicNo','passport','passportExpiry','deviceCode','job','dept','workLocation','empType','doj','probation','confirmDate','noticePeriod','manager','shift','weekoff','otEligible','pf','bankName','bankAcc','ifsc','accType','bankBranch','fatherName','motherName','spouseName','emergName','emergMobile','emergRelation','currAddr','currCity','currState','currPin','currCountry','permAddr','permCity','permState','permPin','permCountry','qualification','university','experience','prevCompany','prevDesig','prevCtc','sal_effective_date','sal_basic','sal_hra','sal_conv','sal_att','sal_edu','sal_wash','sal_spec','sal_flexi','sal_gross','ded_pf','ded_esic','ded_pt','sal_takehome','epf_contri','esic_contri','sal_gratuity','sal_perf','sal_ret','sal_peva','sal_ctc'];
+// ── SIDEBAR MOBILE ──
+function openSidebar(){
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('open');
+  document.getElementById('sidebarCloseBtn').style.display='flex';
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+}
+
+const ALL_FIELDS=['fName','mName','lName','gender','dob','mobile','blood','marital','nationality','aadhar','pan','uan','esicNo','passport','passportExpiry','deviceCode','job','dept','workLocation','empType','doj','probation','confirmDate','noticePeriod','manager','shift','weekoff','otEligible','pf','bankName','bankAcc','ifsc','accType','bankBranch','fatherName','motherName','spouseName','emergName','emergMobile','emergRelation','currAddr','currCity','currState','currPin','currCountry','permAddr','permCity','permState','permPin','permCountry','sal_effective_date','sal_basic','sal_hra','sal_conv','sal_att','sal_edu','sal_wash','sal_spec','sal_flexi','sal_gross','ded_pf','ded_esic','ded_pt','sal_takehome','epf_contri','esic_contri','sal_gratuity','sal_perf','sal_ret','sal_peva','sal_ctc'];
 
 function openPanel(title){
   populateShifts();
@@ -345,13 +407,12 @@ function populateShifts(){
   const shifts=JSON.parse(localStorage.getItem('shifts')||'[]');
   const sel=document.getElementById('shift');
   const cur=sel.value;
-  sel.innerHTML='<option value="">-- Select Shift --</option>'+shifts.map((s,i)=>`<option value="${s.name}">${s.name} (${s.start}-${s.end})</option>`).join('');
+  sel.innerHTML='<option value="">-- Select Shift --</option>'+shifts.map(s=>`<option value="${s.name}">${s.name} (${s.start}-${s.end})</option>`).join('');
   sel.value=cur;
 }
 function fillShiftDetails(){
   const shifts=JSON.parse(localStorage.getItem('shifts')||'[]');
-  const selName=document.getElementById('shift').value;
-  const s=shifts.find(sh=>sh.name===selName);
+  const s=shifts.find(sh=>sh.name===document.getElementById('shift').value);
   if(s){document.getElementById('weekoff').value=s.weekoff||'SUNDAY';document.getElementById('otEligible').value=s.ot==='NOT APPLICABLE'?'NO':'YES';}
 }
 
@@ -374,72 +435,34 @@ function calcSalary(){
 
 function addEduRow(data={}){
   document.getElementById('eduEmpty')&&(document.getElementById('eduEmpty').remove());
-  const id='edu_'+Date.now()+'_'+Math.random().toString(36).slice(2);
   const tr=document.createElement('tr');
-  tr.id=id;tr.style.cssText='border-top:1px solid #f1f5f9;';
+  tr.style.cssText='border-top:1px solid #f1f5f9;';
   const inp=(ph,val='',type='text')=>`<input type="${type}" placeholder="${ph}" value="${val}" style="width:100%;padding:6px 8px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:7px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;outline:none;">`;
-  tr.innerHTML=`
-    <td style="padding:6px 8px;">${inp('B.E. / MBA / SSC...',data.degree)}</td>
-    <td style="padding:6px 8px;">${inp('Gujarat University',data.university)}</td>
-    <td style="padding:6px 8px;">${inp('2018',data.year,'number')}</td>
-    <td style="padding:6px 8px;">${inp('8.5 / 85%',data.grade)}</td>
-    <td style="padding:6px 8px;">${inp('Mechanical Engg.',data.spec)}</td>
-    <td style="padding:6px 8px;text-align:center;">
-      <button type="button" onclick="this.closest('tr').remove();checkEmpty('eduBody','eduEmpty',6,'education')" style="background:#fef2f2;border:none;border-radius:6px;cursor:pointer;padding:4px 6px;display:flex;align-items:center;">
-        <span class="material-icons-round" style="font-size:14px;color:#ef4444;">delete</span>
-      </button>
-    </td>`;
+  tr.innerHTML=`<td style="padding:6px 8px;">${inp('B.E./MBA',data.degree)}</td><td style="padding:6px 8px;">${inp('University',data.university)}</td><td style="padding:6px 8px;">${inp('2018',data.year,'number')}</td><td style="padding:6px 8px;">${inp('85%',data.grade)}</td><td style="padding:6px 8px;">${inp('Specialization',data.spec)}</td><td style="padding:6px 8px;text-align:center;"><button type="button" onclick="this.closest('tr').remove()" style="background:#fef2f2;border:none;border-radius:6px;cursor:pointer;padding:4px 6px;display:flex;align-items:center;"><span class="material-icons-round" style="font-size:14px;color:#ef4444;">delete</span></button></td>`;
   document.getElementById('eduBody').appendChild(tr);
 }
 
 function addExpRow(data={}){
   document.getElementById('expEmpty')&&(document.getElementById('expEmpty').remove());
-  const id='exp_'+Date.now()+'_'+Math.random().toString(36).slice(2);
   const tr=document.createElement('tr');
-  tr.id=id;tr.style.cssText='border-top:1px solid #f1f5f9;';
+  tr.style.cssText='border-top:1px solid #f1f5f9;';
   const inp=(ph,val='',type='text')=>`<input type="${type}" placeholder="${ph}" value="${val}" style="width:100%;padding:6px 8px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:7px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;outline:none;">`;
-  tr.innerHTML=`
-    <td style="padding:6px 8px;">${inp('ABC Company',data.company)}</td>
-    <td style="padding:6px 8px;">${inp('Engineer',data.designation)}</td>
-    <td style="padding:6px 8px;">${inp('2018',data.from,'number')}</td>
-    <td style="padding:6px 8px;">${inp('2021',data.to,'number')}</td>
-    <td style="padding:6px 8px;">${inp('₹4,00,000',data.ctc)}</td>
-    <td style="padding:6px 8px;">${inp('Better Opportunity',data.reason)}</td>
-    <td style="padding:6px 8px;text-align:center;">
-      <button type="button" onclick="this.closest('tr').remove();checkEmpty('expBody','expEmpty',7,'experience')" style="background:#fef2f2;border:none;border-radius:6px;cursor:pointer;padding:4px 6px;display:flex;align-items:center;">
-        <span class="material-icons-round" style="font-size:14px;color:#ef4444;">delete</span>
-      </button>
-    </td>`;
+  tr.innerHTML=`<td style="padding:6px 8px;">${inp('ABC Co.',data.company)}</td><td style="padding:6px 8px;">${inp('Engineer',data.designation)}</td><td style="padding:6px 8px;">${inp('2018',data.from,'number')}</td><td style="padding:6px 8px;">${inp('2021',data.to,'number')}</td><td style="padding:6px 8px;">${inp('₹4,00,000',data.ctc)}</td><td style="padding:6px 8px;">${inp('Better Opportunity',data.reason)}</td><td style="padding:6px 8px;text-align:center;"><button type="button" onclick="this.closest('tr').remove()" style="background:#fef2f2;border:none;border-radius:6px;cursor:pointer;padding:4px 6px;display:flex;align-items:center;"><span class="material-icons-round" style="font-size:14px;color:#ef4444;">delete</span></button></td>`;
   document.getElementById('expBody').appendChild(tr);
 }
 
-function checkEmpty(bodyId,emptyId,cols,label){
-  const body=document.getElementById(bodyId);
-  if(!body.querySelector('tr:not([id="'+emptyId+'"])')){
-    if(!document.getElementById(emptyId)){
-      const tr=document.createElement('tr');tr.id=emptyId;
-      tr.innerHTML=`<td colspan="${cols}" style="padding:16px;text-align:center;color:#94a3b8;font-size:11px;font-weight:700;">No ${label} records.</td>`;
-      body.appendChild(tr);
-    }
-  }
-}
-
 function collectEdu(){
-  const rows=document.querySelectorAll('#eduBody tr:not([id^="eduEmpty"])');
-  return Array.from(rows).map(tr=>{
+  return Array.from(document.querySelectorAll('#eduBody tr:not([id^="eduEmpty"])')).map(tr=>{
     const inputs=tr.querySelectorAll('input');
     return{degree:inputs[0]?.value||'',university:inputs[1]?.value||'',year:inputs[2]?.value||'',grade:inputs[3]?.value||'',spec:inputs[4]?.value||''};
   }).filter(r=>r.degree||r.university);
 }
-
 function collectExp(){
-  const rows=document.querySelectorAll('#expBody tr:not([id^="expEmpty"])');
-  return Array.from(rows).map(tr=>{
+  return Array.from(document.querySelectorAll('#expBody tr:not([id^="expEmpty"])')).map(tr=>{
     const inputs=tr.querySelectorAll('input');
     return{company:inputs[0]?.value||'',designation:inputs[1]?.value||'',from:inputs[2]?.value||'',to:inputs[3]?.value||'',ctc:inputs[4]?.value||'',reason:inputs[5]?.value||''};
   }).filter(r=>r.company||r.designation);
 }
-
 function loadEduRows(list){
   const body=document.getElementById('eduBody');
   body.innerHTML='<tr id="eduEmpty"><td colspan="6" style="padding:16px;text-align:center;color:#94a3b8;font-size:11px;font-weight:700;">No education records.</td></tr>';
@@ -460,8 +483,7 @@ function saveEmp(e){
   const gross=document.getElementById('sal_gross').value;
   const obj={id:idx!==''?emps[idx].id:'KIDV-'+Math.floor(1000+Math.random()*9000),history:idx!==''?(emps[idx].history||[]):[]};
   ALL_FIELDS.forEach(f=>{const el=document.getElementById(f);if(el)obj[f]=el.value;});
-  obj.eduList=collectEdu();
-  obj.expList=collectExp();
+  obj.eduList=collectEdu();obj.expList=collectExp();
   if(idx!==''&&emps[idx].sal_gross!==gross){obj.history.push({date:emps[idx].sal_effective_date||emps[idx].doj,amount:emps[idx].sal_gross,role:emps[idx].job});}
   if(idx!=='')emps[idx]=obj;else emps.push(obj);
   localStorage.setItem('employees',JSON.stringify(emps));
@@ -471,11 +493,11 @@ function saveEmp(e){
 function loadEmployees(){
   const emps=JSON.parse(localStorage.getItem('employees')||'[]');
   const grid=document.getElementById('empGrid');
-  if(!emps.length){grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px;color:#94a3b8;"><span class="material-icons-round" style="font-size:56px;display:block;margin-bottom:10px;">group_off</span><div style="font-size:13px;font-weight:700;text-transform:uppercase;">No employees yet</div></div>`;return;}
+  if(!emps.length){grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#94a3b8;"><span class="material-icons-round" style="font-size:56px;display:block;margin-bottom:10px;">group_off</span><div style="font-size:13px;font-weight:700;text-transform:uppercase;">No employees yet</div></div>`;return;}
   grid.innerHTML=emps.map((e,i)=>`<div style="background:#fff;border-radius:16px;border:1px solid #f1f5f9;padding:18px;position:relative;">
     <div style="position:absolute;top:14px;right:14px;display:flex;gap:6px;">
-      <a href="employee-profile.html?id=${i}" style="width:28px;height:28px;background:#f1f5f9;border-radius:8px;display:flex;align-items:center;justify-content:center;text-decoration:none;color:#64748b;transition:all .15s;" onmouseover="this.style.background='#2563eb';this.style.color='#fff'" onmouseout="this.style.background='#f1f5f9';this.style.color='#64748b'"><span class="material-icons-round" style="font-size:14px;">visibility</span></a>
-      <button onclick="editEmp(${i})" style="width:28px;height:28px;background:#f1f5f9;border:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748b;transition:all .15s;" onmouseover="this.style.background='#f97316';this.style.color='#fff'" onmouseout="this.style.background='#f1f5f9';this.style.color='#64748b'"><span class="material-icons-round" style="font-size:14px;">edit</span></button>
+      <a href="employee-profile.html?id=${i}" style="width:28px;height:28px;background:#f1f5f9;border-radius:8px;display:flex;align-items:center;justify-content:center;text-decoration:none;color:#64748b;" onmouseover="this.style.background='#2563eb';this.style.color='#fff'" onmouseout="this.style.background='#f1f5f9';this.style.color='#64748b'"><span class="material-icons-round" style="font-size:14px;">visibility</span></a>
+      <button onclick="editEmp(${i})" style="width:28px;height:28px;background:#f1f5f9;border:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748b;" onmouseover="this.style.background='#f97316';this.style.color='#fff'" onmouseout="this.style.background='#f1f5f9';this.style.color='#64748b'"><span class="material-icons-round" style="font-size:14px;">edit</span></button>
     </div>
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
       <div style="width:40px;height:40px;background:#2563eb;color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;flex-shrink:0;">${e.fName[0]}${e.lName[0]}</div>
@@ -487,10 +509,7 @@ function loadEmployees(){
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:10px;padding-top:12px;border-top:1px solid #f8fafc;">
       <div><div style="font-size:7px;color:#94a3b8;font-weight:700;text-transform:uppercase;">Dept</div><div style="font-weight:800;text-transform:uppercase;color:#1e293b;">${e.dept||'--'}</div></div>
       <div><div style="font-size:7px;color:#94a3b8;font-weight:700;text-transform:uppercase;">Device Code</div>
-        <div style="font-weight:900;">${e.deviceCode
-          ?`<span style="background:#eff6ff;color:#7c3aed;padding:2px 8px;border-radius:99px;font-size:9px;font-weight:900;">${e.deviceCode}</span>`
-          :'<span style="color:#e2e8f0;font-size:9px;font-weight:700;">— Not Set</span>'
-        }</div>
+        <div style="font-weight:900;">${e.deviceCode?`<span style="background:#eff6ff;color:#7c3aed;padding:2px 8px;border-radius:99px;font-size:9px;font-weight:900;">${e.deviceCode}</span>`:'<span style="color:#e2e8f0;font-size:9px;font-weight:700;">— Not Set</span>'}</div>
       </div>
       <div><div style="font-size:7px;color:#94a3b8;font-weight:700;text-transform:uppercase;">Gross Monthly</div><div style="font-weight:900;color:#2563eb;">₹${parseFloat(e.sal_gross||0).toLocaleString('en-IN')}</div></div>
       <div><div style="font-size:7px;color:#94a3b8;font-weight:700;text-transform:uppercase;">Joined</div><div style="font-weight:800;text-transform:uppercase;color:#1e293b;">${e.doj||'--'}</div></div>
@@ -502,8 +521,7 @@ function editEmp(idx){
   const e=JSON.parse(localStorage.getItem('employees')||'[]')[idx];
   document.getElementById('eidx').value=idx;
   ALL_FIELDS.forEach(f=>{const el=document.getElementById(f);if(el)el.value=e[f]||'';});
-  loadEduRows(e.eduList||[]);
-  loadExpRows(e.expList||[]);
+  loadEduRows(e.eduList||[]);loadExpRows(e.expList||[]);
   openPanel('Edit Employee');
 }
 </script>
