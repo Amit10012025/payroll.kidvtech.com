@@ -7,9 +7,11 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f4f8;}
-.app{display:flex;height:100vh;}
-.sidebar{width:220px;min-width:220px;background:#fff;border-right:1px solid #e2e8f0;display:flex;flex-direction:column;padding:18px 12px;height:100vh;}
+html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f4f8;}
+.app{display:flex;height:100vh;overflow:hidden;}
+
+/* ── SIDEBAR ── */
+.sidebar{width:220px;min-width:220px;background:#fff;border-right:1px solid #e2e8f0;display:flex;flex-direction:column;padding:18px 12px;height:100vh;transition:transform .3s;z-index:300;}
 .logo{display:flex;align-items:center;gap:10px;padding:6px 8px;margin-bottom:22px;}
 .logo-icon{width:36px;height:36px;background:#2563eb;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:900;box-shadow:0 4px 12px rgba(37,99,235,.28);}
 .logo-text{font-size:14px;font-weight:900;color:#1e293b;}.logo-text span{color:#2563eb;}
@@ -18,57 +20,81 @@ html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif
 .nav a:hover{background:#f1f5f9;color:#1e293b;}
 .nav a.active{background:#2563eb;color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.3);}
 .nav a .material-icons-round{font-size:16px;flex-shrink:0;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:250;backdrop-filter:blur(2px);}
+
+/* ── MAIN ── */
 .main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;}
-.topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;flex-wrap:wrap;}
 .scroll{flex:1;overflow-y:auto;padding:20px 24px;}
 .scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+
+.hamburger{display:none;width:36px;height:36px;background:#f1f5f9;border:none;border-radius:9px;cursor:pointer;align-items:center;justify-content:center;flex-shrink:0;}
+.hamburger .material-icons-round{font-size:20px;color:#1e293b;}
+
 .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:10px;font-size:11px;font-weight:800;border:none;cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.03em;font-family:'Plus Jakarta Sans',sans-serif;}
 .btn-blue{background:#2563eb;color:#fff;}.btn-blue:hover{background:#1d4ed8;}
 .btn-green{background:#16a34a;color:#fff;}.btn-green:hover{background:#15803d;}
 .btn-red{background:#ef4444;color:#fff;}.btn-red:hover{background:#dc2626;}
 .btn-gray{background:#f1f5f9;color:#475569;}.btn-gray:hover{background:#e2e8f0;}
 .btn .material-icons-round{font-size:14px;}
-.card{background:#fff;border-radius:14px;border:1px solid #f1f5f9;padding:20px;}
 
-/* Drag-drop zone */
+.card{background:#fff;border-radius:14px;border:1px solid #f1f5f9;padding:20px;}
 .drop-zone{border:2px dashed #cbd5e1;border-radius:14px;padding:40px 24px;text-align:center;transition:all .2s;cursor:pointer;background:#fafbfc;}
 .drop-zone:hover,.drop-zone.drag-over{border-color:#2563eb;background:#eff6ff;}
-.drop-zone.drag-over .dz-icon{color:#2563eb;transform:scale(1.1);}
 .dz-icon{font-size:48px;color:#cbd5e1;transition:all .2s;display:block;margin-bottom:10px;}
-
-/* Table */
 .atbl{width:100%;border-collapse:collapse;font-size:11px;}
 .atbl thead th{background:#1e293b;color:#fff;padding:10px 14px;text-align:left;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;}
-.atbl thead th:first-child{border-radius:10px 0 0 0;}
-.atbl thead th:last-child{border-radius:0 10px 0 0;}
 .atbl tbody tr{border-bottom:1px solid #f8fafc;}
 .atbl tbody tr:hover{background:#f8fafc;}
 .atbl td{padding:9px 14px;color:#475569;font-weight:700;text-transform:uppercase;}
-
-/* Status badges */
 .badge{display:inline-flex;align-items:center;gap:3px;padding:3px 10px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;}
 .badge-green{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;}
 .badge-red{background:#fef2f2;color:#ef4444;border:1px solid #fecaca;}
 .badge-yellow{background:#fefce8;color:#ca8a04;border:1px solid #fde68a;}
 .badge-blue{background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe;}
 .badge-gray{background:#f8fafc;color:#94a3b8;border:1px solid #e2e8f0;}
-
-/* Stat cards */
 .stat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
 .stat-card{background:#fff;border-radius:12px;padding:14px 16px;border:1px solid #f1f5f9;}
 .stat-n{font-size:26px;font-weight:900;}
 .stat-l{font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#94a3b8;margin-top:3px;}
-
-/* Step guide */
 .step{display:flex;gap:12px;align-items:flex-start;padding:12px 16px;border-radius:10px;background:#f8fafc;border:1px solid #f1f5f9;margin-bottom:8px;}
 .step-num{width:24px;height:24px;border-radius:99px;background:#2563eb;color:#fff;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
 .step-text{font-size:11px;color:#475569;font-weight:700;line-height:1.5;}
 .step-text strong{color:#1e293b;}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  .sidebar{position:fixed;left:0;top:0;height:100vh;transform:translateX(-100%);z-index:300;}
+  .sidebar.open{transform:translateX(0);}
+  .sidebar-overlay.open{display:block;}
+  .hamburger{display:flex;}
+  .topbar{padding:10px 14px;}
+  .topbar-title div:last-child{display:none;}
+  .scroll{padding:12px;}
+  .stat-grid{grid-template-columns:repeat(3,1fr);gap:8px;}
+  .stat-n{font-size:20px;}
+  .db-grid{grid-template-columns:1fr!important;}
+  .col-settings{grid-template-columns:1fr 1fr!important;}
+  .card{padding:14px;}
+  .drop-zone{padding:24px 16px;}
+  .topbar-actions{gap:6px!important;}
+  .btn{padding:7px 12px;font-size:10px;}
+  .tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+}
+@media(max-width:480px){
+  .stat-grid{grid-template-columns:repeat(3,1fr);}
+  .col-settings{grid-template-columns:1fr!important;}
+}
 </style>
 </head>
 <body onload="init()">
 <div class="app">
-<aside class="sidebar">
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <button onclick="closeSidebar()" style="display:none;position:absolute;top:14px;right:14px;background:#f1f5f9;border:none;border-radius:8px;width:30px;height:30px;cursor:pointer;align-items:center;justify-content:center;" id="sidebarCloseBtn">
+    <span class="material-icons-round" style="font-size:16px;color:#64748b;">close</span>
+  </button>
   <div class="logo"><div class="logo-icon">K</div><div class="logo-text">KIDV <span>Tech</span></div></div>
   <nav class="nav">
     <div class="nav-sec">Main</div>
@@ -87,187 +113,125 @@ html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif
 
 <div class="main">
   <div class="topbar">
-    <div>
-      <h1 style="font-size:16px;font-weight:900;text-transform:uppercase;color:#1e293b;">SmartOffice Integration</h1>
-      <div style="font-size:10px;color:#94a3b8;font-weight:700;text-transform:uppercase;margin-top:2px;">Attendance Data Import via CSV / Excel Export</div>
+    <div style="display:flex;align-items:center;gap:10px;" class="topbar-title">
+      <button class="hamburger" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
+      <div>
+        <h1 style="font-size:16px;font-weight:900;text-transform:uppercase;color:#1e293b;">SmartOffice Integration</h1>
+        <div style="font-size:10px;color:#94a3b8;font-weight:700;text-transform:uppercase;margin-top:2px;">Attendance Data Import via CSV / Excel</div>
+      </div>
     </div>
-    <div style="display:flex;gap:8px;">
-      <button class="btn btn-gray" onclick="clearImported()"><span class="material-icons-round">delete_sweep</span>Clear Imported</button>
-      <button class="btn btn-green" onclick="applyToAttendance()" id="applyBtn" style="display:none;"><span class="material-icons-round">sync</span>Apply to Attendance</button>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;" class="topbar-actions">
+      <button class="btn btn-gray" onclick="clearImported()"><span class="material-icons-round">delete_sweep</span><span class="btn-txt">Clear</span></button>
+      <button class="btn btn-green" onclick="applyToAttendance()" id="applyBtn" style="display:none;"><span class="material-icons-round">sync</span><span class="btn-txt">Apply</span></button>
     </div>
   </div>
 
   <div class="scroll">
-
     <!-- TABS -->
     <div style="display:flex;gap:0;margin-bottom:18px;background:#fff;border-radius:12px;padding:4px;border:1px solid #e2e8f0;width:fit-content;">
       <button onclick="switchTab('csv')" id="tab-csv" style="padding:8px 20px;border-radius:8px;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;background:#1d4ed8;color:#fff;">📄 CSV Import</button>
-      <button onclick="switchTab('db')" id="tab-db" style="padding:8px 20px;border-radius:8px;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;background:transparent;color:#64748b;">🔗 Database Direct</button>
+      <button onclick="switchTab('db')" id="tab-db" style="padding:8px 20px;border-radius:8px;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;background:transparent;color:#64748b;">🔗 Database</button>
     </div>
 
     <!-- DATABASE DIRECT SECTION -->
     <div id="section-db" style="display:none;">
-      <!-- Server info card -->
       <div style="background:linear-gradient(135deg,#1e3a5f,#1d4ed8);border-radius:14px;padding:18px 22px;margin-bottom:16px;color:#fff;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
           <span class="material-icons-round" style="font-size:22px;">storage</span>
-          <div>
+          <div style="flex:1;">
             <div style="font-size:14px;font-weight:900;text-transform:uppercase;">SmartOffice SQL Server Direct Connect</div>
-            <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:2px;text-transform:uppercase;">Node.js Bridge server cha&laquo;lou karo → Browser → SQL Server</div>
+            <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:2px;text-transform:uppercase;">Node.js Bridge server ચાલુ કરો → Browser → SQL Server</div>
           </div>
-          <span id="dbStatus" style="margin-left:auto;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:4px 12px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;">Disconnected</span>
+          <span id="dbStatus" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:4px 12px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;white-space:nowrap;">Disconnected</span>
         </div>
-        <!-- Setup steps -->
         <div style="background:rgba(0,0,0,.2);border-radius:10px;padding:12px 16px;margin-bottom:14px;">
           <div style="font-size:9px;font-weight:800;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:8px;">⚙ One-Time Setup</div>
           <div style="font-size:11px;color:rgba(255,255,255,.75);font-weight:700;line-height:2;">
-            1. <code style="background:rgba(255,255,255,.1);padding:1px 6px;border-radius:4px;">smartoffice-server/</code> folder computer ma copy karo<br>
-            2. Terminal: <code style="background:rgba(255,255,255,.1);padding:1px 6px;border-radius:4px;">cd smartoffice-server && npm install</code><br>
-            3. <code style="background:rgba(255,255,255,.1);padding:1px 6px;border-radius:4px;">server.js</code> file open karo → DB_CONFIG update karo (server IP, password)<br>
-            4. <code style="background:rgba(255,255,255,.1);padding:1px 6px;border-radius:4px;">node server.js</code> run karo<br>
-            5. Niche "Test Connection" click karo
+            1. <code style="background:rgba(255,255,255,.1);padding:1px 6px;border-radius:4px;">smartoffice-server/</code> folder copy karo<br>
+            2. <code style="background:rgba(255,255,255,.1);padding:1px 6px;border-radius:4px;">npm install</code> → <code style="background:rgba(255,255,255,.1);padding:1px 6px;border-radius:4px;">node server.js</code><br>
+            3. DB_CONFIG update karo → Test Connection click karo
           </div>
         </div>
-        <!-- Connection settings -->
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px;">
-          <div>
-            <div style="font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;font-weight:700;margin-bottom:4px;">Bridge Server URL</div>
-            <input id="dbBridgeUrl" value="http://localhost:3377" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;">
-          </div>
-          <div>
-            <div style="font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;font-weight:700;margin-bottom:4px;">SmartOffice Table Name</div>
-            <input id="dbTable" value="AttendanceLogs" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;">
-          </div>
-          <div>
-            <div style="font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;font-weight:700;margin-bottom:4px;">Date Range</div>
-            <div style="display:flex;gap:6px;">
-              <input type="date" id="dbFrom" style="flex:1;padding:8px 8px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;outline:none;">
-              <input type="date" id="dbTo" style="flex:1;padding:8px 8px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;outline:none;">
-            </div>
-          </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px;" class="db-grid">
+          <div><div style="font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;font-weight:700;margin-bottom:4px;">Bridge Server URL</div><input id="dbBridgeUrl" value="http://localhost:3377" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;"></div>
+          <div><div style="font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;font-weight:700;margin-bottom:4px;">Table Name</div><input id="dbTable" value="AttendanceLogs" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;"></div>
+          <div><div style="font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;font-weight:700;margin-bottom:4px;">Date Range</div><div style="display:flex;gap:6px;"><input type="date" id="dbFrom" style="flex:1;padding:8px 6px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;outline:none;"><input type="date" id="dbTo" style="flex:1;padding:8px 6px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;outline:none;"></div></div>
         </div>
-        <div style="display:flex;gap:10px;">
-          <button onclick="testDBConnection()" class="btn" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.25);">
-            <span class="material-icons-round">wifi</span>Test Connection
-          </button>
-          <button onclick="fetchFromDB(false)" id="btnFetchDB" class="btn btn-green" style="display:none;">
-            <span class="material-icons-round">download</span>Fetch Attendance
-          </button>
-          <button onclick="fetchFromDB(true)" id="btnFetchAll" class="btn" style="background:rgba(251,191,36,.25);color:#fbbf24;border:1px solid rgba(251,191,36,.4);display:none;">
-            <span class="material-icons-round">download_for_offline</span>Fetch All (No Date Filter)
-          </button>
-          <button onclick="showDBTables()" id="btnTables" class="btn" style="background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);display:none;">
-            <span class="material-icons-round">table_chart</span>Show Tables
-          </button>
-          <button onclick="previewTable()" id="btnPreview" class="btn" style="background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);display:none;">
-            <span class="material-icons-round">visibility</span>Preview Raw Rows
-          </button>
-          <button onclick="showColumns()" id="btnCols" class="btn" style="background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);display:none;">
-            <span class="material-icons-round">table_rows</span>Show Columns
-          </button>
-          <button onclick="diagnoseTable()" id="btnDiag" class="btn" style="background:rgba(251,191,36,.2);color:#fbbf24;border:1px solid rgba(251,191,36,.3);display:none;">
-            <span class="material-icons-round">bug_report</span>Diagnose
-          </button>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button onclick="testDBConnection()" class="btn" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.25);"><span class="material-icons-round">wifi</span>Test</button>
+          <button onclick="fetchFromDB(false)" id="btnFetchDB" class="btn btn-green" style="display:none;"><span class="material-icons-round">download</span>Fetch</button>
+          <button onclick="fetchFromDB(true)" id="btnFetchAll" class="btn" style="background:rgba(251,191,36,.25);color:#fbbf24;border:1px solid rgba(251,191,36,.4);display:none;"><span class="material-icons-round">download_for_offline</span>All Data</button>
+          <button onclick="showDBTables()" id="btnTables" class="btn" style="background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);display:none;"><span class="material-icons-round">table_chart</span>Tables</button>
+          <button onclick="previewTable()" id="btnPreview" class="btn" style="background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);display:none;"><span class="material-icons-round">visibility</span>Preview</button>
+          <button onclick="diagnoseTable()" id="btnDiag" class="btn" style="background:rgba(251,191,36,.2);color:#fbbf24;border:1px solid rgba(251,191,36,.3);display:none;"><span class="material-icons-round">bug_report</span>Diagnose</button>
         </div>
       </div>
-
-      <!-- DB result / preview -->
       <div id="dbResultSection" style="display:none;"></div>
     </div>
 
     <!-- CSV SECTION -->
     <div id="section-csv">
-    <!-- HOW TO SECTION -->
     <div class="card" style="margin-bottom:16px;border-left:4px solid #2563eb;">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
         <span class="material-icons-round" style="color:#2563eb;font-size:20px;">help_outline</span>
         <div style="font-size:13px;font-weight:900;text-transform:uppercase;color:#1e293b;">SmartOffice → Export Steps</div>
       </div>
       <div>
-        <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-text">SmartOffice → <strong>Import/Export → Export Attendance Logs</strong> → Select Date Range → Export to <strong>Excel / CSV</strong></div>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-text">CSV માં <strong>EmployeeCode</strong> (Device Code) અને <strong>Date, InTime / OutTime</strong> columns હોવા જોઈએ. Employees.html માં deviceCode same set કરો.</div>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <div class="step-text">નીચે CSV file drag & drop કરો → Preview → <strong>Apply to Attendance</strong> button click કરો. Attendance page automatically update થઈ જશે.</div>
-        </div>
-        <div class="step">
-          <div class="step-num">4</div>
-          <div class="step-text">System <strong>Device Code</strong> ↔ <strong>Employee deviceCode</strong> match કરે છે. Match ન થાય તો "Unmatched" list show થશે.</div>
-        </div>
+        <div class="step"><div class="step-num">1</div><div class="step-text">SmartOffice → <strong>Import/Export → Export Attendance Logs</strong> → Select Date Range → Export to <strong>Excel / CSV</strong></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">CSV માં <strong>EmployeeCode</strong> (Device Code) અને <strong>Date, InTime</strong> columns હોવા જોઈએ.</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">CSV file drag & drop કરો → <strong>Apply to Attendance</strong> click કરો.</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Device Code</strong> ↔ <strong>Employee deviceCode</strong> match ન થાય તો "Unmatched" list show થશે.</div></div>
       </div>
     </div>
 
-      <!-- IMPORT SECTION (inside csv tab) -->
       <div class="card" style="margin-bottom:16px;">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
           <span class="material-icons-round" style="color:#16a34a;font-size:20px;">upload_file</span>
-          <div style="font-size:13px;font-weight:900;text-transform:uppercase;color:#1e293b;">Import SmartOffice CSV / Excel</div>
+          <div style="font-size:13px;font-weight:900;text-transform:uppercase;color:#1e293b;">Import SmartOffice CSV</div>
         </div>
         <div style="background:#f8fafc;border-radius:10px;padding:14px;margin-bottom:16px;border:1px solid #f1f5f9;">
-          <div style="font-size:10px;font-weight:800;color:#64748b;text-transform:uppercase;margin-bottom:10px;">CSV Column Names (SmartOffice Export format)</div>
-          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
-            <div>
-              <label style="font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px;">Employee Code Column *</label>
-              <input id="colEmpCode" value="EmployeeCode" style="width:100%;padding:7px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;background:#fff;">
-            </div>
-            <div>
-              <label style="font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px;">Date Column *</label>
-              <input id="colDate" value="LogDate" style="width:100%;padding:7px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;background:#fff;">
-            </div>
-            <div>
-              <label style="font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px;">In Time Column</label>
-              <input id="colIn" value="InTime" style="width:100%;padding:7px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;background:#fff;">
-            </div>
-            <div>
-              <label style="font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px;">Status / Remark Column</label>
-              <input id="colStatus" value="Status" style="width:100%;padding:7px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;background:#fff;">
-            </div>
+          <div style="font-size:10px;font-weight:800;color:#64748b;text-transform:uppercase;margin-bottom:10px;">Column Names</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;" class="col-settings">
+            <div><label style="font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px;">Employee Code *</label><input id="colEmpCode" value="EmployeeCode" style="width:100%;padding:7px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;background:#fff;"></div>
+            <div><label style="font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px;">Date Column *</label><input id="colDate" value="LogDate" style="width:100%;padding:7px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;background:#fff;"></div>
+            <div><label style="font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px;">In Time</label><input id="colIn" value="InTime" style="width:100%;padding:7px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;background:#fff;"></div>
+            <div><label style="font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px;">Status Column</label><input id="colStatus" value="Status" style="width:100%;padding:7px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;background:#fff;"></div>
           </div>
         </div>
         <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
           <span class="material-icons-round dz-icon">cloud_upload</span>
           <div style="font-size:14px;font-weight:800;color:#1e293b;text-transform:uppercase;margin-bottom:6px;">Drop CSV File Here</div>
-          <div style="font-size:11px;color:#94a3b8;font-weight:700;">or click to browse · Supports .csv / .txt (comma-separated)</div>
+          <div style="font-size:11px;color:#94a3b8;font-weight:700;">or click to browse · .csv / .txt</div>
           <input type="file" id="fileInput" accept=".csv,.txt,.CSV" style="display:none;" onchange="handleFile(event)">
         </div>
       </div>
 
-      <!-- STATS -->
       <div id="statsSection" style="display:none;">
         <div class="stat-grid">
           <div class="stat-card" style="border-left:3px solid #16a34a;"><div class="stat-n" style="color:#16a34a;" id="stMatched">0</div><div class="stat-l">Matched</div></div>
           <div class="stat-card" style="border-left:3px solid #ef4444;"><div class="stat-n" style="color:#ef4444;" id="stUnmatched">0</div><div class="stat-l">Unmatched</div></div>
-          <div class="stat-card" style="border-left:3px solid #2563eb;"><div class="stat-n" style="color:#2563eb;" id="stTotal">0</div><div class="stat-l">Total Rows</div></div>
-          <div class="stat-card" style="border-left:3px solid #f97316;"><div class="stat-n" style="color:#f97316;" id="stDates">0</div><div class="stat-l">Unique Dates</div></div>
+          <div class="stat-card" style="border-left:3px solid #2563eb;"><div class="stat-n" style="color:#2563eb;" id="stTotal">0</div><div class="stat-l">Total</div></div>
+          <div class="stat-card" style="border-left:3px solid #f97316;"><div class="stat-n" style="color:#f97316;" id="stDates">0</div><div class="stat-l">Dates</div></div>
           <div class="stat-card" style="border-left:3px solid #7c3aed;"><div class="stat-n" style="color:#7c3aed;" id="stEmps">0</div><div class="stat-l">Employees</div></div>
         </div>
       </div>
 
-      <!-- PREVIEW TABLE -->
       <div id="previewSection" style="display:none;">
         <div class="card" style="margin-bottom:16px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
             <div style="display:flex;align-items:center;gap:8px;">
               <span class="material-icons-round" style="color:#2563eb;font-size:20px;">preview</span>
               <div style="font-size:13px;font-weight:900;text-transform:uppercase;color:#1e293b;">Import Preview</div>
             </div>
-            <div style="display:flex;gap:8px;">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
               <select id="filterEmp" onchange="renderPreview()" style="padding:6px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;"><option value="">All Employees</option></select>
               <select id="filterStatus" onchange="renderPreview()" style="padding:6px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;">
-                <option value="">All Status</option>
-                <option value="matched">Matched Only</option>
-                <option value="unmatched">Unmatched Only</option>
+                <option value="">All</option><option value="matched">Matched</option><option value="unmatched">Unmatched</option>
               </select>
             </div>
           </div>
-          <div style="border-radius:10px;overflow:hidden;border:1px solid #f1f5f9;overflow-x:auto;">
-            <table class="atbl">
+          <div class="tbl-scroll" style="border-radius:10px;overflow:hidden;border:1px solid #f1f5f9;overflow-x:auto;-webkit-overflow-scrolling:touch;">
+            <table class="atbl" style="min-width:600px;">
               <thead><tr><th>#</th><th>Device Code</th><th>Employee</th><th>Date</th><th>In Time</th><th>Status</th><th>Match</th></tr></thead>
               <tbody id="previewBody"></tbody>
             </table>
@@ -281,43 +245,37 @@ html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif
           <div id="unmatchedList" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
           <div style="font-size:10px;color:#94a3b8;font-weight:700;margin-top:8px;">⚠ Employee Master → deviceCode field update કરો.</div>
         </div>
-        <div style="display:flex;justify-content:flex-end;gap:10px;">
+        <div style="display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;">
           <button class="btn btn-gray" onclick="clearImported()"><span class="material-icons-round">close</span>Cancel</button>
           <button class="btn btn-green" onclick="applyToAttendance()"><span class="material-icons-round">sync</span>Apply to Attendance</button>
         </div>
       </div>
 
-      <!-- SUCCESS -->
-      <div id="successBanner" style="display:none;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #bbf7d0;border-radius:12px;padding:16px 20px;margin-bottom:16px;align-items:center;gap:12px;">
+      <div id="successBanner" style="display:none;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #bbf7d0;border-radius:12px;padding:16px 20px;margin-bottom:16px;align-items:center;gap:12px;flex-wrap:wrap;">
         <span class="material-icons-round" style="font-size:28px;color:#16a34a;">check_circle</span>
-        <div>
+        <div style="flex:1;">
           <div style="font-size:13px;font-weight:900;color:#15803d;text-transform:uppercase;">Attendance Applied!</div>
           <div id="successText" style="font-size:11px;color:#16a34a;font-weight:700;margin-top:2px;"></div>
         </div>
-        <a href="attendance.html" style="margin-left:auto;background:#16a34a;color:#fff;padding:8px 16px;border-radius:8px;text-decoration:none;font-size:11px;font-weight:800;text-transform:uppercase;display:flex;align-items:center;gap:5px;">
+        <a href="attendance.html" style="background:#16a34a;color:#fff;padding:8px 16px;border-radius:8px;text-decoration:none;font-size:11px;font-weight:800;text-transform:uppercase;display:flex;align-items:center;gap:5px;">
           <span class="material-icons-round" style="font-size:14px;">calendar_month</span>View Attendance
         </a>
       </div>
+    </div>
 
-    </div><!-- /section-csv -->
-
-    <!-- EMPLOYEE CODE MAP — always visible below both tabs -->
+    <!-- EMPLOYEE CODE MAP -->
     <div class="card" style="margin-bottom:16px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
         <div style="display:flex;align-items:center;gap:8px;">
           <span class="material-icons-round" style="color:#7c3aed;font-size:20px;">link</span>
           <div style="font-size:13px;font-weight:900;text-transform:uppercase;color:#1e293b;">Employee Device Code Mapping</div>
         </div>
         <span id="empMapCount" class="badge badge-blue">0 Employees</span>
       </div>
-      <div style="border-radius:10px;overflow:hidden;border:1px solid #f1f5f9;">
-        <table class="atbl">
-          <thead><tr>
-            <th>Employee Name</th><th>Emp ID</th><th>Device Code</th><th>Department</th><th>Status</th>
-          </tr></thead>
-          <tbody id="empMapBody">
-            <tr><td colspan="5" style="padding:20px;text-align:center;color:#94a3b8;">Loading employees...</td></tr>
-          </tbody>
+      <div class="tbl-scroll" style="border-radius:10px;overflow:hidden;border:1px solid #f1f5f9;overflow-x:auto;-webkit-overflow-scrolling:touch;">
+        <table class="atbl" style="min-width:500px;">
+          <thead><tr><th>Employee Name</th><th>Emp ID</th><th>Device Code</th><th>Department</th><th>Status</th></tr></thead>
+          <tbody id="empMapBody"><tr><td colspan="5" style="padding:20px;text-align:center;color:#94a3b8;">Loading...</td></tr></tbody>
         </table>
       </div>
     </div>
@@ -327,505 +285,280 @@ html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif
 </div>
 
 <script>
-let parsedRows = [];
-let employees = [];
+let parsedRows=[];
+let employees=[];
 
-function init(){
-  employees = JSON.parse(localStorage.getItem('employees')||'[]');
-  renderEmpMap();
-  setupDrop();
+function openSidebar(){
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('open');
+  document.getElementById('sidebarCloseBtn').style.display='flex';
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
 }
 
-// ── Employee mapping display ──────────────────────
+function init(){
+  employees=JSON.parse(localStorage.getItem('employees')||'[]');
+  renderEmpMap();setupDrop();
+  const savedUrl=localStorage.getItem('dbBridgeUrl');
+  const savedTable=localStorage.getItem('dbTable');
+  const savedFrom=localStorage.getItem('dbFrom');
+  const savedTo=localStorage.getItem('dbTo');
+  if(savedUrl) document.getElementById('dbBridgeUrl').value=savedUrl;
+  if(savedTable) document.getElementById('dbTable').value=savedTable;
+  if(savedFrom) document.getElementById('dbFrom').value=savedFrom;
+  if(savedTo) document.getElementById('dbTo').value=savedTo;
+  if(localStorage.getItem('dbWasConnected')==='true'){switchTab('db');autoReconnect();}
+}
+
+async function autoReconnect(){
+  const url=document.getElementById('dbBridgeUrl').value.trim();
+  const st=document.getElementById('dbStatus');
+  st.textContent='Reconnecting...';st.style.background='rgba(251,191,36,.2)';st.style.color='#fbbf24';
+  try{
+    const res=await fetch(url+'/api/test',{signal:AbortSignal.timeout(4000)});
+    const data=await res.json();
+    if(data.success){st.textContent='✓ Connected';st.style.background='rgba(22,163,74,.2)';st.style.color='#4ade80';showDBButtons(true);}
+    else{st.textContent='Disconnected';st.style.background='rgba(239,68,68,.2)';st.style.color='#f87171';}
+  }catch(e){st.textContent='Disconnected';st.style.background='rgba(239,68,68,.2)';st.style.color='#f87171';}
+}
+
+function showDBButtons(show){
+  ['btnFetchDB','btnFetchAll','btnTables','btnPreview','btnCols','btnDiag'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.style.display=show?'inline-flex':'none';
+  });
+}
+
 function renderEmpMap(){
-  const tbody = document.getElementById('empMapBody');
-  const count = document.getElementById('empMapCount');
-  if(!employees.length){
-    tbody.innerHTML='<tr><td colspan="5" style="padding:20px;text-align:center;color:#94a3b8;font-weight:700;text-transform:uppercase;">No employees found. Add employees first.</td></tr>';
-    return;
-  }
-  count.textContent = employees.length + ' Employees';
-  tbody.innerHTML = employees.map((e,i)=>{
-    const hasCode = e.deviceCode && e.deviceCode.trim();
-    return `<tr>
+  const tbody=document.getElementById('empMapBody');
+  const count=document.getElementById('empMapCount');
+  if(!employees.length){tbody.innerHTML='<tr><td colspan="5" style="padding:20px;text-align:center;color:#94a3b8;font-weight:700;text-transform:uppercase;">No employees found.</td></tr>';return;}
+  count.textContent=employees.length+' Employees';
+  tbody.innerHTML=employees.map((e,i)=>{
+    const hasCode=e.deviceCode&&e.deviceCode.trim();
+    return`<tr>
       <td style="font-weight:800;color:#1e293b;">${e.fName} ${e.lName}</td>
       <td style="font-weight:700;color:#2563eb;">${e.id||'—'}</td>
-      <td>${hasCode
-        ? `<span style="background:#eff6ff;color:#7c3aed;padding:3px 10px;border-radius:99px;font-size:10px;font-weight:900;border:1px solid #ddd6fe;">${e.deviceCode}</span>`
-        : `<span style="color:#fca5a5;font-size:10px;font-weight:700;">⚠ Not Set</span>`}
-      </td>
+      <td>${hasCode?`<span style="background:#eff6ff;color:#7c3aed;padding:3px 10px;border-radius:99px;font-size:10px;font-weight:900;border:1px solid #ddd6fe;">${e.deviceCode}</span>`:`<span style="color:#fca5a5;font-size:10px;font-weight:700;">⚠ Not Set</span>`}</td>
       <td>${e.dept||'—'}</td>
-      <td>${hasCode
-        ? '<span class="badge badge-green"><span class="material-icons-round" style="font-size:10px;">check</span>Ready</span>'
-        : '<span class="badge badge-red"><span class="material-icons-round" style="font-size:10px;">close</span>Missing Code</span>'}
-      </td>
+      <td>${hasCode?'<span class="badge badge-green">✓ Ready</span>':'<span class="badge badge-red">Missing</span>'}</td>
     </tr>`;
   }).join('');
 }
 
-// ── Drag drop ─────────────────────────────────────
 function setupDrop(){
-  const dz = document.getElementById('dropZone');
+  const dz=document.getElementById('dropZone');
   dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag-over');});
   dz.addEventListener('dragleave',()=>dz.classList.remove('drag-over'));
-  dz.addEventListener('drop',e=>{
-    e.preventDefault();dz.classList.remove('drag-over');
-    const file=e.dataTransfer.files[0];
-    if(file) processFile(file);
-  });
+  dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag-over');const file=e.dataTransfer.files[0];if(file)processFile(file);});
 }
 
-function handleFile(evt){ processFile(evt.target.files[0]); }
+function handleFile(evt){processFile(evt.target.files[0]);}
+function processFile(file){const reader=new FileReader();reader.onload=e=>parseCSV(e.target.result);reader.readAsText(file);}
 
-function processFile(file){
-  const reader = new FileReader();
-  reader.onload = e => parseCSV(e.target.result);
-  reader.readAsText(file);
-}
-
-// ── CSV Parser ────────────────────────────────────
 function parseCSV(text){
-  const lines = text.split(/\r?\n/).filter(l=>l.trim());
-  if(lines.length < 2){ alert('CSV empty or invalid!'); return; }
-
-  // Detect delimiter
-  const delim = lines[0].includes('\t') ? '\t' : ',';
-  const headers = lines[0].split(delim).map(h=>h.trim().replace(/^"|"$/g,'').trim());
-
-  const colEmp = document.getElementById('colEmpCode').value.trim();
-  const colDate = document.getElementById('colDate').value.trim();
-  const colIn = document.getElementById('colIn').value.trim();
-  const colSt = document.getElementById('colStatus').value.trim();
-
-  // Find column indexes (flexible match)
-  const findCol = name => {
-    let idx = headers.findIndex(h=>h.toLowerCase()===name.toLowerCase());
-    if(idx===-1) idx = headers.findIndex(h=>h.toLowerCase().includes(name.toLowerCase()));
-    return idx;
-  };
-
-  const iEmp = findCol(colEmp);
-  const iDate = findCol(colDate);
-  const iIn = findCol(colIn);
-  const iSt = findCol(colSt);
-
-  if(iEmp===-1||iDate===-1){
-    alert(`Column "${colEmp}" or "${colDate}" not found in CSV!\n\nAvailable columns: ${headers.join(', ')}`);
-    return;
-  }
-
-  // Build device code → employee map
-  const devMap = {};
-  employees.forEach((emp,idx)=>{
-    if(emp.deviceCode && emp.deviceCode.trim()){
-      devMap[emp.deviceCode.trim().toUpperCase()] = {emp, idx};
-    }
-  });
-
-  parsedRows = [];
-  const unmatched = new Set();
-  const dates = new Set();
-  const empsFound = new Set();
-
+  const lines=text.split(/\r?\n/).filter(l=>l.trim());
+  if(lines.length<2){alert('CSV empty or invalid!');return;}
+  const delim=lines[0].includes('\t')?'\t':',';
+  const headers=lines[0].split(delim).map(h=>h.trim().replace(/^"|"$/g,'').trim());
+  const colEmp=document.getElementById('colEmpCode').value.trim();
+  const colDate=document.getElementById('colDate').value.trim();
+  const colIn=document.getElementById('colIn').value.trim();
+  const colSt=document.getElementById('colStatus').value.trim();
+  const findCol=name=>{let idx=headers.findIndex(h=>h.toLowerCase()===name.toLowerCase());if(idx===-1)idx=headers.findIndex(h=>h.toLowerCase().includes(name.toLowerCase()));return idx;};
+  const iEmp=findCol(colEmp),iDate=findCol(colDate),iIn=findCol(colIn),iSt=findCol(colSt);
+  if(iEmp===-1||iDate===-1){alert(`Column "${colEmp}" or "${colDate}" not found!\n\nAvailable: ${headers.join(', ')}`);return;}
+  const devMap={};
+  employees.forEach((emp,idx)=>{if(emp.deviceCode&&emp.deviceCode.trim())devMap[emp.deviceCode.trim().toUpperCase()]={emp,idx};});
+  parsedRows=[];
+  const unmatched=new Set(),dates=new Set(),empsFound=new Set();
   for(let i=1;i<lines.length;i++){
-    const cols = lines[i].split(delim).map(c=>c.trim().replace(/^"|"$/g,''));
-    const devCode = (cols[iEmp]||'').trim().toUpperCase();
-    const rawDate = (cols[iDate]||'').trim();
-    const inTime = iIn>=0?(cols[iIn]||'').trim():'';
-    const status = iSt>=0?(cols[iSt]||'').trim():'';
-
-    if(!devCode||!rawDate) continue;
-
-    const isoDate = parseDate(rawDate);
-    if(!isoDate) continue;
-
-    dates.add(isoDate);
-    empsFound.add(devCode);
-
-    const match = devMap[devCode];
-    const attStatus = determineStatus(status, inTime);
-
-    parsedRows.push({
-      devCode, rawDate, isoDate, inTime, status, attStatus,
-      matched: !!match,
-      emp: match?match.emp:null,
-      empIdx: match?match.idx:-1
-    });
-
-    if(!match) unmatched.add(devCode);
+    const cols=lines[i].split(delim).map(c=>c.trim().replace(/^"|"$/g,''));
+    const devCode=(cols[iEmp]||'').trim().toUpperCase();
+    const rawDate=(cols[iDate]||'').trim();
+    const inTime=iIn>=0?(cols[iIn]||'').trim():'';
+    const status=iSt>=0?(cols[iSt]||'').trim():'';
+    if(!devCode||!rawDate)continue;
+    const isoDate=parseDate(rawDate);
+    if(!isoDate)continue;
+    dates.add(isoDate);empsFound.add(devCode);
+    const match=devMap[devCode];
+    const attStatus=determineStatus(status,inTime);
+    parsedRows.push({devCode,rawDate,isoDate,inTime,status,attStatus,matched:!!match,emp:match?match.emp:null,empIdx:match?match.idx:-1});
+    if(!match)unmatched.add(devCode);
   }
-
-  // Stats
-  const matched = parsedRows.filter(r=>r.matched).length;
-  document.getElementById('stMatched').textContent = matched;
-  document.getElementById('stUnmatched').textContent = parsedRows.length - matched;
-  document.getElementById('stTotal').textContent = parsedRows.length;
-  document.getElementById('stDates').textContent = dates.size;
-  document.getElementById('stEmps').textContent = empsFound.size;
-
+  const matched=parsedRows.filter(r=>r.matched).length;
+  document.getElementById('stMatched').textContent=matched;
+  document.getElementById('stUnmatched').textContent=parsedRows.length-matched;
+  document.getElementById('stTotal').textContent=parsedRows.length;
+  document.getElementById('stDates').textContent=dates.size;
+  document.getElementById('stEmps').textContent=empsFound.size;
   document.getElementById('statsSection').style.display='block';
   document.getElementById('previewSection').style.display='block';
   document.getElementById('applyBtn').style.display='inline-flex';
-
-  // Filter options
-  const filterEmp = document.getElementById('filterEmp');
-  filterEmp.innerHTML = '<option value="">All Employees</option>';
-  [...empsFound].forEach(code=>{
-    const match = devMap[code];
-    const label = match ? `${match.emp.fName} ${match.emp.lName} (${code})` : `❓ ${code} (Unmatched)`;
-    filterEmp.innerHTML += `<option value="${code}">${label}</option>`;
-  });
-
-  // Unmatched section
-  const unmSec = document.getElementById('unmatchedSection');
-  if(unmatched.size>0){
-    unmSec.style.display='block';
-    document.getElementById('unmatchedList').innerHTML = [...unmatched].map(code=>
-      `<span style="background:#fef2f2;color:#ef4444;border:1px solid #fecaca;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:800;">${code}</span>`
-    ).join('');
-  } else {
-    unmSec.style.display='none';
-  }
-
+  const filterEmp=document.getElementById('filterEmp');
+  filterEmp.innerHTML='<option value="">All Employees</option>';
+  [...empsFound].forEach(code=>{const match=devMap[code];filterEmp.innerHTML+=`<option value="${code}">${match?`${match.emp.fName} ${match.emp.lName} (${code})`:`❓ ${code}`}</option>`;});
+  const unmSec=document.getElementById('unmatchedSection');
+  if(unmatched.size>0){unmSec.style.display='block';document.getElementById('unmatchedList').innerHTML=[...unmatched].map(code=>`<span style="background:#fef2f2;color:#ef4444;border:1px solid #fecaca;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:800;">${code}</span>`).join('');}
+  else unmSec.style.display='none';
   renderPreview();
 }
 
-// ── Determine attendance status from SmartOffice data ──
-function determineStatus(statusStr, inTime){
-  const s = (statusStr||'').toUpperCase().trim();
-  if(s.includes('A') || s==='ABSENT') return 'A';
-  if(s.includes('WO') || s.includes('WEEKOFF') || s.includes('WEEK OFF')) return 'WO';
-  if(s.includes('HD') || s.includes('HOLIDAY')) return 'HD';
-  if(s.includes('H') || s.includes('HALF')) return 'H';
-  if(s.includes('L') || s.includes('LEAVE')) return 'L';
-  if(inTime && inTime.trim()) return 'P';
-  if(s.includes('P') || s.includes('PRESENT')) return 'P';
-  return 'P'; // default if has record = present
+function determineStatus(statusStr,inTime){
+  const s=(statusStr||'').toUpperCase().trim();
+  if(s.includes('A')||s==='ABSENT')return'A';
+  if(s.includes('WO')||s.includes('WEEKOFF'))return'WO';
+  if(s.includes('HD')||s.includes('HOLIDAY'))return'HD';
+  if(s.includes('H')||s.includes('HALF'))return'H';
+  if(s.includes('L')||s.includes('LEAVE'))return'L';
+  if(inTime&&inTime.trim())return'P';
+  return'P';
 }
 
-// ── Date parser — handles multiple formats ──
 function parseDate(raw){
-  if(!raw||!raw.trim()) return null;
-  // Try YYYY-MM-DD
-  if(/^\d{4}-\d{2}-\d{2}/.test(raw)) return raw.substring(0,10);
-  // DD/MM/YYYY
-  const m1 = raw.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
-  if(m1) return `${m1[3]}-${m1[2].padStart(2,'0')}-${m1[1].padStart(2,'0')}`;
-  // MM/DD/YYYY
-  const m2 = raw.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})/);
-  if(m2){const yr=m2[3].length===2?'20'+m2[3]:m2[3];return `${yr}-${m2[1].padStart(2,'0')}-${m2[2].padStart(2,'0')}`;}
-  // Try native parse
-  const d = new Date(raw);
-  if(!isNaN(d)) return d.toISOString().substring(0,10);
+  if(!raw||!raw.trim())return null;
+  if(/^\d{4}-\d{2}-\d{2}/.test(raw))return raw.substring(0,10);
+  const m1=raw.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
+  if(m1)return`${m1[3]}-${m1[2].padStart(2,'0')}-${m1[1].padStart(2,'0')}`;
+  const d=new Date(raw);if(!isNaN(d))return d.toISOString().substring(0,10);
   return null;
 }
 
 function renderPreview(){
-  const filterEmp = document.getElementById('filterEmp').value;
-  const filterStatus = document.getElementById('filterStatus').value;
-
-  let rows = parsedRows;
-  if(filterEmp) rows = rows.filter(r=>r.devCode===filterEmp.toUpperCase());
-  if(filterStatus==='matched') rows = rows.filter(r=>r.matched);
-  if(filterStatus==='unmatched') rows = rows.filter(r=>!r.matched);
-
-  const statusColors = {P:'badge-green',A:'badge-red',H:'badge-yellow',L:'badge-yellow',WO:'badge-gray',OH:'badge-blue',HD:'badge-blue'};
-  const statusLabels = {P:'Present',A:'Absent',H:'Half Day',L:'Leave',WO:'Week Off',OH:'On Holiday',HD:'Holiday'};
-
-  document.getElementById('previewBody').innerHTML = rows.slice(0,200).map((r,i)=>`
+  const filterEmp=document.getElementById('filterEmp').value;
+  const filterStatus=document.getElementById('filterStatus').value;
+  let rows=parsedRows;
+  if(filterEmp)rows=rows.filter(r=>r.devCode===filterEmp.toUpperCase());
+  if(filterStatus==='matched')rows=rows.filter(r=>r.matched);
+  if(filterStatus==='unmatched')rows=rows.filter(r=>!r.matched);
+  const statusColors={P:'badge-green',A:'badge-red',H:'badge-yellow',L:'badge-yellow',WO:'badge-gray',OH:'badge-blue',HD:'badge-blue'};
+  const statusLabels={P:'Present',A:'Absent',H:'Half Day',L:'Leave',WO:'Week Off',OH:'On Holiday',HD:'Holiday'};
+  document.getElementById('previewBody').innerHTML=rows.slice(0,200).map((r,i)=>`
     <tr>
-      <td style="color:#94a3b8;font-weight:700;">${i+1}</td>
+      <td style="color:#94a3b8;">${i+1}</td>
       <td style="font-weight:900;color:#7c3aed;">${r.devCode}</td>
-      <td style="font-weight:800;color:${r.matched?'#1e293b':'#ef4444'};">
-        ${r.matched?`${r.emp.fName} ${r.emp.lName}`:'<span style="color:#ef4444;">Not Found</span>'}
-      </td>
-      <td style="font-weight:700;">${r.isoDate}</td>
-      <td style="color:#64748b;font-weight:700;">${r.inTime||'—'}</td>
+      <td style="font-weight:800;color:${r.matched?'#1e293b':'#ef4444'};">${r.matched?`${r.emp.fName} ${r.emp.lName}`:'Not Found'}</td>
+      <td>${r.isoDate}</td>
+      <td style="color:#64748b;">${r.inTime||'—'}</td>
       <td><span class="badge ${statusColors[r.attStatus]||'badge-gray'}">${statusLabels[r.attStatus]||r.attStatus}</span></td>
-      <td>${r.matched
-        ?'<span class="badge badge-green"><span class="material-icons-round" style="font-size:10px;">check</span>Match</span>'
-        :'<span class="badge badge-red"><span class="material-icons-round" style="font-size:10px;">close</span>No Match</span>'}
-      </td>
-    </tr>`).join('') || '<tr><td colspan="7" style="padding:16px;text-align:center;color:#94a3b8;">No records to show</td></tr>';
+      <td>${r.matched?'<span class="badge badge-green">✓</span>':'<span class="badge badge-red">✗</span>'}</td>
+    </tr>`).join('')||'<tr><td colspan="7" style="padding:16px;text-align:center;color:#94a3b8;">No records</td></tr>';
 }
 
-// ── Apply to Attendance ───────────────────────────
 function applyToAttendance(){
-  const matched = parsedRows.filter(r=>r.matched);
-  if(!matched.length){ alert('No matched records to apply!'); return; }
-
-  let att = JSON.parse(localStorage.getItem('attendance')||'{}');
-
-  let applied = 0;
+  const matched=parsedRows.filter(r=>r.matched);
+  if(!matched.length){alert('No matched records to apply!');return;}
+  let att=JSON.parse(localStorage.getItem('attendance')||'{}');
+  let applied=0;
   matched.forEach(r=>{
-    const empKey = String(r.emp.id||r.empIdx);
-    if(!att[empKey]) att[empKey]={};
-    // Only update if blank (don't overwrite manual entries)
-    if(!att[empKey][r.isoDate]){
-      att[empKey][r.isoDate] = r.attStatus;
-      applied++;
-    }
+    const empKey=String(r.emp.id||r.empIdx);
+    if(!att[empKey])att[empKey]={};
+    if(!att[empKey][r.isoDate]){att[empKey][r.isoDate]=r.attStatus;applied++;}
   });
-
-  localStorage.setItem('attendance', JSON.stringify(att));
-
+  localStorage.setItem('attendance',JSON.stringify(att));
   document.getElementById('successBanner').style.display='flex';
-  document.getElementById('successText').textContent = `${applied} entries applied. ${matched.length-applied} already had manual data (preserved).`;
+  document.getElementById('successText').textContent=`${applied} entries applied. ${matched.length-applied} already had manual data (preserved).`;
   document.getElementById('previewSection').style.display='none';
   document.getElementById('statsSection').style.display='none';
   document.getElementById('applyBtn').style.display='none';
   parsedRows=[];
 }
 
-
 function switchTab(tab){
-  document.getElementById('section-csv').style.display = tab==='csv'?'block':'none';
-  document.getElementById('section-db').style.display  = tab==='db'?'block':'none';
-  document.getElementById('tab-csv').style.background = tab==='csv'?'#1d4ed8':'transparent';
-  document.getElementById('tab-csv').style.color = tab==='csv'?'#fff':'#64748b';
-  document.getElementById('tab-db').style.background = tab==='db'?'#1d4ed8':'transparent';
-  document.getElementById('tab-db').style.color = tab==='db'?'#fff':'#64748b';
+  document.getElementById('section-csv').style.display=tab==='csv'?'block':'none';
+  document.getElementById('section-db').style.display=tab==='db'?'block':'none';
+  document.getElementById('tab-csv').style.background=tab==='csv'?'#1d4ed8':'transparent';
+  document.getElementById('tab-csv').style.color=tab==='csv'?'#fff':'#64748b';
+  document.getElementById('tab-db').style.background=tab==='db'?'#1d4ed8':'transparent';
+  document.getElementById('tab-db').style.color=tab==='db'?'#fff':'#64748b';
 }
 
 async function testDBConnection(){
-  const url = document.getElementById('dbBridgeUrl').value.trim();
-  const st = document.getElementById('dbStatus');
-  st.textContent='Testing...'; st.style.background='rgba(251,191,36,.2)'; st.style.color='#fbbf24';
+  const url=document.getElementById('dbBridgeUrl').value.trim();
+  const st=document.getElementById('dbStatus');
+  st.textContent='Testing...';st.style.background='rgba(251,191,36,.2)';st.style.color='#fbbf24';
   try{
-    const res = await fetch(url+'/api/test');
-    const data = await res.json();
+    const res=await fetch(url+'/api/test');const data=await res.json();
     if(data.success){
-      st.textContent='✓ Connected'; st.style.background='rgba(22,163,74,.2)'; st.style.color='#4ade80';
-      document.getElementById('btnFetchDB').style.display='inline-flex';
-      document.getElementById('btnFetchAll').style.display='inline-flex';
-      document.getElementById('btnTables').style.display='inline-flex';
-      document.getElementById('btnPreview').style.display='inline-flex';
-      document.getElementById('btnCols').style.display='inline-flex';
-      document.getElementById('btnDiag').style.display='inline-flex';
-      alert('✅ SmartOffice SQL Server connected!\n\nHave → Diagnose button click karo to check row count & date range.');
-    } else {
-      st.textContent='✗ Failed'; st.style.background='rgba(239,68,68,.2)'; st.style.color='#f87171';
-      alert('❌ Connection failed: '+data.error+'\n\nserver.js ma DB_CONFIG check karo.');
-    }
-  } catch(e){
-    st.textContent='✗ No Bridge'; st.style.background='rgba(239,68,68,.2)'; st.style.color='#f87171';
-    alert('❌ Bridge server not running!\n\nTerminal ma: node server.js\n\n'+e.message);
-  }
+      st.textContent='✓ Connected';st.style.background='rgba(22,163,74,.2)';st.style.color='#4ade80';
+      showDBButtons(true);
+      localStorage.setItem('dbWasConnected','true');localStorage.setItem('dbBridgeUrl',url);
+      localStorage.setItem('dbTable',document.getElementById('dbTable').value);
+      alert('✅ Connected!\n\nDiagnose button click karo to check data.');
+    }else{st.textContent='✗ Failed';st.style.background='rgba(239,68,68,.2)';st.style.color='#f87171';localStorage.removeItem('dbWasConnected');alert('❌ Failed: '+data.error);}
+  }catch(e){st.textContent='✗ No Bridge';st.style.background='rgba(239,68,68,.2)';st.style.color='#f87171';localStorage.removeItem('dbWasConnected');alert('❌ Bridge server not running!\n\nnode server.js\n\n'+e.message);}
 }
 
 async function fetchFromDB(noDateFilter=false){
-  const url  = document.getElementById('dbBridgeUrl').value.trim();
-  const tbl  = document.getElementById('dbTable').value.trim();
-  const from = noDateFilter ? '' : document.getElementById('dbFrom').value;
-  const to   = noDateFilter ? '' : document.getElementById('dbTo').value;
-  const sec  = document.getElementById('dbResultSection');
-
-  sec.innerHTML='<div style="background:#fff;border-radius:12px;padding:20px;text-align:center;color:#64748b;font-weight:700;text-transform:uppercase;">Fetching from SmartOffice database...</div>';
+  const url=document.getElementById('dbBridgeUrl').value.trim();
+  const tbl=document.getElementById('dbTable').value.trim();
+  const from=noDateFilter?'':document.getElementById('dbFrom').value;
+  const to=noDateFilter?'':document.getElementById('dbTo').value;
+  const sec=document.getElementById('dbResultSection');
+  sec.innerHTML='<div style="background:#fff;border-radius:12px;padding:20px;text-align:center;color:#64748b;font-weight:700;text-transform:uppercase;">Fetching...</div>';
   sec.style.display='block';
-
   try{
-    const res  = await fetch(url+'/api/attendance', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({fromDate:from, toDate:to, table:tbl})
-    });
-    const data = await res.json();
-
-    if(!data.success){
-      sec.innerHTML=`<div style="background:#fef2f2;border-radius:12px;padding:20px;border:1px solid #fecaca;">
-        <div style="font-size:13px;font-weight:800;color:#ef4444;text-transform:uppercase;margin-bottom:6px;">Query Failed</div>
-        <div style="font-size:11px;color:#dc2626;font-weight:700;">${data.error}</div>
-        ${data.hint?'<div style="font-size:10px;color:#94a3b8;margin-top:6px;">💡 '+data.hint+'</div>':''}
-      </div>`;
-      return;
-    }
-
-    // ── 0 rows warning ─────────────────────────────
-    if(data.count === 0){
-      sec.innerHTML=`<div style="background:#fffbeb;border-radius:12px;padding:20px;border:1.5px solid #fcd34d;margin-bottom:12px;">
-        <div style="font-size:13px;font-weight:900;color:#92400e;text-transform:uppercase;margin-bottom:10px;">⚠ 0 Rows Fetched — Data nathi maltu!</div>
-        <div style="font-size:11px;color:#78350f;font-weight:700;line-height:2;">
-          Raw rows from DB: <strong>${data.rawRows||0}</strong><br>
-          Date filter: <strong>${from||'None'} to ${to||'None'}</strong><br><br>
-          Possible reasons:<br>
-          1️⃣ Date range ma data nathi — "Fetch All Data" try karo<br>
-          2️⃣ Table name wrong — "Show Tables" click karo<br>
-          3️⃣ Server.js v2 haju chal rahi che — Ctrl+C → v3 file replace → restart
-        </div>
-        <div style="display:flex;gap:10px;margin-top:14px;">
-          <button onclick="fetchFromDB(true)" class="btn btn-blue"><span class="material-icons-round">download_for_offline</span>Fetch All Data (No Date Filter)</button>
-          <button onclick="showDBTables()" class="btn btn-gray"><span class="material-icons-round">table_chart</span>Show Tables</button>
-          <button onclick="previewTable()" class="btn btn-gray"><span class="material-icons-round">visibility</span>Preview Raw Rows</button>
-        </div>
-      </div>`;
-      return;
-    }
-
-    parsedRows = data.attendance.map(r=>({
-      devCode: r.devCode.toUpperCase(),
-      rawDate: r.date, isoDate: r.date,
-      inTime: r.inTime, status:'', attStatus: r.status,
-      matched: false, emp: null, empIdx: -1
-    }));
-
-    // Match employees by deviceCode
+    const res=await fetch(url+'/api/attendance',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fromDate:from,toDate:to,table:tbl})});
+    const data=await res.json();
+    if(!data.success){sec.innerHTML=`<div style="background:#fef2f2;border-radius:12px;padding:20px;border:1px solid #fecaca;"><div style="color:#ef4444;font-weight:800;">${data.error}</div></div>`;return;}
+    parsedRows=data.attendance.map(r=>({devCode:r.devCode.toUpperCase(),rawDate:r.date,isoDate:r.date,inTime:r.inTime,status:'',attStatus:r.status,matched:false,emp:null,empIdx:-1}));
     const devMap={};
-    employees.forEach((emp,idx)=>{
-      if(emp.deviceCode&&emp.deviceCode.trim())
-        devMap[emp.deviceCode.trim().toUpperCase()]={emp,idx};
-    });
-
-    const unmatched=new Set(), empsFound=new Set(), dates=new Set();
-    parsedRows.forEach(r=>{
-      empsFound.add(r.devCode); dates.add(r.isoDate);
-      const match=devMap[r.devCode];
-      if(match){r.matched=true;r.emp=match.emp;r.empIdx=match.idx;}
-      else unmatched.add(r.devCode);
-    });
-
+    employees.forEach((emp,idx)=>{if(emp.deviceCode&&emp.deviceCode.trim())devMap[emp.deviceCode.trim().toUpperCase()]={emp,idx};});
+    const unmatched=new Set(),empsFound=new Set(),dates=new Set();
+    parsedRows.forEach(r=>{empsFound.add(r.devCode);dates.add(r.isoDate);const match=devMap[r.devCode];if(match){r.matched=true;r.emp=match.emp;r.empIdx=match.idx;}else unmatched.add(r.devCode);});
     const matched=parsedRows.filter(r=>r.matched).length;
-    sec.innerHTML=`
-      <div style="background:#fff;border-radius:12px;padding:18px 22px;border:1px solid #f1f5f9;margin-bottom:14px;">
-        <div style="font-size:13px;font-weight:900;text-transform:uppercase;color:#1e293b;margin-bottom:4px;">📊 Database Fetch Results</div>
-        <div style="font-size:10px;color:#94a3b8;font-weight:700;margin-bottom:14px;">Raw DB rows: ${data.rawRows||data.count} → Grouped by employee+date: ${data.count}</div>
-        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px;">
-          ${[['Total',parsedRows.length,'#2563eb'],['Matched',matched,'#16a34a'],['Unmatched',parsedRows.length-matched,'#ef4444'],['Dates',dates.size,'#f97316'],['Employees',empsFound.size,'#7c3aed']].map(([l,n,c])=>
-            `<div style="background:#f8fafc;border-radius:10px;padding:12px 16px;border-left:3px solid ${c};text-align:center;">
-               <div style="font-size:22px;font-weight:900;color:${c};">${n}</div>
-               <div style="font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;margin-top:2px;">${l}</div>
-             </div>`).join('')}
-        </div>
-        ${unmatched.size?`<div style="background:#fef2f2;border-radius:8px;padding:10px 14px;border:1px solid #fecaca;margin-bottom:10px;">
-          <div style="font-size:9px;font-weight:800;color:#ef4444;text-transform:uppercase;margin-bottom:6px;">⚠ Unmatched Device Codes — Employee Master ma set karo</div>
-          <div style="display:flex;gap:6px;flex-wrap:wrap;">${[...unmatched].map(c=>`<span style="background:#fff;border:1px solid #fecaca;color:#ef4444;padding:3px 10px;border-radius:99px;font-size:10px;font-weight:800;">${c}</span>`).join('')}</div>
-        </div>`:''}
-        <button onclick="applyToAttendance()" class="btn btn-green"><span class="material-icons-round">sync</span>Apply ${matched} Records to Attendance</button>
-      </div>`;
-
-  } catch(e){
-    sec.innerHTML=`<div style="background:#fef2f2;border-radius:12px;padding:20px;border:1px solid #fecaca;">
-      <div style="font-size:12px;font-weight:800;color:#ef4444;text-transform:uppercase;">Network Error</div>
-      <div style="font-size:11px;color:#dc2626;margin-top:4px;">Bridge server check karo: node server.js<br>${e.message}</div>
+    sec.innerHTML=`<div style="background:#fff;border-radius:12px;padding:18px 22px;border:1px solid #f1f5f9;margin-bottom:14px;">
+      <div style="font-size:13px;font-weight:900;text-transform:uppercase;color:#1e293b;margin-bottom:14px;">📊 DB Fetch Results — ${data.count} Records</div>
+      ${unmatched.size?`<div style="background:#fef2f2;border-radius:8px;padding:10px 14px;border:1px solid #fecaca;margin-bottom:10px;"><div style="font-size:9px;font-weight:800;color:#ef4444;text-transform:uppercase;margin-bottom:6px;">⚠ Unmatched</div><div style="display:flex;gap:6px;flex-wrap:wrap;">${[...unmatched].map(c=>`<span style="background:#fff;border:1px solid #fecaca;color:#ef4444;padding:3px 10px;border-radius:99px;font-size:10px;font-weight:800;">${c}</span>`).join('')}</div></div>`:''}
+      <button onclick="applyToAttendance()" class="btn btn-green"><span class="material-icons-round">sync</span>Apply ${matched} Records</button>
     </div>`;
-  }
+  }catch(e){sec.innerHTML=`<div style="background:#fef2f2;border-radius:12px;padding:20px;"><div style="color:#ef4444;font-weight:800;">${e.message}</div></div>`;}
 }
 
 async function showDBTables(){
-  const url = document.getElementById('dbBridgeUrl').value.trim();
-  try{
-    const res  = await fetch(url+'/api/tables');
-    const data = await res.json();
-    if(data.success){
-      alert('📋 SmartOffice Tables:\n\n'+data.tables.join('\n')+'\n\nDeviceLogs / AttLog table name copy karo → Table Name field ma paste karo.');
-    }
-  } catch(e){ alert('Error: '+e.message); }
+  const url=document.getElementById('dbBridgeUrl').value.trim();
+  try{const res=await fetch(url+'/api/tables');const data=await res.json();if(data.success)alert('📋 Tables:\n\n'+data.tables.join('\n'));}catch(e){alert('Error: '+e.message);}
 }
-
 async function previewTable(){
   const url=document.getElementById('dbBridgeUrl').value.trim();
   const tbl=document.getElementById('dbTable').value.trim();
-  const sec=document.getElementById('dbResultSection');
-  sec.style.display='block';
-  sec.innerHTML='<div style="background:#fff;border-radius:12px;padding:16px;text-align:center;font-weight:700;color:#64748b;text-transform:uppercase;">Loading raw data preview...</div>';
-  try{
-    const res=await fetch(url+'/api/preview/'+tbl);
-    const data=await res.json();
-    if(!data.success){
-      sec.innerHTML=`<div style="background:#fef2f2;border-radius:12px;padding:16px;border:1px solid #fecaca;">
-        <div style="font-size:12px;font-weight:800;color:#ef4444;text-transform:uppercase;">Preview Failed</div>
-        <div style="font-size:11px;color:#dc2626;margin-top:4px;">${data.error}</div>
-      </div>`;
-      return;
-    }
-    const cols=data.columns;
-    const rows=data.rows;
+  const sec=document.getElementById('dbResultSection');sec.style.display='block';
+  sec.innerHTML='<div style="background:#fff;border-radius:12px;padding:16px;text-align:center;font-weight:700;color:#64748b;">Loading preview...</div>';
+  try{const res=await fetch(url+'/api/preview/'+tbl);const data=await res.json();if(!data.success){sec.innerHTML=`<div style="background:#fef2f2;border-radius:12px;padding:16px;color:#ef4444;">${data.error}</div>`;return;}
+    const cols=data.columns,rows=data.rows;
     const colHtml=cols.map(c=>`<th style="padding:8px 12px;background:#1e293b;color:#fff;font-size:8px;text-transform:uppercase;white-space:nowrap;">${c}</th>`).join('');
-    const rowHtml=rows.map(r=>`<tr style="border-bottom:1px solid #f1f5f9;">${cols.map(c=>`<td style="padding:7px 12px;font-size:10px;color:#475569;font-weight:600;white-space:nowrap;">${r[c]===null?'—':String(r[c]).substring(0,30)}</td>`).join('')}</tr>`).join('');
-    sec.innerHTML=`<div style="background:#fff;border-radius:12px;border:1px solid #f1f5f9;overflow:hidden;margin-bottom:14px;">
-      <div style="background:linear-gradient(135deg,#0f172a,#1e3a5f);padding:12px 18px;display:flex;justify-content:space-between;align-items:center;">
-        <div style="font-size:12px;font-weight:900;color:#fff;text-transform:uppercase;">📋 Raw Data Preview — ${tbl}</div>
-        <span style="background:rgba(255,255,255,.15);color:#fff;padding:3px 10px;border-radius:99px;font-size:9px;font-weight:800;">Top ${rows.length} rows</span>
-      </div>
-      <div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr>${colHtml}</tr></thead><tbody>${rowHtml}</tbody></table></div>
-      <div style="padding:10px 16px;background:#f8fafc;border-top:1px solid #f1f5f9;font-size:10px;color:#64748b;font-weight:700;">
-        ✅ Employee code column: <strong style="color:#7c3aed;">UserId</strong> &nbsp;|&nbsp; 
-        Date+Time column: <strong style="color:#2563eb;">LogDate</strong> &nbsp;|&nbsp;
-        Direction: <strong style="color:#16a34a;">Direction</strong>
-      </div>
-    </div>`;
-  }catch(e){
-    sec.innerHTML=`<div style="background:#fef2f2;border-radius:12px;padding:16px;"><div style="color:#ef4444;font-weight:800;">Error: ${e.message}</div></div>`;
-  }
+    const rowHtml=rows.map(r=>`<tr style="border-bottom:1px solid #f1f5f9;">${cols.map(c=>`<td style="padding:7px 12px;font-size:10px;color:#475569;white-space:nowrap;">${r[c]===null?'—':String(r[c]).substring(0,30)}</td>`).join('')}</tr>`).join('');
+    sec.innerHTML=`<div style="background:#fff;border-radius:12px;border:1px solid #f1f5f9;overflow:hidden;margin-bottom:14px;"><div style="background:#0f172a;padding:12px 18px;font-size:12px;font-weight:900;color:#fff;text-transform:uppercase;">📋 ${tbl}</div><div style="overflow-x:auto;-webkit-overflow-scrolling:touch;"><table style="width:100%;border-collapse:collapse;"><thead><tr>${colHtml}</tr></thead><tbody>${rowHtml}</tbody></table></div></div>`;
+  }catch(e){sec.innerHTML=`<div style="background:#fef2f2;border-radius:12px;padding:16px;"><div style="color:#ef4444;font-weight:800;">Error: ${e.message}</div></div>`;}
 }
-
-async function showColumns(){
-  const url=document.getElementById('dbBridgeUrl').value.trim();
-  const tbl=document.getElementById('dbTable').value.trim();
-  try{
-    const res=await fetch(url+'/api/columns/'+tbl);
-    const data=await res.json();
-    if(data.success){
-      const list=data.columns.map(c=>`${c.COLUMN_NAME} (${c.DATA_TYPE})`).join('\n');
-      alert('📋 '+tbl+' Columns:\n\n'+list+'\n\n✅ Employee code = UserId\n✅ DateTime = LogDate\n✅ Direction = Direction');
-    }
-  }catch(e){alert('Error: '+e.message);}
-}
-
 async function diagnoseTable(){
   const url=document.getElementById('dbBridgeUrl').value.trim();
   const tbl=document.getElementById('dbTable').value.trim();
-  const sec=document.getElementById('dbResultSection');
-  sec.style.display='block';
-  sec.innerHTML='<div style="background:#fff;border-radius:12px;padding:16px;text-align:center;font-weight:700;color:#64748b;text-transform:uppercase;">Diagnosing table...</div>';
+  const sec=document.getElementById('dbResultSection');sec.style.display='block';
+  sec.innerHTML='<div style="background:#fff;border-radius:12px;padding:16px;text-align:center;font-weight:700;color:#64748b;">Diagnosing...</div>';
   try{
-    const res=await fetch(url+'/api/diagnose/'+tbl);
-    const d=await res.json();
-    if(!d.success){
-      // Diagnose endpoint not found in v2 — fallback to preview
-      previewTable();
-      return;
-    }
-    const minD=d.dateRange&&d.dateRange.min?new Date(d.dateRange.min).toLocaleDateString('en-IN'):'—';
-    const maxD=d.dateRange&&d.dateRange.max?new Date(d.dateRange.max).toLocaleDateString('en-IN'):'—';
-    const hasData=d.totalRows>0;
-    sec.innerHTML=`
-      <div style="background:#fff;border-radius:12px;border:1px solid #f1f5f9;overflow:hidden;margin-bottom:14px;">
-        <div style="background:linear-gradient(135deg,${hasData?'#065f46,#16a34a':'#7f1d1d,#ef4444'});padding:12px 18px;display:flex;align-items:center;gap:10px;">
-          <span class="material-icons-round" style="color:#fff;font-size:20px;">${hasData?'check_circle':'warning'}</span>
-          <span style="font-size:13px;font-weight:900;color:#fff;text-transform:uppercase;">${hasData?'Data Found!':'Table Empty or Wrong Name'} — ${tbl}</span>
+    const res=await fetch(url+'/api/diagnose/'+tbl);const d=await res.json();
+    if(!d.success){previewTable();return;}
+    const minD=d.dateRange?.min?new Date(d.dateRange.min).toLocaleDateString('en-IN'):'—';
+    const maxD=d.dateRange?.max?new Date(d.dateRange.max).toLocaleDateString('en-IN'):'—';
+    sec.innerHTML=`<div style="background:#fff;border-radius:12px;border:1px solid #f1f5f9;overflow:hidden;margin-bottom:14px;">
+      <div style="background:${d.totalRows>0?'linear-gradient(135deg,#065f46,#16a34a)':'linear-gradient(135deg,#7f1d1d,#ef4444)'};padding:12px 18px;display:flex;align-items:center;gap:10px;">
+        <span class="material-icons-round" style="color:#fff;">${d.totalRows>0?'check_circle':'warning'}</span>
+        <span style="font-size:13px;font-weight:900;color:#fff;text-transform:uppercase;">${d.totalRows>0?'Data Found':'Empty'} — ${tbl}</span>
+      </div>
+      <div style="padding:18px 22px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:16px;">
+          <div style="background:#f8fafc;border-radius:10px;padding:14px;text-align:center;border-left:3px solid #2563eb;"><div style="font-size:28px;font-weight:900;color:#2563eb;">${d.totalRows.toLocaleString()}</div><div style="font-size:9px;color:#94a3b8;text-transform:uppercase;">Total Rows</div></div>
+          <div style="background:#f8fafc;border-radius:10px;padding:14px;text-align:center;border-left:3px solid #16a34a;"><div style="font-size:14px;font-weight:900;color:#16a34a;">${minD}</div><div style="font-size:9px;color:#94a3b8;text-transform:uppercase;">Oldest</div></div>
+          <div style="background:#f8fafc;border-radius:10px;padding:14px;text-align:center;border-left:3px solid #f97316;"><div style="font-size:14px;font-weight:900;color:#f97316;">${maxD}</div><div style="font-size:9px;color:#94a3b8;text-transform:uppercase;">Latest</div></div>
         </div>
-        <div style="padding:18px 22px;">
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:16px;">
-            <div style="background:#f8fafc;border-radius:10px;padding:14px;text-align:center;border-left:3px solid #2563eb;">
-              <div style="font-size:28px;font-weight:900;color:#2563eb;">${d.totalRows.toLocaleString()}</div>
-              <div style="font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;margin-top:3px;">Total Rows</div>
-            </div>
-            <div style="background:#f8fafc;border-radius:10px;padding:14px;text-align:center;border-left:3px solid #16a34a;">
-              <div style="font-size:14px;font-weight:900;color:#16a34a;">${minD}</div>
-              <div style="font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;margin-top:3px;">Oldest Record</div>
-            </div>
-            <div style="background:#f8fafc;border-radius:10px;padding:14px;text-align:center;border-left:3px solid #f97316;">
-              <div style="font-size:14px;font-weight:900;color:#f97316;">${maxD}</div>
-              <div style="font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;margin-top:3px;">Latest Record</div>
-            </div>
-          </div>
-          ${d.sampleUserIds&&d.sampleUserIds.length?`
-          <div style="background:#f5f3ff;border-radius:8px;padding:10px 14px;margin-bottom:14px;border:1px solid #ddd6fe;">
-            <div style="font-size:9px;font-weight:800;color:#7c3aed;text-transform:uppercase;margin-bottom:6px;">Sample UserId (Device Codes in DB)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">${d.sampleUserIds.map(u=>`<span style="background:#ede9fe;color:#7c3aed;padding:3px 12px;border-radius:99px;font-size:11px;font-weight:800;">${u}</span>`).join('')}</div>
-            <div style="font-size:9px;color:#94a3b8;margin-top:6px;">Employee → Device Code field ma same value set karo</div>
-          </div>`:''}
-          ${!hasData?`<div style="background:#fef2f2;border-radius:8px;padding:12px 14px;font-size:11px;color:#dc2626;font-weight:700;line-height:2;">
-            ❌ Table empty che.<br>
-            ✅ Show Tables → correct table name select karo<br>
-            ✅ SmartOffice ma data download thayel hoy toj data aavse
-          </div>`:`<button onclick="fetchFromDB(true)" class="btn btn-green"><span class="material-icons-round">download_for_offline</span>Fetch All Data (No Date Filter)</button>`}
-        </div>
-      </div>`;
-  }catch(e){
-    // v2 server - no diagnose endpoint - just show preview
-    sec.innerHTML=`<div style="background:#fffbeb;border-radius:12px;padding:16px;border:1px solid #fcd34d;font-size:11px;font-weight:700;color:#92400e;">⚠ Diagnose endpoint v3 server ma j che. Server.js v3 (navu file) replace karo pachhi restart karo.<br><br>Abhi Preview Raw Rows try karo.</div>`;
-    previewTable();
-  }
+        ${d.sampleUserIds?.length?`<div style="background:#f5f3ff;border-radius:8px;padding:10px 14px;margin-bottom:14px;border:1px solid #ddd6fe;"><div style="font-size:9px;font-weight:800;color:#7c3aed;text-transform:uppercase;margin-bottom:6px;">Sample Device Codes</div><div style="display:flex;gap:8px;flex-wrap:wrap;">${d.sampleUserIds.map(u=>`<span style="background:#ede9fe;color:#7c3aed;padding:3px 12px;border-radius:99px;font-size:11px;font-weight:800;">${u}</span>`).join('')}</div></div>`:''}
+        ${d.totalRows>0?`<button onclick="fetchFromDB(true)" class="btn btn-green"><span class="material-icons-round">download_for_offline</span>Fetch All Data</button>`:''}
+      </div>
+    </div>`;
+  }catch(e){previewTable();}
 }
 
 function clearImported(){
