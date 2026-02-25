@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KIDV Tech Payroll — Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<script>
+  // Already logged in? Go straight to dashboard
+  if(localStorage.getItem('kidv_logged_in')==='1'){
+    window.location.replace('index.html');
+  }
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;}
+body{background:#f0f4f8;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
+
+/* BACKGROUND */
+.bg-wrap{position:fixed;inset:0;z-index:0;overflow:hidden;background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 50%,#0f172a 100%);}
+.bg-circle1{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,0.3),transparent 70%);top:-150px;left:-150px;animation:float1 10s ease-in-out infinite;}
+.bg-circle2{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(14,165,233,0.2),transparent 70%);bottom:-100px;right:-100px;animation:float2 12s ease-in-out infinite;}
+.bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:44px 44px;}
+@keyframes float1{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,20px)}}
+@keyframes float2{0%,100%{transform:translate(0,0)}50%{transform:translate(-20px,-30px)}}
+
+/* CARD */
+.card{position:relative;z-index:1;background:rgba(255,255,255,0.97);border-radius:24px;width:100%;max-width:420px;padding:40px 40px 36px;box-shadow:0 32px 80px rgba(0,0,0,0.35),0 0 0 1px rgba(255,255,255,0.1);animation:slideUp 0.5s cubic-bezier(0.16,1,0.3,1);}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+/* LOGO */
+.logo-row{display:flex;align-items:center;gap:12px;margin-bottom:32px;}
+.logo-icon{width:46px;height:46px;background:linear-gradient(135deg,#2563eb,#0ea5e9);border-radius:13px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:19px;font-weight:900;box-shadow:0 8px 20px rgba(37,99,235,0.35);flex-shrink:0;}
+.logo-name{font-size:20px;font-weight:900;color:#0f172a;letter-spacing:-0.3px;}
+.logo-name span{color:#2563eb;}
+.logo-tag{font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-top:1px;}
+
+.login-title{font-size:24px;font-weight:900;color:#0f172a;letter-spacing:-0.5px;margin-bottom:4px;}
+.login-sub{font-size:13px;color:#64748b;font-weight:500;margin-bottom:28px;}
+
+/* FORM */
+.field{margin-bottom:18px;}
+.field label{display:block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.7px;color:#475569;margin-bottom:6px;}
+.input-wrap{position:relative;}
+.input-wrap .material-icons-round{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:17px;color:#94a3b8;}
+.field input{width:100%;padding:12px 14px 12px 40px;border:1.5px solid #e2e8f0;border-radius:11px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;color:#0f172a;background:#f8fafc;outline:none;transition:all 0.2s;}
+.field input:focus{border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,0.1);}
+.field input::placeholder{color:#cbd5e1;font-weight:500;}
+.toggle-pass{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#94a3b8;display:flex;align-items:center;transition:color 0.2s;}
+.toggle-pass:hover{color:#2563eb;}
+.toggle-pass .material-icons-round{font-size:17px;}
+
+.opts-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}
+.check-lbl{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:#64748b;cursor:pointer;}
+.check-lbl input{accent-color:#2563eb;width:14px;height:14px;}
+.forgot{font-size:12px;font-weight:700;color:#2563eb;text-decoration:none;}
+.forgot:hover{text-decoration:underline;}
+
+/* ERROR */
+.err-box{background:#fef2f2;border:1.5px solid #fecaca;border-radius:10px;padding:11px 14px;font-size:12px;font-weight:700;color:#dc2626;margin-bottom:18px;display:none;align-items:center;gap:8px;}
+.err-box .material-icons-round{font-size:16px;}
+
+/* BTN */
+.btn-login{width:100%;padding:14px;border-radius:11px;border:none;background:linear-gradient(135deg,#2563eb,#0ea5e9);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;letter-spacing:0.2px;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.25s;box-shadow:0 6px 20px rgba(37,99,235,0.35);}
+.btn-login:hover{transform:translateY(-1px);box-shadow:0 10px 28px rgba(37,99,235,0.45);}
+.btn-login:active{transform:translateY(0);}
+.btn-login .material-icons-round{font-size:17px;}
+
+/* DEMO HINT */
+.demo-hint{margin-top:18px;padding:12px 14px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;font-size:11px;color:#0369a1;font-weight:600;}
+.demo-hint strong{font-weight:900;color:#0284c7;}
+
+.footer{text-align:center;margin-top:20px;font-size:11px;color:#94a3b8;font-weight:600;}
+</style>
+</head>
+<body>
+<div class="bg-wrap">
+  <div class="bg-circle1"></div>
+  <div class="bg-circle2"></div>
+  <div class="bg-grid"></div>
+</div>
+
+<div class="card">
+  <div class="logo-row">
+    <div class="logo-icon">K</div>
+    <div>
+      <div class="logo-name">KIDV <span>Tech</span></div>
+      <div class="logo-tag">Smart Business & Automation</div>
+    </div>
+  </div>
+
+  <div class="login-title">Welcome Back 👋</div>
+  <div class="login-sub">Sign in to your Payroll account</div>
+
+  <div class="err-box" id="errBox">
+    <span class="material-icons-round">error_outline</span>
+    <span id="errMsg">Invalid username or password.</span>
+  </div>
+
+  <div class="field">
+    <label>Username</label>
+    <div class="input-wrap">
+      <span class="material-icons-round">person</span>
+      <input type="text" id="loginUser" placeholder="Enter username" autocomplete="username">
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Password</label>
+    <div class="input-wrap">
+      <span class="material-icons-round">lock</span>
+      <input type="password" id="loginPass" placeholder="Enter password" autocomplete="current-password">
+      <button class="toggle-pass" onclick="togglePass()" type="button">
+        <span class="material-icons-round" id="eyeIcon">visibility</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="opts-row">
+    <label class="check-lbl"><input type="checkbox" id="rememberMe"> Remember me</label>
+    <a href="#" class="forgot">Forgot password?</a>
+  </div>
+
+  <button class="btn-login" onclick="doLogin()">
+    <span class="material-icons-round">login</span>Sign In to Payroll
+  </button>
+
+  <div class="demo-hint">
+    🔐 Demo: Username <strong>admin</strong> &nbsp;|&nbsp; Password <strong>admin123</strong>
+  </div>
+
+  <div class="footer">© 2026 KIDV Tech — Payroll Management System</div>
+</div>
+
+<script>
+// ─── USERS (localStorage ma save thayela users pan check karva) ───
+const DEFAULT_USERS = [
+  { username: 'admin',       password: 'admin123', name: 'Super Admin', role: 'Super Admin' },
+  { username: 'priya.shah',  password: 'priya123', name: 'Priya Shah',  role: 'HR Manager'  },
+  { username: 'rahul.mehta', password: 'rahul123', name: 'Rahul Mehta', role: 'Accountant'  },
+];
+
+function getUsers(){
+  const stored = localStorage.getItem('kidv_users');
+  return stored ? JSON.parse(stored) : DEFAULT_USERS;
+}
+
+function doLogin(){
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value;
+  const err = document.getElementById('errBox');
+
+  if(!u || !p){
+    showErr('Please enter username and password.');
+    return;
+  }
+
+  const users = getUsers();
+  const found = users.find(x => x.username === u && x.password === p);
+
+  if(!found){
+    showErr('Invalid username or password. Please try again.');
+    document.getElementById('loginPass').value = '';
+    return;
+  }
+
+  // Save session
+  localStorage.setItem('kidv_logged_in', '1');
+  localStorage.setItem('kidv_user', JSON.stringify({ name: found.name, role: found.role, username: found.username }));
+  if(document.getElementById('rememberMe').checked){
+    localStorage.setItem('kidv_remember', u);
+  }
+
+  // Go to dashboard
+  window.location.replace('index.html');
+}
+
+function showErr(msg){
+  const box = document.getElementById('errBox');
+  document.getElementById('errMsg').textContent = msg;
+  box.style.display = 'flex';
+  setTimeout(()=>box.style.display='none', 4000);
+}
+
+function togglePass(){
+  const inp = document.getElementById('loginPass');
+  const icon = document.getElementById('eyeIcon');
+  if(inp.type === 'password'){ inp.type = 'text'; icon.textContent = 'visibility_off'; }
+  else { inp.type = 'password'; icon.textContent = 'visibility'; }
+}
+
+// Enter key support
+document.addEventListener('keydown', e => { if(e.key === 'Enter') doLogin(); });
+
+// Remember me restore
+window.onload = () => {
+  const rem = localStorage.getItem('kidv_remember');
+  if(rem) document.getElementById('loginUser').value = rem;
+};
+</script>
+</body>
+</html>
