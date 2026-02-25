@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>KIDV Tech | Leave Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<script>if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f4f8;}
+.app{display:flex;height:100vh;}
+
+/* ── SIDEBAR ── */
+.sidebar{width:220px;min-width:220px;background:#fff;border-right:1px solid #e2e8f0;display:flex;flex-direction:column;padding:18px 12px;height:100vh;position:fixed;left:0;top:0;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1);overflow-y:auto;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:199;}
+.logo{display:flex;align-items:center;gap:10px;padding:6px 8px;margin-bottom:22px;}
+.logo-icon{width:36px;height:36px;background:#2563eb;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:900;box-shadow:0 4px 12px rgba(37,99,235,.28);flex-shrink:0;}
+.logo-text{font-size:14px;font-weight:900;color:#1e293b;}.logo-text span{color:#2563eb;}
+.nav-sec{font-size:8px;color:#94a3b8;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:0 10px;margin:10px 0 4px;}
+.nav a{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;font-size:11px;font-weight:700;color:#64748b;text-decoration:none;margin-bottom:2px;text-transform:uppercase;letter-spacing:.03em;transition:all .15s;}
+.nav a:hover{background:#f1f5f9;color:#1e293b;}
+.nav a.active{background:#2563eb;color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.3);}
+.nav a .material-icons-round{font-size:16px;flex-shrink:0;}
+.nav-bottom{margin-top:auto;padding-top:12px;border-top:1px solid #f1f5f9;}
+.user-info{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;background:#f8fafc;margin-bottom:6px;}
+.user-av{width:30px;height:30px;border-radius:8px;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0;}
+.user-name{font-size:10px;font-weight:800;color:#1e293b;text-transform:uppercase;line-height:1.2;}
+.user-role{font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;}
+.logout-btn{display:flex;align-items:center;gap:7px;width:100%;padding:8px 10px;border-radius:10px;background:none;border:1px solid #fee2e2;color:#ef4444;font-size:10px;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s;}
+.logout-btn:hover{background:#fef2f2;}
+.logout-btn .material-icons-round{font-size:14px;}
+
+/* ── MAIN ── */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:220px;transition:margin-left .3s;}
+.topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;}
+.topbar-left{display:flex;align-items:center;gap:10px;}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;flex-shrink:0;}
+.menu-btn .material-icons-round{font-size:22px;}
+.tb-title{font-size:15px;font-weight:900;text-transform:uppercase;color:#1e293b;}
+.tb-sub{font-size:10px;font-weight:700;color:#2563eb;text-transform:uppercase;letter-spacing:.1em;}
+.tb-btns{display:flex;gap:8px;flex-shrink:0;align-items:center;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:9px;font-size:11px;font-weight:800;border:none;cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.03em;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;}
+.btn-blue{background:#2563eb;color:#fff;}.btn-blue:hover{background:#1d4ed8;}
+.btn-green{background:#16a34a;color:#fff;}.btn-green:hover{background:#15803d;}
+.btn-ghost{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}.btn-ghost:hover{background:#e2e8f0;}
+.btn .material-icons-round{font-size:14px;}
+
+/* ── SCROLL ── */
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:16px 20px;}
+.scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+
+/* ── SUMMARY CARDS ── */
+.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
+.sum-card{background:#fff;border-radius:14px;border:1px solid #f1f5f9;padding:16px 18px;position:relative;overflow:hidden;}
+.sum-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.sum-cl::before{background:#2563eb;}
+.sum-sl::before{background:#16a34a;}
+.sum-pl::before{background:#7c3aed;}
+.sum-lwp::before{background:#ef4444;}
+.sum-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
+.sum-cl .sum-icon{background:#eff6ff;color:#2563eb;}
+.sum-sl .sum-icon{background:#f0fdf4;color:#16a34a;}
+.sum-pl .sum-icon{background:#f5f3ff;color:#7c3aed;}
+.sum-lwp .sum-icon{background:#fef2f2;color:#ef4444;}
+.sum-icon .material-icons-round{font-size:18px;}
+.sum-label{font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#94a3b8;margin-bottom:4px;}
+.sum-counts{display:flex;align-items:baseline;gap:6px;}
+.sum-used{font-size:24px;font-weight:900;color:#1e293b;}
+.sum-total{font-size:11px;font-weight:700;color:#94a3b8;}
+.sum-bar{height:4px;background:#f1f5f9;border-radius:99px;margin-top:8px;overflow:hidden;}
+.sum-bar-fill{height:100%;border-radius:99px;transition:width .4s;}
+.sum-cl .sum-bar-fill{background:#2563eb;}
+.sum-sl .sum-bar-fill{background:#16a34a;}
+.sum-pl .sum-bar-fill{background:#7c3aed;}
+.sum-lwp .sum-bar-fill{background:#ef4444;}
+.sum-pending{display:flex;align-items:center;gap:4px;margin-top:6px;font-size:9px;font-weight:700;color:#f59e0b;}
+
+/* ── MAIN GRID ── */
+.main-grid{display:grid;grid-template-columns:1fr 360px;gap:14px;align-items:start;}
+
+/* ── CARD ── */
+.card{background:#fff;border-radius:15px;border:1px solid #f1f5f9;padding:20px;}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
+.card-title{font-size:13px;font-weight:900;text-transform:uppercase;color:#1e293b;font-style:italic;}
+.stitle{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding-left:8px;margin-bottom:14px;border-left:3px solid currentColor;}
+
+/* ── FILTER ROW ── */
+.filter-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:16px;}
+.filter-sel{padding:7px 12px;border-radius:9px;border:1px solid #e2e8f0;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;color:#475569;background:#f8fafc;cursor:pointer;text-transform:uppercase;}
+.filter-sel:focus{outline:none;border-color:#2563eb;}
+.search-wrap{position:relative;flex:1;min-width:180px;}
+.search-wrap .material-icons-round{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:16px;color:#94a3b8;}
+.search-inp{width:100%;padding:7px 10px 7px 32px;border-radius:9px;border:1px solid #e2e8f0;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:600;color:#1e293b;background:#f8fafc;}
+.search-inp:focus{outline:none;border-color:#2563eb;background:#fff;}
+
+/* ── TABLE ── */
+.tbl-wrap{border-radius:11px;overflow:hidden;border:1px solid #f1f5f9;overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:640px;}
+thead th{background:#f8fafc;padding:10px 14px;font-size:9px;color:#94a3b8;text-transform:uppercase;font-weight:800;text-align:left;white-space:nowrap;}
+tbody tr{border-top:1px solid #f8fafc;transition:background .12s;}
+tbody tr:hover{background:#fafafa;}
+tbody td{padding:11px 14px;font-weight:700;color:#475569;text-transform:uppercase;vertical-align:middle;}
+.emp-cell{display:flex;align-items:center;gap:9px;}
+.emp-av{width:30px;height:30px;border-radius:8px;background:#2563eb;color:#fff;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.emp-name{font-size:12px;font-weight:800;color:#1e293b;}
+.emp-dept{font-size:9px;color:#94a3b8;font-weight:700;margin-top:1px;}
+
+/* STATUS BADGES */
+.badge{display:inline-flex;align-items:center;gap:3px;padding:3px 10px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;white-space:nowrap;}
+.badge-pending{background:#fef3c7;color:#d97706;}
+.badge-approved{background:#dcfce7;color:#16a34a;}
+.badge-rejected{background:#fee2e2;color:#ef4444;}
+.badge-cancelled{background:#f1f5f9;color:#94a3b8;}
+
+/* LEAVE TYPE CHIPS */
+.ltype{display:inline-flex;padding:3px 9px;border-radius:7px;font-size:9px;font-weight:800;text-transform:uppercase;}
+.ltype-cl{background:#eff6ff;color:#2563eb;}
+.ltype-sl{background:#f0fdf4;color:#16a34a;}
+.ltype-pl{background:#f5f3ff;color:#7c3aed;}
+.ltype-lwp{background:#fef2f2;color:#ef4444;}
+.ltype-od{background:#fff7ed;color:#ea580c;}
+.ltype-comp{background:#f0fdfa;color:#0891b2;}
+
+/* ACTION BTNS */
+.act-btn{width:28px;height:28px;border-radius:7px;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .12s;font-family:'Plus Jakarta Sans',sans-serif;}
+.act-approve{background:#f0fdf4;color:#16a34a;}.act-approve:hover{background:#16a34a;color:#fff;}
+.act-reject{background:#fef2f2;color:#ef4444;}.act-reject:hover{background:#ef4444;color:#fff;}
+.act-view{background:#eff6ff;color:#2563eb;}.act-view:hover{background:#2563eb;color:#fff;}
+.act-btn .material-icons-round{font-size:14px;}
+
+/* PAGINATION */
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-top:1px solid #f8fafc;flex-wrap:wrap;gap:8px;}
+.pg-info{font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;}
+.pg-btns{display:flex;gap:4px;}
+.pg-btn{width:28px;height:28px;border-radius:7px;border:1px solid #e2e8f0;background:#fff;font-size:11px;font-weight:800;color:#475569;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;}
+.pg-btn.active{background:#2563eb;color:#fff;border-color:#2563eb;}
+.pg-btn:hover:not(.active){background:#f1f5f9;}
+
+/* ── RIGHT COLUMN ── */
+/* Apply Leave Form */
+.form-group{margin-bottom:14px;}
+.form-label{font-size:9px;font-weight:800;text-transform:uppercase;color:#64748b;letter-spacing:.08em;margin-bottom:5px;display:block;}
+.form-inp{width:100%;padding:9px 12px;border-radius:9px;border:1px solid #e2e8f0;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;color:#1e293b;background:#f8fafc;transition:all .15s;}
+.form-inp:focus{outline:none;border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
+.form-sel{width:100%;padding:9px 12px;border-radius:9px;border:1px solid #e2e8f0;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;color:#1e293b;background:#f8fafc;cursor:pointer;}
+.form-sel:focus{outline:none;border-color:#2563eb;background:#fff;}
+.form-textarea{width:100%;padding:9px 12px;border-radius:9px;border:1px solid #e2e8f0;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;color:#1e293b;background:#f8fafc;resize:none;height:70px;}
+.form-textarea:focus{outline:none;border-color:#2563eb;background:#fff;}
+.date-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+/* Days indicator */
+.days-pill{display:inline-flex;align-items:center;gap:5px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:99px;padding:4px 12px;font-size:11px;font-weight:800;color:#2563eb;margin-top:8px;}
+
+/* Calendar mini */
+.cal-wrap{background:#f8fafc;border-radius:11px;padding:12px;margin-bottom:14px;}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.cal-month{font-size:12px;font-weight:900;color:#1e293b;text-transform:uppercase;}
+.cal-nav-btn{width:24px;height:24px;border-radius:6px;border:1px solid #e2e8f0;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;}
+.cal-nav-btn:hover{background:#2563eb;color:#fff;border-color:#2563eb;}
+.cal-nav-btn .material-icons-round{font-size:14px;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+.cal-day-hd{font-size:8px;font-weight:800;color:#94a3b8;text-transform:uppercase;text-align:center;padding:2px 0;}
+.cal-day{font-size:10px;font-weight:700;color:#475569;text-align:center;padding:5px 2px;border-radius:6px;cursor:pointer;transition:all .12s;}
+.cal-day:hover{background:#eff6ff;color:#2563eb;}
+.cal-day.today{background:#2563eb;color:#fff;font-weight:900;}
+.cal-day.leave{background:#fee2e2;color:#ef4444;}
+.cal-day.holiday{background:#fef3c7;color:#d97706;}
+.cal-day.empty{color:transparent;cursor:default;}
+.cal-legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;}
+.cal-leg-item{display:flex;align-items:center;gap:4px;font-size:8px;font-weight:700;color:#64748b;text-transform:uppercase;}
+.cal-leg-dot{width:8px;height:8px;border-radius:3px;}
+
+/* Holiday list */
+.hol-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed #f1f5f9;}
+.hol-item:last-child{border-bottom:none;}
+.hol-date{text-align:center;min-width:38px;}
+.hol-day{font-size:18px;font-weight:900;color:#2563eb;line-height:1;}
+.hol-month{font-size:8px;font-weight:800;color:#94a3b8;text-transform:uppercase;}
+.hol-name{font-size:12px;font-weight:800;color:#1e293b;text-transform:uppercase;}
+.hol-type{font-size:8px;font-weight:700;color:#94a3b8;}
+
+/* ── MODAL ── */
+.mo{position:fixed;inset:0;background:rgba(15,23,42,.6);backdrop-filter:blur(4px);z-index:300;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}
+.mo.open{opacity:1;pointer-events:all;}
+.mb{background:#fff;border-radius:20px;width:90%;max-width:500px;max-height:90vh;overflow-y:auto;box-shadow:0 30px 70px rgba(0,0,0,.22);transform:translateY(20px);transition:transform .25s;}
+.mb::-webkit-scrollbar{width:4px;}.mb::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+.mo.open .mb{transform:translateY(0);}
+.mh{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #f1f5f9;position:sticky;top:0;background:#fff;z-index:1;border-radius:20px 20px 0 0;}
+.mt{font-size:12px;font-weight:900;text-transform:uppercase;color:#1e293b;font-style:italic;}
+.xbtn{width:30px;height:30px;border-radius:8px;background:#f1f5f9;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.xbtn:hover{background:#fee2e2;color:#ef4444;}
+.mbody{padding:20px;}
+
+/* Detail modal fields */
+.detail-row{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px dashed #f8fafc;}
+.detail-row:last-child{border-bottom:none;}
+.detail-lbl{font-size:9px;font-weight:800;text-transform:uppercase;color:#94a3b8;}
+.detail-val{font-size:12px;font-weight:800;text-transform:uppercase;color:#1e293b;}
+
+/* Toast */
+.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;max-width:300px;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{background:#065f46;border-left:4px solid #6ee7b7;}
+.toast.error{background:#7f1d1d;border-left:4px solid #fca5a5;}
+.toast .material-icons-round{font-size:16px;flex-shrink:0;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){
+  .main-grid{grid-template-columns:1fr;}
+  .summary-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:640px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);}
+  .sidebar-overlay.open{display:block;}
+  .main{margin-left:0!important;}
+  .menu-btn{display:flex!important;}
+  .topbar{padding:8px 12px;}
+  .scroll{padding:10px 12px;}
+  .btn span.btn-label{display:none;}
+  .summary-grid{grid-template-columns:repeat(2,1fr);}
+  .main-grid{grid-template-columns:1fr;}
+  .card{padding:14px;}
+  .filter-row{flex-direction:column;align-items:stretch;}
+  .search-wrap{min-width:unset;}
+}
+@media(max-width:380px){
+  .summary-grid{grid-template-columns:1fr 1fr;}
+  .sum-used{font-size:20px;}
+}
+</style>
+</head>
+<body onload="init()">
+
+<div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
+
+<div class="app">
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar" id="sidebar">
+  <div class="logo"><div class="logo-icon">K</div><div class="logo-text">KIDV <span>Tech</span></div></div>
+  <nav class="nav">
+    <div class="nav-sec">Main</div>
+    <a href="index.html"><span class="material-icons-round">dashboard</span>Dashboard</a>
+    <a href="employees.html"><span class="material-icons-round">badge</span>Employees</a>
+    <div class="nav-sec">HR</div>
+    <a href="leave-management.html" class="active"><span class="material-icons-round">event_available</span>Leave</a>
+    <a href="shifts.html"><span class="material-icons-round">schedule</span>Shifts</a>
+    <a href="holidays.html"><span class="material-icons-round">event</span>Holidays</a>
+    <div class="nav-sec">Operations</div>
+    <a href="attendance.html"><span class="material-icons-round">calendar_month</span>Attendance</a>
+    <a href="payroll.html"><span class="material-icons-round">receipt_long</span>Payroll</a>
+    <div class="nav-sec">Integration</div>
+    <a href="device-manager.html"><span class="material-icons-round">device_hub</span>Device Manager</a>
+    <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
+    <a href="users.html" id="usersLink" style="display:none;"><span class="material-icons-round">manage_accounts</span>Users</a>
+    <a href="roles.html" id="rolesLink" style="display:none;"><span class="material-icons-round">shield</span>Roles & Perms</a>
+  </nav>
+  <div class="nav-bottom">
+    <div class="user-info">
+      <div class="user-av" id="sideAvatar">SA</div>
+      <div>
+        <div class="user-name" id="sideName">Admin</div>
+        <div class="user-role" id="sideRole">Administrator</div>
+      </div>
+    </div>
+    <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
+  </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="menu-btn" id="menuBtn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
+      <div>
+        <div class="tb-title">Leave Management</div>
+        <div class="tb-sub">CL · SL · PL · LWP — Auto Calculation</div>
+      </div>
+    </div>
+    <div class="tb-btns">
+      <button class="btn btn-ghost" onclick="openApplyModal()">
+        <span class="material-icons-round">add</span>
+        <span class="btn-label">Apply Leave</span>
+      </button>
+      <button class="btn btn-blue" onclick="exportLeaves()">
+        <span class="material-icons-round">download</span>
+        <span class="btn-label">Export</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="scroll">
+    <!-- SUMMARY CARDS -->
+    <div class="summary-grid" id="summaryGrid">
+      <div class="sum-card sum-cl">
+        <div class="sum-icon"><span class="material-icons-round">beach_access</span></div>
+        <div class="sum-label">Casual Leave (CL)</div>
+        <div class="sum-counts"><span class="sum-used" id="cl-used">0</span><span class="sum-total">/ <span id="cl-total">12</span> Days</span></div>
+        <div class="sum-bar"><div class="sum-bar-fill" id="cl-bar" style="width:0%"></div></div>
+        <div class="sum-pending" id="cl-pend" style="display:none;"><span class="material-icons-round" style="font-size:12px;">schedule</span><span>0 Pending</span></div>
+      </div>
+      <div class="sum-card sum-sl">
+        <div class="sum-icon"><span class="material-icons-round">medical_services</span></div>
+        <div class="sum-label">Sick Leave (SL)</div>
+        <div class="sum-counts"><span class="sum-used" id="sl-used">0</span><span class="sum-total">/ <span id="sl-total">7</span> Days</span></div>
+        <div class="sum-bar"><div class="sum-bar-fill" id="sl-bar" style="width:0%"></div></div>
+        <div class="sum-pending" id="sl-pend" style="display:none;"><span class="material-icons-round" style="font-size:12px;">schedule</span><span>0 Pending</span></div>
+      </div>
+      <div class="sum-card sum-pl">
+        <div class="sum-icon"><span class="material-icons-round">flight_takeoff</span></div>
+        <div class="sum-label">Privilege Leave (PL)</div>
+        <div class="sum-counts"><span class="sum-used" id="pl-used">0</span><span class="sum-total">/ <span id="pl-total">15</span> Days</span></div>
+        <div class="sum-bar"><div class="sum-bar-fill" id="pl-bar" style="width:0%"></div></div>
+        <div class="sum-pending" id="pl-pend" style="display:none;"><span class="material-icons-round" style="font-size:12px;">schedule</span><span>0 Pending</span></div>
+      </div>
+      <div class="sum-card sum-lwp">
+        <div class="sum-icon"><span class="material-icons-round">money_off</span></div>
+        <div class="sum-label">Loss of Pay (LWP)</div>
+        <div class="sum-counts"><span class="sum-used" id="lwp-used">0</span><span class="sum-total">Days</span></div>
+        <div class="sum-bar"><div class="sum-bar-fill" id="lwp-bar" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <!-- MAIN GRID -->
+    <div class="main-grid">
+      <!-- LEFT: Leave Table -->
+      <div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Leave Applications</div>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+              <span id="totalCount" style="font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;"></span>
+            </div>
+          </div>
+
+          <!-- Filters -->
+          <div class="filter-row">
+            <div class="search-wrap">
+              <span class="material-icons-round">search</span>
+              <input type="text" class="search-inp" id="searchInp" placeholder="Search employee..." oninput="filterLeaves()">
+            </div>
+            <select class="filter-sel" id="filterStatus" onchange="filterLeaves()">
+              <option value="">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+            <select class="filter-sel" id="filterType" onchange="filterLeaves()">
+              <option value="">All Types</option>
+              <option value="CL">Casual Leave</option>
+              <option value="SL">Sick Leave</option>
+              <option value="PL">Privilege Leave</option>
+              <option value="LWP">Loss of Pay</option>
+              <option value="OD">On Duty</option>
+              <option value="COMP">Comp Off</option>
+            </select>
+            <select class="filter-sel" id="filterMonth" onchange="filterLeaves()">
+              <option value="">All Months</option>
+              <option value="01">January</option><option value="02">February</option>
+              <option value="03">March</option><option value="04">April</option>
+              <option value="05">May</option><option value="06">June</option>
+              <option value="07">July</option><option value="08">August</option>
+              <option value="09">September</option><option value="10">October</option>
+              <option value="11">November</option><option value="12">December</option>
+            </select>
+          </div>
+
+          <!-- Table -->
+          <div class="tbl-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Leave Type</th>
+                  <th>From</th>
+                  <th>To</th>
+                  <th>Days</th>
+                  <th>Status</th>
+                  <th>Applied On</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="leaveTable"></tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination">
+            <div class="pg-info" id="pgInfo">Showing 0 of 0</div>
+            <div class="pg-btns" id="pgBtns"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div style="display:flex;flex-direction:column;gap:14px;">
+
+        <!-- Apply Leave Quick Form -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title" style="color:#16a34a;">Apply Leave</div>
+            <span class="material-icons-round" style="color:#16a34a;font-size:20px;">add_circle</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Employee</label>
+            <select class="form-sel" id="frm_emp">
+              <option value="">-- Select Employee --</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Leave Type</label>
+            <select class="form-sel" id="frm_type" onchange="calcDays()">
+              <option value="CL">Casual Leave (CL)</option>
+              <option value="SL">Sick Leave (SL)</option>
+              <option value="PL">Privilege Leave (PL)</option>
+              <option value="LWP">Loss of Pay (LWP)</option>
+              <option value="OD">On Duty (OD)</option>
+              <option value="COMP">Comp Off</option>
+            </select>
+          </div>
+          <div class="date-row">
+            <div class="form-group">
+              <label class="form-label">From Date</label>
+              <input type="date" class="form-inp" id="frm_from" onchange="calcDays()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">To Date</label>
+              <input type="date" class="form-inp" id="frm_to" onchange="calcDays()">
+            </div>
+          </div>
+          <div id="daysIndicator" style="display:none;margin-bottom:12px;">
+            <div class="days-pill"><span class="material-icons-round" style="font-size:14px;">calendar_today</span><span id="daysCount">0 Days</span></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Half Day?</label>
+            <select class="form-sel" id="frm_half" onchange="calcDays()">
+              <option value="no">Full Day</option>
+              <option value="first">First Half</option>
+              <option value="second">Second Half</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Reason</label>
+            <textarea class="form-textarea" id="frm_reason" placeholder="Reason for leave..."></textarea>
+          </div>
+          <button class="btn btn-green" style="width:100%;justify-content:center;" onclick="submitLeave()">
+            <span class="material-icons-round">send</span>Submit Application
+          </button>
+        </div>
+
+        <!-- Mini Calendar -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Leave Calendar</div>
+          </div>
+          <div class="cal-wrap">
+            <div class="cal-nav">
+              <button class="cal-nav-btn" onclick="calPrev()"><span class="material-icons-round">chevron_left</span></button>
+              <div class="cal-month" id="calMonthLabel"></div>
+              <button class="cal-nav-btn" onclick="calNext()"><span class="material-icons-round">chevron_right</span></button>
+            </div>
+            <div class="cal-grid">
+              <div class="cal-day-hd">Su</div><div class="cal-day-hd">Mo</div><div class="cal-day-hd">Tu</div>
+              <div class="cal-day-hd">We</div><div class="cal-day-hd">Th</div><div class="cal-day-hd">Fr</div><div class="cal-day-hd">Sa</div>
+              <div id="calDays"></div>
+            </div>
+            <div class="cal-legend">
+              <div class="cal-leg-item"><div class="cal-leg-dot" style="background:#2563eb;"></div>Today</div>
+              <div class="cal-leg-item"><div class="cal-leg-dot" style="background:#fecaca;"></div>Leave</div>
+              <div class="cal-leg-item"><div class="cal-leg-dot" style="background:#fde68a;"></div>Holiday</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upcoming Holidays -->
+        <div class="card">
+          <div class="stitle" style="color:#f59e0b;">Upcoming Holidays</div>
+          <div id="holidayList">
+            <div class="hol-item" style="color:#94a3b8;font-size:11px;font-weight:700;text-transform:uppercase;">Loading...</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div><!-- /scroll -->
+</div><!-- /main -->
+</div><!-- /app -->
+
+<!-- DETAIL MODAL -->
+<div id="detailModal" class="mo" onclick="if(event.target===this)closeDetail()">
+  <div class="mb">
+    <div class="mh">
+      <div class="mt" id="detailTitle">Leave Details</div>
+      <div style="display:flex;gap:8px;" id="detailActions"></div>
+      <button class="xbtn" onclick="closeDetail()"><span class="material-icons-round" style="font-size:16px;">close</span></button>
+    </div>
+    <div class="mbody" id="detailBody"></div>
+  </div>
+</div>
+
+<!-- APPLY MODAL (mobile) -->
+<div id="applyModal" class="mo" onclick="if(event.target===this)closeApplyModal()">
+  <div class="mb" style="max-width:460px;">
+    <div class="mh">
+      <div class="mt">Apply Leave</div>
+      <button class="xbtn" onclick="closeApplyModal()"><span class="material-icons-round" style="font-size:16px;">close</span></button>
+    </div>
+    <div class="mbody" id="applyModalBody"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="material-icons-round" id="toastIcon">check_circle</span>
+  <span id="toastMsg">Success</span>
+</div>
+
+<script>
+// ── CONFIG ──
+const LEAVE_TYPES = {CL:{label:'Casual Leave',max:12},SL:{label:'Sick Leave',max:7},PL:{label:'Privilege Leave',max:15},LWP:{label:'Loss of Pay',max:999},OD:{label:'On Duty',max:999},COMP:{label:'Comp Off',max:999}};
+const TYPE_COLORS = {CL:'ltype-cl',SL:'ltype-sl',PL:'ltype-pl',LWP:'ltype-lwp',OD:'ltype-od',COMP:'ltype-comp'};
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const SHORT_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+let allLeaves = [], filteredLeaves = [], currentPage = 1, perPage = 10;
+let calYear, calMonth;
+
+// ── INIT ──
+function init(){
+  loadUserInfo();
+  loadEmployees();
+  loadLeaves();
+  initCalendar();
+  renderHolidays();
+  updateSummary();
+  setDefaultDates();
+}
+
+function setDefaultDates(){
+  const t = new Date();
+  const fmt = d => d.toISOString().split('T')[0];
+  document.getElementById('frm_from').value = fmt(t);
+  document.getElementById('frm_to').value = fmt(t);
+}
+
+// ── AUTH ──
+function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
+function loadUserInfo(){
+  const user = JSON.parse(localStorage.getItem('kidv_user')||'{}');
+  if(user.name){
+    const p = user.name.trim().split(' ');
+    document.getElementById('sideAvatar').textContent = (p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();
+    document.getElementById('sideName').textContent = user.name;
+    document.getElementById('sideRole').textContent = user.role||'Staff';
+  }
+  const role = (user.role||'').toLowerCase();
+  if(role==='super admin'||role==='admin'){
+    document.getElementById('adminNav').style.display='';
+    document.getElementById('usersLink').style.display='';
+    document.getElementById('rolesLink').style.display='';
+  }
+}
+
+// ── SIDEBAR MOBILE ──
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');document.body.style.overflow='hidden';}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');document.body.style.overflow='';}
+
+// ── EMPLOYEES ──
+let employees = [];
+function loadEmployees(){
+  employees = JSON.parse(localStorage.getItem('employees')||'[]');
+  const sel = document.getElementById('frm_emp');
+  employees.forEach((e,i) => {
+    const name = `${e.fName||e.firstName||''} ${e.lName||e.lastName||''}`.trim();
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = `${(e.id||'')} - ${name}`.trim();
+    sel.appendChild(opt);
+  });
+}
+
+// ── LEAVES DATA ──
+function loadLeaves(){
+  allLeaves = JSON.parse(localStorage.getItem('kidv_leaves')||'[]');
+  // Seed demo data if empty
+  if(allLeaves.length === 0 && employees.length > 0){
+    allLeaves = generateDemo();
+    saveLeaves();
+  }
+  filterLeaves();
+  updateSummary();
+}
+
+function saveLeaves(){
+  localStorage.setItem('kidv_leaves', JSON.stringify(allLeaves));
+}
+
+function generateDemo(){
+  const types = ['CL','SL','PL','LWP','CL','SL','CL','PL'];
+  const statuses = ['approved','approved','pending','rejected','approved','pending','approved','cancelled'];
+  const reasons = ['Personal work','Not feeling well','Family vacation','Urgent work at home','Festival','Doctor visit','Pilgrimage trip','Personal'];
+  const now = new Date();
+  const demos = [];
+  employees.slice(0,Math.min(employees.length,6)).forEach((e,ei) => {
+    for(let i=0;i<3;i++){
+      const d = new Date(now);
+      d.setDate(d.getDate() - (ei*5+i*7));
+      const from = d.toISOString().split('T')[0];
+      const to = d.toISOString().split('T')[0];
+      const idx = (ei+i)%8;
+      demos.push({
+        id: Date.now()+ei*100+i,
+        empIndex: ei,
+        empName: `${e.fName||e.firstName||''} ${e.lName||e.lastName||''}`.trim(),
+        empId: e.id||'',
+        dept: e.dept||'',
+        type: types[idx],
+        from, to,
+        days: 1,
+        half: 'no',
+        reason: reasons[idx],
+        status: statuses[idx],
+        appliedOn: new Date(d.getTime()-86400000).toISOString().split('T')[0],
+        approvedBy: statuses[idx]==='approved'?'HR Admin':'',
+        remark: ''
+      });
+    }
+  });
+  return demos;
+}
+
+// ── SUMMARY ──
+function updateSummary(){
+  const year = new Date().getFullYear();
+  const approved = allLeaves.filter(l=>l.status==='approved'&&l.from.startsWith(year));
+  const pending = allLeaves.filter(l=>l.status==='pending');
+  const types = ['cl','sl','pl','lwp'];
+  const typeMap = {cl:'CL',sl:'SL',pl:'PL',lwp:'LWP'};
+  types.forEach(t=>{
+    const used = approved.filter(l=>l.type===typeMap[t]).reduce((s,l)=>s+parseFloat(l.days||1),0);
+    const max = LEAVE_TYPES[typeMap[t]].max;
+    const pct = max<999?Math.min(100,(used/max)*100):Math.min(100,(used/30)*100);
+    document.getElementById(`${t}-used`).textContent = used;
+    const bar = document.getElementById(`${t}-bar`);
+    if(bar) bar.style.width = pct+'%';
+    const pEl = document.getElementById(`${t}-pend`);
+    if(pEl){
+      const pCount = pending.filter(l=>l.type===typeMap[t]).length;
+      if(pCount>0){pEl.style.display='flex';pEl.querySelector('span:last-child').textContent=`${pCount} Pending`;}
+      else pEl.style.display='none';
+    }
+  });
+}
+
+// ── FILTER ──
+function filterLeaves(){
+  const q = document.getElementById('searchInp').value.toLowerCase();
+  const st = document.getElementById('filterStatus').value;
+  const tp = document.getElementById('filterType').value;
+  const mo = document.getElementById('filterMonth').value;
+  filteredLeaves = allLeaves.filter(l=>{
+    if(q && !l.empName.toLowerCase().includes(q) && !(l.empId||'').toLowerCase().includes(q)) return false;
+    if(st && l.status!==st) return false;
+    if(tp && l.type!==tp) return false;
+    if(mo && !l.from.includes('-'+mo+'-') && !(l.from.length>=7&&l.from.substring(5,7)===mo)) return false;
+    return true;
+  }).sort((a,b)=>new Date(b.appliedOn)-new Date(a.appliedOn));
+  currentPage=1;
+  renderTable();
+}
+
+// ── TABLE ──
+function renderTable(){
+  const start = (currentPage-1)*perPage;
+  const pageData = filteredLeaves.slice(start, start+perPage);
+  const tbody = document.getElementById('leaveTable');
+  document.getElementById('totalCount').textContent = `${filteredLeaves.length} Records`;
+  if(!pageData.length){
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:32px;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;">No leave records found</td></tr>`;
+  } else {
+    tbody.innerHTML = pageData.map(l=>{
+      const initials = l.empName.split(' ').map(w=>w[0]||'').slice(0,2).join('').toUpperCase()||'?';
+      const colors = ['#2563eb','#7c3aed','#16a34a','#0891b2','#ea580c','#db2777'];
+      const col = colors[l.empName.charCodeAt(0)%colors.length];
+      const statusBadge = `<span class="badge badge-${l.status}">${l.status}</span>`;
+      const typeBadge = `<span class="ltype ${TYPE_COLORS[l.type]||'ltype-cl'}">${l.type}</span>`;
+      return `<tr>
+        <td><div class="emp-cell">
+          <div class="emp-av" style="background:${col}">${initials}</div>
+          <div><div class="emp-name">${l.empName||'—'}</div><div class="emp-dept">${l.empId||''} ${l.dept?'· '+l.dept:''}</div></div>
+        </div></td>
+        <td>${typeBadge}</td>
+        <td style="color:#1e293b;font-weight:800;">${fmtDate(l.from)}</td>
+        <td style="color:#1e293b;font-weight:800;">${fmtDate(l.to)}</td>
+        <td style="color:#2563eb;font-weight:900;">${l.days}${l.half!=='no'?'½':''}</td>
+        <td>${statusBadge}</td>
+        <td>${fmtDate(l.appliedOn)}</td>
+        <td>
+          <div style="display:flex;gap:4px;">
+            <button class="act-btn act-view" onclick="viewLeave(${l.id})" title="View Details"><span class="material-icons-round">visibility</span></button>
+            ${l.status==='pending'?`<button class="act-btn act-approve" onclick="changeStatus(${l.id},'approved')" title="Approve"><span class="material-icons-round">check</span></button><button class="act-btn act-reject" onclick="changeStatus(${l.id},'rejected')" title="Reject"><span class="material-icons-round">close</span></button>`:''}
+          </div>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+  renderPagination();
+}
+
+function renderPagination(){
+  const total = filteredLeaves.length;
+  const pages = Math.ceil(total/perPage);
+  const start = (currentPage-1)*perPage+1;
+  const end = Math.min(currentPage*perPage,total);
+  document.getElementById('pgInfo').textContent = total?`Showing ${start}–${end} of ${total}`:'No records';
+  const btns = document.getElementById('pgBtns');
+  btns.innerHTML = '';
+  for(let i=1;i<=Math.min(pages,7);i++){
+    btns.innerHTML += `<button class="pg-btn${i===currentPage?' active':''}" onclick="goPage(${i})">${i}</button>`;
+  }
+}
+function goPage(p){currentPage=p;renderTable();}
+
+// ── DATE UTILS ──
+function fmtDate(s){
+  if(!s) return '—';
+  const d = new Date(s);
+  return `${d.getDate()} ${SHORT_MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function calcDaysBetween(from, to, half){
+  if(!from||!to) return 0;
+  const f = new Date(from), t = new Date(to);
+  let days = 0, cur = new Date(f);
+  while(cur<=t){const day=cur.getDay();if(day!==0&&day!==6)days++;cur.setDate(cur.getDate()+1);}
+  if(half==='first'||half==='second') days = days>0?days-0.5:0.5;
+  return days;
+}
+
+// ── CALC DAYS ──
+function calcDays(){
+  const from = document.getElementById('frm_from').value;
+  const to = document.getElementById('frm_to').value;
+  const half = document.getElementById('frm_half').value;
+  if(from&&to){
+    const days = calcDaysBetween(from, to, half);
+    document.getElementById('daysIndicator').style.display='block';
+    document.getElementById('daysCount').textContent = days + (days===1?' Working Day':' Working Days');
+  } else {
+    document.getElementById('daysIndicator').style.display='none';
+  }
+}
+
+// ── SUBMIT LEAVE ──
+function submitLeave(){
+  const empIdx = document.getElementById('frm_emp').value;
+  const type = document.getElementById('frm_type').value;
+  const from = document.getElementById('frm_from').value;
+  const to = document.getElementById('frm_to').value;
+  const half = document.getElementById('frm_half').value;
+  const reason = document.getElementById('frm_reason').value.trim();
+  if(!empIdx){showToast('Please select an employee','error');return;}
+  if(!from||!to){showToast('Please select dates','error');return;}
+  if(new Date(from)>new Date(to)){showToast('From date cannot be after To date','error');return;}
+  const emp = employees[parseInt(empIdx)];
+  const days = calcDaysBetween(from, to, half);
+  if(days<=0){showToast('No working days in selected range','error');return;}
+  const leave = {
+    id: Date.now(),
+    empIndex: parseInt(empIdx),
+    empName: `${emp.fName||emp.firstName||''} ${emp.lName||emp.lastName||''}`.trim(),
+    empId: emp.id||'',
+    dept: emp.dept||'',
+    type, from, to, days, half, reason,
+    status: 'pending',
+    appliedOn: new Date().toISOString().split('T')[0],
+    approvedBy:'', remark:''
+  };
+  allLeaves.unshift(leave);
+  saveLeaves();
+  filterLeaves();
+  updateSummary();
+  renderCalendar();
+  // Reset form
+  document.getElementById('frm_emp').value='';
+  document.getElementById('frm_reason').value='';
+  document.getElementById('daysIndicator').style.display='none';
+  closeApplyModal();
+  showToast(`Leave applied for ${leave.empName} — ${days} day(s)`, 'success');
+}
+
+// ── CHANGE STATUS ──
+function changeStatus(id, newStatus){
+  const idx = allLeaves.findIndex(l=>l.id===id);
+  if(idx<0) return;
+  const user = JSON.parse(localStorage.getItem('kidv_user')||'{}');
+  allLeaves[idx].status = newStatus;
+  allLeaves[idx].approvedBy = user.name||'Admin';
+  saveLeaves();
+  filterLeaves();
+  updateSummary();
+  closeDetail();
+  showToast(`Leave ${newStatus} successfully`, newStatus==='approved'?'success':'error');
+}
+
+// ── VIEW LEAVE DETAIL ──
+function viewLeave(id){
+  const l = allLeaves.find(x=>x.id===id);
+  if(!l) return;
+  document.getElementById('detailTitle').textContent = `Leave Details — ${l.empName}`;
+  const rows = [
+    ['Employee',l.empName],['Emp ID',l.empId],['Department',l.dept],
+    ['Leave Type',`<span class="ltype ${TYPE_COLORS[l.type]||'ltype-cl'}">${l.type} — ${LEAVE_TYPES[l.type]?.label||l.type}</span>`],
+    ['From Date',fmtDate(l.from)],['To Date',fmtDate(l.to)],
+    ['Duration',`${l.days}${l.half!=='no'?' ('+l.half+' half)':''} Working Day(s)`],
+    ['Applied On',fmtDate(l.appliedOn)],
+    ['Status',`<span class="badge badge-${l.status}">${l.status}</span>`],
+    ['Approved By',l.approvedBy||'—'],
+    ['Reason',l.reason||'—'],
+    ['Remark',l.remark||'—']
+  ];
+  document.getElementById('detailBody').innerHTML = rows.map(([lbl,val])=>
+    `<div class="detail-row"><span class="detail-lbl">${lbl}</span><span class="detail-val">${val}</span></div>`
+  ).join('');
+  const acts = document.getElementById('detailActions');
+  acts.innerHTML = l.status==='pending'
+    ? `<button class="btn btn-green" onclick="changeStatus(${l.id},'approved')"><span class="material-icons-round">check</span>Approve</button>
+       <button class="btn" style="background:#fef2f2;color:#ef4444;" onclick="changeStatus(${l.id},'rejected')"><span class="material-icons-round">close</span>Reject</button>`
+    : '';
+  document.getElementById('detailModal').classList.add('open');
+}
+function closeDetail(){document.getElementById('detailModal').classList.remove('open');}
+
+// ── APPLY MODAL (mobile trigger) ──
+function openApplyModal(){
+  if(window.innerWidth > 900) return; // On desktop, form is visible in sidebar
+  document.getElementById('applyModal').classList.add('open');
+}
+function closeApplyModal(){document.getElementById('applyModal').classList.remove('open');}
+
+// ── CALENDAR ──
+function initCalendar(){
+  const now = new Date();
+  calYear = now.getFullYear();
+  calMonth = now.getMonth();
+  renderCalendar();
+}
+function calPrev(){calMonth--;if(calMonth<0){calMonth=11;calYear--;}renderCalendar();}
+function calNext(){calMonth++;if(calMonth>11){calMonth=0;calYear++;}renderCalendar();}
+
+function renderCalendar(){
+  document.getElementById('calMonthLabel').textContent = `${MONTHS[calMonth]} ${calYear}`;
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+  const today = new Date();
+  const leaveDays = new Set(allLeaves.filter(l=>l.status==='approved').flatMap(l=>{
+    const days=[];let d=new Date(l.from);const e=new Date(l.to);
+    while(d<=e){days.push(d.toISOString().split('T')[0]);d.setDate(d.getDate()+1);}
+    return days;
+  }));
+  const holidays = getHolidayDates();
+  const container = document.getElementById('calDays');
+  let html = '';
+  for(let i=0;i<firstDay;i++) html+=`<div class="cal-day empty">.</div>`;
+  for(let d=1;d<=daysInMonth;d++){
+    const dateStr = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday = today.getFullYear()===calYear&&today.getMonth()===calMonth&&today.getDate()===d;
+    const isLeave = leaveDays.has(dateStr);
+    const isHol = holidays.includes(dateStr);
+    let cls = 'cal-day';
+    if(isToday) cls+=' today';
+    else if(isLeave) cls+=' leave';
+    else if(isHol) cls+=' holiday';
+    html+=`<div class="${cls}">${d}</div>`;
+  }
+  container.innerHTML = html;
+}
+
+// ── HOLIDAYS ──
+function getHolidayDates(){
+  const stored = JSON.parse(localStorage.getItem('holidays')||'[]');
+  return stored.map(h=>h.date||h.holidayDate||'').filter(Boolean);
+}
+
+function renderHolidays(){
+  const stored = JSON.parse(localStorage.getItem('holidays')||'[]');
+  const today = new Date();
+  const upcoming = stored
+    .map(h=>({...h, dateObj: new Date(h.date||h.holidayDate)}))
+    .filter(h=>h.dateObj>=today)
+    .sort((a,b)=>a.dateObj-b.dateObj)
+    .slice(0,5);
+  const list = document.getElementById('holidayList');
+  if(!upcoming.length){
+    list.innerHTML='<div style="padding:10px 0;color:#94a3b8;font-size:11px;font-weight:700;text-transform:uppercase;text-align:center;">No upcoming holidays</div>';
+    return;
+  }
+  list.innerHTML = upcoming.map(h=>`
+    <div class="hol-item">
+      <div class="hol-date">
+        <div class="hol-day">${h.dateObj.getDate()}</div>
+        <div class="hol-month">${SHORT_MONTHS[h.dateObj.getMonth()]}</div>
+      </div>
+      <div>
+        <div class="hol-name">${(h.name||h.holidayName||'Holiday').toUpperCase()}</div>
+        <div class="hol-type">${(h.type||'National Holiday').toUpperCase()}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── EXPORT ──
+function exportLeaves(){
+  const rows = [['Emp ID','Employee','Department','Leave Type','From','To','Days','Status','Applied On','Reason']];
+  filteredLeaves.forEach(l=>{
+    rows.push([l.empId,l.empName,l.dept,l.type,l.from,l.to,l.days,l.status,l.appliedOn,l.reason]);
+  });
+  const csv = rows.map(r=>r.map(c=>`"${c||''}"`).join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download = `Leave_Report_${new Date().toLocaleDateString('en-IN').replace(/\//g,'-')}.csv`;
+  a.click();
+  showToast('Exported successfully!','success');
+}
+
+// ── TOAST ──
+function showToast(msg, type='success'){
+  const t=document.getElementById('toast');
+  const icon = type==='success'?'check_circle':'error';
+  t.className='toast '+type;
+  document.getElementById('toastIcon').textContent=icon;
+  document.getElementById('toastMsg').textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3500);
+}
+</script>
+</body>
+</html>
