@@ -3,98 +3,284 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>KIDV Tech | Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 <script>if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}</script>
 <style>
+:root{
+  --sidebar-w:260px;
+  --navy-900:#060d1f;
+  --blue-500:#2563eb;
+  --blue-400:#3b82f6;
+  --blue-300:#60a5fa;
+  --cyan:#06b6d4;
+  --green:#10b981;
+  --red:#ef4444;
+  --purple:#8b5cf6;
+  --amber:#f59e0b;
+  --text-primary:#f1f5f9;
+  --text-muted:rgba(148,163,184,.65);
+  --text-dim:rgba(148,163,184,.32);
+  --border:rgba(255,255,255,.06);
+  --border-bright:rgba(255,255,255,.11);
+  --glass:rgba(255,255,255,.04);
+  --glass-hover:rgba(255,255,255,.08);
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f4f8;}
+html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflow:hidden;}
 .app{display:flex;height:100vh;}
 
-/* ── SIDEBAR ── */
-.sidebar{width:220px;min-width:220px;background:#fff;border-right:1px solid #e2e8f0;display:flex;flex-direction:column;padding:18px 12px;height:100vh;position:fixed;left:0;top:0;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1);overflow-y:auto;}
-.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:199;}
-.logo{display:flex;align-items:center;gap:10px;padding:6px 8px;margin-bottom:22px;}
-.logo-icon{width:36px;height:36px;background:#2563eb;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:900;box-shadow:0 4px 12px rgba(37,99,235,.28);flex-shrink:0;}
-.logo-text{font-size:14px;font-weight:900;color:#1e293b;}.logo-text span{color:#2563eb;}
-.nav-sec{font-size:8px;color:#94a3b8;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:0 10px;margin:10px 0 4px;}
-.nav a{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;font-size:11px;font-weight:700;color:#64748b;text-decoration:none;margin-bottom:2px;text-transform:uppercase;letter-spacing:.03em;transition:all .15s;}
-.nav a:hover{background:#f1f5f9;color:#1e293b;}
-.nav a.active{background:#2563eb;color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.3);}
-.nav a .material-icons-round{font-size:16px;flex-shrink:0;}
-/* nav-bottom is OUTSIDE nav, at bottom of sidebar */
-.nav-bottom{margin-top:auto;padding-top:12px;border-top:1px solid #f1f5f9;flex-shrink:0;}
-.user-info{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;background:#f8fafc;margin-bottom:6px;}
-.user-av{width:30px;height:30px;border-radius:8px;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0;}
-.user-name{font-size:10px;font-weight:800;color:#1e293b;text-transform:uppercase;line-height:1.2;}
-.user-role{font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;}
-.logout-btn{display:flex;align-items:center;gap:7px;width:100%;padding:8px 10px;border-radius:10px;background:none;border:1px solid #fee2e2;color:#ef4444;font-size:10px;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s;}
-.logout-btn:hover{background:#fef2f2;}
+/* ════════════════════════════════
+   SIDEBAR
+════════════════════════════════ */
+.sidebar{
+  width:var(--sidebar-w);min-width:var(--sidebar-w);
+  background:#07101f;
+  display:flex;flex-direction:column;
+  height:100vh;
+  position:fixed;left:0;top:0;z-index:200;
+  transition:transform .3s cubic-bezier(.4,0,.2,1);
+  overflow:hidden;
+  border-right:1px solid rgba(255,255,255,.05);
+  box-shadow:8px 0 40px rgba(0,0,0,.35);
+}
+
+/* Subtle ambient glows */
+.sidebar::before{
+  content:'';position:absolute;
+  top:-100px;left:-80px;
+  width:320px;height:320px;
+  background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 65%);
+  pointer-events:none;z-index:0;
+}
+.sidebar::after{
+  content:'';position:absolute;
+  bottom:80px;right:-100px;
+  width:260px;height:260px;
+  background:radial-gradient(circle,rgba(6,182,212,.09) 0%,transparent 65%);
+  pointer-events:none;z-index:0;
+}
+
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:199;backdrop-filter:blur(6px);}
+
+/* Logo */
+.logo-area{
+  position:relative;z-index:1;flex-shrink:0;
+  overflow:hidden;background:#fff;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.logo-area img{width:100%;height:auto;object-fit:cover;display:block;}
+
+/* Nav */
+.nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 10px 4px;position:relative;z-index:1;}
+.nav::-webkit-scrollbar{width:3px;}
+.nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:99px;}
+
+.nav-sec{
+  font-size:8.5px;color:var(--text-dim);font-weight:700;
+  text-transform:uppercase;letter-spacing:.2em;
+  padding:0 8px;margin:16px 0 5px;
+  display:flex;align-items:center;gap:8px;
+}
+.nav-sec::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07);}
+
+.nav a{
+  display:flex;align-items:center;gap:11px;
+  padding:8px 10px;border-radius:11px;
+  font-size:11px;font-weight:600;
+  color:var(--text-muted);
+  text-decoration:none;margin-bottom:1px;
+  text-transform:uppercase;letter-spacing:.055em;
+  transition:color .18s, background .18s, transform .18s;
+  position:relative;
+}
+.nav a:hover{
+  color:rgba(241,245,249,.9);
+  background:rgba(255,255,255,.07);
+  transform:translateX(2px);
+}
+.nav a.active{
+  color:#fff;
+  background:linear-gradient(120deg,rgba(37,99,235,.32) 0%,rgba(6,182,212,.18) 100%);
+  border:1px solid rgba(59,130,246,.28);
+  box-shadow:0 4px 20px rgba(37,99,235,.22),inset 0 1px 0 rgba(255,255,255,.09);
+}
+.nav a.active::after{
+  content:'';position:absolute;
+  left:0;top:50%;transform:translateY(-50%);
+  width:3px;height:55%;
+  background:linear-gradient(180deg,#93c5fd,#22d3ee);
+  border-radius:0 3px 3px 0;
+  box-shadow:0 0 10px rgba(96,165,250,.8);
+}
+
+.ic{
+  width:29px;height:29px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:transform .18s, box-shadow .18s;
+}
+.ic .material-icons-round{font-size:15px;}
+.ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
+.ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-int{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.ic-adm{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
+.nav a.active .ic{transform:scale(1.08);box-shadow:0 0 14px rgba(37,99,235,.4);}
+.nav a:hover .ic{transform:scale(1.06);}
+
+.nav-bottom{
+  padding:11px;border-top:1px solid rgba(255,255,255,.07);
+  flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;
+}
+.user-info{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 11px;border-radius:11px;
+  background:var(--glass);margin-bottom:8px;
+  border:1px solid var(--border-bright);
+  transition:background .18s;
+}
+.user-info:hover{background:var(--glass-hover);}
+.user-av{
+  width:33px;height:33px;border-radius:9px;
+  background:linear-gradient(135deg,#2563eb,#06b6d4);
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;flex-shrink:0;
+  box-shadow:0 3px 12px rgba(37,99,235,.45);
+}
+.user-name{font-size:10.5px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.03em;line-height:1.3;}
+.user-role{font-size:8px;color:var(--text-dim);font-weight:500;text-transform:uppercase;letter-spacing:.08em;margin-top:1px;}
+.logout-btn{
+  display:flex;align-items:center;gap:8px;width:100%;
+  padding:9px 12px;border-radius:10px;
+  background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);
+  color:rgba(252,165,165,.8);font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.07em;
+  cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;
+}
+.logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;border-color:rgba(239,68,68,.4);box-shadow:0 4px 16px rgba(239,68,68,.18);}
 .logout-btn .material-icons-round{font-size:14px;}
 
-/* ── MAIN ── */
-.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:220px;transition:margin-left .3s;}
-.topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;}
-.topbar-left{display:flex;align-items:center;gap:12px;}
-.menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;}
-.menu-btn .material-icons-round{font-size:22px;}
-.scroll{flex:1;overflow-y:auto;padding:20px 24px;}
-.scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+/* ════════════════════════════════
+   MAIN
+════════════════════════════════ */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:var(--sidebar-w);}
 
-/* ── DASHBOARD CONTENT ── */
-.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
-.stat{background:#fff;border-radius:14px;border:1px solid #f1f5f9;padding:16px 18px;}
-.stat-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
-.stat-icon .material-icons-round{font-size:20px;}
-.stat-n{font-size:22px;font-weight:900;color:#1e293b;margin-bottom:2px;}
-.stat-l{font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;}
-.card{background:#fff;border-radius:14px;border:1px solid #f1f5f9;padding:18px;}
-.card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-.card-title{font-size:12px;font-weight:900;text-transform:uppercase;color:#1e293b;}
-.quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px;}
-.ql{display:flex;align-items:center;gap:10px;background:#fff;border-radius:12px;padding:14px;border:1px solid #f1f5f9;text-decoration:none;transition:all .2s;}
-.ql:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);transform:translateY(-1px);}
-.ql-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.topbar{
+  background:#fff;border-bottom:1px solid #e8edf5;
+  padding:13px 26px;display:flex;align-items:center;
+  justify-content:space-between;flex-shrink:0;gap:14px;
+  box-shadow:0 1px 4px rgba(0,0,0,.05);
+}
+.topbar-left{display:flex;align-items:center;gap:13px;}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;transition:background .15s;}
+.menu-btn:hover{background:#f1f5f9;}
+.menu-btn .material-icons-round{font-size:22px;}
+.page-title{font-size:15px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
+.page-date{font-size:9.5px;color:#94a3b8;font-weight:500;margin-top:2px;letter-spacing:.05em;}
+
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:9px 18px;border-radius:10px;
+  font-size:10.5px;font-weight:700;border:none;cursor:pointer;
+  transition:all .18s;text-transform:uppercase;letter-spacing:.06em;
+  font-family:'Outfit',sans-serif;text-decoration:none;white-space:nowrap;
+}
+.btn-blue{
+  background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;
+  box-shadow:0 4px 16px rgba(37,99,235,.32);
+}
+.btn-blue:hover{box-shadow:0 6px 22px rgba(37,99,235,.48);transform:translateY(-1px);}
+.btn .material-icons-round{font-size:14px;}
+
+.scroll{flex:1;overflow-y:auto;padding:20px 26px;}
+.scroll::-webkit-scrollbar{width:5px;}
+.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+
+/* STATS */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px;}
+.stat{
+  background:#fff;border-radius:16px;border:1px solid #ecf0f6;
+  padding:19px;position:relative;overflow:hidden;
+  transition:all .22s;box-shadow:0 1px 4px rgba(0,0,0,.04);
+}
+.stat:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.09);border-color:#dde4ef;}
+.stat::before{
+  content:'';position:absolute;
+  top:-20px;right:-20px;width:90px;height:90px;border-radius:50%;opacity:.07;
+}
+.stat.s1::before{background:#2563eb;}
+.stat.s2::before{background:#10b981;}
+.stat.s3::before{background:#f59e0b;}
+.stat.s4::before{background:#8b5cf6;}
+.stat-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:13px;}
+.stat-icon .material-icons-round{font-size:21px;}
+.stat-n{font-size:28px;font-weight:900;color:#0f172a;margin-bottom:3px;letter-spacing:-.02em;}
+.stat-l{font-size:9px;color:#94a3b8;text-transform:uppercase;font-weight:600;letter-spacing:.1em;}
+
+/* QUICK GRID */
+.quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:18px;}
+.ql{
+  display:flex;align-items:center;gap:11px;
+  background:#fff;border-radius:14px;padding:14px;
+  border:1px solid #ecf0f6;text-decoration:none;
+  transition:all .22s;box-shadow:0 1px 4px rgba(0,0,0,.04);
+}
+.ql:hover{box-shadow:0 6px 22px rgba(0,0,0,.1);transform:translateY(-2px);border-color:#dde4ef;}
+.ql-icon{width:37px;height:37px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .ql-icon .material-icons-round{font-size:18px;}
-.ql-name{font-size:11px;font-weight:800;text-transform:uppercase;color:#1e293b;}
-.ql-desc{font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;margin-top:1px;}
+.ql-name{font-size:11px;font-weight:800;text-transform:uppercase;color:#1e293b;letter-spacing:.04em;}
+.ql-desc{font-size:8.5px;color:#94a3b8;font-weight:500;text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
+
+/* BOTTOM */
+.dash-grid{display:grid;grid-template-columns:1fr 330px;gap:14px;}
+.card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:19px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
+.card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;}
+.card-title{font-size:10.5px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.1em;}
+.card-link{font-size:9px;color:#2563eb;font-weight:700;text-decoration:none;text-transform:uppercase;letter-spacing:.05em;padding:4px 10px;border-radius:6px;background:#eff6ff;transition:all .15s;}
+.card-link:hover{background:#dbeafe;}
+
 .etbl{width:100%;border-collapse:collapse;font-size:11px;}
-.etbl thead th{background:#f8fafc;padding:9px 12px;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;text-align:left;border-bottom:1px solid #f1f5f9;}
+.etbl thead th{background:#f8fafc;padding:9px 12px;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;text-align:left;border-bottom:1px solid #f1f5f9;letter-spacing:.08em;}
 .etbl tbody tr{border-bottom:1px solid #f8fafc;transition:background .12s;}
 .etbl tbody tr:hover{background:#f8fafc;}
-.etbl td{padding:9px 12px;font-weight:700;color:#475569;text-transform:uppercase;vertical-align:middle;}
-.dash-grid{display:grid;grid-template-columns:1fr 320px;gap:14px;}
-.hol-row{display:flex;align-items:center;padding:8px 0;border-bottom:1px dashed #f1f5f9;}
-.hol-row:last-child{border-bottom:none;}
-.hol-date-box{width:38px;height:38px;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#eff6ff;flex-shrink:0;margin-right:10px;}
-.hol-dd{font-size:14px;font-weight:900;color:#2563eb;line-height:1;}
-.hol-mm{font-size:7px;color:#60a5fa;font-weight:700;text-transform:uppercase;}
-.hol-name{font-size:10px;font-weight:800;text-transform:uppercase;color:#1e293b;}
-.hol-type{font-size:7px;font-weight:700;padding:2px 6px;border-radius:99px;text-transform:uppercase;}
-.eav{width:28px;height:28px;border-radius:8px;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;flex-shrink:0;}
-.btn{display:flex;align-items:center;gap:5px;padding:7px 14px;border-radius:9px;font-size:10px;font-weight:800;border:none;cursor:pointer;transition:all .15s;text-transform:uppercase;font-family:'Plus Jakarta Sans',sans-serif;text-decoration:none;white-space:nowrap;}
-.btn-blue{background:#2563eb;color:#fff;}.btn-blue:hover{background:#1d4ed8;}
-.btn .material-icons-round{font-size:13px;}
+.etbl td{padding:9px 12px;font-weight:600;color:#475569;text-transform:uppercase;vertical-align:middle;}
 
-/* ── RESPONSIVE ── */
-@media(max-width:1024px){
-  .dash-grid{grid-template-columns:1fr;}
-  .stat-grid{grid-template-columns:repeat(2,1fr);}
-  .quick-grid{grid-template-columns:repeat(2,1fr);}
-}
-@media(max-width:640px){
+.hol-row{display:flex;align-items:center;padding:8px 0;border-bottom:1px solid #f8fafc;}
+.hol-row:last-child{border-bottom:none;}
+.hol-date-box{width:39px;height:39px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#eff6ff,#dbeafe);flex-shrink:0;margin-right:11px;}
+.hol-dd{font-size:15px;font-weight:900;color:#2563eb;line-height:1;}
+.hol-mm{font-size:7px;color:#60a5fa;font-weight:700;text-transform:uppercase;}
+.hol-name{font-size:10px;font-weight:700;text-transform:uppercase;color:#1e293b;}
+.hol-type{display:inline-block;font-size:7px;font-weight:700;padding:2px 8px;border-radius:99px;text-transform:uppercase;margin-top:3px;}
+
+.eav{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:800;flex-shrink:0;}
+.dev-badge{background:#eff6ff;color:#2563eb;padding:3px 9px;border-radius:99px;font-size:9px;font-weight:700;border:1px solid #bfdbfe;}
+
+.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.pay-box{border-radius:12px;padding:12px;}
+.pay-label{font-size:7.5px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;}
+.pay-val{font-size:16px;font-weight:900;letter-spacing:-.01em;}
+
+/* Stagger animation */
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.stat{animation:fadeUp .38s ease both;}
+.stat:nth-child(1){animation-delay:.06s;}
+.stat:nth-child(2){animation-delay:.12s;}
+.stat:nth-child(3){animation-delay:.18s;}
+.stat:nth-child(4){animation-delay:.24s;}
+.ql{animation:fadeUp .38s ease both;}
+.ql:nth-child(n){animation-delay:calc(.28s + (var(--i,0) * .05s));}
+.card{animation:fadeUp .38s ease .52s both;}
+
+@media(max-width:1100px){.dash-grid{grid-template-columns:1fr;}.stat-grid{grid-template-columns:repeat(2,1fr);}.quick-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:768px){
   .sidebar{transform:translateX(-100%);}
   .sidebar.open{transform:translateX(0);}
   .sidebar-overlay.open{display:block;}
-  .main{margin-left:0 !important;}
-  .menu-btn{display:flex !important;}
-  .topbar{padding:10px 14px;}
-  .scroll{padding:12px 14px;}
-  .stat-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
-  .quick-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
-  .stat-n{font-size:18px;}
-  .stat{padding:12px;}
-  .ql{padding:10px;}
+  .main{margin-left:0!important;}
+  .menu-btn{display:flex!important;}
+  .topbar,.scroll{padding:12px 16px;}
+  .stat-grid,.quick-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
   .etbl th:nth-child(n+4),.etbl td:nth-child(n+4){display:none;}
 }
 </style>
@@ -103,30 +289,30 @@ html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f
 <div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
 <div class="app">
 
-<!-- ── SIDEBAR ── -->
 <aside class="sidebar" id="sidebar">
-  <div class="logo"><div class="logo-icon">K</div><div class="logo-text">KIDV <span>Tech</span></div></div>
+  <div class="logo-area">
+    <img src="logo.png" alt="KIDV Tech">
+  </div>
   <nav class="nav">
     <div class="nav-sec">Main</div>
-    <a href="index.html" class="active"><span class="material-icons-round">dashboard</span>Dashboard</a>
-    <a href="employees.html"><span class="material-icons-round">badge</span>Employees</a>
+    <a href="index.html"><span class="ic ic-main"><span class="material-icons-round">dashboard</span></span>Dashboard</a>
+    <a href="employees.html"><span class="ic ic-main"><span class="material-icons-round">badge</span></span>Employees</a>
     <div class="nav-sec">HR</div>
-    <a href="shifts.html"><span class="material-icons-round">schedule</span>Shifts</a>
-    <a href="holidays.html"><span class="material-icons-round">event</span>Holidays</a>
+    <a href="leave-management.html"><span class="ic ic-hr"><span class="material-icons-round">event_available</span></span>Leave</a>
+    <a href="shifts.html"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
+    <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
+    <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
     <div class="nav-sec">Operations</div>
-    <a href="attendance.html"><span class="material-icons-round">calendar_month</span>Attendance</a>
-    <a href="payroll.html"><span class="material-icons-round">receipt_long</span>Payroll</a>
+    <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
+    <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
+    <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
+    <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
     <div class="nav-sec">Integration</div>
-    <a href="device-manager.html"><span class="material-icons-round">device_hub</span>Device Manager</a>
+    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">device_hub</span></span>Device Manager</a>
     <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
-    <a href="users.html" id="usersLink" style="display:none;"><span class="material-icons-round">manage_accounts</span>Users</a>
-    <a href="roles.html" id="rolesLink" style="display:none;"><span class="material-icons-round">shield</span>Roles & Perms</a>
-    <a href="leave-management.html"><span class="material-icons-round">event_available</span>Leave</a>
-    <a href="statutory-compliance.html"><span class="material-icons-round">gavel</span>Compliance</a>
-    <a href="payslip.html"><span class="material-icons-round">description</span>Payslips</a>
-    <a href="reports.html"><span class="material-icons-round">bar_chart</span>Reports</a>
+    <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
+    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">shield</span></span>Roles &amp; Perms</a>
   </nav>
-  <!-- nav-bottom OUTSIDE nav, INSIDE sidebar -->
   <div class="nav-bottom">
     <div class="user-info">
       <div class="user-av" id="sideAvatar">SA</div>
@@ -139,53 +325,67 @@ html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f
   </div>
 </aside>
 
-<!-- ── MAIN ── -->
 <div class="main">
   <div class="topbar">
     <div class="topbar-left">
       <button class="menu-btn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
       <div>
-        <div style="font-size:15px;font-weight:900;text-transform:uppercase;color:#1e293b;">Dashboard</div>
-        <div id="todayStr" style="font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;margin-top:1px;"></div>
+        <div class="page-title">Dashboard</div>
+        <div class="page-date" id="todayStr"></div>
       </div>
     </div>
-    <a href="employees.html" class="btn btn-blue"><span class="material-icons-round">add</span><span class="btn-label">Add Employee</span></a>
+    <a href="employees.html" class="btn btn-blue"><span class="material-icons-round">add</span>Add Employee</a>
   </div>
 
   <div class="scroll">
     <div class="stat-grid">
-      <div class="stat"><div class="stat-icon" style="background:#eff6ff;"><span class="material-icons-round" style="color:#2563eb;">group</span></div><div class="stat-n" id="stEmp">0</div><div class="stat-l">Total Employees</div></div>
-      <div class="stat"><div class="stat-icon" style="background:#f0fdf4;"><span class="material-icons-round" style="color:#16a34a;">payments</span></div><div class="stat-n" id="stCtc" style="color:#16a34a;">₹0</div><div class="stat-l">Total Monthly CTC</div></div>
-      <div class="stat"><div class="stat-icon" style="background:#fff7ed;"><span class="material-icons-round" style="color:#f97316;">schedule</span></div><div class="stat-n" id="stShifts" style="color:#f97316;">0</div><div class="stat-l">Active Shifts</div></div>
-      <div class="stat"><div class="stat-icon" style="background:#fef9c3;"><span class="material-icons-round" style="color:#d97706;">event</span></div><div class="stat-n" id="stHol" style="color:#d97706;">0</div><div class="stat-l">Holidays This Year</div></div>
+      <div class="stat s1">
+        <div class="stat-icon" style="background:#eff6ff;"><span class="material-icons-round" style="color:#2563eb;">group</span></div>
+        <div class="stat-n" id="stEmp">0</div><div class="stat-l">Total Employees</div>
+      </div>
+      <div class="stat s2">
+        <div class="stat-icon" style="background:#f0fdf4;"><span class="material-icons-round" style="color:#10b981;">payments</span></div>
+        <div class="stat-n" id="stCtc" style="color:#10b981;">₹0</div><div class="stat-l">Total Monthly CTC</div>
+      </div>
+      <div class="stat s3">
+        <div class="stat-icon" style="background:#fffbeb;"><span class="material-icons-round" style="color:#f59e0b;">schedule</span></div>
+        <div class="stat-n" id="stShifts" style="color:#f59e0b;">0</div><div class="stat-l">Active Shifts</div>
+      </div>
+      <div class="stat s4">
+        <div class="stat-icon" style="background:#f5f3ff;"><span class="material-icons-round" style="color:#8b5cf6;">event</span></div>
+        <div class="stat-n" id="stHol" style="color:#8b5cf6;">0</div><div class="stat-l">Holidays This Year</div>
+      </div>
     </div>
 
     <div class="quick-grid">
       <a href="employees.html" class="ql"><div class="ql-icon" style="background:#eff6ff;"><span class="material-icons-round" style="color:#2563eb;">badge</span></div><div><div class="ql-name">Employees</div><div class="ql-desc">Manage workforce</div></div></a>
-      <a href="shifts.html" class="ql"><div class="ql-icon" style="background:#fff7ed;"><span class="material-icons-round" style="color:#f97316;">schedule</span></div><div><div class="ql-name">Shifts</div><div class="ql-desc">Shift master</div></div></a>
-      <a href="holidays.html" class="ql"><div class="ql-icon" style="background:#fef9c3;"><span class="material-icons-round" style="color:#d97706;">event</span></div><div><div class="ql-name">Holidays</div><div class="ql-desc">Holiday calendar</div></div></a>
-      <a href="attendance.html" class="ql"><div class="ql-icon" style="background:#f0fdf4;"><span class="material-icons-round" style="color:#16a34a;">calendar_month</span></div><div><div class="ql-name">Attendance</div><div class="ql-desc">Daily marking</div></div></a>
-      <a href="payroll.html" class="ql"><div class="ql-icon" style="background:#f5f3ff;"><span class="material-icons-round" style="color:#7c3aed;">receipt_long</span></div><div><div class="ql-name">Payroll</div><div class="ql-desc">Monthly salary</div></div></a>
-      <a href="payroll.html" class="ql"><div class="ql-icon" style="background:#fef2f2;"><span class="material-icons-round" style="color:#ef4444;">download</span></div><div><div class="ql-name">Export</div><div class="ql-desc">CSV / Reports</div></div></a>
-      <a href="device-manager.html" class="ql" style="border-color:#ddd6fe;"><div class="ql-icon" style="background:#f5f3ff;"><span class="material-icons-round" style="color:#7c3aed;">device_hub</span></div><div><div class="ql-name">Devices</div><div class="ql-desc">Attendance pull</div></div></a>
-      <div class="ql" style="cursor:default;border-color:#ddd6fe;"><div class="ql-icon" style="background:#f0fdf4;"><span class="material-icons-round" style="color:#16a34a;">sync</span></div><div><div class="ql-name" id="qlPullCount">0 Records</div><div class="ql-desc">Pulled Today</div></div></div>
+      <a href="shifts.html" class="ql"><div class="ql-icon" style="background:#fffbeb;"><span class="material-icons-round" style="color:#f59e0b;">schedule</span></div><div><div class="ql-name">Shifts</div><div class="ql-desc">Shift master</div></div></a>
+      <a href="holidays.html" class="ql"><div class="ql-icon" style="background:#f5f3ff;"><span class="material-icons-round" style="color:#8b5cf6;">event</span></div><div><div class="ql-name">Holidays</div><div class="ql-desc">Holiday calendar</div></div></a>
+      <a href="attendance.html" class="ql"><div class="ql-icon" style="background:#f0fdf4;"><span class="material-icons-round" style="color:#10b981;">calendar_month</span></div><div><div class="ql-name">Attendance</div><div class="ql-desc">Daily marking</div></div></a>
+      <a href="payroll.html" class="ql"><div class="ql-icon" style="background:#fef3c7;"><span class="material-icons-round" style="color:#d97706;">receipt_long</span></div><div><div class="ql-name">Payroll</div><div class="ql-desc">Monthly salary</div></div></a>
+      <a href="reports.html" class="ql"><div class="ql-icon" style="background:#fef2f2;"><span class="material-icons-round" style="color:#ef4444;">bar_chart</span></div><div><div class="ql-name">Reports</div><div class="ql-desc">Analytics</div></div></a>
+      <a href="device-manager.html" class="ql"><div class="ql-icon" style="background:#f5f3ff;"><span class="material-icons-round" style="color:#8b5cf6;">device_hub</span></div><div><div class="ql-name">Devices</div><div class="ql-desc">Attendance pull</div></div></a>
+      <div class="ql" style="cursor:default;"><div class="ql-icon" style="background:#f0fdf4;"><span class="material-icons-round" style="color:#10b981;">sync</span></div><div><div class="ql-name" id="qlPullCount">0 Records</div><div class="ql-desc">Pulled Today</div></div></div>
     </div>
 
     <div class="dash-grid">
       <div class="card">
-        <div class="card-hd"><div class="card-title">Recent Employees</div><a href="employees.html" style="font-size:9px;color:#2563eb;font-weight:800;text-decoration:none;text-transform:uppercase;">View All →</a></div>
-        <div style="border-radius:10px;overflow:hidden;border:1px solid #f1f5f9;overflow-x:auto;">
+        <div class="card-hd">
+          <div class="card-title">Recent Employees</div>
+          <a href="employees.html" class="card-link">View All →</a>
+        </div>
+        <div style="border-radius:11px;overflow:hidden;border:1px solid #f1f5f9;overflow-x:auto;">
           <table class="etbl"><thead><tr><th>Employee</th><th>Designation</th><th>Dept</th><th>Device Code</th><th>Gross</th><th>Joined</th></tr></thead><tbody id="empTable"></tbody></table>
         </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;flex-direction:column;gap:13px;">
         <div class="card">
-          <div class="card-hd"><div class="card-title">Upcoming Holidays</div><a href="holidays.html" style="font-size:9px;color:#2563eb;font-weight:800;text-decoration:none;text-transform:uppercase;">All →</a></div>
-          <div id="upcomingHols"><div style="text-align:center;padding:20px;color:#94a3b8;font-size:10px;font-weight:700;text-transform:uppercase;">No upcoming holidays</div></div>
+          <div class="card-hd"><div class="card-title">Upcoming Holidays</div><a href="holidays.html" class="card-link">All →</a></div>
+          <div id="upcomingHols"><div style="text-align:center;padding:22px;color:#94a3b8;font-size:9.5px;font-weight:600;text-transform:uppercase;">No upcoming holidays</div></div>
         </div>
         <div class="card">
           <div class="card-hd"><div class="card-title">Payroll Snapshot</div></div>
-          <div id="paySnap"><div style="font-size:10px;text-align:center;color:#94a3b8;padding:16px;font-weight:700;text-transform:uppercase;">No data yet</div></div>
+          <div id="paySnap"><div style="font-size:9.5px;text-align:center;color:#94a3b8;padding:18px;font-weight:600;text-transform:uppercase;">No data yet</div></div>
         </div>
       </div>
     </div>
@@ -194,30 +394,20 @@ html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f
 </div>
 
 <script>
-/* ── SIDEBAR ── */
+(function(){
+  const page=window.location.pathname.split('/').pop()||'index.html';
+  document.querySelectorAll('.nav a').forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')===page)a.classList.add('active');});
+})();
 function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');document.body.style.overflow='hidden';}
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');document.body.style.overflow='';}
-// Close sidebar on any nav link click (mobile)
 document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',closeSidebar));
-
 function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
-
 function loadUserInfo(){
   const user=JSON.parse(localStorage.getItem('kidv_user')||'{}');
-  if(user.name){
-    const p=user.name.trim().split(' ');
-    document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();
-    document.getElementById('sideName').textContent=user.name;
-    document.getElementById('sideRole').textContent=user.role||'Staff';
-  }
+  if(user.name){const p=user.name.trim().split(' ');document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();document.getElementById('sideName').textContent=user.name;document.getElementById('sideRole').textContent=user.role||'Staff';}
   const role=(user.role||'').toLowerCase();
-  if(role==='super admin'||role==='admin'){
-    document.getElementById('adminNav').style.display='';
-    document.getElementById('usersLink').style.display='';
-    document.getElementById('rolesLink').style.display='';
-  }
+  if(role==='super admin'||role==='admin'){document.getElementById('adminNav').style.display='';document.getElementById('usersLink').style.display='';document.getElementById('rolesLink').style.display='';}
 }
-
 function loadDash(){
   loadUserInfo();
   document.getElementById('todayStr').textContent=new Date().toLocaleDateString('en-IN',{weekday:'long',day:'2-digit',month:'long',year:'numeric'}).toUpperCase();
@@ -226,24 +416,21 @@ function loadDash(){
   document.getElementById('stCtc').textContent='₹'+emps.reduce((s,e)=>s+parseFloat(e.sal_ctc||0),0).toLocaleString('en-IN');
   document.getElementById('stShifts').textContent=JSON.parse(localStorage.getItem('shifts')||'[]').length;
   const y=new Date().getFullYear();
-  const holidays=JSON.parse(localStorage.getItem(`holidays_${y}`)||'[]');
+  const holidays=JSON.parse(localStorage.getItem('holidays_'+y)||'[]');
   document.getElementById('stHol').textContent=holidays.length;
   document.getElementById('qlPullCount').textContent=JSON.parse(localStorage.getItem('pullHistory')||'[]').reduce((s,h)=>s+(h.records||0),0).toLocaleString()+' Records';
-
   const tbody=document.getElementById('empTable');
-  if(!emps.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:20px;color:#94a3b8;font-weight:700;text-transform:uppercase;">No employees yet</td></tr>';}
-  else{tbody.innerHTML=[...emps].reverse().slice(0,8).map(e=>`<tr><td><div style="display:flex;align-items:center;gap:8px;"><div class="eav">${(e.fName[0]+e.lName[0]).toUpperCase()}</div><span style="font-size:11px;font-weight:800;color:#1e293b;">${e.fName} ${e.lName}</span></div></td><td style="color:#64748b;font-size:10px;">${e.job||'--'}</td><td style="color:#64748b;font-size:10px;">${e.dept||'--'}</td><td style="font-size:10px;">${e.deviceCode?`<span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:99px;font-size:9px;font-weight:800;">${e.deviceCode}</span>`:'<span style="color:#e2e8f0;">—</span>'}</td><td style="font-weight:900;color:#2563eb;">₹${parseFloat(e.sal_gross||0).toLocaleString('en-IN')}</td><td style="color:#94a3b8;font-size:10px;">${e.doj||'--'}</td></tr>`).join('');}
-
+  if(!emps.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:22px;color:#94a3b8;font-weight:600;text-transform:uppercase;font-size:9.5px;">No employees yet</td></tr>';}
+  else{tbody.innerHTML=[...emps].reverse().slice(0,8).map(e=>`<tr><td><div style="display:flex;align-items:center;gap:9px;"><div class="eav">${(e.fName[0]+e.lName[0]).toUpperCase()}</div><span style="font-size:11px;font-weight:700;color:#1e293b;">${e.fName} ${e.lName}</span></div></td><td style="color:#64748b;font-size:10px;">${e.job||'--'}</td><td style="color:#64748b;font-size:10px;">${e.dept||'--'}</td><td>${e.deviceCode?`<span class="dev-badge">${e.deviceCode}</span>`:'<span style="color:#e2e8f0;">—</span>'}</td><td style="font-weight:800;color:#2563eb;">₹${parseFloat(e.sal_gross||0).toLocaleString('en-IN')}</td><td style="color:#94a3b8;font-size:9.5px;">${e.doj||'--'}</td></tr>`).join('');}
   const today=new Date();today.setHours(0,0,0,0);
   const upcoming=holidays.filter(h=>new Date(h.date)>=today).sort((a,b)=>new Date(a.date)-new Date(b.date)).slice(0,5);
   const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const tc={'NATIONAL':'background:#fef2f2;color:#ef4444;','GAZETTED':'background:#eff6ff;color:#2563eb;','FESTIVAL':'background:#f5f3ff;color:#7c3aed;','OPTIONAL':'background:#fff7ed;color:#f97316;','RESTRICTED':'background:#f0fdf4;color:#16a34a;'};
+  const tc={'NATIONAL':'background:#fef2f2;color:#ef4444;','GAZETTED':'background:#eff6ff;color:#2563eb;','FESTIVAL':'background:#f5f3ff;color:#8b5cf6;','OPTIONAL':'background:#fffbeb;color:#f59e0b;','RESTRICTED':'background:#f0fdf4;color:#10b981;'};
   if(upcoming.length){document.getElementById('upcomingHols').innerHTML=upcoming.map(h=>{const d=new Date(h.date);return `<div class="hol-row"><div class="hol-date-box"><div class="hol-dd">${d.getDate()}</div><div class="hol-mm">${MONTHS[d.getMonth()]}</div></div><div><div class="hol-name">${h.name}</div><span class="hol-type" style="${tc[h.type]||'background:#f1f5f9;color:#64748b;'}">${h.type}</span></div></div>`;}).join('');}
-
   if(emps.length){
     const gross=emps.reduce((s,e)=>s+parseFloat(e.sal_gross||0),0),net=emps.reduce((s,e)=>s+parseFloat(e.sal_takehome||0),0),ctc=emps.reduce((s,e)=>s+parseFloat(e.sal_ctc||0),0);
     const fmt=v=>'₹'+parseFloat(v||0).toLocaleString('en-IN');
-    document.getElementById('paySnap').innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div style="background:#eff6ff;border-radius:10px;padding:10px;"><div style="font-size:7px;color:#94a3b8;font-weight:700;text-transform:uppercase;margin-bottom:3px;">Gross Payable</div><div style="font-size:14px;font-weight:900;color:#2563eb;">${fmt(gross)}</div></div><div style="background:#f0fdf4;border-radius:10px;padding:10px;"><div style="font-size:7px;color:#94a3b8;font-weight:700;text-transform:uppercase;margin-bottom:3px;">Net Take Home</div><div style="font-size:14px;font-weight:900;color:#16a34a;">${fmt(net)}</div></div><div style="background:#fef2f2;border-radius:10px;padding:10px;"><div style="font-size:7px;color:#94a3b8;font-weight:700;text-transform:uppercase;margin-bottom:3px;">Total Deductions</div><div style="font-size:14px;font-weight:900;color:#ef4444;">${fmt(gross-net)}</div></div><div style="background:#f5f3ff;border-radius:10px;padding:10px;"><div style="font-size:7px;color:#94a3b8;font-weight:700;text-transform:uppercase;margin-bottom:3px;">Total CTC</div><div style="font-size:14px;font-weight:900;color:#7c3aed;">${fmt(ctc)}</div></div></div><a href="payroll.html" style="display:flex;align-items:center;justify-content:center;gap:5px;margin-top:10px;padding:8px;background:#1e293b;color:#fff;border-radius:9px;text-decoration:none;font-size:10px;font-weight:800;text-transform:uppercase;"><span class="material-icons-round" style="font-size:13px;">receipt_long</span>Run Payroll</a>`;
+    document.getElementById('paySnap').innerHTML=`<div class="pay-grid"><div class="pay-box" style="background:#eff6ff;"><div class="pay-label">Gross Payable</div><div class="pay-val" style="color:#2563eb;">${fmt(gross)}</div></div><div class="pay-box" style="background:#f0fdf4;"><div class="pay-label">Net Take Home</div><div class="pay-val" style="color:#10b981;">${fmt(net)}</div></div><div class="pay-box" style="background:#fef2f2;"><div class="pay-label">Total Deductions</div><div class="pay-val" style="color:#ef4444;">${fmt(gross-net)}</div></div><div class="pay-box" style="background:#f5f3ff;"><div class="pay-label">Total CTC</div><div class="pay-val" style="color:#8b5cf6;">${fmt(ctc)}</div></div></div><a href="payroll.html" style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:11px;padding:10px;background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;border-radius:11px;text-decoration:none;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;box-shadow:0 4px 14px rgba(0,0,0,.14);"><span class="material-icons-round" style="font-size:14px;">receipt_long</span>Run Payroll</a>`;
   }
 }
 </script>
