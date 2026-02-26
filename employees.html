@@ -3,145 +3,403 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>KIDV Tech | Employees</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<script>if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}</script>
 <style>
+:root{
+  --sidebar-w:260px;
+  --navy:#07101f;
+  --blue:#2563eb;
+  --cyan:#06b6d4;
+  --green:#10b981;
+  --red:#ef4444;
+  --purple:#8b5cf6;
+  --amber:#f59e0b;
+  --text-p:#f1f5f9;
+  --text-m:rgba(148,163,184,.65);
+  --text-d:rgba(148,163,184,.32);
+  --border:rgba(255,255,255,.06);
+  --border-b:rgba(255,255,255,.11);
+  --glass:rgba(255,255,255,.04);
+  --glass-h:rgba(255,255,255,.08);
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f4f8;}
-.app{display:flex;height:100vh;overflow:hidden;}
+html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflow:hidden;}
+.app{display:flex;height:100vh;}
 
-/* ── SIDEBAR ── */
-.sidebar{width:220px;min-width:220px;background:#fff;border-right:1px solid #e2e8f0;display:flex;flex-direction:column;padding:18px 12px;height:100vh;transition:transform .3s;z-index:300;}
-.logo{display:flex;align-items:center;gap:10px;padding:6px 8px;margin-bottom:22px;}
-.logo-icon{width:36px;height:36px;background:#2563eb;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:900;box-shadow:0 4px 12px rgba(37,99,235,.28);}
-.logo-text{font-size:14px;font-weight:900;color:#1e293b;}.logo-text span{color:#2563eb;}
-.nav-sec{font-size:8px;color:#94a3b8;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:0 10px;margin:10px 0 4px;}
-.nav a{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;font-size:11px;font-weight:700;color:#64748b;text-decoration:none;margin-bottom:2px;text-transform:uppercase;letter-spacing:.03em;transition:all .15s;}
-.nav a:hover{background:#f1f5f9;color:#1e293b;}
-.nav a.active{background:#2563eb;color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.3);}
-.nav a .material-icons-round{font-size:16px;flex-shrink:0;}
+/* ═══ SIDEBAR ═══ */
+.sidebar{
+  width:var(--sidebar-w);min-width:var(--sidebar-w);
+  background:var(--navy);
+  display:flex;flex-direction:column;
+  height:100vh;position:fixed;left:0;top:0;z-index:200;
+  transition:transform .3s cubic-bezier(.4,0,.2,1);
+  overflow:hidden;border-right:1px solid rgba(255,255,255,.05);
+  box-shadow:8px 0 40px rgba(0,0,0,.35);
+}
+.sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:199;backdrop-filter:blur(6px);}
 
-/* ── MOBILE SIDEBAR OVERLAY ── */
-.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:250;backdrop-filter:blur(2px);}
+.logo-area{position:relative;z-index:1;flex-shrink:0;overflow:hidden;background:#fff;border-bottom:1px solid rgba(255,255,255,.06);}
+.logo-area img{width:100%;height:auto;object-fit:cover;display:block;}
 
-/* ── MAIN ── */
-.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;}
-.topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;}
-.scroll{flex:1;overflow-y:auto;padding:20px 24px;}
-.scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+.nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 10px 4px;position:relative;z-index:1;}
+.nav::-webkit-scrollbar{width:3px;}
+.nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:99px;}
+.nav-sec{font-size:8.5px;color:var(--text-d);font-weight:700;text-transform:uppercase;letter-spacing:.2em;padding:0 8px;margin:16px 0 5px;display:flex;align-items:center;gap:8px;}
+.nav-sec::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07);}
+.nav a{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:11px;font-size:11px;font-weight:600;color:var(--text-m);text-decoration:none;margin-bottom:1px;text-transform:uppercase;letter-spacing:.055em;transition:color .18s,background .18s,transform .18s;position:relative;}
+.nav a:hover{color:rgba(241,245,249,.9);background:rgba(255,255,255,.07);transform:translateX(2px);}
+.nav a.active{color:#fff;background:linear-gradient(120deg,rgba(37,99,235,.32) 0%,rgba(6,182,212,.18) 100%);border:1px solid rgba(59,130,246,.28);box-shadow:0 4px 20px rgba(37,99,235,.22),inset 0 1px 0 rgba(255,255,255,.09);}
+.nav a.active::after{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:55%;background:linear-gradient(180deg,#93c5fd,#22d3ee);border-radius:0 3px 3px 0;box-shadow:0 0 10px rgba(96,165,250,.8);}
+.ic{width:29px;height:29px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .18s,box-shadow .18s;}
+.ic .material-icons-round{font-size:15px;}
+.ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
+.ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-int{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.ic-adm{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
+.nav a.active .ic{transform:scale(1.08);box-shadow:0 0 14px rgba(37,99,235,.4);}
+.nav a:hover .ic{transform:scale(1.06);}
 
-/* ── HAMBURGER ── */
-.hamburger{display:none;width:36px;height:36px;background:#f1f5f9;border:none;border-radius:9px;cursor:pointer;align-items:center;justify-content:center;flex-shrink:0;}
-.hamburger .material-icons-round{font-size:20px;color:#1e293b;}
+.nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
+.user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--glass);margin-bottom:8px;border:1px solid var(--border-b);transition:background .18s;}
+.user-info:hover{background:var(--glass-h);}
+.user-av{width:33px;height:33px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;box-shadow:0 3px 12px rgba(37,99,235,.45);}
+.user-name{font-size:10.5px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.03em;line-height:1.3;}
+.user-role{font-size:8px;color:var(--text-d);font-weight:500;text-transform:uppercase;letter-spacing:.08em;margin-top:1px;}
+.logout-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:10px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);color:rgba(252,165,165,.8);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;}
+.logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;border-color:rgba(239,68,68,.4);box-shadow:0 4px 16px rgba(239,68,68,.18);}
+.logout-btn .material-icons-round{font-size:14px;}
 
-/* ── BUTTONS ── */
-.btn{display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;font-size:11px;font-weight:800;border:none;cursor:pointer;transition:all .15s;text-transform:uppercase;font-family:'Plus Jakarta Sans',sans-serif;}
-.btn-blue{background:#2563eb;color:#fff;}.btn-blue:hover{background:#1d4ed8;}
+/* ═══ MAIN ═══ */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:var(--sidebar-w);}
+.topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:13px 26px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:14px;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.topbar-left{display:flex;align-items:center;gap:13px;}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;transition:background .15s;}
+.menu-btn:hover{background:#f1f5f9;}
+.menu-btn .material-icons-round{font-size:22px;}
+.page-title{font-size:15px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
+.page-sub{font-size:9.5px;color:#94a3b8;font-weight:500;margin-top:2px;letter-spacing:.05em;}
+
+.topbar-actions{display:flex;align-items:center;gap:10px;}
+.search-box{display:flex;align-items:center;gap:8px;background:#f8fafc;border:1.5px solid #e8edf5;border-radius:10px;padding:8px 14px;transition:border .15s;}
+.search-box:focus-within{border-color:#2563eb;background:#fff;}
+.search-box .material-icons-round{font-size:16px;color:#94a3b8;}
+.search-box input{border:none;background:transparent;font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;color:#1e293b;outline:none;width:200px;}
+.search-box input::placeholder{color:#94a3b8;}
+
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.06em;font-family:'Outfit',sans-serif;text-decoration:none;white-space:nowrap;}
+.btn-blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 16px rgba(37,99,235,.32);}
+.btn-blue:hover{box-shadow:0 6px 22px rgba(37,99,235,.48);transform:translateY(-1px);}
 .btn .material-icons-round{font-size:14px;}
 
-/* ── PANEL ── */
-.panel-overlay{position:fixed;inset:0;background:rgba(15,23,42,.4);backdrop-filter:blur(4px);z-index:50;display:flex;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .25s;}
+.scroll{flex:1;overflow-y:auto;padding:20px 26px;}
+.scroll::-webkit-scrollbar{width:5px;}
+.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+
+/* EMPTY STATE */
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;color:#94a3b8;text-align:center;}
+.empty-state .material-icons-round{font-size:64px;margin-bottom:14px;opacity:.4;}
+.empty-state-title{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
+.empty-state-sub{font-size:11px;font-weight:500;opacity:.7;}
+
+/* EMP GRID */
+#empGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;}
+
+/* EMP CARD */
+.emp-card{
+  background:#fff;border-radius:18px;
+  border:1px solid #ecf0f6;
+  padding:20px;position:relative;
+  transition:all .22s;
+  box-shadow:0 1px 4px rgba(0,0,0,.04);
+  animation:fadeUp .38s ease both;
+  overflow:hidden;
+}
+.emp-card::before{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#2563eb,#06b6d4);
+  opacity:0;transition:opacity .22s;
+}
+.emp-card:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.1);border-color:#dde4ef;}
+.emp-card:hover::before{opacity:1;}
+
+.card-actions{position:absolute;top:14px;right:14px;display:flex;gap:6px;}
+.card-action-btn{
+  width:30px;height:30px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  background:#f8fafc;border:none;cursor:pointer;
+  transition:all .18s;text-decoration:none;color:#64748b;
+  border:1px solid #ecf0f6;
+}
+.card-action-btn:hover.view{background:#eff6ff;color:#2563eb;border-color:#bfdbfe;}
+.card-action-btn:hover.edit{background:#fff7ed;color:#f59e0b;border-color:#fed7aa;}
+.card-action-btn:hover.del{background:#fef2f2;color:#ef4444;border-color:#fecaca;}
+.card-action-btn .material-icons-round{font-size:14px;}
+
+.emp-avatar{
+  width:44px;height:44px;border-radius:13px;
+  background:linear-gradient(135deg,#2563eb,#06b6d4);
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:800;flex-shrink:0;
+  box-shadow:0 4px 14px rgba(37,99,235,.3);
+}
+.emp-name{font-size:13px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.03em;}
+.emp-role{font-size:9.5px;color:#2563eb;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-top:2px;}
+
+.emp-divider{height:1px;background:#f1f5f9;margin:14px 0;}
+
+.emp-meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.emp-meta-item .meta-label{font-size:7.5px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;}
+.emp-meta-item .meta-val{font-size:11px;font-weight:700;text-transform:uppercase;color:#1e293b;}
+
+.device-badge{
+  display:inline-block;
+  background:#eff6ff;color:#2563eb;
+  padding:3px 9px;border-radius:99px;
+  font-size:9px;font-weight:700;
+  border:1px solid #bfdbfe;
+  letter-spacing:.03em;
+}
+.gross-val{font-size:13px;font-weight:900;color:#2563eb;letter-spacing:-.01em;}
+
+.status-dot{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+  padding:3px 9px;border-radius:99px;
+}
+.status-active{background:#f0fdf4;color:#10b981;border:1px solid #bbf7d0;}
+.status-inactive{background:#fef2f2;color:#ef4444;border:1px solid #fecaca;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+/* ═══ PANEL ═══ */
+.panel-overlay{
+  position:fixed;inset:0;
+  background:rgba(7,16,31,.65);
+  backdrop-filter:blur(6px);
+  z-index:500;
+  display:flex;justify-content:flex-end;
+  opacity:0;pointer-events:none;
+  transition:opacity .28s;
+}
 .panel-overlay.open{opacity:1;pointer-events:all;}
-.panel{width:680px;max-width:100vw;height:100vh;background:#fff;box-shadow:-10px 0 40px rgba(0,0,0,.12);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s;}
+.panel{
+  width:700px;max-width:100vw;height:100vh;
+  background:#fff;
+  box-shadow:-12px 0 50px rgba(0,0,0,.18);
+  display:flex;flex-direction:column;
+  transform:translateX(100%);
+  transition:transform .3s cubic-bezier(.4,0,.2,1);
+}
 .panel-overlay.open .panel{transform:translateX(0);}
-.ph{padding:18px 22px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;background:#f8fafc;flex-shrink:0;}
-.pt{font-size:15px;font-weight:900;text-transform:uppercase;font-style:italic;color:#1e293b;}
+
+.panel-header{
+  padding:16px 22px;
+  border-bottom:1px solid #f1f5f9;
+  display:flex;align-items:center;justify-content:space-between;
+  background:#f8fafc;
+  flex-shrink:0;
+}
+.panel-title{font-size:14px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.08em;}
+
+.xbtn{
+  width:32px;height:32px;background:#f1f5f9;
+  border:none;border-radius:9px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;color:#64748b;
+}
+.xbtn:hover{background:#fef2f2;color:#ef4444;}
+.xbtn .material-icons-round{font-size:17px;}
+
 .pscroll{flex:1;overflow-y:auto;padding:22px;}
-.pscroll::-webkit-scrollbar{width:4px;}.pscroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
-.sec-head{font-size:9px;font-weight:800;padding-left:9px;margin-bottom:12px;border-left-width:3px;border-left-style:solid;text-transform:uppercase;letter-spacing:.08em;}
-.fl{font-size:8px;color:#64748b;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px;}
-input,select{font-family:'Plus Jakarta Sans',sans-serif;text-transform:uppercase;font-weight:700;width:100%;padding:9px 12px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:9px;font-size:11px;outline:none;transition:border .15s;}
-input:focus,select:focus{border-color:#2563eb;background:#fff;}
+.pscroll::-webkit-scrollbar{width:4px;}
+.pscroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+
+/* Form Section Header */
+.sec-head{
+  font-size:9px;font-weight:800;
+  padding:8px 12px;margin-bottom:14px;
+  border-left-width:3px;border-left-style:solid;
+  text-transform:uppercase;letter-spacing:.1em;
+  border-radius:0 8px 8px 0;
+  background:rgba(0,0,0,.025);
+}
+
+/* Form Fields */
+.fl{font-size:8px;color:#64748b;font-weight:700;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:4px;}
+input:not([type="submit"]),select{
+  font-family:'Outfit',sans-serif;
+  text-transform:uppercase;font-weight:600;
+  width:100%;padding:9px 12px;
+  background:#f8fafc;
+  border:1.5px solid #e2e8f0;
+  border-radius:9px;font-size:11px;
+  outline:none;transition:border .15s,background .15s;
+  color:#1e293b;
+}
+input:focus,select:focus{border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
 input[readonly]{opacity:.55;cursor:not-allowed;}
 .fg{margin-bottom:12px;}
-.xbtn{width:30px;height:30px;background:#f1f5f9;border:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
-.xbtn:hover{background:#fee2e2;color:#ef4444;}
-.device-code-box{background:#f5f3ff;border:1.5px solid #ddd6fe;border-radius:12px;padding:12px 14px;margin-bottom:14px;}
-.device-code-label{font-size:8px;color:#7c3aed;font-weight:800;text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:5px;margin-bottom:8px;}
 
-/* ── MOBILE RESPONSIVE ── */
+/* Device Code Box */
+.device-code-box{
+  background:#f5f3ff;border:1.5px solid #ddd6fe;
+  border-radius:12px;padding:13px 15px;margin-bottom:14px;
+}
+.device-code-label{
+  font-size:8px;color:#7c3aed;font-weight:800;
+  text-transform:uppercase;letter-spacing:.08em;
+  display:flex;align-items:center;gap:5px;margin-bottom:9px;
+}
+
+/* Salary section */
+.sal-section{
+  background:#0f172a;border-radius:18px;
+  padding:20px;margin-bottom:18px;
+  border:1px solid rgba(255,255,255,.06);
+}
+.sal-input{
+  background:rgba(255,255,255,.08)!important;
+  border-color:rgba(255,255,255,.15)!important;
+  color:#fff!important;
+}
+.sal-input:focus{border-color:rgba(59,130,246,.6)!important;box-shadow:0 0 0 3px rgba(37,99,235,.15)!important;}
+.sal-input-ro{background:rgba(255,255,255,.05)!important;border-color:rgba(255,255,255,.1)!important;color:#fff!important;opacity:.6;}
+.sal-label{font-size:7px;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;letter-spacing:.06em;}
+.sal-label-blue{font-size:7px;color:#93c5fd;text-transform:uppercase;display:block;margin-bottom:3px;letter-spacing:.06em;}
+.sal-label-red{font-size:7px;color:#f87171;text-transform:uppercase;display:block;margin-bottom:3px;letter-spacing:.06em;}
+.sal-label-green{font-size:7px;color:#86efac;text-transform:uppercase;display:block;margin-bottom:3px;letter-spacing:.06em;}
+
+/* Edu/Exp tables */
+.record-table-wrap{border:1.5px solid #e0f2fe;border-radius:12px;overflow:hidden;margin-bottom:10px;}
+.record-table-header{background:#f0f9ff;padding:9px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e0f2fe;}
+.add-row-btn{display:flex;align-items:center;gap:4px;background:#0891b2;color:#fff;border:none;padding:5px 11px;border-radius:7px;font-size:10px;font-weight:700;cursor:pointer;text-transform:uppercase;font-family:'Outfit',sans-serif;transition:all .15s;}
+.add-row-btn:hover{background:#0e7490;}
+.add-row-btn .material-icons-round{font-size:13px;}
+
+/* Submit btn */
+.submit-btn{
+  width:100%;padding:13px;border-radius:14px;
+  background:linear-gradient(135deg,#2563eb,#1d4ed8);
+  color:#fff;border:none;cursor:pointer;
+  font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.07em;
+  transition:all .18s;
+  box-shadow:0 4px 18px rgba(37,99,235,.35);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.submit-btn:hover{box-shadow:0 6px 24px rgba(37,99,235,.5);transform:translateY(-1px);}
+.submit-btn .material-icons-round{font-size:17px;}
+
+/* Responsive */
+@media(max-width:1100px){#empGrid{grid-template-columns:repeat(auto-fill,minmax(260px,1fr));}}
 @media(max-width:768px){
-  .sidebar{position:fixed;left:0;top:0;height:100vh;transform:translateX(-100%);z-index:300;}
+  .sidebar{transform:translateX(-100%);}
   .sidebar.open{transform:translateX(0);}
   .sidebar-overlay.open{display:block;}
-  .hamburger{display:flex;}
-  .topbar{padding:10px 14px;}
-  .scroll{padding:14px;}
-  #empGrid{grid-template-columns:1fr!important;}
+  .main{margin-left:0!important;}
+  .menu-btn{display:flex!important;}
+  .topbar{padding:11px 14px;}
+  .scroll{padding:12px 14px;}
+  .search-box{display:none;}
+  #empGrid{grid-template-columns:1fr;}
   .form-grid-3{grid-template-columns:1fr 1fr!important;}
   .form-grid-4{grid-template-columns:1fr 1fr!important;}
   .device-code-inner{grid-template-columns:1fr!important;}
   .sal-grid-3{grid-template-columns:1fr 1fr!important;}
   .sal-grid-4{grid-template-columns:1fr 1fr!important;}
   .addr-grid{grid-template-columns:1fr!important;}
-  .edu-table-wrap{overflow-x:auto;}
   .pscroll{padding:14px;}
-}
-@media(max-width:480px){
-  .form-grid-3{grid-template-columns:1fr!important;}
-  .form-grid-4{grid-template-columns:1fr!important;}
-  .sal-grid-3{grid-template-columns:1fr!important;}
-  .topbar h1{font-size:13px;}
 }
 </style>
 </head>
-<body onload="loadEmployees()">
+<body onload="init()">
+<div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
 <div class="app">
 
-<!-- Sidebar overlay -->
-<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
-
+<!-- ═══ SIDEBAR ═══ -->
 <aside class="sidebar" id="sidebar">
-  <!-- Close btn (mobile) -->
-  <button onclick="closeSidebar()" style="display:none;position:absolute;top:14px;right:14px;background:#f1f5f9;border:none;border-radius:8px;width:30px;height:30px;cursor:pointer;align-items:center;justify-content:center;" id="sidebarCloseBtn">
-    <span class="material-icons-round" style="font-size:16px;color:#64748b;">close</span>
-  </button>
-  <div class="logo"><div class="logo-icon">K</div><div class="logo-text">KIDV <span>Tech</span></div></div>
+  <div class="logo-area">
+    <img src="logo.png" alt="KIDV Tech">
+  </div>
   <nav class="nav">
     <div class="nav-sec">Main</div>
-    <a href="index.html"><span class="material-icons-round">dashboard</span>Dashboard</a>
-    <a href="employees.html" class="active"><span class="material-icons-round">badge</span>Employees</a>
+    <a href="index.html"><span class="ic ic-main"><span class="material-icons-round">dashboard</span></span>Dashboard</a>
+    <a href="employees.html" class="active"><span class="ic ic-main"><span class="material-icons-round">badge</span></span>Employees</a>
     <div class="nav-sec">HR</div>
-    <a href="shifts.html"><span class="material-icons-round">schedule</span>Shifts</a>
-    <a href="holidays.html"><span class="material-icons-round">event</span>Holidays</a>
+    <a href="leave-management.html"><span class="ic ic-hr"><span class="material-icons-round">event_available</span></span>Leave</a>
+    <a href="shifts.html"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
+    <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
+    <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
     <div class="nav-sec">Operations</div>
-    <a href="attendance.html"><span class="material-icons-round">calendar_month</span>Attendance</a>
-    <a href="payroll.html"><span class="material-icons-round">receipt_long</span>Payroll</a>
+    <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
+    <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
+    <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
+    <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
     <div class="nav-sec">Integration</div>
-    <a href="device-manager.html"><span class="material-icons-round">device_hub</span>Device Manager</a>
+    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">device_hub</span></span>Device Manager</a>
+    <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
+    <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
+    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">shield</span></span>Roles &amp; Perms</a>
   </nav>
+  <div class="nav-bottom">
+    <div class="user-info">
+      <div class="user-av" id="sideAvatar">SA</div>
+      <div>
+        <div class="user-name" id="sideName">Admin</div>
+        <div class="user-role" id="sideRole">Administrator</div>
+      </div>
+    </div>
+    <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
+  </div>
 </aside>
 
+<!-- ═══ MAIN ═══ -->
 <div class="main">
   <div class="topbar">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <button class="hamburger" id="hamburgerBtn" onclick="openSidebar()">
-        <span class="material-icons-round">menu</span>
-      </button>
-      <h1 style="font-size:16px;font-weight:900;text-transform:uppercase;color:#1e293b;">Workforce Master</h1>
+    <div class="topbar-left">
+      <button class="menu-btn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
+      <div>
+        <div class="page-title">Workforce Master</div>
+        <div class="page-sub" id="empCount">0 Employees</div>
+      </div>
     </div>
-    <button class="btn btn-blue" onclick="openPanel('Add Employee')"><span class="material-icons-round">add</span><span class="hide-xs">Add Employee</span><span class="show-xs" style="display:none;">Add</span></button>
+    <div class="topbar-actions">
+      <div class="search-box">
+        <span class="material-icons-round">search</span>
+        <input type="text" id="searchInput" placeholder="Search by name, dept, code..." oninput="filterEmployees()">
+      </div>
+      <button class="btn btn-blue" onclick="openPanel('Add Employee')">
+        <span class="material-icons-round">add</span>Add Employee
+      </button>
+    </div>
   </div>
+
   <div class="scroll">
-    <div id="empGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;"></div>
+    <div id="empGrid"></div>
   </div>
-</div>
 </div>
 
-<!-- PANEL -->
+</div><!-- /app -->
+
+<!-- ═══ PANEL ═══ -->
 <div id="panelOverlay" class="panel-overlay" onclick="if(event.target===this)closePanel()">
 <div class="panel">
-  <div class="ph">
-    <div class="pt" id="panelTitle">Add Employee</div>
-    <button class="xbtn" onclick="closePanel()"><span class="material-icons-round" style="font-size:16px;">close</span></button>
+  <div class="panel-header">
+    <div class="panel-title" id="panelTitle">Add Employee</div>
+    <button class="xbtn" onclick="closePanel()"><span class="material-icons-round">close</span></button>
   </div>
   <form id="empForm" onsubmit="saveEmp(event)" class="pscroll">
     <input type="hidden" id="eidx">
 
     <!-- 1. Personal -->
-    <div style="margin-bottom:18px;">
-      <div class="sec-head" style="color:#2563eb;border-color:#2563eb;">1. Personal & Identity</div>
+    <div style="margin-bottom:20px;">
+      <div class="sec-head" style="color:#2563eb;border-color:#2563eb;">1. Personal &amp; Identity</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;" class="form-grid-3">
         <div class="fg"><label class="fl">First Name *</label><input id="fName" required></div>
         <div class="fg"><label class="fl">Middle Name</label><input id="mName"></div>
@@ -156,8 +414,8 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
     </div>
 
     <!-- 2. Legal -->
-    <div style="margin-bottom:18px;">
-      <div class="sec-head" style="color:#7c3aed;border-color:#7c3aed;">2. Legal & Statutory IDs</div>
+    <div style="margin-bottom:20px;">
+      <div class="sec-head" style="color:#8b5cf6;border-color:#8b5cf6;">2. Legal &amp; Statutory IDs</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;" class="form-grid-3">
         <div class="fg"><label class="fl">Aadhar No.</label><input id="aadhar" maxlength="12"></div>
         <div class="fg"><label class="fl">PAN No.</label><input id="pan" maxlength="10"></div>
@@ -169,22 +427,22 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
     </div>
 
     <!-- 3. Work -->
-    <div style="margin-bottom:18px;">
-      <div class="sec-head" style="color:#f97316;border-color:#f97316;">3. Work & Designation</div>
+    <div style="margin-bottom:20px;">
+      <div class="sec-head" style="color:#f59e0b;border-color:#f59e0b;">3. Work &amp; Designation</div>
       <div class="device-code-box">
         <div class="device-code-label">
-          <span class="material-icons-round" style="font-size:14px;color:#7c3aed;">device_hub</span>
+          <span class="material-icons-round" style="font-size:14px;">device_hub</span>
           Smart Office / Attendance Device Link
         </div>
         <div style="display:grid;grid-template-columns:1fr 2fr;gap:10px;align-items:end;" class="device-code-inner">
           <div class="fg" style="margin-bottom:0;">
             <label class="fl" style="color:#7c3aed;">Device Employee Code *</label>
-            <input id="deviceCode" placeholder="EMP001" style="border-color:#ddd6fe;background:#fff;text-transform:uppercase;font-weight:900;font-size:13px;">
+            <input id="deviceCode" placeholder="EMP001" style="border-color:#ddd6fe;background:#fff;font-size:13px;font-weight:800;">
           </div>
-          <div style="font-size:9px;color:#7c3aed;line-height:1.6;padding-bottom:2px;">
+          <div style="font-size:9px;color:#7c3aed;line-height:1.7;padding-bottom:2px;">
             Smart Office ના <strong>EmployeeCode</strong> field સાથે exact match થવો જોઈએ.<br>
             Pull Data વખતે આ code થી attendance automatically link થશે.<br>
-            <span style="color:#94a3b8;">Example: EMP001, 1001, A-205</span>
+            <span style="color:#94a3b8;font-size:8px;">Example: EMP001, 1001, A-205</span>
           </div>
         </div>
       </div>
@@ -202,11 +460,11 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
     </div>
 
     <!-- 4. Shift -->
-    <div style="margin-bottom:18px;">
-      <div class="sec-head" style="color:#0891b2;border-color:#0891b2;">4. Shift & Policy</div>
+    <div style="margin-bottom:20px;">
+      <div class="sec-head" style="color:#06b6d4;border-color:#06b6d4;">4. Shift &amp; Policy</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;" class="form-grid-4">
         <div class="fg"><label class="fl">Shift</label>
-          <select id="shift" onchange="fillShiftDetails()"><option value="">-- Select Shift --</option></select>
+          <select id="shift" onchange="fillShiftDetails()"><option value="">-- Select --</option></select>
         </div>
         <div class="fg"><label class="fl">Week Off</label><select id="weekoff"><option>SUNDAY</option><option>SATURDAY</option><option>MONDAY</option></select></div>
         <div class="fg"><label class="fl">OT Eligible</label><select id="otEligible"><option>YES</option><option>NO</option></select></div>
@@ -215,8 +473,8 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
     </div>
 
     <!-- 5. Bank -->
-    <div style="margin-bottom:18px;">
-      <div class="sec-head" style="color:#16a34a;border-color:#16a34a;">5. Bank Details</div>
+    <div style="margin-bottom:20px;">
+      <div class="sec-head" style="color:#10b981;border-color:#10b981;">5. Bank Details</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;" class="form-grid-3">
         <div class="fg" style="grid-column:span 2;"><label class="fl">Bank Name</label>
           <select id="bankName">
@@ -234,8 +492,8 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
     </div>
 
     <!-- 6. Family -->
-    <div style="margin-bottom:18px;">
-      <div class="sec-head" style="color:#db2777;border-color:#db2777;">6. Family & Emergency</div>
+    <div style="margin-bottom:20px;">
+      <div class="sec-head" style="color:#ec4899;border-color:#ec4899;">6. Family &amp; Emergency</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;" class="form-grid-3">
         <div class="fg"><label class="fl">Father's Name</label><input id="fatherName"></div>
         <div class="fg"><label class="fl">Mother's Name</label><input id="motherName"></div>
@@ -247,27 +505,27 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
     </div>
 
     <!-- 7. Address -->
-    <div style="margin-bottom:18px;">
-      <div class="sec-head" style="color:#4f46e5;border-color:#4f46e5;">7. Address</div>
+    <div style="margin-bottom:20px;">
+      <div class="sec-head" style="color:#6366f1;border-color:#6366f1;">7. Address</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;" class="addr-grid">
         <div>
-          <div style="font-size:8px;color:#2563eb;font-weight:800;text-transform:uppercase;margin-bottom:8px;">Current Address</div>
+          <div style="font-size:8px;color:#2563eb;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:9px;">Current Address</div>
           <div class="fg"><input id="currAddr" placeholder="Street / Area"></div>
           <div class="fg"><input id="currCity" placeholder="City / Town"></div>
-          <div class="fg"><select id="currState" style="text-transform:uppercase;"><option value="">-- Select State --</option><option>GUJARAT</option><option>MAHARASHTRA</option><option>RAJASTHAN</option><option>DELHI (NCT)</option><option>UTTAR PRADESH</option><option>KARNATAKA</option><option>TAMIL NADU</option><option>TELANGANA</option><option>ANDHRA PRADESH</option><option>WEST BENGAL</option><option>BIHAR</option><option>MADHYA PRADESH</option><option>HARYANA</option><option>PUNJAB</option><option>OTHER</option></select></div>
+          <div class="fg"><select id="currState"><option value="">-- Select State --</option><option>GUJARAT</option><option>MAHARASHTRA</option><option>RAJASTHAN</option><option>DELHI (NCT)</option><option>UTTAR PRADESH</option><option>KARNATAKA</option><option>TAMIL NADU</option><option>TELANGANA</option><option>ANDHRA PRADESH</option><option>WEST BENGAL</option><option>BIHAR</option><option>MADHYA PRADESH</option><option>HARYANA</option><option>PUNJAB</option><option>OTHER</option></select></div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
             <div class="fg"><input id="currPin" placeholder="Pincode" maxlength="6"></div>
             <div class="fg"><select id="currCountry"><option>INDIA</option><option>OTHER</option></select></div>
           </div>
         </div>
         <div>
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <div style="font-size:8px;color:#4f46e5;font-weight:800;text-transform:uppercase;">Permanent Address</div>
-            <button type="button" onclick="copyAddr()" style="font-size:8px;font-weight:800;color:#2563eb;background:#eff6ff;border:none;padding:3px 8px;border-radius:6px;cursor:pointer;text-transform:uppercase;">Same as Current ↑</button>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;">
+            <div style="font-size:8px;color:#6366f1;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">Permanent Address</div>
+            <button type="button" onclick="copyAddr()" style="font-size:8px;font-weight:700;color:#2563eb;background:#eff6ff;border:none;padding:3px 9px;border-radius:6px;cursor:pointer;text-transform:uppercase;letter-spacing:.04em;font-family:'Outfit',sans-serif;">Same as Current ↑</button>
           </div>
           <div class="fg"><input id="permAddr" placeholder="Street / Area"></div>
           <div class="fg"><input id="permCity" placeholder="City / Town"></div>
-          <div class="fg"><select id="permState" style="text-transform:uppercase;"><option value="">-- Select State --</option><option>GUJARAT</option><option>MAHARASHTRA</option><option>RAJASTHAN</option><option>DELHI (NCT)</option><option>UTTAR PRADESH</option><option>KARNATAKA</option><option>TAMIL NADU</option><option>TELANGANA</option><option>ANDHRA PRADESH</option><option>WEST BENGAL</option><option>BIHAR</option><option>MADHYA PRADESH</option><option>HARYANA</option><option>PUNJAB</option><option>OTHER</option></select></div>
+          <div class="fg"><select id="permState"><option value="">-- Select State --</option><option>GUJARAT</option><option>MAHARASHTRA</option><option>RAJASTHAN</option><option>DELHI (NCT)</option><option>UTTAR PRADESH</option><option>KARNATAKA</option><option>TAMIL NADU</option><option>TELANGANA</option><option>ANDHRA PRADESH</option><option>WEST BENGAL</option><option>BIHAR</option><option>MADHYA PRADESH</option><option>HARYANA</option><option>PUNJAB</option><option>OTHER</option></select></div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
             <div class="fg"><input id="permPin" placeholder="Pincode" maxlength="6"></div>
             <div class="fg"><select id="permCountry"><option>INDIA</option><option>OTHER</option></select></div>
@@ -277,57 +535,49 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
     </div>
 
     <!-- 8. Education & Experience -->
-    <div style="margin-bottom:18px;">
-      <div class="sec-head" style="color:#0891b2;border-color:#0891b2;">8. Education Qualifications</div>
-      <div style="border:1.5px solid #e0f2fe;border-radius:12px;overflow:hidden;margin-bottom:10px;">
-        <div style="background:#f0f9ff;padding:8px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e0f2fe;">
-          <span style="font-size:9px;font-weight:800;color:#0369a1;text-transform:uppercase;">Qualification Records</span>
-          <button type="button" onclick="addEduRow()" style="display:flex;align-items:center;gap:4px;background:#0891b2;color:#fff;border:none;padding:5px 10px;border-radius:7px;font-size:10px;font-weight:800;cursor:pointer;text-transform:uppercase;font-family:'Plus Jakarta Sans',sans-serif;">
-            <span class="material-icons-round" style="font-size:13px;">add</span>Add Education
-          </button>
+    <div style="margin-bottom:20px;">
+      <div class="sec-head" style="color:#06b6d4;border-color:#06b6d4;">8. Education Qualifications</div>
+      <div class="record-table-wrap">
+        <div class="record-table-header">
+          <span style="font-size:9px;font-weight:800;color:#0369a1;text-transform:uppercase;letter-spacing:.08em;">Qualification Records</span>
+          <button type="button" onclick="addEduRow()" class="add-row-btn"><span class="material-icons-round">add</span>Add Education</button>
         </div>
-        <div class="edu-table-wrap" style="overflow-x:auto;">
+        <div style="overflow-x:auto;">
           <table style="width:100%;border-collapse:collapse;font-size:11px;min-width:500px;" id="eduTable">
-            <thead>
-              <tr style="background:#f8fafc;">
-                <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Degree</th>
-                <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">University</th>
-                <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Year</th>
-                <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Grade</th>
-                <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Specialization</th>
-                <th style="padding:8px 12px;width:40px;"></th>
-              </tr>
-            </thead>
+            <thead><tr style="background:#f8fafc;">
+              <th style="padding:9px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Degree</th>
+              <th style="padding:9px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">University</th>
+              <th style="padding:9px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Year</th>
+              <th style="padding:9px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Grade</th>
+              <th style="padding:9px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Specialization</th>
+              <th style="padding:9px 12px;width:40px;"></th>
+            </tr></thead>
             <tbody id="eduBody">
-              <tr id="eduEmpty"><td colspan="6" style="padding:16px;text-align:center;color:#94a3b8;font-size:11px;font-weight:700;">No education records. Click "Add Education" to start.</td></tr>
+              <tr id="eduEmpty"><td colspan="6" style="padding:18px;text-align:center;color:#94a3b8;font-size:11px;font-weight:600;">No education records. Click "Add Education" to start.</td></tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <div class="sec-head" style="color:#0891b2;border-color:#0891b2;margin-top:16px;">Work Experience History</div>
-      <div style="border:1.5px solid #e0f2fe;border-radius:12px;overflow:hidden;">
-        <div style="background:#f0f9ff;padding:8px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e0f2fe;">
-          <span style="font-size:9px;font-weight:800;color:#0369a1;text-transform:uppercase;">Experience Records</span>
-          <button type="button" onclick="addExpRow()" style="display:flex;align-items:center;gap:4px;background:#0891b2;color:#fff;border:none;padding:5px 10px;border-radius:7px;font-size:10px;font-weight:800;cursor:pointer;text-transform:uppercase;font-family:'Plus Jakarta Sans',sans-serif;">
-            <span class="material-icons-round" style="font-size:13px;">add</span>Add Experience
-          </button>
+      <div class="sec-head" style="color:#06b6d4;border-color:#06b6d4;margin-top:18px;">Work Experience History</div>
+      <div class="record-table-wrap">
+        <div class="record-table-header">
+          <span style="font-size:9px;font-weight:800;color:#0369a1;text-transform:uppercase;letter-spacing:.08em;">Experience Records</span>
+          <button type="button" onclick="addExpRow()" class="add-row-btn"><span class="material-icons-round">add</span>Add Experience</button>
         </div>
         <div style="overflow-x:auto;">
           <table style="width:100%;border-collapse:collapse;font-size:11px;min-width:600px;" id="expTable">
-            <thead>
-              <tr style="background:#f8fafc;">
-                <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Company</th>
-                <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Designation</th>
-                <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">From</th>
-                <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">To</th>
-                <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">CTC</th>
-                <th style="padding:8px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Reason</th>
-                <th style="padding:8px 12px;width:40px;"></th>
-              </tr>
-            </thead>
+            <thead><tr style="background:#f8fafc;">
+              <th style="padding:9px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Company</th>
+              <th style="padding:9px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Designation</th>
+              <th style="padding:9px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">From</th>
+              <th style="padding:9px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">To</th>
+              <th style="padding:9px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">CTC</th>
+              <th style="padding:9px 12px;text-align:left;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;">Reason</th>
+              <th style="padding:9px 12px;width:40px;"></th>
+            </tr></thead>
             <tbody id="expBody">
-              <tr id="expEmpty"><td colspan="7" style="padding:16px;text-align:center;color:#94a3b8;font-size:11px;font-weight:700;">No experience records.</td></tr>
+              <tr id="expEmpty"><td colspan="7" style="padding:18px;text-align:center;color:#94a3b8;font-size:11px;font-weight:600;">No experience records.</td></tr>
             </tbody>
           </table>
         </div>
@@ -335,68 +585,95 @@ input[readonly]{opacity:.55;cursor:not-allowed;}
     </div>
 
     <!-- 9. Salary -->
-    <div style="background:#1e293b;border-radius:18px;padding:20px;margin-bottom:18px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:12px;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
-        <div style="font-size:10px;font-weight:800;color:#60a5fa;text-transform:uppercase;letter-spacing:.08em;">9. Salary Structure</div>
-        <div style="display:flex;align-items:center;gap:8px;"><label style="font-size:8px;color:#64748b;text-transform:uppercase;">Effective:</label><input type="date" id="sal_effective_date" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#fff;width:auto;"></div>
+    <div class="sal-section">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:13px;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
+        <div style="font-size:10px;font-weight:800;color:#60a5fa;text-transform:uppercase;letter-spacing:.1em;">9. Salary Structure</div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <label style="font-size:8px;color:#64748b;text-transform:uppercase;letter-spacing:.05em;">Effective:</label>
+          <input type="date" id="sal_effective_date" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;width:auto;border-radius:8px;padding:6px 10px;font-family:'Outfit',sans-serif;font-size:11px;">
+        </div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px;" class="sal-grid-3">
-        <div><label style="font-size:7px;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;">Basic *</label><input type="number" id="sal_basic" oninput="calcSalary()" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff;"></div>
-        <div><label style="font-size:7px;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;">HRA</label><input type="number" id="sal_hra" oninput="calcSalary()" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff;"></div>
-        <div><label style="font-size:7px;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;">Conveyance</label><input type="number" id="sal_conv" oninput="calcSalary()" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff;"></div>
-        <div><label style="font-size:7px;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;">Attendance</label><input type="number" id="sal_att" oninput="calcSalary()" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff;"></div>
-        <div><label style="font-size:7px;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;">Education Allw.</label><input type="number" id="sal_edu" oninput="calcSalary()" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff;"></div>
-        <div><label style="font-size:7px;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;">Washing Allw.</label><input type="number" id="sal_wash" oninput="calcSalary()" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff;"></div>
-        <div><label style="font-size:7px;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;">Special Allw.</label><input type="number" id="sal_spec" oninput="calcSalary()" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff;"></div>
-        <div><label style="font-size:7px;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;">Flexi Pay</label><input type="number" id="sal_flexi" oninput="calcSalary()" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff;"></div>
-        <div style="background:rgba(37,99,235,.3);border-radius:10px;padding:10px;"><label style="font-size:7px;color:#93c5fd;text-transform:uppercase;display:block;margin-bottom:3px;">Gross Monthly</label><input type="number" id="sal_gross" readonly style="background:transparent;border:none;color:#60a5fa;font-size:16px;font-weight:900;padding:0;"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:13px;" class="sal-grid-3">
+        <div><label class="sal-label">Basic *</label><input type="number" id="sal_basic" oninput="calcSalary()" class="sal-input"></div>
+        <div><label class="sal-label">HRA</label><input type="number" id="sal_hra" oninput="calcSalary()" class="sal-input"></div>
+        <div><label class="sal-label">Conveyance</label><input type="number" id="sal_conv" oninput="calcSalary()" class="sal-input"></div>
+        <div><label class="sal-label">Attendance</label><input type="number" id="sal_att" oninput="calcSalary()" class="sal-input"></div>
+        <div><label class="sal-label">Education Allw.</label><input type="number" id="sal_edu" oninput="calcSalary()" class="sal-input"></div>
+        <div><label class="sal-label">Washing Allw.</label><input type="number" id="sal_wash" oninput="calcSalary()" class="sal-input"></div>
+        <div><label class="sal-label">Special Allw.</label><input type="number" id="sal_spec" oninput="calcSalary()" class="sal-input"></div>
+        <div><label class="sal-label">Flexi Pay</label><input type="number" id="sal_flexi" oninput="calcSalary()" class="sal-input"></div>
+        <div style="background:rgba(37,99,235,.3);border-radius:10px;padding:11px;">
+          <label class="sal-label-blue">Gross Monthly</label>
+          <input type="number" id="sal_gross" readonly style="background:transparent;border:none;color:#60a5fa;font-size:18px;font-weight:900;padding:0;width:100%;font-family:'Outfit',sans-serif;">
+        </div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);margin-bottom:10px;" class="sal-grid-4">
-        <div><label style="font-size:7px;color:#f87171;text-transform:uppercase;display:block;margin-bottom:3px;">PF Emp (12%)</label><input type="number" id="ded_pf" readonly style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);color:#fff;opacity:.6;"></div>
-        <div><label style="font-size:7px;color:#f87171;text-transform:uppercase;display:block;margin-bottom:3px;">ESIC Emp (0.75%)</label><input type="number" id="ded_esic" readonly style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);color:#fff;opacity:.6;"></div>
-        <div><label style="font-size:7px;color:#f87171;text-transform:uppercase;display:block;margin-bottom:3px;">PT</label><input type="number" id="ded_pt" oninput="calcSalary()" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff;"></div>
-        <div style="background:rgba(22,163,74,.2);border-radius:10px;padding:10px;"><label style="font-size:7px;color:#86efac;text-transform:uppercase;display:block;margin-bottom:3px;">Take Home</label><input type="number" id="sal_takehome" readonly style="background:transparent;border:none;color:#4ade80;font-size:16px;font-weight:900;padding:0;"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;padding-top:11px;border-top:1px solid rgba(255,255,255,.08);margin-bottom:11px;" class="sal-grid-4">
+        <div><label class="sal-label-red">PF Emp (12%)</label><input type="number" id="ded_pf" readonly class="sal-input-ro"></div>
+        <div><label class="sal-label-red">ESIC Emp (0.75%)</label><input type="number" id="ded_esic" readonly class="sal-input-ro"></div>
+        <div><label class="sal-label-red">PT</label><input type="number" id="ded_pt" oninput="calcSalary()" class="sal-input"></div>
+        <div style="background:rgba(16,163,74,.22);border-radius:10px;padding:11px;">
+          <label class="sal-label-green">Take Home</label>
+          <input type="number" id="sal_takehome" readonly style="background:transparent;border:none;color:#4ade80;font-size:18px;font-weight:900;padding:0;width:100%;font-family:'Outfit',sans-serif;">
+        </div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);" class="sal-grid-3">
-        <div><label style="font-size:7px;color:#94a3b8;text-transform:uppercase;display:block;margin-bottom:3px;">EPF ER (12%)</label><input type="number" id="epf_contri" readonly style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);color:#fff;opacity:.6;"></div>
-        <div><label style="font-size:7px;color:#94a3b8;text-transform:uppercase;display:block;margin-bottom:3px;">ESIC ER (3.75%)</label><input type="number" id="esic_contri" readonly style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);color:#fff;opacity:.6;"></div>
-        <div><label style="font-size:7px;color:#94a3b8;text-transform:uppercase;display:block;margin-bottom:3px;">Gratuity (4.81%)</label><input type="number" id="sal_gratuity" readonly style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);color:#fff;opacity:.6;"></div>
-        <div><label style="font-size:7px;color:#94a3b8;text-transform:uppercase;display:block;margin-bottom:3px;">Perf. Inc. Pay</label><input type="number" id="sal_perf" oninput="calcSalary()" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff;"></div>
-        <div><label style="font-size:7px;color:#94a3b8;text-transform:uppercase;display:block;margin-bottom:3px;">Retention</label><input type="number" id="sal_ret" oninput="calcSalary()" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff;"></div>
-        <div><label style="font-size:7px;color:#94a3b8;text-transform:uppercase;display:block;margin-bottom:3px;">Perf. Variable Pay</label><input type="number" id="sal_peva" oninput="calcSalary()" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff;"></div>
-        <div style="grid-column:span 3;background:rgba(99,102,241,.3);border-radius:10px;padding:12px;">
-          <label style="font-size:8px;color:#a5b4fc;text-transform:uppercase;display:block;margin-bottom:3px;">Total Monthly CTC</label>
-          <input type="number" id="sal_ctc" readonly style="background:transparent;border:none;color:#a5b4fc;font-size:22px;font-weight:900;padding:0;width:100%;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding-top:11px;border-top:1px solid rgba(255,255,255,.08);" class="sal-grid-3">
+        <div><label class="sal-label">EPF ER (12%)</label><input type="number" id="epf_contri" readonly class="sal-input-ro"></div>
+        <div><label class="sal-label">ESIC ER (3.75%)</label><input type="number" id="esic_contri" readonly class="sal-input-ro"></div>
+        <div><label class="sal-label">Gratuity (4.81%)</label><input type="number" id="sal_gratuity" readonly class="sal-input-ro"></div>
+        <div><label class="sal-label">Perf. Inc. Pay</label><input type="number" id="sal_perf" oninput="calcSalary()" class="sal-input"></div>
+        <div><label class="sal-label">Retention</label><input type="number" id="sal_ret" oninput="calcSalary()" class="sal-input"></div>
+        <div><label class="sal-label">Perf. Variable Pay</label><input type="number" id="sal_peva" oninput="calcSalary()" class="sal-input"></div>
+        <div style="grid-column:span 3;background:rgba(99,102,241,.3);border-radius:11px;padding:13px;">
+          <label style="font-size:8px;color:#a5b4fc;text-transform:uppercase;display:block;margin-bottom:3px;letter-spacing:.08em;">Total Monthly CTC</label>
+          <input type="number" id="sal_ctc" readonly style="background:transparent;border:none;color:#a5b4fc;font-size:24px;font-weight:900;padding:0;width:100%;font-family:'Outfit',sans-serif;">
         </div>
       </div>
     </div>
 
-    <button type="submit" class="btn btn-blue" style="width:100%;justify-content:center;padding:13px;font-size:13px;border-radius:14px;">Save Employee Record</button>
+    <button type="submit" class="submit-btn">
+      <span class="material-icons-round">save</span>Save Employee Record
+    </button>
   </form>
 </div>
 </div>
 
 <script>
-// ── SIDEBAR MOBILE ──
-function openSidebar(){
-  document.getElementById('sidebar').classList.add('open');
-  document.getElementById('sidebarOverlay').classList.add('open');
-  document.getElementById('sidebarCloseBtn').style.display='flex';
-}
-function closeSidebar(){
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('sidebarOverlay').classList.remove('open');
+const ALL_FIELDS=['fName','mName','lName','gender','dob','mobile','blood','marital','nationality','aadhar','pan','uan','esicNo','passport','passportExpiry','deviceCode','job','dept','workLocation','empType','doj','probation','confirmDate','noticePeriod','manager','shift','weekoff','otEligible','pf','bankName','bankAcc','ifsc','accType','bankBranch','fatherName','motherName','spouseName','emergName','emergMobile','emergRelation','currAddr','currCity','currState','currPin','currCountry','permAddr','permCity','permState','permPin','permCountry','sal_effective_date','sal_basic','sal_hra','sal_conv','sal_att','sal_edu','sal_wash','sal_spec','sal_flexi','sal_gross','ded_pf','ded_esic','ded_pt','sal_takehome','epf_contri','esic_contri','sal_gratuity','sal_perf','sal_ret','sal_peva','sal_ctc'];
+
+function init(){
+  loadUserInfo();
+  loadEmployees();
 }
 
-const ALL_FIELDS=['fName','mName','lName','gender','dob','mobile','blood','marital','nationality','aadhar','pan','uan','esicNo','passport','passportExpiry','deviceCode','job','dept','workLocation','empType','doj','probation','confirmDate','noticePeriod','manager','shift','weekoff','otEligible','pf','bankName','bankAcc','ifsc','accType','bankBranch','fatherName','motherName','spouseName','emergName','emergMobile','emergRelation','currAddr','currCity','currState','currPin','currCountry','permAddr','permCity','permState','permPin','permCountry','sal_effective_date','sal_basic','sal_hra','sal_conv','sal_att','sal_edu','sal_wash','sal_spec','sal_flexi','sal_gross','ded_pf','ded_esic','ded_pt','sal_takehome','epf_contri','esic_contri','sal_gratuity','sal_perf','sal_ret','sal_peva','sal_ctc'];
+function loadUserInfo(){
+  const user=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+  if(user.name){
+    const p=user.name.trim().split(' ');
+    document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();
+    document.getElementById('sideName').textContent=user.name;
+    document.getElementById('sideRole').textContent=user.role||'Staff';
+  }
+  const role=(user.role||'').toLowerCase();
+  if(role==='super admin'||role==='admin'){
+    document.getElementById('adminNav').style.display='';
+    document.getElementById('usersLink').style.display='';
+    document.getElementById('rolesLink').style.display='';
+  }
+}
+
+function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');document.body.style.overflow='hidden';}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');document.body.style.overflow='';}
 
 function openPanel(title){
   populateShifts();
   document.getElementById('panelTitle').textContent=title;
   document.getElementById('panelOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
 }
 function closePanel(){
   document.getElementById('panelOverlay').classList.remove('open');
+  document.body.style.overflow='';
   document.getElementById('empForm').reset();
   document.getElementById('eidx').value='';
   loadEduRows([]);loadExpRows([]);
@@ -426,55 +703,35 @@ function calcSalary(){
   const esicOk=gross<21000,esicBase=gross-wash;
   const esicEmp=esicOk?Math.round(esicBase*.0075):0,esicEr=esicOk?Math.round(esicBase*.0375):0;
   const grat=Math.round(basic*.0481),pt=g('ded_pt');
-  document.getElementById('ded_pf').value=pfEmp;document.getElementById('ded_esic').value=esicEmp;
-  document.getElementById('epf_contri').value=pfEr;document.getElementById('esic_contri').value=esicEr;
+  document.getElementById('ded_pf').value=pfEmp;
+  document.getElementById('ded_esic').value=esicEmp;
+  document.getElementById('epf_contri').value=pfEr;
+  document.getElementById('esic_contri').value=esicEr;
   document.getElementById('sal_gratuity').value=grat;
   document.getElementById('sal_takehome').value=gross-pfEmp-esicEmp-pt;
   document.getElementById('sal_ctc').value=gross+pfEr+esicEr+grat+g('sal_perf')+g('sal_ret')+g('sal_peva');
 }
 
 function addEduRow(data={}){
-  document.getElementById('eduEmpty')&&(document.getElementById('eduEmpty').remove());
+  document.getElementById('eduEmpty')?.remove();
   const tr=document.createElement('tr');
-  tr.style.cssText='border-top:1px solid #f1f5f9;';
-  const inp=(ph,val='',type='text')=>`<input type="${type}" placeholder="${ph}" value="${val}" style="width:100%;padding:6px 8px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:7px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;outline:none;">`;
-  tr.innerHTML=`<td style="padding:6px 8px;">${inp('B.E./MBA',data.degree)}</td><td style="padding:6px 8px;">${inp('University',data.university)}</td><td style="padding:6px 8px;">${inp('2018',data.year,'number')}</td><td style="padding:6px 8px;">${inp('85%',data.grade)}</td><td style="padding:6px 8px;">${inp('Specialization',data.spec)}</td><td style="padding:6px 8px;text-align:center;"><button type="button" onclick="this.closest('tr').remove()" style="background:#fef2f2;border:none;border-radius:6px;cursor:pointer;padding:4px 6px;display:flex;align-items:center;"><span class="material-icons-round" style="font-size:14px;color:#ef4444;">delete</span></button></td>`;
+  tr.style.borderTop='1px solid #f1f5f9';
+  const inp=(ph,val='',type='text')=>`<input type="${type}" placeholder="${ph}" value="${val}" style="width:100%;padding:7px 9px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;outline:none;transition:border .15s;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'">`;
+  tr.innerHTML=`<td style="padding:7px 9px;">${inp('B.E./MBA',data.degree)}</td><td style="padding:7px 9px;">${inp('University',data.university)}</td><td style="padding:7px 9px;">${inp('2018',data.year,'number')}</td><td style="padding:7px 9px;">${inp('85%',data.grade)}</td><td style="padding:7px 9px;">${inp('Specialization',data.spec)}</td><td style="padding:7px 9px;text-align:center;"><button type="button" onclick="this.closest('tr').remove()" style="background:#fef2f2;border:1px solid #fecaca;border-radius:7px;cursor:pointer;padding:5px 7px;display:flex;align-items:center;transition:all .15s;" onmouseover="this.style.background='#ef4444';this.querySelector('span').style.color='#fff'" onmouseout="this.style.background='#fef2f2';this.querySelector('span').style.color='#ef4444'"><span class="material-icons-round" style="font-size:14px;color:#ef4444;">delete</span></button></td>`;
   document.getElementById('eduBody').appendChild(tr);
 }
-
 function addExpRow(data={}){
-  document.getElementById('expEmpty')&&(document.getElementById('expEmpty').remove());
+  document.getElementById('expEmpty')?.remove();
   const tr=document.createElement('tr');
-  tr.style.cssText='border-top:1px solid #f1f5f9;';
-  const inp=(ph,val='',type='text')=>`<input type="${type}" placeholder="${ph}" value="${val}" style="width:100%;padding:6px 8px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:7px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;outline:none;">`;
-  tr.innerHTML=`<td style="padding:6px 8px;">${inp('ABC Co.',data.company)}</td><td style="padding:6px 8px;">${inp('Engineer',data.designation)}</td><td style="padding:6px 8px;">${inp('2018',data.from,'number')}</td><td style="padding:6px 8px;">${inp('2021',data.to,'number')}</td><td style="padding:6px 8px;">${inp('₹4,00,000',data.ctc)}</td><td style="padding:6px 8px;">${inp('Better Opportunity',data.reason)}</td><td style="padding:6px 8px;text-align:center;"><button type="button" onclick="this.closest('tr').remove()" style="background:#fef2f2;border:none;border-radius:6px;cursor:pointer;padding:4px 6px;display:flex;align-items:center;"><span class="material-icons-round" style="font-size:14px;color:#ef4444;">delete</span></button></td>`;
+  tr.style.borderTop='1px solid #f1f5f9';
+  const inp=(ph,val='',type='text')=>`<input type="${type}" placeholder="${ph}" value="${val}" style="width:100%;padding:7px 9px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;outline:none;transition:border .15s;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'">`;
+  tr.innerHTML=`<td style="padding:7px 9px;">${inp('ABC Co.',data.company)}</td><td style="padding:7px 9px;">${inp('Engineer',data.designation)}</td><td style="padding:7px 9px;">${inp('2018',data.from,'number')}</td><td style="padding:7px 9px;">${inp('2021',data.to,'number')}</td><td style="padding:7px 9px;">${inp('₹4,00,000',data.ctc)}</td><td style="padding:7px 9px;">${inp('Better Opportunity',data.reason)}</td><td style="padding:7px 9px;text-align:center;"><button type="button" onclick="this.closest('tr').remove()" style="background:#fef2f2;border:1px solid #fecaca;border-radius:7px;cursor:pointer;padding:5px 7px;display:flex;align-items:center;transition:all .15s;" onmouseover="this.style.background='#ef4444';this.querySelector('span').style.color='#fff'" onmouseout="this.style.background='#fef2f2';this.querySelector('span').style.color='#ef4444'"><span class="material-icons-round" style="font-size:14px;color:#ef4444;">delete</span></button></td>`;
   document.getElementById('expBody').appendChild(tr);
 }
-
-function collectEdu(){
-  return Array.from(document.querySelectorAll('#eduBody tr:not([id^="eduEmpty"])')).map(tr=>{
-    const inputs=tr.querySelectorAll('input');
-    return{degree:inputs[0]?.value||'',university:inputs[1]?.value||'',year:inputs[2]?.value||'',grade:inputs[3]?.value||'',spec:inputs[4]?.value||''};
-  }).filter(r=>r.degree||r.university);
-}
-function collectExp(){
-  return Array.from(document.querySelectorAll('#expBody tr:not([id^="expEmpty"])')).map(tr=>{
-    const inputs=tr.querySelectorAll('input');
-    return{company:inputs[0]?.value||'',designation:inputs[1]?.value||'',from:inputs[2]?.value||'',to:inputs[3]?.value||'',ctc:inputs[4]?.value||'',reason:inputs[5]?.value||''};
-  }).filter(r=>r.company||r.designation);
-}
-function loadEduRows(list){
-  const body=document.getElementById('eduBody');
-  body.innerHTML='<tr id="eduEmpty"><td colspan="6" style="padding:16px;text-align:center;color:#94a3b8;font-size:11px;font-weight:700;">No education records.</td></tr>';
-  (list||[]).forEach(d=>addEduRow(d));
-  if((list||[]).length) document.getElementById('eduEmpty')?.remove();
-}
-function loadExpRows(list){
-  const body=document.getElementById('expBody');
-  body.innerHTML='<tr id="expEmpty"><td colspan="7" style="padding:16px;text-align:center;color:#94a3b8;font-size:11px;font-weight:700;">No experience records.</td></tr>';
-  (list||[]).forEach(d=>addExpRow(d));
-  if((list||[]).length) document.getElementById('expEmpty')?.remove();
-}
+function collectEdu(){return Array.from(document.querySelectorAll('#eduBody tr:not([id^="eduEmpty"])')).map(tr=>{const inputs=tr.querySelectorAll('input');return{degree:inputs[0]?.value||'',university:inputs[1]?.value||'',year:inputs[2]?.value||'',grade:inputs[3]?.value||'',spec:inputs[4]?.value||''};}).filter(r=>r.degree||r.university);}
+function collectExp(){return Array.from(document.querySelectorAll('#expBody tr:not([id^="expEmpty"])')).map(tr=>{const inputs=tr.querySelectorAll('input');return{company:inputs[0]?.value||'',designation:inputs[1]?.value||'',from:inputs[2]?.value||'',to:inputs[3]?.value||'',ctc:inputs[4]?.value||'',reason:inputs[5]?.value||''};}).filter(r=>r.company||r.designation);}
+function loadEduRows(list){const body=document.getElementById('eduBody');body.innerHTML='<tr id="eduEmpty"><td colspan="6" style="padding:18px;text-align:center;color:#94a3b8;font-size:11px;font-weight:600;">No education records.</td></tr>';(list||[]).forEach(d=>addEduRow(d));if((list||[]).length)document.getElementById('eduEmpty')?.remove();}
+function loadExpRows(list){const body=document.getElementById('expBody');body.innerHTML='<tr id="expEmpty"><td colspan="7" style="padding:18px;text-align:center;color:#94a3b8;font-size:11px;font-weight:600;">No experience records.</td></tr>';(list||[]).forEach(d=>addExpRow(d));if((list||[]).length)document.getElementById('expEmpty')?.remove();}
 
 function saveEmp(e){
   e.preventDefault();
@@ -490,31 +747,104 @@ function saveEmp(e){
   closePanel();loadEmployees();
 }
 
+let allEmps=[];
+
 function loadEmployees(){
-  const emps=JSON.parse(localStorage.getItem('employees')||'[]');
+  allEmps=JSON.parse(localStorage.getItem('employees')||'[]');
+  document.getElementById('empCount').textContent=allEmps.length+' Employee'+(allEmps.length!==1?'s':'');
+  renderCards(allEmps);
+}
+
+function filterEmployees(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  if(!q){renderCards(allEmps);return;}
+  renderCards(allEmps.filter(e=>(e.fName+' '+e.lName).toLowerCase().includes(q)||( e.dept||'').toLowerCase().includes(q)||(e.deviceCode||'').toLowerCase().includes(q)||(e.job||'').toLowerCase().includes(q)));
+}
+
+function renderCards(emps){
   const grid=document.getElementById('empGrid');
-  if(!emps.length){grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#94a3b8;"><span class="material-icons-round" style="font-size:56px;display:block;margin-bottom:10px;">group_off</span><div style="font-size:13px;font-weight:700;text-transform:uppercase;">No employees yet</div></div>`;return;}
-  grid.innerHTML=emps.map((e,i)=>`<div style="background:#fff;border-radius:16px;border:1px solid #f1f5f9;padding:18px;position:relative;">
-    <div style="position:absolute;top:14px;right:14px;display:flex;gap:6px;">
-      <a href="employee-profile.html?id=${i}" style="width:28px;height:28px;background:#f1f5f9;border-radius:8px;display:flex;align-items:center;justify-content:center;text-decoration:none;color:#64748b;" onmouseover="this.style.background='#2563eb';this.style.color='#fff'" onmouseout="this.style.background='#f1f5f9';this.style.color='#64748b'"><span class="material-icons-round" style="font-size:14px;">visibility</span></a>
-      <button onclick="editEmp(${i})" style="width:28px;height:28px;background:#f1f5f9;border:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748b;" onmouseover="this.style.background='#f97316';this.style.color='#fff'" onmouseout="this.style.background='#f1f5f9';this.style.color='#64748b'"><span class="material-icons-round" style="font-size:14px;">edit</span></button>
-    </div>
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-      <div style="width:40px;height:40px;background:#2563eb;color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;flex-shrink:0;">${e.fName[0]}${e.lName[0]}</div>
-      <div>
-        <div style="font-size:12px;font-weight:900;text-transform:uppercase;color:#1e293b;">${e.fName} ${e.lName}</div>
-        <div style="font-size:9px;color:#2563eb;font-weight:700;text-transform:uppercase;">${e.job||'--'}</div>
+  if(!emps.length){
+    grid.innerHTML=`<div style="grid-column:1/-1;" class="empty-state">
+      <span class="material-icons-round">group_off</span>
+      <div class="empty-state-title">No Employees Found</div>
+      <div class="empty-state-sub">Add your first employee to get started</div>
+    </div>`;
+    return;
+  }
+  // Avatar gradient colors cycle
+  const gradients=[
+    'linear-gradient(135deg,#2563eb,#06b6d4)',
+    'linear-gradient(135deg,#8b5cf6,#ec4899)',
+    'linear-gradient(135deg,#10b981,#06b6d4)',
+    'linear-gradient(135deg,#f59e0b,#ef4444)',
+    'linear-gradient(135deg,#6366f1,#8b5cf6)',
+    'linear-gradient(135deg,#0891b2,#10b981)',
+  ];
+  grid.innerHTML=emps.map((e,i)=>{
+    const realIdx=allEmps.indexOf(e);
+    const grad=gradients[i%gradients.length];
+    return `<div class="emp-card" style="animation-delay:${i*0.05}s">
+      <div class="card-actions">
+        <a href="employee-profile.html?id=${realIdx}" class="card-action-btn view" title="View Profile">
+          <span class="material-icons-round">visibility</span>
+        </a>
+        <button onclick="editEmp(${realIdx})" class="card-action-btn edit" title="Edit">
+          <span class="material-icons-round">edit</span>
+        </button>
+        <button onclick="deleteEmp(${realIdx})" class="card-action-btn del" title="Delete">
+          <span class="material-icons-round">delete</span>
+        </button>
       </div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:10px;padding-top:12px;border-top:1px solid #f8fafc;">
-      <div><div style="font-size:7px;color:#94a3b8;font-weight:700;text-transform:uppercase;">Dept</div><div style="font-weight:800;text-transform:uppercase;color:#1e293b;">${e.dept||'--'}</div></div>
-      <div><div style="font-size:7px;color:#94a3b8;font-weight:700;text-transform:uppercase;">Device Code</div>
-        <div style="font-weight:900;">${e.deviceCode?`<span style="background:#eff6ff;color:#7c3aed;padding:2px 8px;border-radius:99px;font-size:9px;font-weight:900;">${e.deviceCode}</span>`:'<span style="color:#e2e8f0;font-size:9px;font-weight:700;">— Not Set</span>'}</div>
+
+      <div style="display:flex;align-items:center;gap:12px;padding-right:90px;">
+        <div class="emp-avatar" style="background:${grad};">
+          ${e.fName[0]}${e.lName[0]}
+        </div>
+        <div>
+          <div class="emp-name">${e.fName} ${e.lName}</div>
+          <div class="emp-role">${e.job||'--'}</div>
+          <div style="margin-top:5px;">
+            <span class="status-dot status-active">
+              <span style="width:5px;height:5px;border-radius:50%;background:#10b981;display:inline-block;"></span>
+              Active
+            </span>
+          </div>
+        </div>
       </div>
-      <div><div style="font-size:7px;color:#94a3b8;font-weight:700;text-transform:uppercase;">Gross Monthly</div><div style="font-weight:900;color:#2563eb;">₹${parseFloat(e.sal_gross||0).toLocaleString('en-IN')}</div></div>
-      <div><div style="font-size:7px;color:#94a3b8;font-weight:700;text-transform:uppercase;">Joined</div><div style="font-weight:800;text-transform:uppercase;color:#1e293b;">${e.doj||'--'}</div></div>
-    </div>
-  </div>`).join('');
+
+      <div class="emp-divider"></div>
+
+      <div class="emp-meta-grid">
+        <div class="emp-meta-item">
+          <div class="meta-label">Department</div>
+          <div class="meta-val">${e.dept||'--'}</div>
+        </div>
+        <div class="emp-meta-item">
+          <div class="meta-label">Device Code</div>
+          <div class="meta-val">
+            ${e.deviceCode
+              ? `<span class="device-badge">${e.deviceCode}</span>`
+              : '<span style="color:#cbd5e1;font-size:10px;">Not Set</span>'
+            }
+          </div>
+        </div>
+        <div class="emp-meta-item">
+          <div class="meta-label">Gross Monthly</div>
+          <div class="meta-val gross-val">₹${parseFloat(e.sal_gross||0).toLocaleString('en-IN')}</div>
+        </div>
+        <div class="emp-meta-item">
+          <div class="meta-label">Joined</div>
+          <div class="meta-val" style="font-size:10px;color:#64748b;">${e.doj||'--'}</div>
+        </div>
+      </div>
+
+      ${e.shift ? `<div style="margin-top:11px;padding-top:11px;border-top:1px solid #f1f5f9;display:flex;align-items:center;gap:6px;">
+        <span class="material-icons-round" style="font-size:13px;color:#94a3b8;">schedule</span>
+        <span style="font-size:9.5px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;">${e.shift}</span>
+        ${e.empType ? `<span style="margin-left:auto;font-size:8px;font-weight:700;padding:2px 8px;border-radius:99px;background:#f8fafc;color:#64748b;border:1px solid #e2e8f0;text-transform:uppercase;">${e.empType}</span>` : ''}
+      </div>` : ''}
+    </div>`;
+  }).join('');
 }
 
 function editEmp(idx){
@@ -523,6 +853,14 @@ function editEmp(idx){
   ALL_FIELDS.forEach(f=>{const el=document.getElementById(f);if(el)el.value=e[f]||'';});
   loadEduRows(e.eduList||[]);loadExpRows(e.expList||[]);
   openPanel('Edit Employee');
+}
+
+function deleteEmp(idx){
+  if(!confirm('Are you sure you want to delete this employee?')) return;
+  let emps=JSON.parse(localStorage.getItem('employees')||'[]');
+  emps.splice(idx,1);
+  localStorage.setItem('employees',JSON.stringify(emps));
+  loadEmployees();
 }
 </script>
 </body>
