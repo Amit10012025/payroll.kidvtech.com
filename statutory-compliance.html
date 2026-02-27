@@ -3,291 +3,261 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>KIDV Tech | Statutory Compliance</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 <script>if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}</script>
 <style>
+:root{--navy:#07101f;--blue:#2563eb;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--purple:#8b5cf6;--amber:#f59e0b;--orange:#f97316;--text-m:rgba(148,163,184,.65);--text-d:rgba(148,163,184,.32);--border-b:rgba(255,255,255,.11);--glass:rgba(255,255,255,.04);--sidebar-w:260px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f4f8;}
+html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflow:hidden;}
 .app{display:flex;height:100vh;}
-
-/* ── SIDEBAR ── */
-.sidebar{width:220px;min-width:220px;background:#fff;border-right:1px solid #e2e8f0;display:flex;flex-direction:column;padding:18px 12px;height:100vh;position:fixed;left:0;top:0;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1);overflow-y:auto;}
-.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:199;}
-.logo{display:flex;align-items:center;gap:10px;padding:6px 8px;margin-bottom:22px;}
-.logo-icon{width:36px;height:36px;background:#2563eb;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:900;box-shadow:0 4px 12px rgba(37,99,235,.28);flex-shrink:0;}
-.logo-text{font-size:14px;font-weight:900;color:#1e293b;}.logo-text span{color:#2563eb;}
-.nav-sec{font-size:8px;color:#94a3b8;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:0 10px;margin:10px 0 4px;}
-.nav a{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;font-size:11px;font-weight:700;color:#64748b;text-decoration:none;margin-bottom:2px;text-transform:uppercase;letter-spacing:.03em;transition:all .15s;}
-.nav a:hover{background:#f1f5f9;color:#1e293b;}
-.nav a.active{background:#2563eb;color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.3);}
-.nav a .material-icons-round{font-size:16px;flex-shrink:0;}
-.nav-bottom{margin-top:auto;padding-top:12px;border-top:1px solid #f1f5f9;}
-.user-info{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;background:#f8fafc;margin-bottom:6px;}
-.user-av{width:30px;height:30px;border-radius:8px;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0;}
-.user-name{font-size:10px;font-weight:800;color:#1e293b;text-transform:uppercase;line-height:1.2;}
-.user-role{font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;}
-.logout-btn{display:flex;align-items:center;gap:7px;width:100%;padding:8px 10px;border-radius:10px;background:none;border:1px solid #fee2e2;color:#ef4444;font-size:10px;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s;}
-.logout-btn:hover{background:#fef2f2;}
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden;border-right:1px solid rgba(255,255,255,.05);box-shadow:8px 0 40px rgba(0,0,0,.35);}
+.sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:199;backdrop-filter:blur(6px);}
+.logo-area{position:relative;z-index:1;flex-shrink:0;overflow:hidden;background:#fff;border-bottom:1px solid rgba(255,255,255,.06);}
+.logo-area img{width:100%;height:auto;display:block;}
+.nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 10px 4px;position:relative;z-index:1;}
+.nav::-webkit-scrollbar{width:3px;}.nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:99px;}
+.nav-sec{font-size:8.5px;color:var(--text-d);font-weight:700;text-transform:uppercase;letter-spacing:.2em;padding:0 8px;margin:16px 0 5px;display:flex;align-items:center;gap:8px;}
+.nav-sec::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07);}
+.nav a{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:11px;font-size:11px;font-weight:600;color:var(--text-m);text-decoration:none;margin-bottom:1px;text-transform:uppercase;letter-spacing:.055em;transition:color .18s,background .18s,transform .18s;position:relative;}
+.nav a:hover{color:rgba(241,245,249,.9);background:rgba(255,255,255,.07);transform:translateX(2px);}
+.nav a.active{color:#fff;background:linear-gradient(120deg,rgba(37,99,235,.32) 0%,rgba(6,182,212,.18) 100%);border:1px solid rgba(59,130,246,.28);box-shadow:0 4px 20px rgba(37,99,235,.22),inset 0 1px 0 rgba(255,255,255,.09);}
+.nav a.active::after{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:55%;background:linear-gradient(180deg,#93c5fd,#22d3ee);border-radius:0 3px 3px 0;box-shadow:0 0 10px rgba(96,165,250,.8);}
+.ic{width:29px;height:29px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .18s;}
+.ic .material-icons-round{font-size:15px;}
+.ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
+.ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-int{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.ic-adm{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
+.nav a.active .ic{transform:scale(1.08);box-shadow:0 0 14px rgba(37,99,235,.4);}
+.nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
+.user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--glass);margin-bottom:8px;border:1px solid var(--border-b);}
+.user-av{width:33px;height:33px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.user-name{font-size:10.5px;font-weight:700;color:#fff;text-transform:uppercase;}
+.user-role{font-size:8px;color:var(--text-d);font-weight:500;text-transform:uppercase;margin-top:1px;}
+.logout-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:10px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);color:rgba(252,165,165,.8);font-size:10px;font-weight:700;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;}
+.logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;}
 .logout-btn .material-icons-round{font-size:14px;}
-
-/* ── MAIN ── */
-.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:220px;transition:margin-left .3s;}
-.topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;}
-.topbar-left{display:flex;align-items:center;gap:10px;}
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:var(--sidebar-w);}
+.topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:11px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.topbar-left{display:flex;align-items:center;gap:12px;}
 .menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;}
 .menu-btn .material-icons-round{font-size:22px;}
-.tb-title{font-size:15px;font-weight:900;text-transform:uppercase;color:#1e293b;}
-.tb-sub{font-size:10px;font-weight:700;color:#2563eb;text-transform:uppercase;letter-spacing:.1em;}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:9px;font-size:11px;font-weight:800;border:none;cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.03em;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;}
-.btn-blue{background:#2563eb;color:#fff;}.btn-blue:hover{background:#1d4ed8;}
-.btn-green{background:#16a34a;color:#fff;}.btn-green:hover{background:#15803d;}
-.btn-ghost{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}.btn-ghost:hover{background:#e2e8f0;}
-.btn-dark{background:#1e293b;color:#fff;}.btn-dark:hover{background:#334155;}
-.btn .material-icons-round{font-size:14px;}
-
-/* ── TABS ── */
-.tab-bar{background:#fff;border-bottom:1px solid #e2e8f0;padding:0 20px;display:flex;gap:0;overflow-x:auto;flex-shrink:0;}
-.tab-bar::-webkit-scrollbar{height:3px;}.tab-bar::-webkit-scrollbar-thumb{background:#cbd5e1;}
-.tab-btn{display:flex;align-items:center;gap:7px;padding:12px 16px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:#94a3b8;border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;transition:all .15s;white-space:nowrap;font-family:'Plus Jakarta Sans',sans-serif;}
-.tab-btn:hover{color:#1e293b;}
+.page-title{font-size:15px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
+.page-sub{font-size:9px;color:#94a3b8;font-weight:500;margin-top:2px;letter-spacing:.05em;text-transform:uppercase;}
+/* TABS */
+.tab-bar{background:#fff;border-bottom:1px solid #e8edf5;padding:0 24px;display:flex;gap:0;overflow-x:auto;flex-shrink:0;box-shadow:0 1px 4px rgba(0,0,0,.03);}
+.tab-bar::-webkit-scrollbar{height:3px;}.tab-bar::-webkit-scrollbar-thumb{background:#e2e8f0;}
+.tab-btn{display:flex;align-items:center;gap:7px;padding:13px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#94a3b8;border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;transition:all .18s;white-space:nowrap;font-family:'Outfit',sans-serif;}
+.tab-btn:hover{color:#0f172a;}
 .tab-btn.active{color:#2563eb;border-bottom-color:#2563eb;}
-.tab-btn .material-icons-round{font-size:16px;}
-.tab-badge{background:#2563eb;color:#fff;font-size:8px;padding:1px 5px;border-radius:99px;font-weight:900;}
-
-/* ── SCROLL ── */
-.scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:16px 20px;}
+.tab-btn .material-icons-round{font-size:15px;}
+/* BTNS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.06em;font-family:'Outfit',sans-serif;white-space:nowrap;}
+.btn-blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.3);}
+.btn-blue:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,.44);}
+.btn-green{background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 4px 14px rgba(16,185,129,.28);}
+.btn-green:hover{transform:translateY(-1px);}
+.btn-dark{background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.25);}
+.btn-dark:hover{transform:translateY(-1px);}
+.btn-ghost{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}
+.btn-ghost:hover{background:#e2e8f0;}
+.btn-orange{background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;box-shadow:0 4px 14px rgba(249,115,22,.28);}
+.btn-orange:hover{transform:translateY(-1px);}
+.btn-purple{background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;box-shadow:0 4px 14px rgba(139,92,246,.28);}
+.btn-purple:hover{transform:translateY(-1px);}
+.btn-sm{padding:6px 12px;font-size:10px;border-radius:8px;}
+.btn .material-icons-round{font-size:14px;}
+/* SCROLL */
+.scroll{flex:1;overflow-y:auto;padding:18px 24px;}
 .scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
-
-/* TAB PANES */
+/* PANES */
 .tab-pane{display:none;}.tab-pane.active{display:block;}
-
-/* ── CARDS ── */
-.card{background:#fff;border-radius:15px;border:1px solid #f1f5f9;padding:20px;margin-bottom:14px;}
+/* CARDS */
+.card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
 .card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
-.card-title{font-size:13px;font-weight:900;text-transform:uppercase;color:#1e293b;font-style:italic;}
-.stitle{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding-left:8px;margin-bottom:12px;border-left:3px solid currentColor;}
-
-/* ── GRID LAYOUTS ── */
+.card-title{font-size:12px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.08em;}
+/* GRID */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
-
-/* ── STAT BOXES ── */
-.stat-box{background:#fff;border-radius:14px;border:1px solid #f1f5f9;padding:16px 18px;position:relative;overflow:hidden;}
+/* STAT BOXES */
+.stat-box{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:16px 18px;position:relative;overflow:hidden;transition:all .18s;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.stat-box:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.08);}
 .stat-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
-.stat-blue::before{background:#2563eb;}.stat-green::before{background:#16a34a;}
-.stat-orange::before{background:#f97316;}.stat-red::before{background:#ef4444;}
-.stat-purple::before{background:#7c3aed;}
-.stat-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
-.stat-icon .material-icons-round{font-size:18px;}
-.stat-blue .stat-icon{background:#eff6ff;color:#2563eb;}
-.stat-green .stat-icon{background:#f0fdf4;color:#16a34a;}
-.stat-orange .stat-icon{background:#fff7ed;color:#f97316;}
-.stat-red .stat-icon{background:#fef2f2;color:#ef4444;}
-.stat-purple .stat-icon{background:#f5f3ff;color:#7c3aed;}
-.stat-lbl{font-size:8px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;}
-.stat-val{font-size:22px;font-weight:900;color:#1e293b;}
-.stat-sub{font-size:9px;font-weight:700;color:#94a3b8;margin-top:3px;}
-
-/* ── FORM ── */
+.sb-blue::before{background:linear-gradient(90deg,#2563eb,#06b6d4);}
+.sb-green::before{background:linear-gradient(90deg,#10b981,#06b6d4);}
+.sb-orange::before{background:linear-gradient(90deg,#f97316,#fbbf24);}
+.sb-purple::before{background:linear-gradient(90deg,#8b5cf6,#ec4899);}
+.sb-red::before{background:linear-gradient(90deg,#ef4444,#f97316);}
+.stat-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
+.stat-icon .material-icons-round{font-size:17px;}
+.si-blue{background:rgba(37,99,235,.1);color:#2563eb;}
+.si-green{background:rgba(16,185,129,.1);color:#10b981;}
+.si-orange{background:rgba(249,115,22,.1);color:#f97316;}
+.si-purple{background:rgba(139,92,246,.1);color:#8b5cf6;}
+.si-red{background:rgba(239,68,68,.1);color:#ef4444;}
+.stat-lbl{font-size:8.5px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.06em;}
+.stat-val{font-size:22px;font-weight:900;color:#0f172a;margin-top:3px;font-family:'JetBrains Mono',monospace;}
+.stat-sub{font-size:9px;color:#94a3b8;font-weight:500;margin-top:3px;}
+/* FORM */
 .form-group{margin-bottom:13px;}
-.form-label{font-size:9px;font-weight:800;text-transform:uppercase;color:#64748b;letter-spacing:.08em;margin-bottom:5px;display:block;}
-.form-inp{width:100%;padding:9px 12px;border-radius:9px;border:1px solid #e2e8f0;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;color:#1e293b;background:#f8fafc;transition:all .15s;}
-.form-inp:focus{outline:none;border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
-.form-inp:read-only{background:#f1f5f9;color:#64748b;}
-.form-sel{width:100%;padding:9px 12px;border-radius:9px;border:1px solid #e2e8f0;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;color:#1e293b;background:#f8fafc;cursor:pointer;}
-.form-sel:focus{outline:none;border-color:#2563eb;background:#fff;}
+.form-label{font-size:8.5px;font-weight:700;text-transform:uppercase;color:#64748b;letter-spacing:.08em;margin-bottom:5px;display:block;}
+.form-inp,.form-sel{width:100%;padding:9px 12px;border-radius:9px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:11.5px;font-weight:600;color:#1e293b;background:#f8fafc;transition:all .15s;}
+.form-inp:focus,.form-sel:focus{outline:none;border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
+.form-sel{cursor:pointer;}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .form-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
-
-/* ── TABLE ── */
-.tbl-wrap{border-radius:11px;overflow:hidden;border:1px solid #f1f5f9;overflow-x:auto;}
-table.data-tbl{width:100%;border-collapse:collapse;font-size:12px;min-width:600px;}
-table.data-tbl thead th{background:#f8fafc;padding:10px 14px;font-size:9px;color:#94a3b8;text-transform:uppercase;font-weight:800;text-align:left;white-space:nowrap;}
-table.data-tbl tbody tr{border-top:1px solid #f8fafc;transition:background .12s;}
-table.data-tbl tbody tr:hover{background:#fafafa;}
-table.data-tbl tbody td{padding:11px 14px;font-weight:700;color:#475569;text-transform:uppercase;vertical-align:middle;}
+/* DATA TABLE */
+.tbl-wrap{border-radius:12px;overflow:hidden;border:1px solid #ecf0f6;overflow-x:auto;}
+.tbl-wrap::-webkit-scrollbar{height:4px;}.tbl-wrap::-webkit-scrollbar-thumb{background:#e2e8f0;border-radius:10px;}
+table.dtbl{width:100%;border-collapse:collapse;font-size:11px;min-width:600px;}
+table.dtbl thead th{background:#0f172a;color:#fff;padding:10px 14px;font-size:8.5px;text-transform:uppercase;font-weight:700;text-align:left;white-space:nowrap;letter-spacing:.07em;}
+table.dtbl tbody tr{border-bottom:1px solid #f8fafc;transition:background .12s;}
+table.dtbl tbody tr:hover{background:#fafbfc;}
+table.dtbl tbody tr:last-child{border-bottom:none;}
+table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercase;vertical-align:middle;}
 .emp-cell{display:flex;align-items:center;gap:9px;}
-.emp-av{width:30px;height:30px;border-radius:8px;background:#2563eb;color:#fff;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.emp-name{font-size:12px;font-weight:800;color:#1e293b;}
-.emp-sub{font-size:9px;color:#94a3b8;font-weight:700;margin-top:1px;}
-
+.eav{width:30px;height:30px;border-radius:8px;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ename{font-size:11px;font-weight:700;color:#0f172a;}
+.eid{font-size:8.5px;color:#94a3b8;font-weight:500;margin-top:1px;}
 /* BADGES */
-.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;}
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;}
 .badge-blue{background:#eff6ff;color:#2563eb;}
-.badge-green{background:#dcfce7;color:#16a34a;}
-.badge-orange{background:#fff7ed;color:#f97316;}
-.badge-red{background:#fee2e2;color:#ef4444;}
+.badge-green{background:#dcfce7;color:#15803d;}
+.badge-orange{background:#fff7ed;color:#c2410c;}
+.badge-red{background:#fee2e2;color:#dc2626;}
 .badge-gray{background:#f1f5f9;color:#64748b;}
-
-/* ACT BTNS */
-.act-btn{width:28px;height:28px;border-radius:7px;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .12s;font-family:inherit;}
+.badge-purple{background:#ede9fe;color:#6d28d9;}
+/* ACTION BTNS */
+.act-btn{width:28px;height:28px;border-radius:7px;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .12s;}
 .act-edit{background:#eff6ff;color:#2563eb;}.act-edit:hover{background:#2563eb;color:#fff;}
 .act-del{background:#fef2f2;color:#ef4444;}.act-del:hover{background:#ef4444;color:#fff;}
-.act-view{background:#f0fdf4;color:#16a34a;}.act-view:hover{background:#16a34a;color:#fff;}
+.act-view{background:#f0fdf4;color:#10b981;}.act-view:hover{background:#10b981;color:#fff;}
 .act-btn .material-icons-round{font-size:14px;}
-
-/* ── SALARY PREVIEW BOX ── */
-.sal-preview{background:#1e293b;border-radius:14px;padding:18px;color:#fff;margin-top:14px;}
-.sal-preview-title{font-size:10px;font-weight:700;opacity:.4;text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px;}
+/* COMPLIANCE BOXES */
+.cbox{border-radius:12px;padding:16px;margin-bottom:12px;}
+.cbox-pf{background:#eff6ff;border:1.5px solid #bfdbfe;}
+.cbox-esic{background:#f0fdf4;border:1.5px solid #bbf7d0;}
+.cbox-pt{background:#fff7ed;border:1.5px solid #fed7aa;}
+.cbox-tds{background:#f5f3ff;border:1.5px solid #ddd6fe;}
+.cbox-title{font-size:11px;font-weight:800;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.cbox-pf .cbox-title{color:#1d4ed8;}
+.cbox-esic .cbox-title{color:#15803d;}
+.cbox-pt .cbox-title{color:#c2410c;}
+.cbox-tds .cbox-title{color:#6d28d9;}
+.cbox-row{display:flex;justify-content:space-between;padding:5px 0;font-size:11px;border-bottom:1px dashed rgba(0,0,0,.07);}
+.cbox-row:last-child{border-bottom:none;}
+.cbox-lbl{color:#64748b;font-weight:600;text-transform:uppercase;font-size:10.5px;}
+.cbox-val{font-weight:800;color:#0f172a;font-family:'JetBrains Mono',monospace;}
+.cbox-total{display:flex;justify-content:space-between;padding-top:9px;border-top:2px solid;margin-top:5px;font-size:13px;font-weight:900;text-transform:uppercase;}
+.cbox-pf .cbox-total{border-color:#3b82f6;color:#1d4ed8;}
+.cbox-esic .cbox-total{border-color:#4ade80;color:#15803d;}
+.cbox-pt .cbox-total{border-color:#fb923c;color:#c2410c;}
+.cbox-tds .cbox-total{border-color:#a78bfa;color:#6d28d9;}
+/* SAL PREVIEW */
+.sal-preview{background:#0f172a;border-radius:14px;padding:18px;color:#fff;margin-top:14px;}
+.sal-preview-title{font-size:9px;font-weight:700;opacity:.35;text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px;}
 .sal-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed rgba(255,255,255,.07);}
 .sal-row:last-child{border-bottom:none;}
-.sal-row-lbl{font-size:11px;font-weight:700;opacity:.6;text-transform:uppercase;}
-.sal-row-val{font-size:12px;font-weight:800;}
-.sal-divider{border-top:1px solid rgba(255,255,255,.15);margin:8px 0;padding-top:8px;}
-.sal-total{display:flex;justify-content:space-between;font-size:15px;font-weight:900;}
-.sal-total-lbl{color:#60a5fa;}
-.sal-total-val{color:#6ee7b7;}
-
-/* ── PF ESIC CALC BOX ── */
-.compliance-box{border-radius:12px;padding:16px;margin-bottom:12px;}
-.cb-pf{background:#eff6ff;border:1.5px solid #bfdbfe;}
-.cb-esic{background:#f0fdf4;border:1.5px solid #bbf7d0;}
-.cb-pt{background:#fff7ed;border:1.5px solid #fed7aa;}
-.cb-tds{background:#f5f3ff;border:1.5px solid #ddd6fe;}
-.cb-title{font-size:11px;font-weight:900;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
-.cb-pf .cb-title{color:#1d4ed8;}
-.cb-esic .cb-title{color:#15803d;}
-.cb-pt .cb-title{color:#c2410c;}
-.cb-tds .cb-title{color:#6d28d9;}
-.cb-row{display:flex;justify-content:space-between;padding:4px 0;font-size:11px;border-bottom:1px dashed rgba(0,0,0,.06);}
-.cb-row:last-child{border-bottom:none;}
-.cb-lbl{color:#64748b;font-weight:700;text-transform:uppercase;}
-.cb-val{font-weight:900;color:#1e293b;}
-.cb-total{display:flex;justify-content:space-between;padding-top:8px;border-top:2px solid;margin-top:4px;font-size:13px;font-weight:900;text-transform:uppercase;}
-.cb-pf .cb-total{border-color:#3b82f6;color:#1d4ed8;}
-.cb-esic .cb-total{border-color:#4ade80;color:#15803d;}
-.cb-pt .cb-total{border-color:#fb923c;color:#c2410c;}
-.cb-tds .cb-total{border-color:#a78bfa;color:#6d28d9;}
-
-/* ── PT SLAB TABLE ── */
+.sal-lbl{font-size:10.5px;font-weight:600;opacity:.55;text-transform:uppercase;}
+.sal-val{font-size:12px;font-weight:800;font-family:'JetBrains Mono',monospace;}
+.sal-divider{border-top:1px solid rgba(255,255,255,.12);margin:8px 0;padding-top:8px;}
+.sal-total-row{display:flex;justify-content:space-between;font-size:15px;font-weight:900;}
+/* TDS SLABS */
 .slab-tbl{width:100%;border-collapse:collapse;font-size:12px;}
-.slab-tbl thead th{background:#fff7ed;padding:8px 12px;font-size:9px;color:#c2410c;text-transform:uppercase;font-weight:800;text-align:left;}
-.slab-tbl tbody tr{border-top:1px solid #fff7ed;}
-.slab-tbl tbody tr:hover{background:#fffbf5;}
-.slab-tbl tbody td{padding:9px 12px;font-weight:700;color:#475569;text-transform:uppercase;}
-.slab-active{background:#fff7ed!important;}
-.slab-active td{color:#c2410c!important;font-weight:900!important;}
-
-/* ── TDS ── */
-.tds-slab-wrap{border-radius:11px;overflow:hidden;border:1.5px solid #ddd6fe;}
-.tds-slab-hd{background:#4c1d95;padding:9px 14px;font-size:10px;font-weight:900;color:#fff;text-transform:uppercase;}
-.tds-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;padding:8px 14px;border-bottom:1px dashed #ede9fe;font-size:11px;font-weight:700;text-transform:uppercase;}
-.tds-row:last-child{border-bottom:none;}
-.tds-row.hd-row{background:#f5f3ff;font-size:9px;font-weight:800;color:#7c3aed;}
-.tds-row.active-row{background:#ede9fe;font-weight:900;color:#4c1d95;}
-
-/* Form 16 Part */
-.f16-section{border-radius:12px;border:1.5px solid #ddd6fe;overflow:hidden;margin-bottom:12px;}
-.f16-hd{background:#4c1d95;padding:10px 16px;font-size:10px;font-weight:900;color:#fff;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;}
-.f16-body{padding:12px 16px;}
-.f16-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #ede9fe;font-size:12px;}
-.f16-row:last-child{border-bottom:none;}
-.f16-lbl{font-weight:700;color:#64748b;text-transform:uppercase;font-size:11px;}
-.f16-val{font-weight:900;color:#1e293b;}
-
-/* Toggle switch */
-.toggle-wrap{display:flex;align-items:center;gap:10px;}
-.toggle{position:relative;display:inline-block;width:40px;height:22px;}
-.toggle input{opacity:0;width:0;height:0;}
-.toggle-slider{position:absolute;cursor:pointer;inset:0;background:#e2e8f0;border-radius:22px;transition:.3s;}
-.toggle-slider::before{content:'';position:absolute;height:16px;width:16px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s;}
-.toggle input:checked+.toggle-slider{background:#2563eb;}
-.toggle input:checked+.toggle-slider::before{transform:translateX(18px);}
-.toggle-lbl{font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;}
-
-/* Challan card */
-.challan-card{border-radius:12px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;border:1.5px solid;}
+.slab-tbl thead th{padding:9px 14px;font-size:8.5px;text-transform:uppercase;font-weight:700;text-align:left;letter-spacing:.06em;}
+.slab-tbl-blue thead th{background:#eff6ff;color:#1d4ed8;}
+.slab-tbl-gray thead th{background:#f8fafc;color:#475569;}
+.slab-tbl tbody tr{border-top:1px solid #f8fafc;}
+.slab-tbl tbody tr:hover{background:#f8fafc;}
+.slab-tbl tbody td{padding:8px 14px;font-weight:600;color:#475569;text-transform:uppercase;font-size:11px;}
+/* CHALLAN CARDS */
+.challan-card{border-radius:14px;padding:16px 20px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;border:1.5px solid;transition:all .18s;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.challan-card:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.09);}
 .challan-pf{background:#eff6ff;border-color:#bfdbfe;}
 .challan-esic{background:#f0fdf4;border-color:#bbf7d0;}
 .challan-pt{background:#fff7ed;border-color:#fed7aa;}
-.challan-left{display:flex;align-items:center;gap:12px;}
-.challan-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;}
-.challan-icon .material-icons-round{font-size:20px;}
-.challan-pf .challan-icon{background:#2563eb;color:#fff;}
-.challan-esic .challan-icon{background:#16a34a;color:#fff;}
-.challan-pt .challan-icon{background:#f97316;color:#fff;}
-.challan-name{font-size:13px;font-weight:900;text-transform:uppercase;color:#1e293b;}
-.challan-due{font-size:10px;font-weight:700;color:#94a3b8;margin-top:2px;}
-.challan-amount{text-align:right;}
-.challan-amt{font-size:18px;font-weight:900;color:#1e293b;}
-.challan-status{font-size:9px;font-weight:800;text-transform:uppercase;}
-
-/* MONTH SELECTOR */
-.month-sel-wrap{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:16px;}
-.month-chip{padding:6px 14px;border-radius:99px;font-size:10px;font-weight:800;text-transform:uppercase;border:1.5px solid #e2e8f0;background:#f8fafc;cursor:pointer;color:#64748b;transition:all .15s;}
-.month-chip:hover{border-color:#2563eb;color:#2563eb;}
-.month-chip.active{background:#2563eb;color:#fff;border-color:#2563eb;}
-
+.challan-left{display:flex;align-items:center;gap:14px;}
+.challan-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.challan-icon .material-icons-round{font-size:22px;}
+.challan-pf .challan-icon{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;}
+.challan-esic .challan-icon{background:linear-gradient(135deg,#10b981,#059669);color:#fff;}
+.challan-pt .challan-icon{background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;}
+.challan-name{font-size:13px;font-weight:800;text-transform:uppercase;color:#0f172a;}
+.challan-due{font-size:10px;font-weight:600;color:#64748b;margin-top:3px;}
+.challan-amt{font-size:22px;font-weight:900;color:#0f172a;text-align:right;font-family:'JetBrains Mono',monospace;}
+.challan-status{font-size:9px;font-weight:700;text-transform:uppercase;text-align:right;margin-top:3px;}
 /* MODAL */
-.mo{position:fixed;inset:0;background:rgba(15,23,42,.6);backdrop-filter:blur(4px);z-index:300;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}
-.mo.open{opacity:1;pointer-events:all;}
-.mb{background:#fff;border-radius:20px;width:90%;max-width:640px;max-height:90vh;overflow-y:auto;box-shadow:0 30px 70px rgba(0,0,0,.22);transform:translateY(20px);transition:transform .25s;}
+.mo{position:fixed;inset:0;background:rgba(7,16,31,.65);backdrop-filter:blur(6px);z-index:500;display:none;align-items:center;justify-content:center;padding:16px;}
+.mo.open{display:flex;}
+.mb{background:#fff;border-radius:20px;width:90%;max-width:700px;max-height:92vh;overflow-y:auto;box-shadow:0 30px 70px rgba(0,0,0,.22);}
 .mb::-webkit-scrollbar{width:4px;}.mb::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
-.mo.open .mb{transform:translateY(0);}
-.mh{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #f1f5f9;position:sticky;top:0;background:#fff;z-index:1;border-radius:20px 20px 0 0;}
-.mt{font-size:12px;font-weight:900;text-transform:uppercase;color:#1e293b;font-style:italic;}
-.xbtn{width:30px;height:30px;border-radius:8px;background:#f1f5f9;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
-.xbtn:hover{background:#fee2e2;color:#ef4444;}
+.mh{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;border-bottom:1px solid #f1f5f9;position:sticky;top:0;background:#fff;border-radius:20px 20px 0 0;z-index:1;}
+.mt{font-size:13px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.06em;}
+.xbtn{width:32px;height:32px;background:#f1f5f9;border:none;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;color:#64748b;}
+.xbtn:hover{background:#fef2f2;color:#ef4444;}
+.xbtn .material-icons-round{font-size:16px;}
 .mbody{padding:20px;}
-
+/* EARNINGS SECTION HEADER */
+.sec-hd{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;padding-bottom:7px;margin:16px 0 12px;border-bottom:2px solid;}
+.sec-hd-blue{color:#2563eb;border-color:#bfdbfe;}
+.sec-hd-red{color:#ef4444;border-color:#fecaca;}
 /* TOAST */
-.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;max-width:300px;}
+.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.2);}
 .toast.show{transform:translateY(0);opacity:1;}
 .toast.success{background:#065f46;border-left:4px solid #6ee7b7;}
 .toast.error{background:#7f1d1d;border-left:4px solid #fca5a5;}
 .toast .material-icons-round{font-size:16px;}
-
-/* RESPONSIVE */
-@media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr 1fr;}.form-row3{grid-template-columns:1fr 1fr;}}
-@media(max-width:640px){
-  .sidebar{transform:translateX(-100%);}
-  .sidebar.open{transform:translateX(0);}
-  .sidebar-overlay.open{display:block;}
-  .main{margin-left:0!important;}
-  .menu-btn{display:flex!important;}
-  .topbar{padding:8px 12px;}
-  .scroll{padding:10px 12px;}
-  .btn span.btn-label{display:none;}
-  .g2,.g3,.g4,.form-row,.form-row3{grid-template-columns:1fr;}
-  .card{padding:14px;}
-  .tab-btn span.tab-lbl{display:none;}
-}
+/* F16 */
+.f16-header{background:linear-gradient(135deg,#4c1d95,#7c3aed);border-radius:12px;padding:18px 22px;color:#fff;margin-bottom:16px;}
+.f16-section{border:1.5px solid #ddd6fe;border-radius:12px;overflow:hidden;margin-bottom:12px;}
+.f16-sec-hd{background:#4c1d95;padding:9px 16px;font-size:10px;font-weight:800;color:#fff;text-transform:uppercase;}
+.f16-body{padding:12px 16px;}
+.f16-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #ede9fe;}
+.f16-row:last-child{border-bottom:none;}
+.f16-lbl{font-size:10px;font-weight:600;color:#64748b;text-transform:uppercase;}
+.f16-val{font-size:11px;font-weight:800;color:#0f172a;font-family:'JetBrains Mono',monospace;}
+@media print{body *{visibility:hidden!important;}#f16PrintZone,#f16PrintZone *{visibility:visible!important;}#f16PrintZone{position:fixed!important;inset:0!important;background:white!important;z-index:9999!important;padding:20px!important;overflow:auto!important;}}
+@media(max-width:1000px){.g4{grid-template-columns:1fr 1fr;}.g3{grid-template-columns:1fr 1fr;}}
+@media(max-width:768px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.sidebar-overlay.open{display:block;}.main{margin-left:0!important;}.menu-btn{display:flex!important;}.topbar,.scroll{padding:11px 14px;}.g2,.g3,.g4{grid-template-columns:1fr;}.form-row,.form-row3{grid-template-columns:1fr;}}
 </style>
 </head>
 <body onload="init()">
+<div id="f16PrintZone" style="display:none;position:fixed;inset:0;background:white;padding:20px;z-index:9999;overflow:auto;"></div>
 <div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
 <div class="app">
 
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
-  <div class="logo"><div class="logo-icon">K</div><div class="logo-text">KIDV <span>Tech</span></div></div>
+  <div class="logo-area"><img src="logo.png" alt="KIDV Tech"></div>
   <nav class="nav">
     <div class="nav-sec">Main</div>
-    <a href="index.html"><span class="material-icons-round">dashboard</span>Dashboard</a>
-    <a href="employees.html"><span class="material-icons-round">badge</span>Employees</a>
+    <a href="index.html"><span class="ic ic-main"><span class="material-icons-round">dashboard</span></span>Dashboard</a>
+    <a href="employees.html"><span class="ic ic-main"><span class="material-icons-round">badge</span></span>Employees</a>
     <div class="nav-sec">HR</div>
-    <a href="leave-management.html"><span class="material-icons-round">event_available</span>Leave</a>
-    <a href="shifts.html"><span class="material-icons-round">schedule</span>Shifts</a>
-    <a href="holidays.html"><span class="material-icons-round">event</span>Holidays</a>
+    <a href="leave-management.html"><span class="ic ic-hr"><span class="material-icons-round">event_available</span></span>Leave</a>
+    <a href="shifts.html"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
+    <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
+    <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
     <div class="nav-sec">Operations</div>
-    <a href="attendance.html"><span class="material-icons-round">calendar_month</span>Attendance</a>
-    <a href="payroll.html"><span class="material-icons-round">receipt_long</span>Payroll</a>
-    <a href="payslip.html"><span class="material-icons-round">description</span>Payslips</a>
-    <a href="statutory-compliance.html" class="active"><span class="material-icons-round">gavel</span>Compliance</a>
-    <a href="reports.html"><span class="material-icons-round">bar_chart</span>Reports</a>
+    <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
+    <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
+    <a href="statutory-compliance.html" class="active"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
+    <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
     <div class="nav-sec">Integration</div>
-    <a href="device-manager.html"><span class="material-icons-round">device_hub</span>Device Manager</a>
+    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">device_hub</span></span>Device Manager</a>
     <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
-    <a href="users.html" id="usersLink" style="display:none;"><span class="material-icons-round">manage_accounts</span>Users</a>
-    <a href="roles.html" id="rolesLink" style="display:none;"><span class="material-icons-round">shield</span>Roles & Perms</a>
+    <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
+    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">shield</span></span>Roles &amp; Perms</a>
   </nav>
   <div class="nav-bottom">
-    <div class="user-info">
-      <div class="user-av" id="sideAvatar">SA</div>
-      <div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Administrator</div></div>
-    </div>
+    <div class="user-info"><div class="user-av" id="sideAvatar">SA</div><div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Administrator</div></div></div>
     <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
   </div>
 </aside>
@@ -296,457 +266,306 @@ table.data-tbl tbody td{padding:11px 14px;font-weight:700;color:#475569;text-tra
 <div class="main">
   <div class="topbar">
     <div class="topbar-left">
-      <button class="menu-btn" id="menuBtn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
+      <button class="menu-btn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
       <div>
-        <div class="tb-title">Statutory Compliance</div>
-        <div class="tb-sub">Salary Structure · PF & ESIC · Prof. Tax · TDS & Form 16</div>
+        <div class="page-title">Statutory Compliance</div>
+        <div class="page-sub">Salary Structure · PF &amp; ESIC · Prof. Tax · TDS &amp; Form 16</div>
       </div>
     </div>
-    <div style="display:flex;gap:8px;">
-      <button class="btn btn-ghost" onclick="openSalaryModal()"><span class="material-icons-round">add</span><span class="btn-label">Assign Salary</span></button>
-      <button class="btn btn-blue" onclick="exportCompliance()"><span class="material-icons-round">download</span><span class="btn-label">Export</span></button>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-ghost" onclick="openSalaryModal()"><span class="material-icons-round">add</span>Assign Salary</button>
+      <button class="btn btn-dark" onclick="exportCompliance()"><span class="material-icons-round">download</span>Export Report</button>
     </div>
   </div>
 
   <!-- TABS -->
   <div class="tab-bar">
-    <button class="tab-btn active" onclick="switchTab('salary')" id="tab-salary">
-      <span class="material-icons-round">account_balance_wallet</span>
-      <span class="tab-lbl">Salary Structure</span>
-    </button>
-    <button class="tab-btn" onclick="switchTab('pf')" id="tab-pf">
-      <span class="material-icons-round">savings</span>
-      <span class="tab-lbl">PF & ESIC</span>
-    </button>
-    <button class="tab-btn" onclick="switchTab('pt')" id="tab-pt">
-      <span class="material-icons-round">receipt</span>
-      <span class="tab-lbl">Prof. Tax</span>
-    </button>
-    <button class="tab-btn" onclick="switchTab('tds')" id="tab-tds">
-      <span class="material-icons-round">description</span>
-      <span class="tab-lbl">TDS & Form 16</span>
-    </button>
-    <button class="tab-btn" onclick="switchTab('challan')" id="tab-challan">
-      <span class="material-icons-round">assignment</span>
-      <span class="tab-lbl">Challans</span>
-    </button>
+    <button class="tab-btn active" id="tab-salary" onclick="switchTab('salary')"><span class="material-icons-round">account_balance_wallet</span>Salary Structure</button>
+    <button class="tab-btn" id="tab-pf" onclick="switchTab('pf')"><span class="material-icons-round">savings</span>PF &amp; ESIC</button>
+    <button class="tab-btn" id="tab-pt" onclick="switchTab('pt')"><span class="material-icons-round">receipt</span>Prof. Tax</button>
+    <button class="tab-btn" id="tab-tds" onclick="switchTab('tds')"><span class="material-icons-round">description</span>TDS &amp; Form 16</button>
+    <button class="tab-btn" id="tab-challan" onclick="switchTab('challan')"><span class="material-icons-round">assignment</span>Challans</button>
   </div>
 
   <div class="scroll">
 
-    <!-- ═══════════ TAB 1: SALARY STRUCTURE ═══════════ -->
+    <!-- TAB 1: SALARY STRUCTURE -->
     <div class="tab-pane active" id="pane-salary">
-      <!-- Summary Stats -->
-      <div class="g4" style="margin-bottom:14px;">
-        <div class="stat-box stat-blue">
-          <div class="stat-icon"><span class="material-icons-round">people</span></div>
-          <div class="stat-lbl">Total Employees</div>
-          <div class="stat-val" id="ss-total">0</div>
-          <div class="stat-sub">With salary assigned</div>
-        </div>
-        <div class="stat-box stat-green">
-          <div class="stat-icon"><span class="material-icons-round">payments</span></div>
-          <div class="stat-lbl">Total Monthly CTC</div>
-          <div class="stat-val" id="ss-ctc">₹0</div>
-          <div class="stat-sub">All employees combined</div>
-        </div>
-        <div class="stat-box stat-orange">
-          <div class="stat-icon"><span class="material-icons-round">trending_up</span></div>
-          <div class="stat-lbl">Avg. Monthly CTC</div>
-          <div class="stat-val" id="ss-avg">₹0</div>
-          <div class="stat-sub">Per employee</div>
-        </div>
-        <div class="stat-box stat-purple">
-          <div class="stat-icon"><span class="material-icons-round">account_balance</span></div>
-          <div class="stat-lbl">Total Net Pay-out</div>
-          <div class="stat-val" id="ss-net">₹0</div>
-          <div class="stat-sub">After all deductions</div>
-        </div>
+      <div class="g4" style="margin-bottom:16px;">
+        <div class="stat-box sb-blue"><div class="stat-icon si-blue"><span class="material-icons-round">people</span></div><div class="stat-lbl">Employees with Salary</div><div class="stat-val" id="ss-total">0</div><div class="stat-sub">Structures assigned</div></div>
+        <div class="stat-box sb-green"><div class="stat-icon si-green"><span class="material-icons-round">payments</span></div><div class="stat-lbl">Total Monthly CTC</div><div class="stat-val" id="ss-ctc" style="font-size:17px;">0</div><div class="stat-sub">All employees</div></div>
+        <div class="stat-box sb-orange"><div class="stat-icon si-orange"><span class="material-icons-round">trending_up</span></div><div class="stat-lbl">Average Monthly CTC</div><div class="stat-val" id="ss-avg" style="font-size:17px;">0</div><div class="stat-sub">Per employee</div></div>
+        <div class="stat-box sb-purple"><div class="stat-icon si-purple"><span class="material-icons-round">account_balance</span></div><div class="stat-lbl">Total Net Pay-out</div><div class="stat-val" id="ss-net" style="font-size:17px;">0</div><div class="stat-sub">After deductions</div></div>
       </div>
-
-      <!-- Employee Salary Table -->
       <div class="card">
         <div class="card-hd">
           <div class="card-title">Employee Salary Structures</div>
-          <div style="display:flex;gap:8px;">
-            <input type="text" id="salSearch" placeholder="Search..." style="padding:7px 12px;border-radius:9px;border:1px solid #e2e8f0;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:600;background:#f8fafc;width:180px;" oninput="renderSalaryTable()">
-          </div>
+          <input type="text" id="salSearch" placeholder="Search employee..." style="padding:7px 12px;border-radius:9px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;background:#f8fafc;width:200px;outline:none;" oninput="renderSalaryTable()">
         </div>
         <div class="tbl-wrap">
-          <table class="data-tbl">
-            <thead><tr>
-              <th>Employee</th><th>Basic</th><th>HRA</th><th>Other Allowances</th>
-              <th>Gross</th><th>Net Take Home</th><th>CTC</th><th>Actions</th>
-            </tr></thead>
+          <table class="dtbl">
+            <thead><tr><th>Employee</th><th>Basic</th><th>HRA</th><th>Other Allows.</th><th>Gross</th><th>Net Take Home</th><th>CTC</th><th>PF</th><th>Action</th></tr></thead>
             <tbody id="salaryTableBody"></tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <!-- ═══════════ TAB 2: PF & ESIC ═══════════ -->
+    <!-- TAB 2: PF & ESIC -->
     <div class="tab-pane" id="pane-pf">
-      <div class="g2" style="margin-bottom:14px;">
-        <div class="stat-box stat-blue">
-          <div class="stat-icon"><span class="material-icons-round">savings</span></div>
-          <div class="stat-lbl">Total PF This Month</div>
-          <div class="stat-val" id="pf-total-stat">₹0</div>
-          <div class="stat-sub">Employee + Employer contribution</div>
-        </div>
-        <div class="stat-box stat-green">
-          <div class="stat-icon"><span class="material-icons-round">health_and_safety</span></div>
-          <div class="stat-lbl">Total ESIC This Month</div>
-          <div class="stat-val" id="esic-total-stat">₹0</div>
-          <div class="stat-sub">Only for gross &lt; ₹21,000</div>
-        </div>
+      <div class="g2" style="margin-bottom:16px;">
+        <div class="stat-box sb-blue"><div class="stat-icon si-blue"><span class="material-icons-round">savings</span></div><div class="stat-lbl">Total PF This Month</div><div class="stat-val" id="pf-total-stat" style="font-size:18px;">0</div><div class="stat-sub">Employee + Employer</div></div>
+        <div class="stat-box sb-green"><div class="stat-icon si-green"><span class="material-icons-round">health_and_safety</span></div><div class="stat-lbl">Total ESIC This Month</div><div class="stat-val" id="esic-total-stat" style="font-size:18px;">0</div><div class="stat-sub">Gross &lt; Rs.21,000</div></div>
       </div>
-
-      <!-- PF Rates Info -->
       <div class="card">
-        <div class="card-hd"><div class="card-title">PF & ESIC Rate Configuration</div></div>
+        <div class="card-hd"><div class="card-title">PF &amp; ESIC Rate Configuration</div></div>
         <div class="g2">
-          <div>
-            <div class="compliance-box cb-pf">
-              <div class="cb-title"><span class="material-icons-round" style="font-size:16px;">savings</span>Provident Fund (PF)</div>
-              <div class="cb-row"><span class="cb-lbl">Employee Contribution</span><span class="cb-val">12% of Basic</span></div>
-              <div class="cb-row"><span class="cb-lbl">Employer Contribution</span><span class="cb-val">12% of Basic</span></div>
-              <div class="cb-row"><span class="cb-lbl">Employer (EPS)</span><span class="cb-val">8.33% (max ₹1,250)</span></div>
-              <div class="cb-row"><span class="cb-lbl">Employer (EPF)</span><span class="cb-val">3.67% of Basic</span></div>
-              <div class="cb-row"><span class="cb-lbl">Admin Charges</span><span class="cb-val">0.50% of Basic</span></div>
-              <div class="cb-row"><span class="cb-lbl">PF Wage Ceiling</span><span class="cb-val">₹15,000 (Statutory)</span></div>
-              <div class="cb-row"><span class="cb-lbl">Due Date</span><span class="cb-val">15th of Next Month</span></div>
-            </div>
+          <div class="cbox cbox-pf">
+            <div class="cbox-title"><span class="material-icons-round" style="font-size:16px;">savings</span>Provident Fund (PF)</div>
+            <div class="cbox-row"><span class="cbox-lbl">Employee Contribution</span><span class="cbox-val">12% of Basic</span></div>
+            <div class="cbox-row"><span class="cbox-lbl">Employer Contribution</span><span class="cbox-val">12% of Basic</span></div>
+            <div class="cbox-row"><span class="cbox-lbl">EPS Component</span><span class="cbox-val">8.33% (max Rs.1,250)</span></div>
+            <div class="cbox-row"><span class="cbox-lbl">PF Wage Ceiling</span><span class="cbox-val">Rs.15,000 (Statutory)</span></div>
+            <div class="cbox-row"><span class="cbox-lbl">Due Date</span><span class="cbox-val">15th of Next Month</span></div>
           </div>
-          <div>
-            <div class="compliance-box cb-esic">
-              <div class="cb-title"><span class="material-icons-round" style="font-size:16px;">health_and_safety</span>Employee State Insurance (ESIC)</div>
-              <div class="cb-row"><span class="cb-lbl">Employee Contribution</span><span class="cb-val">0.75% of Gross</span></div>
-              <div class="cb-row"><span class="cb-lbl">Employer Contribution</span><span class="cb-val">3.25% of Gross</span></div>
-              <div class="cb-row"><span class="cb-lbl">Applicability</span><span class="cb-val">Gross &lt; ₹21,000/month</span></div>
-              <div class="cb-row"><span class="cb-lbl">Washing Allowance</span><span class="cb-val">Excluded from ESIC</span></div>
-              <div class="cb-row"><span class="cb-lbl">Registration</span><span class="cb-val">ESIC Portal Required</span></div>
-              <div class="cb-row"><span class="cb-lbl">Due Date</span><span class="cb-val">15th of Next Month</span></div>
-              <div class="cb-row"><span class="cb-lbl">Contribution Period</span><span class="cb-val">Apr–Sep / Oct–Mar</span></div>
-            </div>
+          <div class="cbox cbox-esic">
+            <div class="cbox-title"><span class="material-icons-round" style="font-size:16px;">health_and_safety</span>ESIC</div>
+            <div class="cbox-row"><span class="cbox-lbl">Employee Contribution</span><span class="cbox-val">0.75% of Gross</span></div>
+            <div class="cbox-row"><span class="cbox-lbl">Employer Contribution</span><span class="cbox-val">3.25% of Gross</span></div>
+            <div class="cbox-row"><span class="cbox-lbl">Applicability</span><span class="cbox-val">Gross &lt; Rs.21,000/mo</span></div>
+            <div class="cbox-row"><span class="cbox-lbl">Washing Allowance</span><span class="cbox-val">Excluded from ESIC</span></div>
+            <div class="cbox-row"><span class="cbox-lbl">Due Date</span><span class="cbox-val">15th of Next Month</span></div>
           </div>
         </div>
       </div>
-
-      <!-- Month-wise PF/ESIC Table -->
       <div class="card">
         <div class="card-hd">
-          <div class="card-title">Employee-wise PF & ESIC Calculation</div>
-          <div style="display:flex;gap:8px;align-items:center;">
-            <select class="form-sel" id="pfMonth" onchange="renderPFTable()" style="width:auto;padding:6px 10px;">
-              <option value="current">Current Month</option>
-            </select>
+          <div class="card-title">Employee-wise PF &amp; ESIC Calculation</div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-blue btn-sm" onclick="downloadPFChallan()"><span class="material-icons-round">download</span>ECR File</button>
+            <button class="btn btn-green btn-sm" onclick="downloadESICChallan()"><span class="material-icons-round">download</span>ESIC Challan</button>
           </div>
         </div>
         <div class="tbl-wrap">
-          <table class="data-tbl">
-            <thead><tr>
-              <th>Employee</th><th>Basic</th><th>Gross</th>
-              <th>PF Emp (12%)</th><th>PF ER (12%)</th><th>PF Total</th>
-              <th>ESIC Emp (.75%)</th><th>ESIC ER (3.25%)</th><th>ESIC Total</th><th>Status</th>
-            </tr></thead>
+          <table class="dtbl">
+            <thead><tr><th>Employee</th><th>Basic</th><th>Gross</th><th>PF Emp (12%)</th><th>PF ER (12%)</th><th>PF Total</th><th>ESIC Emp (.75%)</th><th>ESIC ER (3.25%)</th><th>ESIC Total</th><th>Status</th></tr></thead>
             <tbody id="pfTableBody"></tbody>
           </table>
-        </div>
-        <div style="padding:12px 14px;border-top:1px solid #f8fafc;display:flex;justify-content:flex-end;gap:8px;">
-          <button class="btn btn-blue" onclick="downloadPFChallan()"><span class="material-icons-round">download</span>Download ECR File</button>
-          <button class="btn btn-green" onclick="downloadESICChallan()"><span class="material-icons-round">download</span>ESIC Challan</button>
         </div>
       </div>
     </div>
 
-    <!-- ═══════════ TAB 3: PROFESSIONAL TAX ═══════════ -->
+    <!-- TAB 3: PT -->
     <div class="tab-pane" id="pane-pt">
-      <div class="g2" style="margin-bottom:14px;">
-        <div class="stat-box stat-orange">
-          <div class="stat-icon"><span class="material-icons-round">receipt</span></div>
-          <div class="stat-lbl">Total PT This Month</div>
-          <div class="stat-val" id="pt-total-stat">₹0</div>
-          <div class="stat-sub">All employees combined</div>
-        </div>
-        <div class="stat-box stat-blue">
-          <div class="stat-icon"><span class="material-icons-round">people</span></div>
-          <div class="stat-lbl">PT Applicable Employees</div>
-          <div class="stat-val" id="pt-emp-count">0</div>
-          <div class="stat-sub">Earning above PT threshold</div>
-        </div>
+      <div class="g2" style="margin-bottom:16px;">
+        <div class="stat-box sb-orange"><div class="stat-icon si-orange"><span class="material-icons-round">receipt</span></div><div class="stat-lbl">Total PT This Month</div><div class="stat-val" id="pt-total-stat" style="font-size:18px;">0</div><div class="stat-sub">All employees</div></div>
+        <div class="stat-box sb-blue"><div class="stat-icon si-blue"><span class="material-icons-round">people</span></div><div class="stat-lbl">PT Applicable Employees</div><div class="stat-val" id="pt-emp-count">0</div><div class="stat-sub">Earning above PT threshold</div></div>
       </div>
-
       <div class="g2">
-        <!-- Gujarat PT Slabs -->
         <div class="card">
           <div class="card-hd"><div class="card-title">Gujarat PT Slabs</div><span class="badge badge-orange">Gujarat</span></div>
-          <div class="compliance-box cb-pt" style="margin-bottom:0;">
-            <div class="cb-title"><span class="material-icons-round" style="font-size:16px;">receipt</span>Professional Tax — Monthly Slabs</div>
-          </div>
-          <div class="tbl-wrap" style="margin-top:10px;">
-            <table class="slab-tbl" id="ptSlabTable">
+          <div class="tbl-wrap">
+            <table class="slab-tbl slab-tbl-blue">
               <thead><tr><th>#</th><th>Salary Range (Monthly)</th><th>PT Amount</th><th>Annual PT</th></tr></thead>
               <tbody>
-                <tr><td>1</td><td>Up to ₹5,999</td><td>₹0</td><td>₹0</td></tr>
-                <tr><td>2</td><td>₹6,000 – ₹8,999</td><td>₹80</td><td>₹960</td></tr>
-                <tr><td>3</td><td>₹9,000 – ₹11,999</td><td>₹150</td><td>₹1,800</td></tr>
-                <tr><td>4</td><td>₹12,000 and above</td><td>₹200</td><td>₹2,400</td></tr>
+                <tr><td>1</td><td>Up to Rs.5,999</td><td><span class="badge badge-green">Nil</span></td><td>Rs.0</td></tr>
+                <tr><td>2</td><td>Rs.6,000 - Rs.8,999</td><td style="color:#f97316;font-weight:800;">Rs.80</td><td>Rs.960</td></tr>
+                <tr><td>3</td><td>Rs.9,000 - Rs.11,999</td><td style="color:#f97316;font-weight:800;">Rs.150</td><td>Rs.1,800</td></tr>
+                <tr><td>4</td><td>Rs.12,000 and above</td><td style="color:#ef4444;font-weight:900;">Rs.200</td><td>Rs.2,400</td></tr>
               </tbody>
             </table>
           </div>
-          <div style="margin-top:10px;padding:10px 12px;background:#fff7ed;border-radius:9px;font-size:10px;font-weight:700;color:#c2410c;">
-            <span class="material-icons-round" style="font-size:14px;vertical-align:middle;">info</span>
-            February mein ₹300 (₹200 + ₹100 extra). Max ₹2,500/year in some states.
+          <div style="margin-top:10px;padding:10px 12px;background:#fff7ed;border-radius:9px;font-size:10px;font-weight:600;color:#c2410c;display:flex;align-items:flex-start;gap:5px;">
+            <span class="material-icons-round" style="font-size:13px;flex-shrink:0;margin-top:1px;">info</span>
+            February: Rs.300 (Rs.200 + Rs.100 extra). Max Rs.2,500/year.
           </div>
         </div>
-
-        <!-- PT Calc Tool -->
         <div class="card">
           <div class="card-hd"><div class="card-title">PT Quick Calculator</div></div>
           <div class="form-group">
             <label class="form-label">Select Employee</label>
-            <select class="form-sel" id="ptCalcEmp" onchange="calcEmployeePT()">
-              <option value="">-- All Employees --</option>
-            </select>
+            <select class="form-sel" id="ptCalcEmp" onchange="calcEmployeePT()"><option value="">-- All Employees --</option></select>
           </div>
           <div class="form-group">
-            <label class="form-label">Monthly Gross Salary</label>
+            <label class="form-label">Monthly Gross Salary (Rs)</label>
             <input type="number" class="form-inp" id="ptCalcGross" placeholder="e.g. 25000" oninput="calcPTFromGross()">
           </div>
-          <div class="compliance-box cb-pt" id="ptCalcResult" style="display:none;margin-top:0;">
-            <div class="cb-title"><span class="material-icons-round" style="font-size:16px;">calculate</span>PT Calculation Result</div>
-            <div class="cb-row"><span class="cb-lbl">Gross Salary</span><span class="cb-val" id="pt-gross-disp">₹0</span></div>
-            <div class="cb-row"><span class="cb-lbl">Applicable Slab</span><span class="cb-val" id="pt-slab-disp">—</span></div>
-            <div class="cb-total"><span>Monthly PT</span><span id="pt-monthly-disp">₹0</span></div>
-            <div class="cb-row" style="margin-top:8px;"><span class="cb-lbl">Annual PT</span><span class="cb-val" id="pt-annual-disp">₹0</span></div>
+          <div class="cbox cbox-pt" id="ptCalcResult" style="display:none;">
+            <div class="cbox-title"><span class="material-icons-round" style="font-size:16px;">calculate</span>PT Result</div>
+            <div class="cbox-row"><span class="cbox-lbl">Gross Salary</span><span class="cbox-val" id="pt-gross-disp">0</span></div>
+            <div class="cbox-row"><span class="cbox-lbl">Slab</span><span class="cbox-val" id="pt-slab-disp">—</span></div>
+            <div class="cbox-total"><span>Monthly PT</span><span id="pt-monthly-disp">0</span></div>
+            <div class="cbox-row" style="margin-top:8px;"><span class="cbox-lbl">Annual PT</span><span class="cbox-val" id="pt-annual-disp">0</span></div>
           </div>
         </div>
       </div>
-
-      <!-- Employee-wise PT Table -->
       <div class="card">
-        <div class="card-hd"><div class="card-title">Employee-wise Professional Tax</div></div>
+        <div class="card-hd">
+          <div class="card-title">Employee-wise Professional Tax</div>
+          <button class="btn btn-orange btn-sm" onclick="exportPT()"><span class="material-icons-round">download</span>Export PT Report</button>
+        </div>
         <div class="tbl-wrap">
-          <table class="data-tbl">
-            <thead><tr>
-              <th>Employee</th><th>Gross Salary</th><th>PT Slab</th><th>Monthly PT</th><th>Annual PT</th><th>YTD Paid</th><th>Status</th>
-            </tr></thead>
+          <table class="dtbl">
+            <thead><tr><th>Employee</th><th>Gross Salary</th><th>PT Slab</th><th>Monthly PT</th><th>Annual PT</th><th>YTD Paid</th><th>Status</th></tr></thead>
             <tbody id="ptTableBody"></tbody>
           </table>
-        </div>
-        <div style="padding:12px 14px;border-top:1px solid #f8fafc;display:flex;justify-content:flex-end;">
-          <button class="btn btn-orange" style="background:#f97316;color:#fff;" onclick="exportPT()"><span class="material-icons-round">download</span>Export PT Report</button>
         </div>
       </div>
     </div>
 
-    <!-- ═══════════ TAB 4: TDS & FORM 16 ═══════════ -->
+    <!-- TAB 4: TDS & FORM 16 -->
     <div class="tab-pane" id="pane-tds">
-      <div class="g3" style="margin-bottom:14px;">
-        <div class="stat-box stat-purple">
-          <div class="stat-icon"><span class="material-icons-round">account_balance</span></div>
-          <div class="stat-lbl">Total TDS This Year</div>
-          <div class="stat-val" id="tds-total-stat">₹0</div>
-          <div class="stat-sub">FY <span id="tds-fy">2025-26</span></div>
-        </div>
-        <div class="stat-box stat-blue">
-          <div class="stat-icon"><span class="material-icons-round">people</span></div>
-          <div class="stat-lbl">TDS Applicable</div>
-          <div class="stat-val" id="tds-emp-count">0</div>
-          <div class="stat-sub">Taxable income > ₹3L</div>
-        </div>
-        <div class="stat-box stat-green">
-          <div class="stat-icon"><span class="material-icons-round">description</span></div>
-          <div class="stat-lbl">Form 16 Ready</div>
-          <div class="stat-val" id="f16-ready-count">0</div>
-          <div class="stat-sub">For current FY</div>
-        </div>
+      <div class="g3" style="margin-bottom:16px;">
+        <div class="stat-box sb-purple"><div class="stat-icon si-purple"><span class="material-icons-round">account_balance</span></div><div class="stat-lbl">Total TDS This Year</div><div class="stat-val" id="tds-total-stat" style="font-size:18px;">0</div><div class="stat-sub">FY <span id="tds-fy">2025-26</span></div></div>
+        <div class="stat-box sb-blue"><div class="stat-icon si-blue"><span class="material-icons-round">people</span></div><div class="stat-lbl">TDS Applicable</div><div class="stat-val" id="tds-emp-count">0</div><div class="stat-sub">Taxable income &gt; Rs.3L</div></div>
+        <div class="stat-box sb-green"><div class="stat-icon si-green"><span class="material-icons-round">description</span></div><div class="stat-lbl">Form 16 Ready</div><div class="stat-val" id="f16-ready-count">0</div><div class="stat-sub">For current FY</div></div>
       </div>
-
-      <!-- TDS Slabs -->
       <div class="g2">
         <div class="card">
           <div class="card-hd"><div class="card-title">New Tax Regime — FY 2025-26</div><span class="badge badge-blue">Default</span></div>
-          <div class="tds-slab-wrap">
-            <div class="tds-slab-hd">Income Tax Slabs (New Regime)</div>
-            <div class="tds-row hd-row"><span>Income Range</span><span>Rate</span><span>Tax</span><span>Total</span></div>
-            <div class="tds-row"><span>Up to ₹3,00,000</span><span>NIL</span><span>₹0</span><span>₹0</span></div>
-            <div class="tds-row"><span>₹3L – ₹7L</span><span>5%</span><span>₹20,000</span><span>₹20,000</span></div>
-            <div class="tds-row"><span>₹7L – ₹10L</span><span>10%</span><span>₹30,000</span><span>₹50,000</span></div>
-            <div class="tds-row"><span>₹10L – ₹12L</span><span>15%</span><span>₹30,000</span><span>₹80,000</span></div>
-            <div class="tds-row"><span>₹12L – ₹15L</span><span>20%</span><span>₹60,000</span><span>₹1,40,000</span></div>
-            <div class="tds-row"><span>Above ₹15L</span><span>30%</span><span>—</span><span>—</span></div>
+          <div style="border-radius:11px;overflow:hidden;border:1.5px solid #ddd6fe;">
+            <div style="background:#4c1d95;padding:9px 14px;font-size:10px;font-weight:800;color:#fff;text-transform:uppercase;">Income Tax Slabs (New Regime)</div>
+            <table class="slab-tbl" style="min-width:0;">
+              <thead style=""><tr style="background:#f5f3ff;"><th style="color:#7c3aed;">Income Range</th><th style="color:#7c3aed;">Rate</th><th style="color:#7c3aed;">Tax</th></tr></thead>
+              <tbody>
+                <tr><td>Up to Rs.3,00,000</td><td><span class="badge badge-green">NIL</span></td><td>Rs.0</td></tr>
+                <tr><td>Rs.3L - Rs.7L</td><td style="color:#f97316;font-weight:800;">5%</td><td>Rs.20,000</td></tr>
+                <tr><td>Rs.7L - Rs.10L</td><td style="color:#f97316;font-weight:800;">10%</td><td>Rs.30,000</td></tr>
+                <tr><td>Rs.10L - Rs.12L</td><td style="color:#ef4444;font-weight:800;">15%</td><td>Rs.30,000</td></tr>
+                <tr><td>Rs.12L - Rs.15L</td><td style="color:#ef4444;font-weight:800;">20%</td><td>Rs.60,000</td></tr>
+                <tr><td>Above Rs.15L</td><td style="color:#dc2626;font-weight:900;">30%</td><td>—</td></tr>
+              </tbody>
+            </table>
           </div>
-          <div style="margin-top:10px;padding:10px;background:#f5f3ff;border-radius:9px;font-size:10px;font-weight:700;color:#4c1d95;">
-            <span class="material-icons-round" style="font-size:14px;vertical-align:middle;">info</span>
-            Standard Deduction: ₹75,000 (New Regime). Rebate u/s 87A: Tax nil if income ≤ ₹7L.
-          </div>
+          <div style="margin-top:10px;padding:10px 12px;background:#f5f3ff;border-radius:9px;font-size:10px;font-weight:600;color:#4c1d95;">Standard Deduction: Rs.75,000. Rebate u/s 87A: Nil if income &le; Rs.7L.</div>
         </div>
         <div class="card">
           <div class="card-hd"><div class="card-title">Old Tax Regime</div><span class="badge badge-gray">Optional</span></div>
-          <div class="tds-slab-wrap">
-            <div class="tds-slab-hd" style="background:#374151;">Income Tax Slabs (Old Regime)</div>
-            <div class="tds-row hd-row" style="background:#f9fafb;"><span>Income Range</span><span>Rate</span><span>Tax</span><span>Total</span></div>
-            <div class="tds-row"><span>Up to ₹2,50,000</span><span>NIL</span><span>₹0</span><span>₹0</span></div>
-            <div class="tds-row"><span>₹2.5L – ₹5L</span><span>5%</span><span>₹12,500</span><span>₹12,500</span></div>
-            <div class="tds-row"><span>₹5L – ₹10L</span><span>20%</span><span>₹1,00,000</span><span>₹1,12,500</span></div>
-            <div class="tds-row"><span>Above ₹10L</span><span>30%</span><span>—</span><span>—</span></div>
+          <div style="border-radius:11px;overflow:hidden;border:1.5px solid #e2e8f0;">
+            <div style="background:#374151;padding:9px 14px;font-size:10px;font-weight:800;color:#fff;text-transform:uppercase;">Income Tax Slabs (Old Regime)</div>
+            <table class="slab-tbl" style="min-width:0;">
+              <thead><tr style="background:#f8fafc;"><th style="color:#374151;">Income Range</th><th style="color:#374151;">Rate</th><th style="color:#374151;">Tax</th></tr></thead>
+              <tbody>
+                <tr><td>Up to Rs.2,50,000</td><td><span class="badge badge-green">NIL</span></td><td>Rs.0</td></tr>
+                <tr><td>Rs.2.5L - Rs.5L</td><td style="color:#f97316;font-weight:800;">5%</td><td>Rs.12,500</td></tr>
+                <tr><td>Rs.5L - Rs.10L</td><td style="color:#ef4444;font-weight:800;">20%</td><td>Rs.1,00,000</td></tr>
+                <tr><td>Above Rs.10L</td><td style="color:#dc2626;font-weight:900;">30%</td><td>—</td></tr>
+              </tbody>
+            </table>
           </div>
-          <div style="margin-top:10px;padding:10px;background:#f8fafc;border-radius:9px;font-size:10px;font-weight:700;color:#374151;">
-            <span class="material-icons-round" style="font-size:14px;vertical-align:middle;">info</span>
-            Deductions: 80C (₹1.5L), 80D, HRA, LTA available. Standard Deduction: ₹50,000.
-          </div>
+          <div style="margin-top:10px;padding:10px 12px;background:#f8fafc;border-radius:9px;font-size:10px;font-weight:600;color:#374151;">Deductions: 80C (Rs.1.5L), 80D, HRA, LTA available. Standard Deduction: Rs.50,000.</div>
         </div>
       </div>
-
-      <!-- TDS Calculator -->
+      <!-- TDS CALCULATOR -->
       <div class="card">
         <div class="card-hd"><div class="card-title">TDS Calculator — FY 2025-26</div></div>
         <div class="g2">
           <div>
-            <div class="form-group">
-              <label class="form-label">Select Employee</label>
-              <select class="form-sel" id="tdsCalcEmp" onchange="calcTDS()">
-                <option value="">-- Select Employee --</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Tax Regime</label>
-              <select class="form-sel" id="tdsRegime" onchange="calcTDS()">
-                <option value="new">New Regime (Default)</option>
-                <option value="old">Old Regime</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Annual Gross (₹)</label>
-              <input type="number" class="form-inp" id="tdsGross" oninput="calcTDS()" placeholder="Auto-filled from salary">
-            </div>
-            <div class="form-group" id="deductionsSection" style="display:none;">
-              <label class="form-label">80C Investments (₹)</label>
-              <input type="number" class="form-inp" id="tds80c" oninput="calcTDS()" placeholder="Max ₹1,50,000" value="0">
-            </div>
+            <div class="form-group"><label class="form-label">Select Employee</label><select class="form-sel" id="tdsCalcEmp" onchange="calcTDS()"><option value="">-- Select Employee --</option></select></div>
+            <div class="form-group"><label class="form-label">Tax Regime</label><select class="form-sel" id="tdsRegime" onchange="calcTDS()"><option value="new">New Regime (Default)</option><option value="old">Old Regime</option></select></div>
+            <div class="form-group"><label class="form-label">Annual Gross (Rs)</label><input type="number" class="form-inp" id="tdsGross" oninput="calcTDS()" placeholder="Auto-filled from salary"></div>
+            <div class="form-group" id="deductionsSection" style="display:none;"><label class="form-label">80C Investments (Rs)</label><input type="number" class="form-inp" id="tds80c" oninput="calcTDS()" placeholder="Max Rs.1,50,000" value="0"></div>
           </div>
           <div>
-            <div class="compliance-box cb-tds" id="tdsResult">
-              <div class="cb-title"><span class="material-icons-round" style="font-size:16px;">calculate</span>TDS Calculation</div>
-              <div class="cb-row"><span class="cb-lbl">Annual Gross</span><span class="cb-val" id="tds-gross-disp">₹0</span></div>
-              <div class="cb-row"><span class="cb-lbl">Standard Deduction</span><span class="cb-val" id="tds-std-disp">₹75,000</span></div>
-              <div class="cb-row"><span class="cb-lbl">Taxable Income</span><span class="cb-val" id="tds-taxable">₹0</span></div>
-              <div class="cb-row"><span class="cb-lbl">Tax on Income</span><span class="cb-val" id="tds-tax">₹0</span></div>
-              <div class="cb-row"><span class="cb-lbl">Health & Edu Cess (4%)</span><span class="cb-val" id="tds-cess">₹0</span></div>
-              <div class="cb-row"><span class="cb-lbl">Rebate 87A</span><span class="cb-val" id="tds-rebate" style="color:#16a34a;">₹0</span></div>
-              <div class="cb-total"><span>Total Annual TDS</span><span id="tds-annual">₹0</span></div>
-              <div class="cb-row" style="margin-top:8px;"><span class="cb-lbl">Monthly TDS Deduction</span><span class="cb-val" id="tds-monthly" style="color:#7c3aed;font-size:16px;">₹0</span></div>
+            <div class="cbox cbox-tds">
+              <div class="cbox-title"><span class="material-icons-round" style="font-size:16px;">calculate</span>TDS Calculation</div>
+              <div class="cbox-row"><span class="cbox-lbl">Annual Gross</span><span class="cbox-val" id="tds-gross-disp">0</span></div>
+              <div class="cbox-row"><span class="cbox-lbl">Standard Deduction</span><span class="cbox-val" id="tds-std-disp">Rs.75,000</span></div>
+              <div class="cbox-row"><span class="cbox-lbl">Taxable Income</span><span class="cbox-val" id="tds-taxable">0</span></div>
+              <div class="cbox-row"><span class="cbox-lbl">Tax on Income</span><span class="cbox-val" id="tds-tax">0</span></div>
+              <div class="cbox-row"><span class="cbox-lbl">Health &amp; Edu Cess (4%)</span><span class="cbox-val" id="tds-cess">0</span></div>
+              <div class="cbox-row"><span class="cbox-lbl">Rebate u/s 87A</span><span class="cbox-val" id="tds-rebate" style="color:#10b981;">0</span></div>
+              <div class="cbox-total"><span>Annual TDS</span><span id="tds-annual">0</span></div>
+              <div class="cbox-row" style="margin-top:8px;"><span class="cbox-lbl">Monthly TDS</span><span class="cbox-val" id="tds-monthly" style="color:#8b5cf6;font-size:16px;">0</span></div>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Form 16 -->
+      <!-- FORM 16 TABLE -->
       <div class="card">
         <div class="card-hd">
           <div class="card-title">Form 16 — Generate</div>
           <div style="display:flex;gap:8px;align-items:center;">
-            <select class="form-sel" id="f16FY" style="width:auto;padding:6px 10px;">
-              <option value="2025-26">FY 2025-26</option>
-              <option value="2024-25">FY 2024-25</option>
-              <option value="2023-24">FY 2023-24</option>
-            </select>
-            <button class="btn btn-blue" onclick="generateAllForm16()"><span class="material-icons-round">picture_as_pdf</span>Generate All</button>
+            <select class="form-sel" id="f16FY" style="width:auto;padding:7px 12px;"><option value="2025-26">FY 2025-26</option><option value="2024-25">FY 2024-25</option><option value="2023-24">FY 2023-24</option></select>
+            <button class="btn btn-purple" onclick="generateAllForm16()"><span class="material-icons-round">picture_as_pdf</span>Generate All</button>
           </div>
         </div>
         <div class="tbl-wrap">
-          <table class="data-tbl">
-            <thead><tr>
-              <th>Employee</th><th>Annual Gross</th><th>Taxable Income</th><th>Total TDS</th><th>Form 16</th><th>Actions</th>
-            </tr></thead>
+          <table class="dtbl">
+            <thead><tr><th>Employee</th><th>Annual Gross</th><th>Taxable Income</th><th>Total TDS</th><th>Status</th><th>Actions</th></tr></thead>
             <tbody id="f16TableBody"></tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <!-- ═══════════ TAB 5: CHALLANS ═══════════ -->
+    <!-- TAB 5: CHALLANS -->
     <div class="tab-pane" id="pane-challan">
       <div class="card">
         <div class="card-hd">
-          <div class="card-title">Monthly Challans & Due Dates</div>
-          <div>
-            <select class="form-sel" id="challanMonth" onchange="renderChallans()" style="width:auto;padding:6px 10px;">
-            </select>
-          </div>
+          <div class="card-title">Monthly Challans &amp; Due Dates</div>
+          <select class="form-sel" id="challanMonth" onchange="renderChallans()" style="width:auto;padding:8px 12px;"></select>
         </div>
-
         <div id="challanCards"></div>
-
-        <div style="margin-top:16px;padding:14px;background:#f8fafc;border-radius:12px;border:1px dashed #e2e8f0;">
-          <div style="font-size:11px;font-weight:800;color:#1e293b;text-transform:uppercase;margin-bottom:10px;">📅 Important Due Dates</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;" id="dueDatesGrid"></div>
+        <div style="margin-top:16px;padding:16px;background:#f8fafc;border-radius:12px;border:1px dashed #e2e8f0;">
+          <div style="font-size:11px;font-weight:800;color:#0f172a;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:6px;"><span class="material-icons-round" style="font-size:16px;color:#f59e0b;">calendar_month</span>Important Due Dates</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;" id="dueDatesGrid"></div>
         </div>
       </div>
     </div>
 
-  </div><!-- /scroll -->
-</div><!-- /main -->
-</div><!-- /app -->
+  </div>
+</div>
+</div>
 
-<!-- SALARY ASSIGN MODAL -->
+<!-- SALARY MODAL -->
 <div id="salaryModal" class="mo" onclick="if(event.target===this)closeSalaryModal()">
-  <div class="mb" style="max-width:680px;">
+  <div class="mb">
     <div class="mh">
-      <div class="mt" id="salModalTitle">Assign Salary Structure</div>
-      <button class="xbtn" onclick="closeSalaryModal()"><span class="material-icons-round" style="font-size:16px;">close</span></button>
+      <div class="mt">Assign Salary Structure</div>
+      <button class="xbtn" onclick="closeSalaryModal()"><span class="material-icons-round">close</span></button>
     </div>
     <div class="mbody">
-      <div class="form-group">
-        <label class="form-label">Select Employee</label>
-        <select class="form-sel" id="sal_emp" onchange="loadEmpSalary()">
-          <option value="">-- Select Employee --</option>
-        </select>
-      </div>
+      <div class="form-group"><label class="form-label">Select Employee</label><select class="form-sel" id="sal_emp" onchange="loadEmpSalary()"><option value="">-- Select Employee --</option></select></div>
       <div class="form-row">
         <div class="form-group"><label class="form-label">Effective Date</label><input type="date" class="form-inp" id="sal_eff"></div>
         <div class="form-group"><label class="form-label">Employee Type</label><select class="form-sel" id="sal_emptype"><option>Permanent</option><option>Contract</option><option>Probation</option></select></div>
       </div>
-
-      <div style="font-size:10px;font-weight:900;text-transform:uppercase;color:#2563eb;margin:14px 0 8px;padding-bottom:6px;border-bottom:2px solid #eff6ff;">Earnings Breakup</div>
+      <div class="sec-hd sec-hd-blue">Earnings Breakup</div>
       <div class="form-row3">
-        <div class="form-group"><label class="form-label">Basic (₹)</label><input type="number" class="form-inp" id="sal_basic" oninput="autoCalcSalary()" placeholder="0"></div>
-        <div class="form-group"><label class="form-label">HRA (₹)</label><input type="number" class="form-inp" id="sal_hra" oninput="autoCalcSalary()" placeholder="0"></div>
-        <div class="form-group"><label class="form-label">Conveyance (₹)</label><input type="number" class="form-inp" id="sal_conv" oninput="autoCalcSalary()" placeholder="0"></div>
-        <div class="form-group"><label class="form-label">Attendance Allw. (₹)</label><input type="number" class="form-inp" id="sal_att" oninput="autoCalcSalary()" placeholder="0"></div>
-        <div class="form-group"><label class="form-label">Washing Allw. (₹)</label><input type="number" class="form-inp" id="sal_wash" oninput="autoCalcSalary()" placeholder="0"></div>
-        <div class="form-group"><label class="form-label">Special Allw. (₹)</label><input type="number" class="form-inp" id="sal_spec" oninput="autoCalcSalary()" placeholder="0"></div>
-        <div class="form-group"><label class="form-label">Education Allw. (₹)</label><input type="number" class="form-inp" id="sal_edu" oninput="autoCalcSalary()" placeholder="0"></div>
-        <div class="form-group"><label class="form-label">Flexi Pay (₹)</label><input type="number" class="form-inp" id="sal_flexi" oninput="autoCalcSalary()" placeholder="0"></div>
-        <div class="form-group"><label class="form-label">Gross Monthly (₹)</label><input type="number" class="form-inp" id="sal_gross" oninput="calcFromGross()" placeholder="0" style="background:#eff6ff;font-weight:800;color:#2563eb;"></div>
+        <div class="form-group"><label class="form-label">Basic (Rs)</label><input type="number" class="form-inp" id="sal_basic" oninput="autoCalcSalary()" placeholder="0"></div>
+        <div class="form-group"><label class="form-label">HRA (Rs)</label><input type="number" class="form-inp" id="sal_hra" oninput="autoCalcSalary()" placeholder="0"></div>
+        <div class="form-group"><label class="form-label">Conveyance (Rs)</label><input type="number" class="form-inp" id="sal_conv" oninput="autoCalcSalary()" placeholder="0"></div>
+        <div class="form-group"><label class="form-label">Attendance Allw. (Rs)</label><input type="number" class="form-inp" id="sal_att" oninput="autoCalcSalary()" placeholder="0"></div>
+        <div class="form-group"><label class="form-label">Washing Allw. (Rs)</label><input type="number" class="form-inp" id="sal_wash" oninput="autoCalcSalary()" placeholder="0"></div>
+        <div class="form-group"><label class="form-label">Special Allw. (Rs)</label><input type="number" class="form-inp" id="sal_spec" oninput="autoCalcSalary()" placeholder="0"></div>
+        <div class="form-group"><label class="form-label">Education Allw. (Rs)</label><input type="number" class="form-inp" id="sal_edu" oninput="autoCalcSalary()" placeholder="0"></div>
+        <div class="form-group"><label class="form-label">Flexi Pay (Rs)</label><input type="number" class="form-inp" id="sal_flexi" oninput="autoCalcSalary()" placeholder="0"></div>
+        <div class="form-group"><label class="form-label">Gross Monthly (Rs)</label><input type="number" class="form-inp" id="sal_gross" oninput="calcFromGross()" placeholder="0" style="background:#eff6ff;font-weight:800;color:#2563eb;border-color:#bfdbfe;"></div>
       </div>
-
-      <div style="font-size:10px;font-weight:900;text-transform:uppercase;color:#ef4444;margin:14px 0 8px;padding-bottom:6px;border-bottom:2px solid #fef2f2;">Deductions & Settings</div>
+      <div class="sec-hd sec-hd-red">Deductions &amp; Settings</div>
       <div class="form-row3">
         <div class="form-group"><label class="form-label">PF Applicable</label><select class="form-sel" id="sal_pf" onchange="autoCalcSalary()"><option value="Yes">Yes</option><option value="No">No</option></select></div>
-        <div class="form-group"><label class="form-label">Professional Tax (₹)</label><input type="number" class="form-inp" id="sal_pt" oninput="autoCalcSalary()" placeholder="Auto"></div>
-        <div class="form-group"><label class="form-label">Performance Incentive (₹)</label><input type="number" class="form-inp" id="sal_perf" oninput="autoCalcSalary()" placeholder="0"></div>
+        <div class="form-group"><label class="form-label">Professional Tax (Rs)</label><input type="number" class="form-inp" id="sal_pt" oninput="autoCalcSalary()" placeholder="Auto"></div>
+        <div class="form-group"><label class="form-label">Performance Incentive (Rs)</label><input type="number" class="form-inp" id="sal_perf" oninput="autoCalcSalary()" placeholder="0"></div>
       </div>
-
       <!-- Live Preview -->
-      <div class="sal-preview" id="salPreview">
+      <div class="sal-preview">
         <div class="sal-preview-title">Live Salary Preview</div>
-        <div class="sal-row"><span class="sal-row-lbl">Gross Monthly</span><span class="sal-row-val" id="prev-gross">₹0</span></div>
-        <div class="sal-row"><span class="sal-row-lbl">PF Employee (12%)</span><span class="sal-row-val" id="prev-pf-emp">₹0</span></div>
-        <div class="sal-row"><span class="sal-row-lbl">ESIC Employee (0.75%)</span><span class="sal-row-val" id="prev-esic-emp">₹0</span></div>
-        <div class="sal-row"><span class="sal-row-lbl">Professional Tax</span><span class="sal-row-val" id="prev-pt">₹0</span></div>
+        <div class="sal-row"><span class="sal-lbl">Gross Monthly</span><span class="sal-val" id="prev-gross">Rs.0</span></div>
+        <div class="sal-row"><span class="sal-lbl">PF Employee (12%)</span><span class="sal-val" id="prev-pf-emp">Rs.0</span></div>
+        <div class="sal-row"><span class="sal-lbl">ESIC Employee (0.75%)</span><span class="sal-val" id="prev-esic-emp">Rs.0</span></div>
+        <div class="sal-row"><span class="sal-lbl">Professional Tax</span><span class="sal-val" id="prev-pt">Rs.0</span></div>
         <div class="sal-divider">
-          <div class="sal-row"><span class="sal-row-lbl">Net Take Home</span><span class="sal-row-val" style="color:#6ee7b7;" id="prev-net">₹0</span></div>
+          <div class="sal-row"><span class="sal-lbl">Net Take Home</span><span class="sal-val" style="color:#6ee7b7;" id="prev-net">Rs.0</span></div>
         </div>
-        <div class="sal-row"><span class="sal-row-lbl">PF Employer (12%)</span><span class="sal-row-val" style="opacity:.5;" id="prev-pf-er">₹0</span></div>
-        <div class="sal-row"><span class="sal-row-lbl">ESIC Employer (3.25%)</span><span class="sal-row-val" style="opacity:.5;" id="prev-esic-er">₹0</span></div>
-        <div class="sal-row"><span class="sal-row-lbl">Gratuity (4.81%)</span><span class="sal-row-val" style="opacity:.5;" id="prev-grat">₹0</span></div>
+        <div class="sal-row"><span class="sal-lbl">PF Employer (12%)</span><span class="sal-val" style="opacity:.5;" id="prev-pf-er">Rs.0</span></div>
+        <div class="sal-row"><span class="sal-lbl">ESIC Employer (3.25%)</span><span class="sal-val" style="opacity:.5;" id="prev-esic-er">Rs.0</span></div>
+        <div class="sal-row"><span class="sal-lbl">Gratuity (4.81%)</span><span class="sal-val" style="opacity:.5;" id="prev-grat">Rs.0</span></div>
         <div class="sal-divider">
-          <div class="sal-total"><span class="sal-total-lbl">Total Monthly CTC</span><span class="sal-total-val" id="prev-ctc">₹0</span></div>
+          <div class="sal-total-row"><span style="color:#60a5fa;font-size:11px;font-weight:700;text-transform:uppercase;">Total Monthly CTC</span><span style="color:#6ee7b7;font-size:15px;font-weight:900;font-family:'JetBrains Mono',monospace;" id="prev-ctc">Rs.0</span></div>
         </div>
       </div>
-
       <div style="display:flex;gap:10px;margin-top:16px;justify-content:flex-end;">
         <button class="btn btn-ghost" onclick="closeSalaryModal()">Cancel</button>
         <button class="btn btn-blue" onclick="saveSalaryStructure()"><span class="material-icons-round">save</span>Save Structure</button>
@@ -757,728 +576,322 @@ table.data-tbl tbody td{padding:11px 14px;font-weight:700;color:#475569;text-tra
 
 <!-- FORM 16 MODAL -->
 <div id="f16Modal" class="mo" onclick="if(event.target===this)closeF16()">
-  <div class="mb" style="max-width:540px;">
+  <div class="mb" style="max-width:560px;">
     <div class="mh">
       <div class="mt" id="f16ModalTitle">Form 16</div>
       <div style="display:flex;gap:8px;">
-        <button class="btn btn-blue" onclick="printF16()"><span class="material-icons-round">print</span>Print</button>
-        <button class="xbtn" onclick="closeF16()"><span class="material-icons-round" style="font-size:16px;">close</span></button>
+        <button class="btn btn-blue btn-sm" onclick="printF16()"><span class="material-icons-round">print</span>Print</button>
+        <button class="xbtn" onclick="closeF16()"><span class="material-icons-round">close</span></button>
       </div>
     </div>
     <div class="mbody" id="f16ModalBody"></div>
   </div>
 </div>
 
-<div class="toast" id="toast">
-  <span class="material-icons-round" id="toastIcon">check_circle</span>
-  <span id="toastMsg">Success</span>
-</div>
+<div class="toast" id="toast"><span class="material-icons-round" id="toastIcon">check_circle</span><span id="toastMsg"></span></div>
 
 <script>
-// ── HELPERS ──
-const fmt = v => v&&parseFloat(v)>0 ? '₹'+parseFloat(v).toLocaleString('en-IN',{minimumFractionDigits:0}) : '₹0';
-const n = s => parseFloat(s||0);
-const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const AV_COLORS=['linear-gradient(135deg,#2563eb,#06b6d4)','linear-gradient(135deg,#8b5cf6,#ec4899)','linear-gradient(135deg,#10b981,#06b6d4)','linear-gradient(135deg,#f59e0b,#ef4444)','linear-gradient(135deg,#6366f1,#8b5cf6)','linear-gradient(135deg,#0891b2,#10b981)'];
+const fmt=v=>'Rs.'+Math.round(parseFloat(v)||0).toLocaleString('en-IN');
+const n=s=>parseFloat(s||0);
+let employees=[];
 
-let employees = [];
-
-// ── INIT ──
 function init(){
   loadUserInfo();
-  employees = JSON.parse(localStorage.getItem('employees')||'[]');
-  populateEmployeeDropdowns();
+  employees=JSON.parse(localStorage.getItem('employees')||'[]');
+  populateDropdowns();
   populateMonthSelectors();
-  renderSalaryTable();
-  renderPFTable();
-  renderPTTable();
-  renderTDSTable();
-  renderF16Table();
-  renderChallans();
-  updateSummaryStats();
-  setDefaultDate();
+  renderAll();
+  document.getElementById('sal_eff').value=new Date().toISOString().split('T')[0];
 }
 
-function setDefaultDate(){
-  const t = new Date();
-  document.getElementById('sal_eff').value = t.toISOString().split('T')[0];
-}
-
-// ── AUTH ──
-function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
+function renderAll(){renderSalaryTable();renderPFTable();renderPTTable();renderTDSTable();renderF16Table();renderChallans();updateSummaryStats();}
+function getPT(g){return g<6000?0:g<9000?80:g<12000?150:200;}
 function loadUserInfo(){
-  const user = JSON.parse(localStorage.getItem('kidv_user')||'{}');
-  if(user.name){
-    const p = user.name.trim().split(' ');
-    document.getElementById('sideAvatar').textContent = (p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();
-    document.getElementById('sideName').textContent = user.name;
-    document.getElementById('sideRole').textContent = user.role||'Staff';
-  }
-  const role = (user.role||'').toLowerCase();
-  if(role==='super admin'||role==='admin'){
-    document.getElementById('adminNav').style.display='';
-    document.getElementById('usersLink').style.display='';
-    document.getElementById('rolesLink').style.display='';
-  }
+  const user=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+  if(user.name){const p=user.name.trim().split(' ');document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();document.getElementById('sideName').textContent=user.name;document.getElementById('sideRole').textContent=user.role||'Staff';}
+  const role=(user.role||'').toLowerCase();
+  if(role==='super admin'||role==='admin'){document.getElementById('adminNav').style.display='';document.getElementById('usersLink').style.display='';document.getElementById('rolesLink').style.display='';}
 }
+function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');document.body.style.overflow='hidden';}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');document.body.style.overflow='';}
+function switchTab(t){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active');document.getElementById('pane-'+t).classList.add('active');}
 
-// ── SIDEBAR ──
-function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');}
-function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');}
-
-// ── TABS ──
-function switchTab(tab){
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
-  document.getElementById('tab-'+tab).classList.add('active');
-  document.getElementById('pane-'+tab).classList.add('active');
-}
-
-// ── DROPDOWNS ──
-function populateEmployeeDropdowns(){
+function populateDropdowns(){
   ['sal_emp','tdsCalcEmp','ptCalcEmp'].forEach(id=>{
-    const sel = document.getElementById(id);
-    if(!sel) return;
-    employees.forEach((e,i)=>{
-      const name = `${e.fName||e.firstName||''} ${e.lName||e.lastName||''}`.trim();
-      const opt = document.createElement('option');
-      opt.value = i;
-      opt.textContent = `${e.id||''} — ${name}`;
-      sel.appendChild(opt);
-    });
+    const sel=document.getElementById(id);if(!sel)return;
+    employees.forEach((e,i)=>{const o=document.createElement('option');o.value=i;o.textContent=`${e.id||''} - ${e.fName||''} ${e.lName||''}`;sel.appendChild(o);});
   });
 }
-
 function populateMonthSelectors(){
-  const now = new Date();
-  ['pfMonth','challanMonth'].forEach(id=>{
-    const sel = document.getElementById(id);
-    if(!sel) return;
-    for(let i=0;i<12;i++){
-      const d = new Date(now.getFullYear(), now.getMonth()-i, 1);
-      const opt = document.createElement('option');
-      opt.value = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
-      opt.textContent = `${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
-      if(i===0) opt.selected = true;
-      sel.appendChild(opt);
-    }
+  const now=new Date();
+  ['challanMonth'].forEach(id=>{
+    const sel=document.getElementById(id);if(!sel)return;
+    for(let i=0;i<12;i++){const d=new Date(now.getFullYear(),now.getMonth()-i,1);const o=document.createElement('option');o.value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;o.textContent=`${MONTHS[d.getMonth()]} ${d.getFullYear()}`;if(i===0)o.selected=true;sel.appendChild(o);}
   });
 }
 
-// ── PT CALCULATION ──
-function getPT(gross){
-  if(gross<6000) return 0;
-  if(gross<9000) return 80;
-  if(gross<12000) return 150;
-  return 200;
-}
+// PT
 function calcPTFromGross(){
-  const gross = n(document.getElementById('ptCalcGross').value);
-  const pt = getPT(gross);
-  const slab = gross<6000?'Nil (< ₹6,000)':gross<9000?'₹80 (₹6,000–₹8,999)':gross<12000?'₹150 (₹9,000–₹11,999)':'₹200 (₹12,000+)';
+  const gross=n(document.getElementById('ptCalcGross').value);const pt=getPT(gross);
+  const slab=gross<6000?'Nil (<Rs.6,000)':gross<9000?'Rs.80 (Rs.6,000-Rs.8,999)':gross<12000?'Rs.150 (Rs.9,000-Rs.11,999)':'Rs.200 (Rs.12,000+)';
   document.getElementById('ptCalcResult').style.display='block';
-  document.getElementById('pt-gross-disp').textContent = fmt(gross);
-  document.getElementById('pt-slab-disp').textContent = slab;
-  document.getElementById('pt-monthly-disp').textContent = fmt(pt);
-  document.getElementById('pt-annual-disp').textContent = fmt(pt*12);
+  document.getElementById('pt-gross-disp').textContent=fmt(gross);
+  document.getElementById('pt-slab-disp').textContent=slab;
+  document.getElementById('pt-monthly-disp').textContent=fmt(pt);
+  document.getElementById('pt-annual-disp').textContent=fmt(pt*12);
 }
-function calcEmployeePT(){
-  const idx = document.getElementById('ptCalcEmp').value;
-  if(idx==='') return;
-  const e = employees[parseInt(idx)];
-  const gross = n(e.sal_gross);
-  document.getElementById('ptCalcGross').value = gross;
-  calcPTFromGross();
-}
+function calcEmployeePT(){const idx=document.getElementById('ptCalcEmp').value;if(!idx)return;const e=employees[parseInt(idx)];document.getElementById('ptCalcGross').value=n(e.sal_gross);calcPTFromGross();}
 
-// ── TDS CALCULATION ──
+// TDS
 function calcTDS(){
-  const idx = document.getElementById('tdsCalcEmp').value;
-  const regime = document.getElementById('tdsRegime').value;
-  let annualGross = n(document.getElementById('tdsGross').value);
-  if(idx!==''){
-    const e = employees[parseInt(idx)];
-    annualGross = n(e.sal_gross)*12;
-    document.getElementById('tdsGross').value = annualGross;
-  }
-  const c80 = regime==='old'?Math.min(150000,n(document.getElementById('tds80c').value)):0;
-  document.getElementById('deductionsSection').style.display = regime==='old'?'block':'none';
-  const stdDed = regime==='new'?75000:50000;
-  document.getElementById('tds-std-disp').textContent = fmt(stdDed);
-  const taxable = Math.max(0, annualGross - stdDed - c80);
-  let tax = 0;
-  if(regime==='new'){
-    if(taxable>1500000) tax = 150000+(taxable-1500000)*.3;
-    else if(taxable>1200000) tax = 90000+(taxable-1200000)*.2;
-    else if(taxable>1000000) tax = 60000+(taxable-1000000)*.15;
-    else if(taxable>700000) tax = 30000+(taxable-700000)*.1;
-    else if(taxable>300000) tax = (taxable-300000)*.05;
-  } else {
-    if(taxable>1000000) tax = 112500+(taxable-1000000)*.3;
-    else if(taxable>500000) tax = 12500+(taxable-500000)*.2;
-    else if(taxable>250000) tax = (taxable-250000)*.05;
-  }
-  const rebate = (regime==='new'&&taxable<=700000)||(regime==='old'&&taxable<=500000)?tax:0;
-  tax = Math.max(0,tax-rebate);
-  const cess = Math.round(tax*.04);
-  const total = Math.round(tax+cess);
-  const monthly = Math.round(total/12);
-  document.getElementById('tds-gross-disp').textContent = fmt(annualGross);
-  document.getElementById('tds-taxable').textContent = fmt(taxable);
-  document.getElementById('tds-tax').textContent = fmt(Math.round(tax));
-  document.getElementById('tds-cess').textContent = fmt(cess);
-  document.getElementById('tds-rebate').textContent = rebate>0?`-${fmt(rebate)}`:'₹0';
-  document.getElementById('tds-annual').textContent = fmt(total);
-  document.getElementById('tds-monthly').textContent = fmt(monthly);
+  const idx=document.getElementById('tdsCalcEmp').value;const regime=document.getElementById('tdsRegime').value;
+  let annual=n(document.getElementById('tdsGross').value);
+  if(idx!==''){const e=employees[parseInt(idx)];annual=n(e.sal_gross)*12;document.getElementById('tdsGross').value=annual;}
+  const c80=regime==='old'?Math.min(150000,n(document.getElementById('tds80c').value)):0;
+  document.getElementById('deductionsSection').style.display=regime==='old'?'block':'none';
+  const stdDed=regime==='new'?75000:50000;
+  document.getElementById('tds-std-disp').textContent=fmt(stdDed);
+  const taxable=Math.max(0,annual-stdDed-c80);
+  let tax=0;
+  if(regime==='new'){if(taxable>1500000)tax=150000+(taxable-1500000)*.3;else if(taxable>1200000)tax=90000+(taxable-1200000)*.2;else if(taxable>1000000)tax=60000+(taxable-1000000)*.15;else if(taxable>700000)tax=30000+(taxable-700000)*.1;else if(taxable>300000)tax=(taxable-300000)*.05;}
+  else{if(taxable>1000000)tax=112500+(taxable-1000000)*.3;else if(taxable>500000)tax=12500+(taxable-500000)*.2;else if(taxable>250000)tax=(taxable-250000)*.05;}
+  const rebate=(regime==='new'&&taxable<=700000)||(regime==='old'&&taxable<=500000)?tax:0;
+  tax=Math.max(0,tax-rebate);const cess=Math.round(tax*.04);const total=Math.round(tax+cess);const monthly=Math.round(total/12);
+  document.getElementById('tds-gross-disp').textContent=fmt(annual);document.getElementById('tds-taxable').textContent=fmt(taxable);document.getElementById('tds-tax').textContent=fmt(Math.round(tax));document.getElementById('tds-cess').textContent=fmt(cess);document.getElementById('tds-rebate').textContent=rebate>0?`-${fmt(rebate)}`:'Rs.0';document.getElementById('tds-annual').textContent=fmt(total);document.getElementById('tds-monthly').textContent=fmt(monthly);
 }
 
-// ── AUTO CALC SALARY ──
+// SALARY AUTO-CALC
 function autoCalcSalary(){
-  const basic=n(document.getElementById('sal_basic').value);
-  const hra=n(document.getElementById('sal_hra').value);
-  const conv=n(document.getElementById('sal_conv').value);
-  const att=n(document.getElementById('sal_att').value);
-  const wash=n(document.getElementById('sal_wash').value);
-  const spec=n(document.getElementById('sal_spec').value);
-  const edu=n(document.getElementById('sal_edu').value);
-  const flexi=n(document.getElementById('sal_flexi').value);
-  const gross = basic+hra+conv+att+wash+spec+edu+flexi;
-  document.getElementById('sal_gross').value = gross||'';
+  const basic=n(document.getElementById('sal_basic').value),hra=n(document.getElementById('sal_hra').value),conv=n(document.getElementById('sal_conv').value),att=n(document.getElementById('sal_att').value),wash=n(document.getElementById('sal_wash').value),spec=n(document.getElementById('sal_spec').value),edu=n(document.getElementById('sal_edu').value),flexi=n(document.getElementById('sal_flexi').value);
+  const gross=basic+hra+conv+att+wash+spec+edu+flexi;
+  document.getElementById('sal_gross').value=gross||'';
   updateSalPreview(basic,gross,wash);
 }
-
 function calcFromGross(){
-  const gross = n(document.getElementById('sal_gross').value);
-  // Auto-split: Basic 40%, HRA 20%, Conv 10%, Att 10%, rest special
-  if(gross>0){
-    const basic=Math.round(gross*.4);
-    const hra=Math.round(gross*.2);
-    const conv=Math.round(gross*.1);
-    const att=Math.round(gross*.1);
-    const spec=gross-basic-hra-conv-att;
-    document.getElementById('sal_basic').value=basic;
-    document.getElementById('sal_hra').value=hra;
-    document.getElementById('sal_conv').value=conv;
-    document.getElementById('sal_att').value=att;
-    document.getElementById('sal_spec').value=spec>0?spec:0;
-    updateSalPreview(basic,gross,0);
-  }
+  const gross=n(document.getElementById('sal_gross').value);
+  if(gross>0){const basic=Math.round(gross*.4),hra=Math.round(gross*.2),conv=Math.round(gross*.1),att=Math.round(gross*.1),spec=gross-basic-hra-conv-att;document.getElementById('sal_basic').value=basic;document.getElementById('sal_hra').value=hra;document.getElementById('sal_conv').value=conv;document.getElementById('sal_att').value=att;document.getElementById('sal_spec').value=spec>0?spec:0;updateSalPreview(basic,gross,0);}
 }
-
 function updateSalPreview(basic,gross,wash){
   const pfApp=document.getElementById('sal_pf').value==='Yes';
-  const pfEmp=pfApp?Math.round(basic*.12):0;
-  const pfEr=pfApp?Math.round(basic*.12):0;
-  const esicOk=gross<21000;
-  const esicBase=gross-wash;
-  const esicEmp=esicOk?Math.round(esicBase*.0075):0;
-  const esicEr=esicOk?Math.round(esicBase*.0325):0;
-  const pt=getPT(gross);
-  if(!document.getElementById('sal_pt').value) document.getElementById('sal_pt').value=pt||'';
+  const pfEmp=pfApp?Math.round(basic*.12):0,pfEr=pfApp?Math.round(basic*.12):0;
+  const esicOk=gross<21000,esicBase=gross-wash;
+  const esicEmp=esicOk?Math.round(esicBase*.0075):0,esicEr=esicOk?Math.round(esicBase*.0325):0;
+  const pt=getPT(gross);if(!document.getElementById('sal_pt').value)document.getElementById('sal_pt').value=pt||'';
   const ptAmt=n(document.getElementById('sal_pt').value)||pt;
-  const grat=Math.round(basic*.0481);
-  const net=gross-pfEmp-esicEmp-ptAmt;
-  const ctc=gross+pfEr+esicEr+grat;
-  document.getElementById('prev-gross').textContent=fmt(gross);
-  document.getElementById('prev-pf-emp').textContent=pfApp?fmt(pfEmp):'N/A';
-  document.getElementById('prev-esic-emp').textContent=esicOk?fmt(esicEmp):'N/A';
-  document.getElementById('prev-pt').textContent=fmt(ptAmt);
-  document.getElementById('prev-net').textContent=fmt(net);
-  document.getElementById('prev-pf-er').textContent=pfApp?fmt(pfEr):'N/A';
-  document.getElementById('prev-esic-er').textContent=esicOk?fmt(esicEr):'N/A';
-  document.getElementById('prev-grat').textContent=fmt(grat);
-  document.getElementById('prev-ctc').textContent=fmt(ctc);
-  // Store CTC in hidden field for saving
-  document.getElementById('sal_gross')._ctc=ctc;
-  document.getElementById('sal_gross')._net=net;
-  document.getElementById('sal_gross')._pt=ptAmt;
+  const grat=Math.round(basic*.0481),net=gross-pfEmp-esicEmp-ptAmt,ctc=gross+pfEr+esicEr+grat;
+  document.getElementById('prev-gross').textContent=fmt(gross);document.getElementById('prev-pf-emp').textContent=pfApp?fmt(pfEmp):'N/A';document.getElementById('prev-esic-emp').textContent=esicOk?fmt(esicEmp):'N/A';document.getElementById('prev-pt').textContent=fmt(ptAmt);document.getElementById('prev-net').textContent=fmt(net);document.getElementById('prev-pf-er').textContent=pfApp?fmt(pfEr):'N/A';document.getElementById('prev-esic-er').textContent=esicOk?fmt(esicEr):'N/A';document.getElementById('prev-grat').textContent=fmt(grat);document.getElementById('prev-ctc').textContent=fmt(ctc);
 }
-
-// ── LOAD EMP SALARY ──
 function loadEmpSalary(){
-  const idx=document.getElementById('sal_emp').value;
-  if(idx==='') return;
-  const e=employees[parseInt(idx)];
-  document.getElementById('sal_basic').value=e.sal_basic||'';
-  document.getElementById('sal_hra').value=e.sal_hra||'';
-  document.getElementById('sal_conv').value=e.sal_conv||'';
-  document.getElementById('sal_att').value=e.sal_att||'';
-  document.getElementById('sal_wash').value=e.sal_wash||'';
-  document.getElementById('sal_spec').value=e.sal_spec||'';
-  document.getElementById('sal_edu').value=e.sal_edu||'';
-  document.getElementById('sal_flexi').value=e.sal_flexi||'';
-  document.getElementById('sal_gross').value=e.sal_gross||'';
-  document.getElementById('sal_pf').value=e.pf||'Yes';
-  document.getElementById('sal_pt').value=e.ded_pt||'';
-  document.getElementById('sal_perf').value=e.sal_perf||'';
-  document.getElementById('sal_eff').value=e.sal_effective_date||new Date().toISOString().split('T')[0];
-  const basic=n(e.sal_basic),gross=n(e.sal_gross),wash=n(e.sal_wash);
-  updateSalPreview(basic,gross,wash);
+  const idx=document.getElementById('sal_emp').value;if(!idx)return;const e=employees[parseInt(idx)];
+  ['sal_basic','sal_hra','sal_conv','sal_att','sal_wash','sal_spec','sal_edu','sal_flexi','sal_gross'].forEach(id=>document.getElementById(id).value=e[id.replace('sal_','sal_')]||'');
+  document.getElementById('sal_basic').value=e.sal_basic||'';document.getElementById('sal_hra').value=e.sal_hra||'';document.getElementById('sal_conv').value=e.sal_conv||'';document.getElementById('sal_att').value=e.sal_att||'';document.getElementById('sal_wash').value=e.sal_wash||'';document.getElementById('sal_spec').value=e.sal_spec||'';document.getElementById('sal_edu').value=e.sal_edu||'';document.getElementById('sal_flexi').value=e.sal_flexi||'';document.getElementById('sal_gross').value=e.sal_gross||'';
+  document.getElementById('sal_pf').value=e.pf||'Yes';document.getElementById('sal_pt').value=e.ded_pt||'';document.getElementById('sal_perf').value=e.sal_perf||'';document.getElementById('sal_eff').value=e.sal_effective_date||new Date().toISOString().split('T')[0];
+  updateSalPreview(n(e.sal_basic),n(e.sal_gross),n(e.sal_wash));
 }
-
-// ── SAVE SALARY ──
 function saveSalaryStructure(){
-  const idx=document.getElementById('sal_emp').value;
-  if(idx===''){showToast('Please select an employee','error');return;}
-  const e=employees[parseInt(idx)];
-  const basic=n(document.getElementById('sal_basic').value);
-  const gross=n(document.getElementById('sal_gross').value);
-  const wash=n(document.getElementById('sal_wash').value);
-  if(!gross){showToast('Please enter salary details','error');return;}
-  const pfApp=document.getElementById('sal_pf').value==='Yes';
-  const esicOk=gross<21000;
-  const esicBase=gross-wash;
-  const pfEr=pfApp?Math.round(basic*.12):0;
-  const esicEr=esicOk?Math.round(esicBase*.0325):0;
-  const grat=Math.round(basic*.0481);
-  const ctc=gross+pfEr+esicEr+grat;
-  const ptAmt=n(document.getElementById('sal_pt').value)||getPT(gross);
-  // Save to history
-  if(!e.history) e.history=[];
-  if(e.sal_gross) e.history.push({date:e.sal_effective_date||e.doj,amount:e.sal_gross,role:e.job});
-  // Update
-  e.sal_basic=document.getElementById('sal_basic').value;
-  e.sal_hra=document.getElementById('sal_hra').value;
-  e.sal_conv=document.getElementById('sal_conv').value;
-  e.sal_att=document.getElementById('sal_att').value;
-  e.sal_wash=wash;
-  e.sal_spec=document.getElementById('sal_spec').value;
-  e.sal_edu=document.getElementById('sal_edu').value;
-  e.sal_flexi=document.getElementById('sal_flexi').value;
-  e.sal_gross=gross;
-  e.sal_ctc=ctc;
-  e.ded_pt=ptAmt;
-  e.sal_perf=document.getElementById('sal_perf').value;
-  e.pf=document.getElementById('sal_pf').value;
-  e.sal_effective_date=document.getElementById('sal_eff').value;
-  employees[parseInt(idx)]=e;
-  localStorage.setItem('employees',JSON.stringify(employees));
-  closeSalaryModal();
-  renderSalaryTable();
-  renderPFTable();
-  renderPTTable();
-  renderTDSTable();
-  renderF16Table();
-  renderChallans();
-  updateSummaryStats();
-  showToast(`Salary structure saved for ${e.fName||''} ${e.lName||''}`.trim(),'success');
+  const idx=document.getElementById('sal_emp').value;if(!idx){showToast('Select an employee','error');return;}
+  const e=employees[parseInt(idx)];const basic=n(document.getElementById('sal_basic').value),gross=n(document.getElementById('sal_gross').value),wash=n(document.getElementById('sal_wash').value);
+  if(!gross){showToast('Enter salary details','error');return;}
+  const pfApp=document.getElementById('sal_pf').value==='Yes';const esicOk=gross<21000,esicBase=gross-wash;
+  const pfEr=pfApp?Math.round(basic*.12):0,esicEr=esicOk?Math.round(esicBase*.0325):0,grat=Math.round(basic*.0481);
+  const ctc=gross+pfEr+esicEr+grat,ptAmt=n(document.getElementById('sal_pt').value)||getPT(gross);
+  if(!e.history)e.history=[];if(e.sal_gross)e.history.push({date:e.sal_effective_date,amount:e.sal_gross});
+  e.sal_basic=document.getElementById('sal_basic').value;e.sal_hra=document.getElementById('sal_hra').value;e.sal_conv=document.getElementById('sal_conv').value;e.sal_att=document.getElementById('sal_att').value;e.sal_wash=wash;e.sal_spec=document.getElementById('sal_spec').value;e.sal_edu=document.getElementById('sal_edu').value;e.sal_flexi=document.getElementById('sal_flexi').value;e.sal_gross=gross;e.sal_ctc=ctc;e.ded_pt=ptAmt;e.sal_perf=document.getElementById('sal_perf').value;e.pf=document.getElementById('sal_pf').value;e.sal_effective_date=document.getElementById('sal_eff').value;
+  employees[parseInt(idx)]=e;localStorage.setItem('employees',JSON.stringify(employees));
+  closeSalaryModal();renderAll();showToast(`Salary saved for ${e.fName||''} ${e.lName||''}`.trim(),'success');
 }
 
-// ── RENDER SALARY TABLE ──
+// RENDER SALARY TABLE
 function renderSalaryTable(){
   const q=(document.getElementById('salSearch')||{}).value?.toLowerCase()||'';
+  const filtered=employees.filter(e=>{if(!e.sal_gross)return false;const name=`${e.fName||''} ${e.lName||''}`.toLowerCase();return!q||name.includes(q)||(e.id||'').toLowerCase().includes(q);});
   const tbody=document.getElementById('salaryTableBody');
-  const filtered=employees.filter(e=>{
-    if(!e.sal_gross) return false;
-    const name=`${e.fName||''} ${e.lName||''}`.toLowerCase();
-    return !q||name.includes(q)||(e.id||'').toLowerCase().includes(q);
-  });
-  if(!filtered.length){
-    tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:32px;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;">No salary structures assigned yet</td></tr>`;
-    return;
-  }
-  tbody.innerHTML=filtered.map((e,fi)=>{
-    const empIdx=employees.indexOf(e);
-    const basic=n(e.sal_basic),gross=n(e.sal_gross),wash=n(e.sal_wash),ctc=n(e.sal_ctc);
-    const pfEmp=e.pf==='Yes'?Math.round(basic*.12):0;
-    const esicOk=gross<21000;
-    const esicBase=gross-wash;
-    const esicEmp=esicOk?Math.round(esicBase*.0075):0;
-    const pt=n(e.ded_pt)||getPT(gross);
-    const net=gross-pfEmp-esicEmp-pt;
-    const initials=((e.fName||'?')[0]+((e.lName||'?')[0])).toUpperCase();
-    const colors=['#2563eb','#7c3aed','#16a34a','#0891b2','#ea580c'];
-    const col=colors[fi%colors.length];
-    const otherAllw=n(e.sal_conv)+n(e.sal_att)+n(e.sal_wash)+n(e.sal_spec)+n(e.sal_edu)+n(e.sal_flexi);
-    return `<tr>
-      <td><div class="emp-cell">
-        <div class="emp-av" style="background:${col}">${initials}</div>
-        <div><div class="emp-name">${(e.fName||'')+' '+(e.lName||'')}</div><div class="emp-sub">${e.id||''} ${e.dept?'· '+e.dept:''}</div></div>
-      </div></td>
-      <td style="font-weight:800;color:#1e293b;">${fmt(basic)}</td>
-      <td>${fmt(e.sal_hra)}</td>
-      <td>${fmt(otherAllw)}</td>
-      <td style="font-weight:800;color:#2563eb;">${fmt(gross)}</td>
-      <td style="font-weight:800;color:#16a34a;">${fmt(net)}</td>
-      <td style="font-weight:900;color:#1e293b;">${fmt(ctc)}</td>
-      <td><div style="display:flex;gap:4px;">
-        <button class="act-btn act-edit" onclick="editSalary(${empIdx})" title="Edit"><span class="material-icons-round">edit</span></button>
-      </div></td>
-    </tr>`;
+  if(!filtered.length){tbody.innerHTML='<tr><td colspan="9" style="text-align:center;padding:32px;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;">No salary structures assigned yet. Click Assign Salary to get started.</td></tr>';return;}
+  tbody.innerHTML=filtered.map(e=>{
+    const ei=employees.indexOf(e),basic=n(e.sal_basic),gross=n(e.sal_gross),wash=n(e.sal_wash),ctc=n(e.sal_ctc);
+    const pfEmp=e.pf==='Yes'?Math.round(basic*.12):0,esicOk=gross<21000,esicEmp=esicOk?Math.round((gross-wash)*.0075):0,pt=n(e.ded_pt)||getPT(gross);
+    const net=gross-pfEmp-esicEmp-pt,other=n(e.sal_conv)+n(e.sal_att)+n(e.sal_wash)+n(e.sal_spec)+n(e.sal_edu)+n(e.sal_flexi);
+    const grad=AV_COLORS[ei%AV_COLORS.length],initials=((e.fName||'?')[0]+(e.lName||'?')[0]).toUpperCase();
+    return`<tr><td><div class="emp-cell"><div class="eav" style="background:${grad};">${initials}</div><div><div class="ename">${e.fName||''} ${e.lName||''}</div><div class="eid">${e.id||''} ${e.dept?'· '+e.dept:''}</div></div></div></td><td style="font-weight:800;color:#0f172a;font-family:'JetBrains Mono',monospace;">${fmt(basic)}</td><td style="font-family:'JetBrains Mono',monospace;">${fmt(e.sal_hra)}</td><td style="font-family:'JetBrains Mono',monospace;">${fmt(other)}</td><td style="color:#2563eb;font-weight:800;font-family:'JetBrains Mono',monospace;">${fmt(gross)}</td><td style="color:#10b981;font-weight:800;font-family:'JetBrains Mono',monospace;">${fmt(net)}</td><td style="color:#0f172a;font-weight:900;font-family:'JetBrains Mono',monospace;">${fmt(ctc)}</td><td><span class="badge ${e.pf==='Yes'?'badge-green':'badge-gray'}">${e.pf==='Yes'?'Enrolled':'Exempt'}</span></td><td><button class="act-btn act-edit" onclick="editSalary(${ei})" title="Edit"><span class="material-icons-round">edit</span></button></td></tr>`;
   }).join('');
 }
+function editSalary(idx){document.getElementById('sal_emp').value=idx;loadEmpSalary();openSalaryModal();}
 
-function editSalary(idx){
-  document.getElementById('sal_emp').value=idx;
-  loadEmpSalary();
-  openSalaryModal();
-}
-
-// ── RENDER PF TABLE ──
+// RENDER PF TABLE
 function renderPFTable(){
-  const tbody=document.getElementById('pfTableBody');
-  const empWithSal=employees.filter(e=>e.sal_gross);
-  let totalPF=0,totalESIC=0;
-  if(!empWithSal.length){
-    tbody.innerHTML=`<tr><td colspan="10" style="text-align:center;padding:24px;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;">No salary data — please assign salary first</td></tr>`;
-    return;
-  }
+  const tbody=document.getElementById('pfTableBody');const empWithSal=employees.filter(e=>e.sal_gross);let totalPF=0,totalESIC=0;
+  if(!empWithSal.length){tbody.innerHTML='<tr><td colspan="10" style="text-align:center;padding:24px;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;">No salary data. Assign salary first.</td></tr>';return;}
   tbody.innerHTML=empWithSal.map((e,i)=>{
-    const basic=n(e.sal_basic),gross=n(e.sal_gross),wash=n(e.sal_wash);
-    const pfApp=e.pf==='Yes';
-    const pfEmp=pfApp?Math.round(basic*.12):0;
-    const pfEr=pfApp?Math.round(basic*.12):0;
-    const pfTotal=pfEmp+pfEr;
-    const esicOk=gross<21000;
-    const esicBase=gross-wash;
-    const esicEmp=esicOk?Math.round(esicBase*.0075):0;
-    const esicEr=esicOk?Math.round(esicBase*.0325):0;
-    const esicTotal=esicEmp+esicEr;
-    totalPF+=pfTotal; totalESIC+=esicTotal;
-    const initials=((e.fName||'?')[0]+((e.lName||'?')[0])).toUpperCase();
-    const colors=['#2563eb','#7c3aed','#16a34a','#0891b2'];
-    const col=colors[i%colors.length];
-    return `<tr>
-      <td><div class="emp-cell">
-        <div class="emp-av" style="background:${col};width:28px;height:28px;font-size:9px;">${initials}</div>
-        <div><div class="emp-name" style="font-size:11px;">${(e.fName||'')+' '+(e.lName||'')}</div><div class="emp-sub">${e.id||''}</div></div>
-      </div></td>
-      <td>${fmt(basic)}</td>
-      <td>${fmt(gross)}</td>
-      <td style="color:#ef4444;font-weight:800;">${pfApp?fmt(pfEmp):'N/A'}</td>
-      <td style="color:#f97316;font-weight:800;">${pfApp?fmt(pfEr):'N/A'}</td>
-      <td style="color:#2563eb;font-weight:900;">${pfApp?fmt(pfTotal):'N/A'}</td>
-      <td style="color:#ef4444;font-weight:800;">${esicOk?fmt(esicEmp):'N/A'}</td>
-      <td style="color:#f97316;font-weight:800;">${esicOk?fmt(esicEr):'N/A'}</td>
-      <td style="color:#16a34a;font-weight:900;">${esicOk?fmt(esicTotal):'N/A'}</td>
-      <td><span class="badge ${pfApp||esicOk?'badge-green':'badge-gray'}">${pfApp||esicOk?'Active':'Exempt'}</span></td>
-    </tr>`;
+    const basic=n(e.sal_basic),gross=n(e.sal_gross),wash=n(e.sal_wash),pfApp=e.pf==='Yes';
+    const pfEmp=pfApp?Math.round(basic*.12):0,pfEr=pfApp?Math.round(basic*.12):0,pfTotal=pfEmp+pfEr;
+    const esicOk=gross<21000,esicBase=gross-wash,esicEmp=esicOk?Math.round(esicBase*.0075):0,esicEr=esicOk?Math.round(esicBase*.0325):0,esicTotal=esicEmp+esicEr;
+    totalPF+=pfTotal;totalESIC+=esicTotal;
+    const grad=AV_COLORS[i%AV_COLORS.length],initials=((e.fName||'?')[0]+(e.lName||'?')[0]).toUpperCase();
+    return`<tr><td><div class="emp-cell"><div class="eav" style="background:${grad};width:28px;height:28px;font-size:9px;">${initials}</div><div><div class="ename" style="font-size:11px;">${e.fName||''} ${e.lName||''}</div><div class="eid">${e.id||''}</div></div></div></td><td style="font-family:'JetBrains Mono',monospace;">${fmt(basic)}</td><td style="font-family:'JetBrains Mono',monospace;">${fmt(gross)}</td><td style="color:#ef4444;font-weight:800;font-family:'JetBrains Mono',monospace;">${pfApp?fmt(pfEmp):'—'}</td><td style="color:#f97316;font-weight:800;font-family:'JetBrains Mono',monospace;">${pfApp?fmt(pfEr):'—'}</td><td style="color:#2563eb;font-weight:900;font-family:'JetBrains Mono',monospace;">${pfApp?fmt(pfTotal):'—'}</td><td style="color:#ef4444;font-weight:800;font-family:'JetBrains Mono',monospace;">${esicOk?fmt(esicEmp):'—'}</td><td style="color:#f97316;font-weight:800;font-family:'JetBrains Mono',monospace;">${esicOk?fmt(esicEr):'—'}</td><td style="color:#10b981;font-weight:900;font-family:'JetBrains Mono',monospace;">${esicOk?fmt(esicTotal):'—'}</td><td><span class="badge ${pfApp||esicOk?'badge-green':'badge-gray'}">${pfApp||esicOk?'Active':'Exempt'}</span></td></tr>`;
   }).join('');
-  document.getElementById('pf-total-stat').textContent=fmt(totalPF);
-  document.getElementById('esic-total-stat').textContent=fmt(totalESIC);
+  document.getElementById('pf-total-stat').textContent=fmt(totalPF);document.getElementById('esic-total-stat').textContent=fmt(totalESIC);
 }
 
-// ── RENDER PT TABLE ──
+// RENDER PT TABLE
 function renderPTTable(){
-  const tbody=document.getElementById('ptTableBody');
-  const empWithSal=employees.filter(e=>e.sal_gross);
-  let totalPT=0,ptCount=0;
-  if(!empWithSal.length){
-    tbody.innerHTML=`<tr><td colspan="7" style="text-align:center;padding:24px;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;">No salary data</td></tr>`;
-    return;
-  }
+  const tbody=document.getElementById('ptTableBody');const empWithSal=employees.filter(e=>e.sal_gross);let totalPT=0,ptCount=0;
+  if(!empWithSal.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:24px;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;">No salary data.</td></tr>';return;}
   const now=new Date();
   tbody.innerHTML=empWithSal.map((e,i)=>{
-    const gross=n(e.sal_gross);
-    const pt=n(e.ded_pt)||getPT(gross);
-    const slab=gross<6000?'Nil':gross<9000?'₹80':gross<12000?'₹150':'₹200';
-    const ytd=pt*(now.getMonth()+1);
+    const gross=n(e.sal_gross),pt=n(e.ded_pt)||getPT(gross),ytd=pt*(now.getMonth()+1);
+    const slab=gross<6000?'Nil':gross<9000?'Rs.80':gross<12000?'Rs.150':'Rs.200';
     if(pt>0){totalPT+=pt;ptCount++;}
-    const initials=((e.fName||'?')[0]+((e.lName||'?')[0])).toUpperCase();
-    return `<tr>
-      <td><div class="emp-cell">
-        <div class="emp-av" style="background:#f97316;width:28px;height:28px;font-size:9px;">${initials}</div>
-        <div><div class="emp-name" style="font-size:11px;">${(e.fName||'')+' '+(e.lName||'')}</div><div class="emp-sub">${e.id||''}</div></div>
-      </div></td>
-      <td>${fmt(gross)}</td>
-      <td><span class="badge badge-orange">${slab}</span></td>
-      <td style="color:#f97316;font-weight:900;">${fmt(pt)}</td>
-      <td>${fmt(pt*12)}</td>
-      <td style="color:#1e293b;font-weight:800;">${fmt(ytd)}</td>
-      <td><span class="badge ${pt>0?'badge-green':'badge-gray'}">${pt>0?'Deducted':'Exempt'}</span></td>
-    </tr>`;
+    const grad=AV_COLORS[i%AV_COLORS.length],initials=((e.fName||'?')[0]+(e.lName||'?')[0]).toUpperCase();
+    return`<tr><td><div class="emp-cell"><div class="eav" style="background:${grad};width:28px;height:28px;font-size:9px;">${initials}</div><div><div class="ename" style="font-size:11px;">${e.fName||''} ${e.lName||''}</div><div class="eid">${e.id||''}</div></div></div></td><td style="font-family:'JetBrains Mono',monospace;">${fmt(gross)}</td><td><span class="badge badge-orange">${slab}</span></td><td style="color:#f97316;font-weight:900;font-family:'JetBrains Mono',monospace;">${fmt(pt)}</td><td style="font-family:'JetBrains Mono',monospace;">${fmt(pt*12)}</td><td style="font-weight:800;font-family:'JetBrains Mono',monospace;">${fmt(ytd)}</td><td><span class="badge ${pt>0?'badge-green':'badge-gray'}">${pt>0?'Deducted':'Exempt'}</span></td></tr>`;
   }).join('');
-  document.getElementById('pt-total-stat').textContent=fmt(totalPT);
-  document.getElementById('pt-emp-count').textContent=ptCount;
+  document.getElementById('pt-total-stat').textContent=fmt(totalPT);document.getElementById('pt-emp-count').textContent=ptCount;
 }
 
-// ── RENDER TDS & FORM 16 ──
+// RENDER TDS
 function renderTDSTable(){
-  const now=new Date();
-  const fy=now.getMonth()>=3?`${now.getFullYear()}-${now.getFullYear()+1}`:`${now.getFullYear()-1}-${now.getFullYear()}`;
+  const now=new Date();const fy=now.getMonth()>=3?`${now.getFullYear()}-${now.getFullYear()+1}`:`${now.getFullYear()-1}-${now.getFullYear()}`;
   document.getElementById('tds-fy').textContent=fy;
   let totalTDS=0,tdsCount=0;
-  const empWithSal=employees.filter(e=>e.sal_gross);
-  empWithSal.forEach(e=>{
-    const annual=n(e.sal_gross)*12;
-    const taxable=Math.max(0,annual-75000);
+  employees.filter(e=>e.sal_gross).forEach(e=>{
+    const annual=n(e.sal_gross)*12,taxable=Math.max(0,annual-75000);
     let tax=0;
-    if(taxable>1500000)tax=150000+(taxable-1500000)*.3;
-    else if(taxable>1200000)tax=90000+(taxable-1200000)*.2;
-    else if(taxable>1000000)tax=60000+(taxable-1000000)*.15;
-    else if(taxable>700000)tax=30000+(taxable-700000)*.1;
-    else if(taxable>300000)tax=(taxable-300000)*.05;
-    const rebate=taxable<=700000?tax:0;
-    tax=Math.max(0,tax-rebate);
-    const cess=Math.round(tax*.04);
-    const tds=Math.round(tax+cess);
+    if(taxable>1500000)tax=150000+(taxable-1500000)*.3;else if(taxable>1200000)tax=90000+(taxable-1200000)*.2;else if(taxable>1000000)tax=60000+(taxable-1000000)*.15;else if(taxable>700000)tax=30000+(taxable-700000)*.1;else if(taxable>300000)tax=(taxable-300000)*.05;
+    const rebate=taxable<=700000?tax:0;tax=Math.max(0,tax-rebate);const tds=Math.round(tax*1.04);
     if(tds>0){totalTDS+=tds;tdsCount++;}
   });
-  document.getElementById('tds-total-stat').textContent=fmt(totalTDS);
-  document.getElementById('tds-emp-count').textContent=tdsCount;
+  document.getElementById('tds-total-stat').textContent=fmt(totalTDS);document.getElementById('tds-emp-count').textContent=tdsCount;
 }
 
+// RENDER F16 TABLE
 function renderF16Table(){
-  const tbody=document.getElementById('f16TableBody');
-  const empWithSal=employees.filter(e=>e.sal_gross);
-  let f16Ready=0;
-  if(!empWithSal.length){
-    tbody.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:24px;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;">No salary data</td></tr>`;
-    return;
-  }
+  const tbody=document.getElementById('f16TableBody');const empWithSal=employees.filter(e=>e.sal_gross);let f16Ready=0;
+  if(!empWithSal.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:24px;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;">No salary data.</td></tr>';return;}
   tbody.innerHTML=empWithSal.map((e,i)=>{
-    const annual=n(e.sal_gross)*12;
-    const taxable=Math.max(0,annual-75000);
-    let tax=0;
-    if(taxable>1500000)tax=150000+(taxable-1500000)*.3;
-    else if(taxable>1200000)tax=90000+(taxable-1200000)*.2;
-    else if(taxable>1000000)tax=60000+(taxable-1000000)*.15;
-    else if(taxable>700000)tax=30000+(taxable-700000)*.1;
-    else if(taxable>300000)tax=(taxable-300000)*.05;
-    const rebate=taxable<=700000?tax:0;
-    tax=Math.max(0,tax-rebate);
-    const cess=Math.round(tax*.04);
-    const tds=Math.round(tax+cess);
+    const annual=n(e.sal_gross)*12,taxable=Math.max(0,annual-75000);
+    let tax=0;if(taxable>1500000)tax=150000+(taxable-1500000)*.3;else if(taxable>1200000)tax=90000+(taxable-1200000)*.2;else if(taxable>1000000)tax=60000+(taxable-1000000)*.15;else if(taxable>700000)tax=30000+(taxable-700000)*.1;else if(taxable>300000)tax=(taxable-300000)*.05;
+    const rebate=taxable<=700000?tax:0;tax=Math.max(0,tax-rebate);const cess=Math.round(tax*.04);const tds=Math.round(tax+cess);
     if(tds>0)f16Ready++;
-    const initials=((e.fName||'?')[0]+((e.lName||'?')[0])).toUpperCase();
-    const colors=['#7c3aed','#2563eb','#16a34a','#0891b2'];
-    return `<tr>
-      <td><div class="emp-cell">
-        <div class="emp-av" style="background:${colors[i%4]};width:28px;height:28px;font-size:9px;">${initials}</div>
-        <div><div class="emp-name" style="font-size:11px;">${(e.fName||'')+' '+(e.lName||'')}</div><div class="emp-sub">${e.id||''}</div></div>
-      </div></td>
-      <td>${fmt(annual)}</td>
-      <td>${fmt(taxable)}</td>
-      <td style="color:${tds>0?'#7c3aed':'#16a34a'};font-weight:900;">${fmt(tds)}</td>
-      <td><span class="badge ${tds>0?'badge-blue':'badge-green'}">${tds>0?'TDS Deductible':'Nil TDS'}</span></td>
-      <td><div style="display:flex;gap:4px;">
-        <button class="act-btn act-view" onclick="openF16(${employees.indexOf(e)})" title="View Form 16"><span class="material-icons-round">description</span></button>
-        <button class="act-btn act-edit" onclick="openF16(${employees.indexOf(e)})" title="Print"><span class="material-icons-round">print</span></button>
-      </div></td>
-    </tr>`;
+    const grad=AV_COLORS[i%AV_COLORS.length],initials=((e.fName||'?')[0]+(e.lName||'?')[0]).toUpperCase();
+    return`<tr><td><div class="emp-cell"><div class="eav" style="background:${grad};width:28px;height:28px;font-size:9px;">${initials}</div><div><div class="ename" style="font-size:11px;">${e.fName||''} ${e.lName||''}</div><div class="eid">${e.id||''}</div></div></div></td><td style="font-family:'JetBrains Mono',monospace;">${fmt(annual)}</td><td style="font-family:'JetBrains Mono',monospace;">${fmt(taxable)}</td><td style="color:${tds>0?'#8b5cf6':'#10b981'};font-weight:900;font-family:'JetBrains Mono',monospace;">${fmt(tds)}</td><td><span class="badge ${tds>0?'badge-purple':'badge-green'}">${tds>0?'TDS Applicable':'Nil TDS'}</span></td><td><div style="display:flex;gap:4px;"><button class="act-btn act-view" onclick="openF16(${employees.indexOf(e)})" title="View"><span class="material-icons-round">description</span></button><button class="act-btn act-edit" onclick="openF16(${employees.indexOf(e)})" title="Print"><span class="material-icons-round">print</span></button></div></td></tr>`;
   }).join('');
   document.getElementById('f16-ready-count').textContent=f16Ready;
 }
 
-// ── FORM 16 ──
 function openF16(idx){
-  const e=employees[idx];
-  const annual=n(e.sal_gross)*12;
-  const stdDed=75000;
-  const taxable=Math.max(0,annual-stdDed);
-  let tax=0;
-  if(taxable>1500000)tax=150000+(taxable-1500000)*.3;
-  else if(taxable>1200000)tax=90000+(taxable-1200000)*.2;
-  else if(taxable>1000000)tax=60000+(taxable-1000000)*.15;
-  else if(taxable>700000)tax=30000+(taxable-700000)*.1;
-  else if(taxable>300000)tax=(taxable-300000)*.05;
-  const rebate=taxable<=700000?tax:0;
-  tax=Math.max(0,tax-rebate);
-  const cess=Math.round(tax*.04);
-  const tds=Math.round(tax+cess);
+  const e=employees[idx];const annual=n(e.sal_gross)*12;const stdDed=75000;const taxable=Math.max(0,annual-stdDed);
+  let tax=0;if(taxable>1500000)tax=150000+(taxable-1500000)*.3;else if(taxable>1200000)tax=90000+(taxable-1200000)*.2;else if(taxable>1000000)tax=60000+(taxable-1000000)*.15;else if(taxable>700000)tax=30000+(taxable-700000)*.1;else if(taxable>300000)tax=(taxable-300000)*.05;
+  const rebate=taxable<=700000?tax:0;tax=Math.max(0,tax-rebate);const cess=Math.round(tax*.04);const tds=Math.round(tax+cess);
   const fy=document.getElementById('f16FY').value;
-  document.getElementById('f16ModalTitle').textContent=`Form 16 — ${(e.fName||'')+' '+(e.lName||'')} — FY ${fy}`;
-  document.getElementById('f16ModalBody').innerHTML=buildF16HTML(e,annual,stdDed,taxable,tax,cess,tds,rebate,fy);
+  document.getElementById('f16ModalTitle').textContent=`Form 16 — ${e.fName||''} ${e.lName||''} — FY ${fy}`;
+  const today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+  const name=`${e.fName||''} ${e.lName||''}`.trim().toUpperCase();
+  const row=(l,v,vc='#0f172a')=>`<div class="f16-row"><span class="f16-lbl">${l}</span><span class="f16-val" style="color:${vc};">${v}</span></div>`;
+  document.getElementById('f16ModalBody').innerHTML=`
+    <div class="f16-header">
+      <div style="font-size:20px;font-weight:900;">KIDV <span style="color:#c4b5fd;">Tech</span></div>
+      <div style="font-size:8px;opacity:.35;text-transform:uppercase;letter-spacing:.2em;margin-top:2px;">Form 16 — Certificate of Tax Deducted at Source</div>
+      <div style="display:flex;justify-content:space-between;margin-top:14px;background:rgba(255,255,255,.1);border-radius:10px;padding:12px 16px;flex-wrap:wrap;gap:8px;">
+        <div><div style="font-size:7.5px;opacity:.45;text-transform:uppercase;letter-spacing:.08em;">Employee</div><div style="font-size:16px;font-weight:900;">${name}</div><div style="font-size:10px;opacity:.5;margin-top:3px;">${(e.job||'Employee').toUpperCase()} · ${(e.dept||'—').toUpperCase()}</div></div>
+        <div style="text-align:right;"><div style="font-size:7.5px;opacity:.45;text-transform:uppercase;">Financial Year</div><div style="font-size:16px;font-weight:900;color:#c4b5fd;">FY ${fy}</div><div style="font-size:9px;opacity:.35;margin-top:3px;">AY ${parseInt(fy.split('-')[1])}-${parseInt(fy.split('-')[1])+1}</div></div>
+      </div>
+    </div>
+    <div class="f16-section">
+      <div class="f16-sec-hd">Part A — Employer &amp; Employee Details</div>
+      <div class="f16-body">
+        ${row('Employer Name','KIDV TECH')}${row('Employee Name',name)}${row('Employee ID',e.id||'—')}${row('PAN',e.pan||'—')}${row('UAN',e.uan||'—')}${row('Period',`01-Apr-${fy.split('-')[0]} to 31-Mar-${fy.split('-')[1]}`)}
+      </div>
+    </div>
+    <div class="f16-section">
+      <div class="f16-sec-hd">Part B — Computation of Income &amp; Tax</div>
+      <div class="f16-body">
+        ${row('Gross Salary',fmt(annual))}${row('Less: Standard Deduction',`(${fmt(stdDed)})`)}<div style="height:1px;background:#ede9fe;margin:4px 0;"></div>${row('Taxable Salary',fmt(taxable),'#6d28d9')}${row('Tax on Taxable Income',fmt(Math.round(tax)))}${row('Less: Rebate u/s 87A',rebate>0?`(${fmt(rebate)})`:'NIL','#10b981')}${row('Health &amp; Education Cess (4%)',fmt(cess))}
+        <div style="background:#f5f3ff;border-radius:9px;padding:10px 12px;margin-top:10px;display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:12px;font-weight:800;color:#4c1d95;text-transform:uppercase;">Total TDS Deducted</span>
+          <span style="font-size:20px;font-weight:900;color:${tds>0?'#7c3aed':'#10b981'};font-family:'JetBrains Mono',monospace;">${tds>0?fmt(tds):'NIL'}</span>
+        </div>
+        ${tds>0?`<div style="margin-top:8px;background:#f0fdf4;border-radius:9px;padding:8px 12px;font-size:10px;font-weight:700;color:#15803d;">Monthly TDS: ${fmt(Math.round(tds/12))}/month</div>`:''}
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:14px;flex-wrap:wrap;gap:8px;">
+      <div style="font-size:8.5px;color:#94a3b8;font-weight:600;text-transform:uppercase;line-height:1.8;"><div>KIDV Tech — Form 16 · ${today}</div><div>Computer generated certificate — No signature required</div></div>
+      <div><div style="width:120px;height:1px;background:#0f172a;margin-bottom:4px;"></div><div style="font-size:8px;font-weight:700;color:#64748b;text-transform:uppercase;text-align:center;">Authorized Signatory</div></div>
+    </div>`;
   document.getElementById('f16Modal').classList.add('open');
 }
-
-function buildF16HTML(e,annual,stdDed,taxable,tax,cess,tds,rebate,fy){
-  const name=`${e.fName||''} ${e.lName||''}`.trim().toUpperCase();
-  const today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
-  return `<div style="font-family:'Plus Jakarta Sans',sans-serif;">
-    <div style="background:linear-gradient(135deg,#4c1d95,#7c3aed);border-radius:12px;padding:16px 20px;color:#fff;margin-bottom:16px;">
-      <div style="font-size:18px;font-weight:900;">KIDV TECH</div>
-      <div style="font-size:8px;opacity:.5;text-transform:uppercase;letter-spacing:.2em;margin-top:2px;">Form 16 — Certificate of Tax Deducted at Source</div>
-      <div style="display:flex;justify-content:space-between;margin-top:12px;background:rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;">
-        <div><div style="font-size:7px;opacity:.5;text-transform:uppercase;">Employee</div><div style="font-size:15px;font-weight:900;">${name}</div></div>
-        <div style="text-align:right;"><div style="font-size:7px;opacity:.5;text-transform:uppercase;">Financial Year</div><div style="font-size:15px;font-weight:900;color:#c4b5fd;">FY ${fy}</div></div>
-      </div>
-    </div>
-    <div style="border:1.5px solid #ddd6fe;border-radius:12px;overflow:hidden;margin-bottom:12px;">
-      <div style="background:#4c1d95;padding:9px 14px;"><span style="font-size:10px;font-weight:900;color:#fff;text-transform:uppercase;">Part A — Details of Tax Deducted & Deposited</span></div>
-      <div style="padding:12px 16px;">
-        ${[['Employer Name','KIDV TECH'],['Employee Name',name],['Employee PAN',e.pan||'—'],['Employee UAN',e.uan||'—'],['Assessment Year',`${fy.split('-')[1]}-${parseInt(fy.split('-')[1])+1}`],['Period',`01-Apr-${fy.split('-')[0]} to 31-Mar-${fy.split('-')[1]}`]].map(([l,v])=>`
-          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #ede9fe;">
-            <span style="font-size:10px;color:#94a3b8;font-weight:700;text-transform:uppercase;">${l}</span>
-            <span style="font-size:11px;font-weight:800;color:#1e293b;text-transform:uppercase;">${v}</span>
-          </div>`).join('')}
-      </div>
-    </div>
-    <div style="border:1.5px solid #ddd6fe;border-radius:12px;overflow:hidden;margin-bottom:12px;">
-      <div style="background:#4c1d95;padding:9px 14px;"><span style="font-size:10px;font-weight:900;color:#fff;text-transform:uppercase;">Part B — Computation of Income</span></div>
-      <div style="padding:12px 16px;">
-        ${[['Gross Salary',fmt(annual)],['Standard Deduction',`(${fmt(stdDed)})`],['Taxable Salary',fmt(taxable)],['Tax on Taxable Income',fmt(Math.round(tax))],['Less: Rebate u/s 87A',rebate>0?`(${fmt(rebate)})`:'NIL'],['Health & Education Cess (4%)',fmt(cess)],['Total Tax Liability',fmt(tds)],['TDS Deducted & Deposited',fmt(tds)]].map(([l,v])=>`
-          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #ede9fe;">
-            <span style="font-size:10px;color:#64748b;font-weight:700;text-transform:uppercase;">${l}</span>
-            <span style="font-size:12px;font-weight:900;color:#1e293b;">${v}</span>
-          </div>`).join('')}
-        <div style="background:#f5f3ff;border-radius:9px;padding:10px 12px;margin-top:10px;display:flex;justify-content:space-between;align-items:center;">
-          <span style="font-size:12px;font-weight:900;color:#4c1d95;text-transform:uppercase;">Net Tax Payable / (Refund)</span>
-          <span style="font-size:18px;font-weight:900;color:${tds>0?'#7c3aed':'#16a34a'};">${tds>0?fmt(tds):'NIL'}</span>
-        </div>
-      </div>
-    </div>
-    <div style="display:flex;justify-content:space-between;font-size:9px;color:#94a3b8;text-transform:uppercase;border-top:1px dashed #e2e8f0;padding-top:10px;margin-top:4px;">
-      <span>KIDV Tech — Form 16 · ${today}</span>
-      <span>This is a computer generated certificate</span>
-    </div>
-  </div>`;
-}
-
 function closeF16(){document.getElementById('f16Modal').classList.remove('open');}
 function generateAllForm16(){
-  const empWithSal=employees.filter(e=>e.sal_gross);
-  if(!empWithSal.length){showToast('No employees with salary data','error');return;}
-  openF16(employees.indexOf(empWithSal[0]));
-  showToast(`Form 16 generated for ${empWithSal.length} employee(s)`,'success');
+  const e=employees.find(x=>x.sal_gross);if(!e){showToast('No employees with salary data','error');return;}
+  openF16(employees.indexOf(e));showToast(`Form 16 generated for ${employees.filter(x=>x.sal_gross).length} employee(s)`,'success');
 }
 function printF16(){
-  const w=window.open('','_blank');
-  w.document.write(`<html><head><title>Form 16</title><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><style>body{font-family:'Plus Jakarta Sans',sans-serif;padding:20px;}</style></head><body>${document.getElementById('f16ModalBody').innerHTML}</body></html>`);
-  w.document.close();w.print();
+  const pz=document.getElementById('f16PrintZone');pz.innerHTML=document.getElementById('f16ModalBody').innerHTML;pz.style.display='block';window.print();pz.style.display='none';pz.innerHTML='';
 }
 
-// ── CHALLANS ──
+// CHALLANS
 function renderChallans(){
-  const sel=document.getElementById('challanMonth');
-  const month=sel?.value||new Date().toISOString().slice(0,7);
-  const [yr,mo]=month.split('-').map(Number);
-  const empWithSal=employees.filter(e=>e.sal_gross);
-  let totalPF=0,totalESIC=0,totalPT=0;
+  const empWithSal=employees.filter(e=>e.sal_gross);let totalPF=0,totalESIC=0,totalPT=0;
   empWithSal.forEach(e=>{
     const basic=n(e.sal_basic),gross=n(e.sal_gross),wash=n(e.sal_wash);
-    const pfApp=e.pf==='Yes';
-    if(pfApp)totalPF+=Math.round(basic*.24);
+    if(e.pf==='Yes')totalPF+=Math.round(basic*.24);
     if(gross<21000)totalESIC+=Math.round((gross-wash)*.04);
     totalPT+=n(e.ded_pt)||getPT(gross);
   });
-  const nextDue=(d)=>{const dt=new Date(yr,mo,d);return dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});};
-  // Render due dates
-  const dueDates=[['PF ECR Filing','15th of every month','#2563eb'],['ESIC Contribution','15th of every month','#16a34a'],['PT Payment','Last day of month','#f97316'],['TDS Deposit','7th of next month','#7c3aed'],['TDS Return (24Q)','Quarterly','#0891b2'],['Form 16 Issue','31st May every year','#db2777']];
-  const ddGrid=document.getElementById('dueDatesGrid');
-  if(ddGrid) ddGrid.innerHTML=dueDates.map(([name,due,color])=>`<div style="background:#fff;border-radius:9px;padding:10px 12px;border-left:3px solid ${color};"><div style="font-size:10px;font-weight:800;color:${color};text-transform:uppercase;">${name}</div><div style="font-size:11px;font-weight:700;color:#475569;margin-top:3px;">${due}</div></div>`).join('');
-
+  const sel=document.getElementById('challanMonth');const parts=sel?.value?.split('-')||[];const yr=parseInt(parts[0])||new Date().getFullYear(),mo=parseInt(parts[1])||new Date().getMonth()+1;
+  const nextDue=(d)=>new Date(yr,mo,d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
   document.getElementById('challanCards').innerHTML=`
     <div class="challan-card challan-pf">
-      <div class="challan-left">
-        <div class="challan-icon"><span class="material-icons-round">savings</span></div>
-        <div><div class="challan-name">PF Challan (ECR)</div><div class="challan-due">Due: ${nextDue(15)} · EPFO Portal</div></div>
-      </div>
-      <div class="challan-amount">
-        <div class="challan-amt">${fmt(totalPF)}</div>
-        <div class="challan-status" style="color:#2563eb;">Employee + Employer</div>
-        <button class="btn btn-blue" style="margin-top:6px;padding:5px 10px;font-size:10px;" onclick="downloadPFChallan()"><span class="material-icons-round">download</span>ECR File</button>
-      </div>
+      <div class="challan-left"><div class="challan-icon"><span class="material-icons-round">savings</span></div><div><div class="challan-name">PF Challan (ECR)</div><div class="challan-due">Due: ${nextDue(15)} · EPFO Portal</div></div></div>
+      <div style="text-align:right;"><div class="challan-amt">${fmt(totalPF)}</div><div class="challan-status" style="color:#2563eb;">Employee + Employer</div><button class="btn btn-blue btn-sm" style="margin-top:8px;" onclick="downloadPFChallan()"><span class="material-icons-round">download</span>ECR File</button></div>
     </div>
     <div class="challan-card challan-esic">
-      <div class="challan-left">
-        <div class="challan-icon"><span class="material-icons-round">health_and_safety</span></div>
-        <div><div class="challan-name">ESIC Challan</div><div class="challan-due">Due: ${nextDue(15)} · ESIC Portal</div></div>
-      </div>
-      <div class="challan-amount">
-        <div class="challan-amt">${fmt(totalESIC)}</div>
-        <div class="challan-status" style="color:#16a34a;">Employee + Employer</div>
-        <button class="btn btn-green" style="margin-top:6px;padding:5px 10px;font-size:10px;" onclick="downloadESICChallan()"><span class="material-icons-round">download</span>ESIC Challan</button>
-      </div>
+      <div class="challan-left"><div class="challan-icon"><span class="material-icons-round">health_and_safety</span></div><div><div class="challan-name">ESIC Challan</div><div class="challan-due">Due: ${nextDue(15)} · ESIC Portal</div></div></div>
+      <div style="text-align:right;"><div class="challan-amt">${fmt(totalESIC)}</div><div class="challan-status" style="color:#10b981;">Employee + Employer</div><button class="btn btn-green btn-sm" style="margin-top:8px;" onclick="downloadESICChallan()"><span class="material-icons-round">download</span>ESIC Challan</button></div>
     </div>
     <div class="challan-card challan-pt">
-      <div class="challan-left">
-        <div class="challan-icon"><span class="material-icons-round">receipt</span></div>
-        <div><div class="challan-name">Professional Tax</div><div class="challan-due">Due: Last day of month · State Portal</div></div>
-      </div>
-      <div class="challan-amount">
-        <div class="challan-amt">${fmt(totalPT)}</div>
-        <div class="challan-status" style="color:#f97316;">All employees</div>
-        <button class="btn" style="background:#f97316;color:#fff;margin-top:6px;padding:5px 10px;font-size:10px;" onclick="exportPT()"><span class="material-icons-round">download</span>PT Report</button>
-      </div>
+      <div class="challan-left"><div class="challan-icon"><span class="material-icons-round">receipt</span></div><div><div class="challan-name">Professional Tax</div><div class="challan-due">Due: Last day of month · State Portal</div></div></div>
+      <div style="text-align:right;"><div class="challan-amt">${fmt(totalPT)}</div><div class="challan-status" style="color:#f97316;">All employees</div><button class="btn btn-orange btn-sm" style="margin-top:8px;" onclick="exportPT()"><span class="material-icons-round">download</span>PT Report</button></div>
     </div>`;
+  const due=[['PF ECR Filing','15th of every month','#2563eb'],['ESIC Contribution','15th of every month','#10b981'],['PT Payment','Last day of month','#f97316'],['TDS Deposit','7th of next month','#8b5cf6'],['TDS Return (24Q)','Quarterly','#06b6d4'],['Form 16 Issue','31st May yearly','#ec4899']];
+  document.getElementById('dueDatesGrid').innerHTML=due.map(([n,d,c])=>`<div style="background:#fff;border-radius:9px;padding:10px 12px;border:1px solid #ecf0f6;border-left:3px solid ${c};box-shadow:0 1px 3px rgba(0,0,0,.04);"><div style="font-size:10px;font-weight:800;color:${c};text-transform:uppercase;">${n}</div><div style="font-size:11px;font-weight:600;color:#64748b;margin-top:3px;">${d}</div></div>`).join('');
 }
 
-// ── SUMMARY STATS ──
+// SUMMARY STATS
 function updateSummaryStats(){
-  const empWithSal=employees.filter(e=>e.sal_gross);
-  const totalCTC=empWithSal.reduce((s,e)=>s+n(e.sal_ctc),0);
-  const totalNet=empWithSal.map(e=>{
-    const basic=n(e.sal_basic),gross=n(e.sal_gross),wash=n(e.sal_wash);
-    const pfEmp=e.pf==='Yes'?Math.round(basic*.12):0;
-    const esicOk=gross<21000;
-    const esicEmp=esicOk?Math.round((gross-wash)*.0075):0;
-    const pt=n(e.ded_pt)||getPT(gross);
-    return gross-pfEmp-esicEmp-pt;
-  }).reduce((s,v)=>s+v,0);
-  document.getElementById('ss-total').textContent=empWithSal.length;
-  document.getElementById('ss-ctc').textContent=fmt(totalCTC);
-  document.getElementById('ss-avg').textContent=fmt(empWithSal.length?Math.round(totalCTC/empWithSal.length):0);
-  document.getElementById('ss-net').textContent=fmt(totalNet);
+  const emp=employees.filter(e=>e.sal_gross);
+  const totalCTC=emp.reduce((s,e)=>s+n(e.sal_ctc),0);
+  const totalNet=emp.reduce((s,e)=>{const basic=n(e.sal_basic),gross=n(e.sal_gross),wash=n(e.sal_wash),pfEmp=e.pf==='Yes'?Math.round(basic*.12):0,esicOk=gross<21000,esicEmp=esicOk?Math.round((gross-wash)*.0075):0,pt=n(e.ded_pt)||getPT(gross);return s+gross-pfEmp-esicEmp-pt;},0);
+  document.getElementById('ss-total').textContent=emp.length;document.getElementById('ss-ctc').textContent=fmt(totalCTC);document.getElementById('ss-avg').textContent=fmt(emp.length?Math.round(totalCTC/emp.length):0);document.getElementById('ss-net').textContent=fmt(totalNet);
 }
 
-// ── DOWNLOADS ──
+// DOWNLOADS
 function downloadPFChallan(){
   const lines=['UAN,EMP_NAME,BASIC,PF_EMP,PF_ER,EPF_ER,EPS_ER,TOTAL_PF'];
-  employees.filter(e=>e.sal_gross&&e.pf==='Yes').forEach(e=>{
-    const basic=n(e.sal_basic),pfEmp=Math.round(basic*.12),pfEr=Math.round(basic*.12);
-    const eps=Math.min(Math.round(basic*.0833),1250),epf=pfEr-eps;
-    const name=`${e.fName||''} ${e.lName||''}`.trim();
-    lines.push(`${e.uan||'—'},${name},${basic},${pfEmp},${pfEr},${epf},${eps},${pfEmp+pfEr}`);
-  });
+  employees.filter(e=>e.sal_gross&&e.pf==='Yes').forEach(e=>{const basic=n(e.sal_basic),pfEmp=Math.round(basic*.12),pfEr=Math.round(basic*.12),eps=Math.min(Math.round(basic*.0833),1250),epf=pfEr-eps,name=`${e.fName||''} ${e.lName||''}`.trim();lines.push(`${e.uan||'—'},${name},${basic},${pfEmp},${pfEr},${epf},${eps},${pfEmp+pfEr}`);});
   downloadCSV(lines.join('\n'),'PF_ECR_File');
 }
 function downloadESICChallan(){
   const lines=['ESIC_NO,EMP_NAME,GROSS,ESIC_EMP,ESIC_ER,TOTAL_ESIC'];
-  employees.filter(e=>e.sal_gross&&n(e.sal_gross)<21000).forEach(e=>{
-    const gross=n(e.sal_gross),wash=n(e.sal_wash),base=gross-wash;
-    const emp=Math.round(base*.0075),er=Math.round(base*.0325);
-    const name=`${e.fName||''} ${e.lName||''}`.trim();
-    lines.push(`${e.esicNo||'—'},${name},${gross},${emp},${er},${emp+er}`);
-  });
+  employees.filter(e=>e.sal_gross&&n(e.sal_gross)<21000).forEach(e=>{const gross=n(e.sal_gross),wash=n(e.sal_wash),base=gross-wash,emp=Math.round(base*.0075),er=Math.round(base*.0325),name=`${e.fName||''} ${e.lName||''}`.trim();lines.push(`${e.esicNo||'—'},${name},${gross},${emp},${er},${emp+er}`);});
   downloadCSV(lines.join('\n'),'ESIC_Challan');
 }
 function exportPT(){
   const lines=['EMP_ID,EMP_NAME,GROSS,MONTHLY_PT,ANNUAL_PT'];
-  employees.filter(e=>e.sal_gross).forEach(e=>{
-    const gross=n(e.sal_gross),pt=n(e.ded_pt)||getPT(gross);
-    const name=`${e.fName||''} ${e.lName||''}`.trim();
-    lines.push(`${e.id||''},${name},${gross},${pt},${pt*12}`);
-  });
+  employees.filter(e=>e.sal_gross).forEach(e=>{const gross=n(e.sal_gross),pt=n(e.ded_pt)||getPT(gross),name=`${e.fName||''} ${e.lName||''}`.trim();lines.push(`${e.id||''},${name},${gross},${pt},${pt*12}`);});
   downloadCSV(lines.join('\n'),'PT_Report');
 }
 function exportCompliance(){
   const lines=['EMP_ID,EMP_NAME,BASIC,GROSS,PF_EMP,ESIC_EMP,PT,NET_PAY,CTC'];
-  employees.filter(e=>e.sal_gross).forEach(e=>{
-    const basic=n(e.sal_basic),gross=n(e.sal_gross),wash=n(e.sal_wash);
-    const pfEmp=e.pf==='Yes'?Math.round(basic*.12):0;
-    const esicOk=gross<21000;
-    const esicEmp=esicOk?Math.round((gross-wash)*.0075):0;
-    const pt=n(e.ded_pt)||getPT(gross);
-    const net=gross-pfEmp-esicEmp-pt;
-    const name=`${e.fName||''} ${e.lName||''}`.trim();
-    lines.push(`${e.id||''},${name},${basic},${gross},${pfEmp},${esicEmp},${pt},${net},${e.sal_ctc||0}`);
-  });
+  employees.filter(e=>e.sal_gross).forEach(e=>{const basic=n(e.sal_basic),gross=n(e.sal_gross),wash=n(e.sal_wash),pfEmp=e.pf==='Yes'?Math.round(basic*.12):0,esicOk=gross<21000,esicEmp=esicOk?Math.round((gross-wash)*.0075):0,pt=n(e.ded_pt)||getPT(gross),net=gross-pfEmp-esicEmp-pt,name=`${e.fName||''} ${e.lName||''}`.trim();lines.push(`${e.id||''},${name},${basic},${gross},${pfEmp},${esicEmp},${pt},${net},${e.sal_ctc||0}`);});
   downloadCSV(lines.join('\n'),'Compliance_Report');
 }
-function downloadCSV(csv,name){
-  const a=document.createElement('a');
-  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
-  a.download=`KIDV_${name}_${new Date().toLocaleDateString('en-IN').replace(/\//g,'-')}.csv`;
-  a.click();
-  showToast(`${name.replace(/_/g,' ')} downloaded!`,'success');
-}
+function downloadCSV(csv,name){const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download=`KIDV_${name}_${new Date().toISOString().split('T')[0]}.csv`;a.click();showToast(`${name.replace(/_/g,' ')} downloaded!`,'success');}
 
-// ── MODAL ──
-function openSalaryModal(){
-  document.getElementById('salaryModal').classList.add('open');
-  closeSidebar();
-}
+function openSalaryModal(){document.getElementById('salaryModal').classList.add('open');}
 function closeSalaryModal(){document.getElementById('salaryModal').classList.remove('open');}
-
-// ── TOAST ──
-function showToast(msg,type='success'){
-  const t=document.getElementById('toast');
-  t.className='toast '+type;
-  document.getElementById('toastIcon').textContent=type==='success'?'check_circle':'error';
-  document.getElementById('toastMsg').textContent=msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3500);
-}
+function showToast(msg,type='success'){const t=document.getElementById('toast');t.className='toast '+type;document.getElementById('toastIcon').textContent=type==='success'?'check_circle':'error';document.getElementById('toastMsg').textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
 </script>
 </body>
 </html>
