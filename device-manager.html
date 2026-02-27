@@ -3,372 +3,514 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>KIDV Tech | Device Manager</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<script>if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}</script>
 <style>
+:root{--navy:#07101f;--blue:#2563eb;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--purple:#8b5cf6;--amber:#f59e0b;--orange:#f97316;--text-m:rgba(148,163,184,.65);--text-d:rgba(148,163,184,.32);--border-b:rgba(255,255,255,.11);--glass:rgba(255,255,255,.04);--sidebar-w:260px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f4f8;}
-.app{display:flex;height:100vh;overflow:hidden;}
+html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflow:hidden;}
+.app{display:flex;height:100vh;}
 
-/* ── SIDEBAR ── */
-.sidebar{width:220px;min-width:220px;background:#fff;border-right:1px solid #e2e8f0;display:flex;flex-direction:column;padding:18px 12px;height:100vh;transition:transform .3s;z-index:300;}
-.logo{display:flex;align-items:center;gap:10px;padding:6px 8px;margin-bottom:22px;}
-.logo-icon{width:36px;height:36px;background:#2563eb;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:900;box-shadow:0 4px 12px rgba(37,99,235,.28);}
-.logo-text{font-size:14px;font-weight:900;color:#1e293b;}.logo-text span{color:#2563eb;}
-.nav-sec{font-size:8px;color:#94a3b8;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:0 10px;margin:10px 0 4px;}
-.nav a{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;font-size:11px;font-weight:700;color:#64748b;text-decoration:none;margin-bottom:2px;text-transform:uppercase;letter-spacing:.03em;transition:all .15s;}
-.nav a:hover{background:#f1f5f9;color:#1e293b;}
-.nav a.active{background:#2563eb;color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.3);}
-.nav a .material-icons-round{font-size:16px;flex-shrink:0;}
-.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:250;backdrop-filter:blur(2px);}
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden;border-right:1px solid rgba(255,255,255,.05);box-shadow:8px 0 40px rgba(0,0,0,.35);}
+.sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:199;backdrop-filter:blur(6px);}
+.logo-area{position:relative;z-index:1;flex-shrink:0;overflow:hidden;background:#fff;border-bottom:1px solid rgba(255,255,255,.06);}
+.logo-area img{width:100%;height:auto;display:block;}
+.nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 10px 4px;position:relative;z-index:1;}
+.nav::-webkit-scrollbar{width:3px;}.nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:99px;}
+.nav-sec{font-size:8.5px;color:var(--text-d);font-weight:700;text-transform:uppercase;letter-spacing:.2em;padding:0 8px;margin:16px 0 5px;display:flex;align-items:center;gap:8px;}
+.nav-sec::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07);}
+.nav a{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:11px;font-size:11px;font-weight:600;color:var(--text-m);text-decoration:none;margin-bottom:1px;text-transform:uppercase;letter-spacing:.055em;transition:color .18s,background .18s,transform .18s;position:relative;}
+.nav a:hover{color:rgba(241,245,249,.9);background:rgba(255,255,255,.07);transform:translateX(2px);}
+.nav a.active{color:#fff;background:linear-gradient(120deg,rgba(37,99,235,.32) 0%,rgba(6,182,212,.18) 100%);border:1px solid rgba(59,130,246,.28);box-shadow:0 4px 20px rgba(37,99,235,.22),inset 0 1px 0 rgba(255,255,255,.09);}
+.nav a.active::after{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:55%;background:linear-gradient(180deg,#93c5fd,#22d3ee);border-radius:0 3px 3px 0;box-shadow:0 0 10px rgba(96,165,250,.8);}
+.ic{width:29px;height:29px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .18s;}
+.ic .material-icons-round{font-size:15px;}
+.ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
+.ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-int{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.ic-adm{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
+.nav a.active .ic{transform:scale(1.08);box-shadow:0 0 14px rgba(37,99,235,.4);}
+.nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
+.user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--glass);margin-bottom:8px;border:1px solid var(--border-b);}
+.user-av{width:33px;height:33px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.user-name{font-size:10.5px;font-weight:700;color:#fff;text-transform:uppercase;}
+.user-role{font-size:8px;color:var(--text-d);font-weight:500;text-transform:uppercase;margin-top:1px;}
+.logout-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:10px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);color:rgba(252,165,165,.8);font-size:10px;font-weight:700;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;}
+.logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;}
+.logout-btn .material-icons-round{font-size:14px;}
 
-/* ── MAIN ── */
-.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;}
-.topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;flex-wrap:wrap;}
-.scroll{flex:1;overflow-y:auto;padding:20px 24px;}
-.scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:var(--sidebar-w);}
+.topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:11px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.topbar-left{display:flex;align-items:center;gap:12px;}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;}
+.menu-btn .material-icons-round{font-size:22px;}
+.page-title{font-size:15px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
+.page-sub{font-size:9px;color:#94a3b8;font-weight:500;margin-top:2px;letter-spacing:.05em;text-transform:uppercase;}
 
-.hamburger{display:none;width:36px;height:36px;background:#f1f5f9;border:none;border-radius:9px;cursor:pointer;align-items:center;justify-content:center;flex-shrink:0;}
-.hamburger .material-icons-round{font-size:20px;color:#1e293b;}
+/* TABS */
+.tab-bar{background:#fff;border-bottom:1px solid #e8edf5;padding:0 24px;display:flex;gap:0;overflow-x:auto;flex-shrink:0;box-shadow:0 1px 4px rgba(0,0,0,.03);}
+.tab-bar::-webkit-scrollbar{height:3px;}.tab-bar::-webkit-scrollbar-thumb{background:#e2e8f0;}
+.tab-btn{display:flex;align-items:center;gap:7px;padding:13px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#94a3b8;border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;transition:all .18s;white-space:nowrap;font-family:'Outfit',sans-serif;}
+.tab-btn:hover{color:#0f172a;}
+.tab-btn.active{color:#2563eb;border-bottom-color:#2563eb;}
+.tab-btn .material-icons-round{font-size:15px;}
 
-.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:10px;font-size:11px;font-weight:800;border:none;cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.03em;font-family:'Plus Jakarta Sans',sans-serif;}
-.btn-blue{background:#2563eb;color:#fff;}.btn-blue:hover{background:#1d4ed8;}
-.btn-green{background:#16a34a;color:#fff;}.btn-green:hover{background:#15803d;}
-.btn-red{background:#ef4444;color:#fff;}.btn-red:hover{background:#dc2626;}
-.btn-gray{background:#f1f5f9;color:#475569;}.btn-gray:hover{background:#e2e8f0;}
+/* BTNS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.06em;font-family:'Outfit',sans-serif;white-space:nowrap;}
+.btn-blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.3);}
+.btn-blue:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,.44);}
+.btn-green{background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 4px 14px rgba(16,185,129,.28);}
+.btn-green:hover{transform:translateY(-1px);}
+.btn-ghost{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}
+.btn-ghost:hover{background:#e2e8f0;}
+.btn-orange{background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;}
+.btn-orange:hover{transform:translateY(-1px);}
+.btn-purple{background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;}
+.btn-sm{padding:6px 12px;font-size:10px;border-radius:8px;}
 .btn .material-icons-round{font-size:14px;}
 
-.card{background:#fff;border-radius:14px;border:1px solid #f1f5f9;padding:20px;}
+/* SCROLL */
+.scroll{flex:1;overflow-y:auto;padding:18px 24px;}
+.scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+
+/* PANES */
+.tab-pane{display:none;animation:fadeIn .2s ease;}.tab-pane.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+/* CARDS */
+.card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
+.card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
+.card-title{font-size:12px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.08em;}
+
+/* STAT BOXES */
+.g4{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.stat-box{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:16px 18px;position:relative;overflow:hidden;transition:all .18s;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.stat-box:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.08);}
+.stat-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.sb-blue::before{background:linear-gradient(90deg,#2563eb,#06b6d4);}
+.sb-green::before{background:linear-gradient(90deg,#10b981,#06b6d4);}
+.sb-orange::before{background:linear-gradient(90deg,#f97316,#fbbf24);}
+.sb-purple::before{background:linear-gradient(90deg,#8b5cf6,#ec4899);}
+.sb-red::before{background:linear-gradient(90deg,#ef4444,#f97316);}
+.stat-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
+.stat-icon .material-icons-round{font-size:17px;}
+.si-blue{background:rgba(37,99,235,.1);color:#2563eb;}
+.si-green{background:rgba(16,185,129,.1);color:#10b981;}
+.si-orange{background:rgba(249,115,22,.1);color:#f97316;}
+.si-purple{background:rgba(139,92,246,.1);color:#8b5cf6;}
+.si-red{background:rgba(239,68,68,.1);color:#ef4444;}
+.stat-lbl{font-size:8.5px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.06em;}
+.stat-val{font-size:24px;font-weight:900;color:#0f172a;margin-top:3px;font-family:'JetBrains Mono',monospace;}
+.stat-sub{font-size:9px;color:#94a3b8;font-weight:500;margin-top:3px;}
+
+/* TABLE */
+.tbl-wrap{border-radius:12px;overflow:hidden;border:1px solid #ecf0f6;overflow-x:auto;}
+.tbl-wrap::-webkit-scrollbar{height:4px;}.tbl-wrap::-webkit-scrollbar-thumb{background:#e2e8f0;border-radius:10px;}
+table.dtbl{width:100%;border-collapse:collapse;font-size:11px;min-width:600px;}
+table.dtbl thead th{background:#0f172a;color:#fff;padding:10px 14px;font-size:8.5px;text-transform:uppercase;font-weight:700;text-align:left;white-space:nowrap;letter-spacing:.07em;}
+table.dtbl tbody tr{border-bottom:1px solid #f8fafc;transition:background .12s;}
+table.dtbl tbody tr:hover{background:#fafbfc;}
+table.dtbl tbody tr:last-child{border-bottom:none;}
+table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercase;vertical-align:middle;}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;}
+.badge-blue{background:#eff6ff;color:#2563eb;}
+.badge-green{background:#dcfce7;color:#15803d;}
+.badge-orange{background:#fff7ed;color:#c2410c;}
+.badge-red{background:#fee2e2;color:#dc2626;}
+.badge-gray{background:#f1f5f9;color:#64748b;}
+.badge-purple{background:#ede9fe;color:#6d28d9;}
+.badge-yellow{background:#fefce8;color:#a16207;}
+
+/* STEP CARDS */
+.step{display:flex;gap:12px;align-items:flex-start;padding:12px 16px;border-radius:12px;background:#f8fafc;border:1px solid #ecf0f6;margin-bottom:8px;transition:all .15s;}
+.step:hover{border-color:#bfdbfe;background:#f0f7ff;}
+.step-num{width:26px;height:26px;border-radius:99px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;box-shadow:0 3px 8px rgba(37,99,235,.3);}
+.step-text{font-size:11px;color:#475569;font-weight:600;line-height:1.6;}
+.step-text strong{color:#0f172a;font-weight:800;}
+
+/* DROP ZONE */
 .drop-zone{border:2px dashed #cbd5e1;border-radius:14px;padding:40px 24px;text-align:center;transition:all .2s;cursor:pointer;background:#fafbfc;}
 .drop-zone:hover,.drop-zone.drag-over{border-color:#2563eb;background:#eff6ff;}
-.dz-icon{font-size:48px;color:#cbd5e1;transition:all .2s;display:block;margin-bottom:10px;}
-.atbl{width:100%;border-collapse:collapse;font-size:11px;}
-.atbl thead th{background:#1e293b;color:#fff;padding:10px 14px;text-align:left;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;}
-.atbl tbody tr{border-bottom:1px solid #f8fafc;}
-.atbl tbody tr:hover{background:#f8fafc;}
-.atbl td{padding:9px 14px;color:#475569;font-weight:700;text-transform:uppercase;}
-.badge{display:inline-flex;align-items:center;gap:3px;padding:3px 10px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;}
-.badge-green{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;}
-.badge-red{background:#fef2f2;color:#ef4444;border:1px solid #fecaca;}
-.badge-yellow{background:#fefce8;color:#ca8a04;border:1px solid #fde68a;}
-.badge-blue{background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe;}
-.badge-gray{background:#f8fafc;color:#94a3b8;border:1px solid #e2e8f0;}
-.stat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
-.stat-card{background:#fff;border-radius:12px;padding:14px 16px;border:1px solid #f1f5f9;}
-.stat-n{font-size:26px;font-weight:900;}
-.stat-l{font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#94a3b8;margin-top:3px;}
-.step{display:flex;gap:12px;align-items:flex-start;padding:12px 16px;border-radius:10px;background:#f8fafc;border:1px solid #f1f5f9;margin-bottom:8px;}
-.step-num{width:24px;height:24px;border-radius:99px;background:#2563eb;color:#fff;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
-.step-text{font-size:11px;color:#475569;font-weight:700;line-height:1.5;}
-.step-text strong{color:#1e293b;}
+.dz-icon{font-size:48px;color:#cbd5e1;display:block;margin-bottom:12px;transition:all .2s;}
+.drop-zone:hover .dz-icon,.drop-zone.drag-over .dz-icon{color:#2563eb;}
 
-/* ── MOBILE ── */
-@media(max-width:768px){
-  .sidebar{position:fixed;left:0;top:0;height:100vh;transform:translateX(-100%);z-index:300;}
-  .sidebar.open{transform:translateX(0);}
-  .sidebar-overlay.open{display:block;}
-  .hamburger{display:flex;}
-  .topbar{padding:10px 14px;}
-  .topbar-title div:last-child{display:none;}
-  .scroll{padding:12px;}
-  .stat-grid{grid-template-columns:repeat(3,1fr);gap:8px;}
-  .stat-n{font-size:20px;}
-  .db-grid{grid-template-columns:1fr!important;}
-  .col-settings{grid-template-columns:1fr 1fr!important;}
-  .card{padding:14px;}
-  .drop-zone{padding:24px 16px;}
-  .topbar-actions{gap:6px!important;}
-  .btn{padding:7px 12px;font-size:10px;}
-  .tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-}
-@media(max-width:480px){
-  .stat-grid{grid-template-columns:repeat(3,1fr);}
-  .col-settings{grid-template-columns:1fr!important;}
-}
+/* COL SETTINGS */
+.col-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;}
+.form-label{font-size:8.5px;font-weight:700;text-transform:uppercase;color:#64748b;letter-spacing:.08em;margin-bottom:5px;display:block;}
+.form-inp{width:100%;padding:8px 12px;border-radius:9px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:11.5px;font-weight:600;color:#1e293b;background:#f8fafc;transition:all .15s;}
+.form-inp:focus{outline:none;border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
+
+/* DB PANEL */
+.db-panel{background:linear-gradient(135deg,#07101f,#0f2044);border-radius:16px;padding:20px 22px;margin-bottom:16px;border:1px solid rgba(37,99,235,.3);box-shadow:0 8px 32px rgba(0,0,0,.25);}
+.db-input{width:100%;padding:9px 12px;border-radius:9px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;outline:none;transition:all .15s;}
+.db-input:focus{border-color:rgba(37,99,235,.6);background:rgba(255,255,255,.12);}
+.db-input::placeholder{color:rgba(255,255,255,.25);}
+.db-label{font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;font-weight:700;margin-bottom:5px;letter-spacing:.08em;display:block;}
+.db-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;}
+
+/* SUCCESS BANNER */
+.success-banner{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #bbf7d0;border-radius:14px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.2);}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{background:#065f46;border-left:4px solid #6ee7b7;}
+.toast.error{background:#7f1d1d;border-left:4px solid #fca5a5;}
+.toast .material-icons-round{font-size:16px;}
+
+/* RESPONSIVE */
+@media(max-width:1100px){.g4{grid-template-columns:repeat(3,1fr);}.col-grid{grid-template-columns:1fr 1fr;}.db-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:768px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.sidebar-overlay.open{display:block;}.main{margin-left:0!important;}.menu-btn{display:flex!important;}.topbar,.scroll{padding:11px 14px;}.g4{grid-template-columns:1fr 1fr;}.g2{grid-template-columns:1fr;}.col-grid{grid-template-columns:1fr 1fr;}.db-grid{grid-template-columns:1fr;}}
+@media(max-width:480px){.g4{grid-template-columns:1fr 1fr;}.col-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body onload="init()">
+<div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
 <div class="app">
-<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
+<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
-  <button onclick="closeSidebar()" style="display:none;position:absolute;top:14px;right:14px;background:#f1f5f9;border:none;border-radius:8px;width:30px;height:30px;cursor:pointer;align-items:center;justify-content:center;" id="sidebarCloseBtn">
-    <span class="material-icons-round" style="font-size:16px;color:#64748b;">close</span>
-  </button>
-  <div class="logo"><div class="logo-icon">K</div><div class="logo-text">KIDV <span>Tech</span></div></div>
+  <div class="logo-area"><img src="logo.png" alt="KIDV Tech"></div>
   <nav class="nav">
     <div class="nav-sec">Main</div>
-    <a href="index.html"><span class="material-icons-round">dashboard</span>Dashboard</a>
-    <a href="employees.html"><span class="material-icons-round">badge</span>Employees</a>
+    <a href="index.html"><span class="ic ic-main"><span class="material-icons-round">dashboard</span></span>Dashboard</a>
+    <a href="employees.html"><span class="ic ic-main"><span class="material-icons-round">badge</span></span>Employees</a>
     <div class="nav-sec">HR</div>
-    <a href="shifts.html"><span class="material-icons-round">schedule</span>Shifts</a>
-    <a href="holidays.html"><span class="material-icons-round">event</span>Holidays</a>
+    <a href="leave-management.html"><span class="ic ic-hr"><span class="material-icons-round">event_available</span></span>Leave</a>
+    <a href="shifts.html"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
+    <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
+    <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
     <div class="nav-sec">Operations</div>
-    <a href="attendance.html"><span class="material-icons-round">calendar_month</span>Attendance</a>
-    <a href="payroll.html"><span class="material-icons-round">receipt_long</span>Payroll</a>
+    <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
+    <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
+    <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
+    <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
     <div class="nav-sec">Integration</div>
-    <a href="device-manager.html" class="active"><span class="material-icons-round">device_hub</span>Device Manager</a>
+    <a href="device-manager.html" class="active"><span class="ic ic-int"><span class="material-icons-round">device_hub</span></span>Device Manager</a>
+    <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
+    <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
+    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">shield</span></span>Roles &amp; Perms</a>
   </nav>
+  <div class="nav-bottom">
+    <div class="user-info"><div class="user-av" id="sideAvatar">SA</div><div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Administrator</div></div></div>
+    <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
+  </div>
 </aside>
 
+<!-- MAIN -->
 <div class="main">
   <div class="topbar">
-    <div style="display:flex;align-items:center;gap:10px;" class="topbar-title">
-      <button class="hamburger" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
+    <div class="topbar-left">
+      <button class="menu-btn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
       <div>
-        <h1 style="font-size:16px;font-weight:900;text-transform:uppercase;color:#1e293b;">SmartOffice Integration</h1>
-        <div style="font-size:10px;color:#94a3b8;font-weight:700;text-transform:uppercase;margin-top:2px;">Attendance Data Import via CSV / Excel</div>
+        <div class="page-title">Device Manager</div>
+        <div class="page-sub">SmartOffice Integration · Attendance Data Import via CSV / Database</div>
       </div>
     </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;" class="topbar-actions">
-      <button class="btn btn-gray" onclick="clearImported()"><span class="material-icons-round">delete_sweep</span><span class="btn-txt">Clear</span></button>
-      <button class="btn btn-green" onclick="applyToAttendance()" id="applyBtn" style="display:none;"><span class="material-icons-round">sync</span><span class="btn-txt">Apply</span></button>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-ghost" onclick="clearImported()"><span class="material-icons-round">delete_sweep</span>Clear</button>
+      <button class="btn btn-green" onclick="applyToAttendance()" id="applyBtn" style="display:none;"><span class="material-icons-round">sync</span>Apply to Attendance</button>
     </div>
   </div>
 
+  <!-- TABS -->
+  <div class="tab-bar">
+    <button class="tab-btn active" id="tab-csv" onclick="switchTab('csv')"><span class="material-icons-round">upload_file</span>CSV Import</button>
+    <button class="tab-btn" id="tab-db" onclick="switchTab('db')"><span class="material-icons-round">storage</span>Database Connect</button>
+    <button class="tab-btn" id="tab-map" onclick="switchTab('map')"><span class="material-icons-round">link</span>Device Code Mapping</button>
+  </div>
+
   <div class="scroll">
-    <!-- TABS -->
-    <div style="display:flex;gap:0;margin-bottom:18px;background:#fff;border-radius:12px;padding:4px;border:1px solid #e2e8f0;width:fit-content;">
-      <button onclick="switchTab('csv')" id="tab-csv" style="padding:8px 20px;border-radius:8px;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;background:#1d4ed8;color:#fff;">📄 CSV Import</button>
-      <button onclick="switchTab('db')" id="tab-db" style="padding:8px 20px;border-radius:8px;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;background:transparent;color:#64748b;">🔗 Database</button>
-    </div>
 
-    <!-- DATABASE DIRECT SECTION -->
-    <div id="section-db" style="display:none;">
-      <div style="background:linear-gradient(135deg,#1e3a5f,#1d4ed8);border-radius:14px;padding:18px 22px;margin-bottom:16px;color:#fff;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
-          <span class="material-icons-round" style="font-size:22px;">storage</span>
-          <div style="flex:1;">
-            <div style="font-size:14px;font-weight:900;text-transform:uppercase;">SmartOffice SQL Server Direct Connect</div>
-            <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:2px;text-transform:uppercase;">Node.js Bridge server ચાલુ કરો → Browser → SQL Server</div>
+    <!-- ══════════ TAB: CSV IMPORT ══════════ -->
+    <div class="tab-pane active" id="pane-csv">
+
+      <!-- Stats -->
+      <div class="g4" style="margin-bottom:16px;" id="statsSection" style="display:none;">
+        <div class="stat-box sb-green"><div class="stat-icon si-green"><span class="material-icons-round">check_circle</span></div><div class="stat-lbl">Matched</div><div class="stat-val" id="stMatched">0</div><div class="stat-sub">Records found</div></div>
+        <div class="stat-box sb-red"><div class="stat-icon si-red"><span class="material-icons-round">cancel</span></div><div class="stat-lbl">Unmatched</div><div class="stat-val" id="stUnmatched">0</div><div class="stat-sub">Device code missing</div></div>
+        <div class="stat-box sb-blue"><div class="stat-icon si-blue"><span class="material-icons-round">list_alt</span></div><div class="stat-lbl">Total Rows</div><div class="stat-val" id="stTotal">0</div><div class="stat-sub">In CSV file</div></div>
+        <div class="stat-box sb-orange"><div class="stat-icon si-orange"><span class="material-icons-round">calendar_month</span></div><div class="stat-lbl">Unique Dates</div><div class="stat-val" id="stDates">0</div><div class="stat-sub">Date range</div></div>
+        <div class="stat-box sb-purple"><div class="stat-icon si-purple"><span class="material-icons-round">people</span></div><div class="stat-lbl">Employees</div><div class="stat-val" id="stEmps">0</div><div class="stat-sub">Unique codes</div></div>
+      </div>
+
+      <!-- Steps Guide -->
+      <div class="card">
+        <div class="card-hd">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="width:32px;height:32px;background:rgba(37,99,235,.1);border-radius:9px;display:flex;align-items:center;justify-content:center;"><span class="material-icons-round" style="color:#2563eb;font-size:16px;">help_outline</span></div>
+            <div class="card-title">SmartOffice Export Steps</div>
           </div>
-          <span id="dbStatus" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:4px 12px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;white-space:nowrap;">Disconnected</span>
+          <span class="badge badge-blue">CSV / Excel</span>
         </div>
-        <div style="background:rgba(0,0,0,.2);border-radius:10px;padding:12px 16px;margin-bottom:14px;">
-          <div style="font-size:9px;font-weight:800;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:8px;">⚙ One-Time Setup</div>
-          <div style="font-size:11px;color:rgba(255,255,255,.75);font-weight:700;line-height:2;">
-            1. <code style="background:rgba(255,255,255,.1);padding:1px 6px;border-radius:4px;">smartoffice-server/</code> folder copy karo<br>
-            2. <code style="background:rgba(255,255,255,.1);padding:1px 6px;border-radius:4px;">npm install</code> → <code style="background:rgba(255,255,255,.1);padding:1px 6px;border-radius:4px;">node server.js</code><br>
-            3. DB_CONFIG update karo → Test Connection click karo
-          </div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px;" class="db-grid">
-          <div><div style="font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;font-weight:700;margin-bottom:4px;">Bridge Server URL</div><input id="dbBridgeUrl" value="http://localhost:3377" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;"></div>
-          <div><div style="font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;font-weight:700;margin-bottom:4px;">Table Name</div><input id="dbTable" value="AttendanceLogs" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;"></div>
-          <div><div style="font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;font-weight:700;margin-bottom:4px;">Date Range</div><div style="display:flex;gap:6px;"><input type="date" id="dbFrom" style="flex:1;padding:8px 6px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;outline:none;"><input type="date" id="dbTo" style="flex:1;padding:8px 6px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;outline:none;"></div></div>
-        </div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button onclick="testDBConnection()" class="btn" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.25);"><span class="material-icons-round">wifi</span>Test</button>
-          <button onclick="fetchFromDB(false)" id="btnFetchDB" class="btn btn-green" style="display:none;"><span class="material-icons-round">download</span>Fetch</button>
-          <button onclick="fetchFromDB(true)" id="btnFetchAll" class="btn" style="background:rgba(251,191,36,.25);color:#fbbf24;border:1px solid rgba(251,191,36,.4);display:none;"><span class="material-icons-round">download_for_offline</span>All Data</button>
-          <button onclick="showDBTables()" id="btnTables" class="btn" style="background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);display:none;"><span class="material-icons-round">table_chart</span>Tables</button>
-          <button onclick="previewTable()" id="btnPreview" class="btn" style="background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);display:none;"><span class="material-icons-round">visibility</span>Preview</button>
-          <button onclick="diagnoseTable()" id="btnDiag" class="btn" style="background:rgba(251,191,36,.2);color:#fbbf24;border:1px solid rgba(251,191,36,.3);display:none;"><span class="material-icons-round">bug_report</span>Diagnose</button>
-        </div>
+        <div class="step"><div class="step-num">1</div><div class="step-text">SmartOffice → <strong>Import/Export → Export Attendance Logs</strong> → Date Range select karo → <strong>Excel / CSV format</strong> ma export karo.</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">CSV file ma <strong>EmployeeCode</strong> (Device Code) and <strong>Date, InTime</strong> columns hova joie. Niche column names customize karo.</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">CSV file drag &amp; drop karo ya browser karo → <strong>Apply to Attendance</strong> click karo.</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Device Code</strong> ↔ <strong>Employee deviceCode</strong> match na thay to "Unmatched" list show thashe. Employees page ma deviceCode set karo.</div></div>
       </div>
-      <div id="dbResultSection" style="display:none;"></div>
-    </div>
 
-    <!-- CSV SECTION -->
-    <div id="section-csv">
-    <div class="card" style="margin-bottom:16px;border-left:4px solid #2563eb;">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
-        <span class="material-icons-round" style="color:#2563eb;font-size:20px;">help_outline</span>
-        <div style="font-size:13px;font-weight:900;text-transform:uppercase;color:#1e293b;">SmartOffice → Export Steps</div>
-      </div>
-      <div>
-        <div class="step"><div class="step-num">1</div><div class="step-text">SmartOffice → <strong>Import/Export → Export Attendance Logs</strong> → Select Date Range → Export to <strong>Excel / CSV</strong></div></div>
-        <div class="step"><div class="step-num">2</div><div class="step-text">CSV માં <strong>EmployeeCode</strong> (Device Code) અને <strong>Date, InTime</strong> columns હોવા જોઈએ.</div></div>
-        <div class="step"><div class="step-num">3</div><div class="step-text">CSV file drag & drop કરો → <strong>Apply to Attendance</strong> click કરો.</div></div>
-        <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Device Code</strong> ↔ <strong>Employee deviceCode</strong> match ન થાય તો "Unmatched" list show થશે.</div></div>
-      </div>
-    </div>
-
-      <div class="card" style="margin-bottom:16px;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-          <span class="material-icons-round" style="color:#16a34a;font-size:20px;">upload_file</span>
-          <div style="font-size:13px;font-weight:900;text-transform:uppercase;color:#1e293b;">Import SmartOffice CSV</div>
-        </div>
-        <div style="background:#f8fafc;border-radius:10px;padding:14px;margin-bottom:16px;border:1px solid #f1f5f9;">
-          <div style="font-size:10px;font-weight:800;color:#64748b;text-transform:uppercase;margin-bottom:10px;">Column Names</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;" class="col-settings">
-            <div><label style="font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px;">Employee Code *</label><input id="colEmpCode" value="EmployeeCode" style="width:100%;padding:7px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;background:#fff;"></div>
-            <div><label style="font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px;">Date Column *</label><input id="colDate" value="LogDate" style="width:100%;padding:7px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;background:#fff;"></div>
-            <div><label style="font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px;">In Time</label><input id="colIn" value="InTime" style="width:100%;padding:7px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;background:#fff;"></div>
-            <div><label style="font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px;">Status Column</label><input id="colStatus" value="Status" style="width:100%;padding:7px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;background:#fff;"></div>
+      <!-- Upload -->
+      <div class="card">
+        <div class="card-hd">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="width:32px;height:32px;background:rgba(16,185,129,.1);border-radius:9px;display:flex;align-items:center;justify-content:center;"><span class="material-icons-round" style="color:#10b981;font-size:16px;">upload_file</span></div>
+            <div class="card-title">Import SmartOffice CSV</div>
           </div>
         </div>
+
+        <!-- Column Settings -->
+        <div style="background:#f8fafc;border-radius:12px;padding:14px 16px;margin-bottom:16px;border:1px solid #ecf0f6;">
+          <div style="font-size:10px;font-weight:800;color:#475569;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;">📋 CSV Column Names (Match your file)</div>
+          <div class="col-grid">
+            <div><label class="form-label">Employee Code *</label><input class="form-inp" id="colEmpCode" value="EmployeeCode" placeholder="EmployeeCode"></div>
+            <div><label class="form-label">Date Column *</label><input class="form-inp" id="colDate" value="LogDate" placeholder="LogDate"></div>
+            <div><label class="form-label">In Time</label><input class="form-inp" id="colIn" value="InTime" placeholder="InTime"></div>
+            <div><label class="form-label">Status Column</label><input class="form-inp" id="colStatus" value="Status" placeholder="Status"></div>
+          </div>
+        </div>
+
         <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
           <span class="material-icons-round dz-icon">cloud_upload</span>
-          <div style="font-size:14px;font-weight:800;color:#1e293b;text-transform:uppercase;margin-bottom:6px;">Drop CSV File Here</div>
-          <div style="font-size:11px;color:#94a3b8;font-weight:700;">or click to browse · .csv / .txt</div>
+          <div style="font-size:15px;font-weight:800;color:#0f172a;text-transform:uppercase;margin-bottom:6px;">Drop CSV File Here</div>
+          <div style="font-size:11px;color:#94a3b8;font-weight:600;">or click to browse &nbsp;·&nbsp; .csv / .txt supported</div>
           <input type="file" id="fileInput" accept=".csv,.txt,.CSV" style="display:none;" onchange="handleFile(event)">
         </div>
       </div>
 
-      <div id="statsSection" style="display:none;">
-        <div class="stat-grid">
-          <div class="stat-card" style="border-left:3px solid #16a34a;"><div class="stat-n" style="color:#16a34a;" id="stMatched">0</div><div class="stat-l">Matched</div></div>
-          <div class="stat-card" style="border-left:3px solid #ef4444;"><div class="stat-n" style="color:#ef4444;" id="stUnmatched">0</div><div class="stat-l">Unmatched</div></div>
-          <div class="stat-card" style="border-left:3px solid #2563eb;"><div class="stat-n" style="color:#2563eb;" id="stTotal">0</div><div class="stat-l">Total</div></div>
-          <div class="stat-card" style="border-left:3px solid #f97316;"><div class="stat-n" style="color:#f97316;" id="stDates">0</div><div class="stat-l">Dates</div></div>
-          <div class="stat-card" style="border-left:3px solid #7c3aed;"><div class="stat-n" style="color:#7c3aed;" id="stEmps">0</div><div class="stat-l">Employees</div></div>
-        </div>
-      </div>
-
+      <!-- Preview -->
       <div id="previewSection" style="display:none;">
-        <div class="card" style="margin-bottom:16px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+        <div class="card">
+          <div class="card-hd">
             <div style="display:flex;align-items:center;gap:8px;">
-              <span class="material-icons-round" style="color:#2563eb;font-size:20px;">preview</span>
-              <div style="font-size:13px;font-weight:900;text-transform:uppercase;color:#1e293b;">Import Preview</div>
+              <div style="width:32px;height:32px;background:rgba(37,99,235,.1);border-radius:9px;display:flex;align-items:center;justify-content:center;"><span class="material-icons-round" style="color:#2563eb;font-size:16px;">preview</span></div>
+              <div class="card-title">Import Preview</div>
             </div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <select id="filterEmp" onchange="renderPreview()" style="padding:6px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;"><option value="">All Employees</option></select>
-              <select id="filterStatus" onchange="renderPreview()" style="padding:6px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;">
-                <option value="">All</option><option value="matched">Matched</option><option value="unmatched">Unmatched</option>
+              <select id="filterEmp" onchange="renderPreview()" class="form-inp" style="width:auto;"><option value="">All Employees</option></select>
+              <select id="filterStatus" onchange="renderPreview()" class="form-inp" style="width:auto;">
+                <option value="">All Status</option><option value="matched">Matched Only</option><option value="unmatched">Unmatched Only</option>
               </select>
             </div>
           </div>
-          <div class="tbl-scroll" style="border-radius:10px;overflow:hidden;border:1px solid #f1f5f9;overflow-x:auto;-webkit-overflow-scrolling:touch;">
-            <table class="atbl" style="min-width:600px;">
+          <div class="tbl-wrap">
+            <table class="dtbl">
               <thead><tr><th>#</th><th>Device Code</th><th>Employee</th><th>Date</th><th>In Time</th><th>Status</th><th>Match</th></tr></thead>
               <tbody id="previewBody"></tbody>
             </table>
           </div>
         </div>
-        <div id="unmatchedSection" style="display:none;background:#fef2f2;border-radius:12px;padding:14px 18px;border:1.5px solid #fecaca;margin-bottom:12px;">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+
+        <!-- Unmatched Warning -->
+        <div id="unmatchedSection" style="display:none;background:#fef2f2;border-radius:14px;padding:16px 20px;border:1.5px solid #fecaca;margin-bottom:16px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
             <span class="material-icons-round" style="color:#ef4444;font-size:18px;">warning</span>
-            <div style="font-size:12px;font-weight:900;text-transform:uppercase;color:#ef4444;">Unmatched Device Codes</div>
+            <div style="font-size:12px;font-weight:800;text-transform:uppercase;color:#dc2626;">Unmatched Device Codes</div>
           </div>
           <div id="unmatchedList" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
-          <div style="font-size:10px;color:#94a3b8;font-weight:700;margin-top:8px;">⚠ Employee Master → deviceCode field update કરો.</div>
+          <div style="font-size:10px;color:#94a3b8;font-weight:600;margin-top:10px;">⚠ Employees page → Employee edit karo → Device Code field update karo.</div>
         </div>
+
         <div style="display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;">
-          <button class="btn btn-gray" onclick="clearImported()"><span class="material-icons-round">close</span>Cancel</button>
+          <button class="btn btn-ghost" onclick="clearImported()"><span class="material-icons-round">close</span>Cancel</button>
           <button class="btn btn-green" onclick="applyToAttendance()"><span class="material-icons-round">sync</span>Apply to Attendance</button>
         </div>
       </div>
 
-      <div id="successBanner" style="display:none;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #bbf7d0;border-radius:12px;padding:16px 20px;margin-bottom:16px;align-items:center;gap:12px;flex-wrap:wrap;">
-        <span class="material-icons-round" style="font-size:28px;color:#16a34a;">check_circle</span>
+      <!-- Success Banner -->
+      <div id="successBanner" style="display:none;" class="success-banner">
+        <span class="material-icons-round" style="font-size:30px;color:#10b981;">check_circle</span>
         <div style="flex:1;">
-          <div style="font-size:13px;font-weight:900;color:#15803d;text-transform:uppercase;">Attendance Applied!</div>
-          <div id="successText" style="font-size:11px;color:#16a34a;font-weight:700;margin-top:2px;"></div>
+          <div style="font-size:13px;font-weight:800;color:#065f46;text-transform:uppercase;">Attendance Applied Successfully!</div>
+          <div id="successText" style="font-size:11px;color:#10b981;font-weight:600;margin-top:3px;"></div>
         </div>
-        <a href="attendance.html" style="background:#16a34a;color:#fff;padding:8px 16px;border-radius:8px;text-decoration:none;font-size:11px;font-weight:800;text-transform:uppercase;display:flex;align-items:center;gap:5px;">
-          <span class="material-icons-round" style="font-size:14px;">calendar_month</span>View Attendance
-        </a>
+        <a href="attendance.html" class="btn btn-green"><span class="material-icons-round">calendar_month</span>View Attendance</a>
+      </div>
+
+    </div>
+
+    <!-- ══════════ TAB: DATABASE CONNECT ══════════ -->
+    <div class="tab-pane" id="pane-db">
+      <div class="db-panel">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;">
+          <div style="width:44px;height:44px;background:linear-gradient(135deg,#2563eb,#06b6d4);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 16px rgba(37,99,235,.4);">
+            <span class="material-icons-round" style="font-size:22px;color:#fff;">storage</span>
+          </div>
+          <div style="flex:1;">
+            <div style="font-size:14px;font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:.06em;">SmartOffice SQL Server Direct Connect</div>
+            <div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:3px;text-transform:uppercase;letter-spacing:.05em;">Node.js Bridge server → Browser → SQL Server</div>
+          </div>
+          <span id="dbStatus" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.35);padding:5px 14px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;color:#fca5a5;letter-spacing:.05em;">Disconnected</span>
+        </div>
+
+        <!-- Setup Info -->
+        <div style="background:rgba(0,0,0,.25);border-radius:12px;padding:14px 18px;margin-bottom:18px;border:1px solid rgba(255,255,255,.06);">
+          <div style="font-size:9px;font-weight:800;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:10px;letter-spacing:.1em;">⚙ One-Time Setup</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.65);font-weight:600;line-height:2.1;">
+            1. <code style="background:rgba(255,255,255,.1);padding:2px 8px;border-radius:5px;font-size:10px;">smartoffice-server/</code> folder copy karo<br>
+            2. <code style="background:rgba(255,255,255,.1);padding:2px 8px;border-radius:5px;font-size:10px;">npm install</code> → <code style="background:rgba(255,255,255,.1);padding:2px 8px;border-radius:5px;font-size:10px;">node server.js</code> run karo<br>
+            3. DB_CONFIG update karo → Test Connection click karo
+          </div>
+        </div>
+
+        <div class="db-grid">
+          <div><label class="db-label">Bridge Server URL</label><input class="db-input" id="dbBridgeUrl" value="http://localhost:3377" placeholder="http://localhost:3377"></div>
+          <div><label class="db-label">Table Name</label><input class="db-input" id="dbTable" value="AttendanceLogs" placeholder="AttendanceLogs"></div>
+          <div><label class="db-label">Date Range</label><div style="display:flex;gap:6px;"><input type="date" class="db-input" id="dbFrom" style="flex:1;"><input type="date" class="db-input" id="dbTo" style="flex:1;"></div></div>
+        </div>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button onclick="testDBConnection()" class="btn" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2);">
+            <span class="material-icons-round">wifi</span>Test Connection
+          </button>
+          <button onclick="fetchFromDB(false)" id="btnFetchDB" class="btn btn-green" style="display:none;"><span class="material-icons-round">download</span>Fetch by Date</button>
+          <button onclick="fetchFromDB(true)" id="btnFetchAll" class="btn" style="display:none;background:rgba(251,191,36,.2);color:#fbbf24;border:1px solid rgba(251,191,36,.35);"><span class="material-icons-round">download_for_offline</span>Fetch All</button>
+          <button onclick="showDBTables()" id="btnTables" class="btn" style="display:none;background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.15);"><span class="material-icons-round">table_chart</span>Tables</button>
+          <button onclick="previewTable()" id="btnPreview" class="btn" style="display:none;background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.15);"><span class="material-icons-round">visibility</span>Preview</button>
+          <button onclick="diagnoseTable()" id="btnDiag" class="btn" style="display:none;background:rgba(251,191,36,.18);color:#fbbf24;border:1px solid rgba(251,191,36,.3);"><span class="material-icons-round">bug_report</span>Diagnose</button>
+        </div>
+      </div>
+
+      <div id="dbResultSection"></div>
+    </div>
+
+    <!-- ══════════ TAB: DEVICE CODE MAPPING ══════════ -->
+    <div class="tab-pane" id="pane-map">
+      <div class="card">
+        <div class="card-hd">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="width:32px;height:32px;background:rgba(139,92,246,.1);border-radius:9px;display:flex;align-items:center;justify-content:center;"><span class="material-icons-round" style="color:#8b5cf6;font-size:16px;">link</span></div>
+            <div class="card-title">Employee Device Code Mapping</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <span id="empMapCount" class="badge badge-blue">0 Employees</span>
+            <a href="employees.html" class="btn btn-purple btn-sm"><span class="material-icons-round">edit</span>Edit Employees</a>
+          </div>
+        </div>
+
+        <!-- Status summary -->
+        <div class="g2" style="margin-bottom:16px;">
+          <div style="background:#f0fdf4;border-radius:12px;padding:14px 18px;border:1.5px solid #bbf7d0;display:flex;align-items:center;gap:12px;">
+            <div style="width:36px;height:36px;background:#10b981;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span class="material-icons-round" style="color:#fff;font-size:18px;">check_circle</span></div>
+            <div><div class="stat-lbl" style="color:#15803d;">Device Code Set</div><div class="stat-val" style="font-size:20px;color:#065f46;" id="mapReady">0</div></div>
+          </div>
+          <div style="background:#fef2f2;border-radius:12px;padding:14px 18px;border:1.5px solid #fecaca;display:flex;align-items:center;gap:12px;">
+            <div style="width:36px;height:36px;background:#ef4444;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span class="material-icons-round" style="color:#fff;font-size:18px;">warning</span></div>
+            <div><div class="stat-lbl" style="color:#dc2626;">Missing Device Code</div><div class="stat-val" style="font-size:20px;color:#7f1d1d;" id="mapMissing">0</div></div>
+          </div>
+        </div>
+
+        <div class="tbl-wrap">
+          <table class="dtbl">
+            <thead><tr><th>Employee Name</th><th>Emp ID</th><th>Device Code</th><th>Department</th><th>Designation</th><th>Status</th></tr></thead>
+            <tbody id="empMapBody"></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
-    <!-- EMPLOYEE CODE MAP -->
-    <div class="card" style="margin-bottom:16px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
-        <div style="display:flex;align-items:center;gap:8px;">
-          <span class="material-icons-round" style="color:#7c3aed;font-size:20px;">link</span>
-          <div style="font-size:13px;font-weight:900;text-transform:uppercase;color:#1e293b;">Employee Device Code Mapping</div>
-        </div>
-        <span id="empMapCount" class="badge badge-blue">0 Employees</span>
-      </div>
-      <div class="tbl-scroll" style="border-radius:10px;overflow:hidden;border:1px solid #f1f5f9;overflow-x:auto;-webkit-overflow-scrolling:touch;">
-        <table class="atbl" style="min-width:500px;">
-          <thead><tr><th>Employee Name</th><th>Emp ID</th><th>Device Code</th><th>Department</th><th>Status</th></tr></thead>
-          <tbody id="empMapBody"><tr><td colspan="5" style="padding:20px;text-align:center;color:#94a3b8;">Loading...</td></tr></tbody>
-        </table>
-      </div>
-    </div>
+  </div><!-- /scroll -->
+</div>
+</div>
 
-  </div>
-</div>
-</div>
+<div class="toast" id="toast"><span class="material-icons-round" id="toastIcon">check_circle</span><span id="toastMsg"></span></div>
 
 <script>
-let parsedRows=[];
-let employees=[];
-
-function openSidebar(){
-  document.getElementById('sidebar').classList.add('open');
-  document.getElementById('sidebarOverlay').classList.add('open');
-  document.getElementById('sidebarCloseBtn').style.display='flex';
-}
-function closeSidebar(){
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('sidebarOverlay').classList.remove('open');
-}
+let parsedRows=[], employees=[];
+const AV_COLORS=['linear-gradient(135deg,#2563eb,#06b6d4)','linear-gradient(135deg,#8b5cf6,#ec4899)','linear-gradient(135deg,#10b981,#06b6d4)','linear-gradient(135deg,#f59e0b,#ef4444)','linear-gradient(135deg,#6366f1,#8b5cf6)','linear-gradient(135deg,#0891b2,#10b981)'];
 
 function init(){
+  loadUserInfo();
   employees=JSON.parse(localStorage.getItem('employees')||'[]');
-  renderEmpMap();setupDrop();
+  renderEmpMap();
+  setupDrop();
   const savedUrl=localStorage.getItem('dbBridgeUrl');
   const savedTable=localStorage.getItem('dbTable');
-  const savedFrom=localStorage.getItem('dbFrom');
-  const savedTo=localStorage.getItem('dbTo');
-  if(savedUrl) document.getElementById('dbBridgeUrl').value=savedUrl;
-  if(savedTable) document.getElementById('dbTable').value=savedTable;
-  if(savedFrom) document.getElementById('dbFrom').value=savedFrom;
-  if(savedTo) document.getElementById('dbTo').value=savedTo;
+  if(savedUrl)document.getElementById('dbBridgeUrl').value=savedUrl;
+  if(savedTable)document.getElementById('dbTable').value=savedTable;
   if(localStorage.getItem('dbWasConnected')==='true'){switchTab('db');autoReconnect();}
+  // set today as defaults for date range
+  const today=new Date().toISOString().split('T')[0];
+  const d30=new Date();d30.setDate(d30.getDate()-30);
+  document.getElementById('dbFrom').value=d30.toISOString().split('T')[0];
+  document.getElementById('dbTo').value=today;
 }
 
-async function autoReconnect(){
-  const url=document.getElementById('dbBridgeUrl').value.trim();
-  const st=document.getElementById('dbStatus');
-  st.textContent='Reconnecting...';st.style.background='rgba(251,191,36,.2)';st.style.color='#fbbf24';
-  try{
-    const res=await fetch(url+'/api/test',{signal:AbortSignal.timeout(4000)});
-    const data=await res.json();
-    if(data.success){st.textContent='✓ Connected';st.style.background='rgba(22,163,74,.2)';st.style.color='#4ade80';showDBButtons(true);}
-    else{st.textContent='Disconnected';st.style.background='rgba(239,68,68,.2)';st.style.color='#f87171';}
-  }catch(e){st.textContent='Disconnected';st.style.background='rgba(239,68,68,.2)';st.style.color='#f87171';}
+function loadUserInfo(){
+  const u=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+  if(u.name){const p=u.name.trim().split(' ');document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();document.getElementById('sideName').textContent=u.name;document.getElementById('sideRole').textContent=u.role||'Staff';}
+  const r=(u.role||'').toLowerCase();
+  if(r==='super admin'||r==='admin'){document.getElementById('adminNav').style.display='';document.getElementById('usersLink').style.display='';document.getElementById('rolesLink').style.display='';}
+}
+function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');}
+
+function switchTab(t){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  document.getElementById('pane-'+t).classList.add('active');
 }
 
-function showDBButtons(show){
-  ['btnFetchDB','btnFetchAll','btnTables','btnPreview','btnCols','btnDiag'].forEach(id=>{
-    const el=document.getElementById(id);if(el)el.style.display=show?'inline-flex':'none';
-  });
-}
-
+// ── EMP MAP ──
 function renderEmpMap(){
   const tbody=document.getElementById('empMapBody');
-  const count=document.getElementById('empMapCount');
-  if(!employees.length){tbody.innerHTML='<tr><td colspan="5" style="padding:20px;text-align:center;color:#94a3b8;font-weight:700;text-transform:uppercase;">No employees found.</td></tr>';return;}
-  count.textContent=employees.length+' Employees';
+  const ready=employees.filter(e=>e.deviceCode&&e.deviceCode.trim()).length;
+  const missing=employees.length-ready;
+  document.getElementById('empMapCount').textContent=employees.length+' Employees';
+  document.getElementById('mapReady').textContent=ready;
+  document.getElementById('mapMissing').textContent=missing;
+  if(!employees.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:32px;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;">No employees found. Add employees first.</td></tr>';return;}
   tbody.innerHTML=employees.map((e,i)=>{
     const hasCode=e.deviceCode&&e.deviceCode.trim();
+    const nm=`${e.fName||''} ${e.lName||''}`.trim();
+    const init=nm.split(' ').map(w=>w[0]||'').slice(0,2).join('').toUpperCase();
+    const grad=AV_COLORS[i%AV_COLORS.length];
     return`<tr>
-      <td style="font-weight:800;color:#1e293b;">${e.fName} ${e.lName}</td>
-      <td style="font-weight:700;color:#2563eb;">${e.id||'—'}</td>
-      <td>${hasCode?`<span style="background:#eff6ff;color:#7c3aed;padding:3px 10px;border-radius:99px;font-size:10px;font-weight:900;border:1px solid #ddd6fe;">${e.deviceCode}</span>`:`<span style="color:#fca5a5;font-size:10px;font-weight:700;">⚠ Not Set</span>`}</td>
-      <td>${e.dept||'—'}</td>
+      <td><div style="display:flex;align-items:center;gap:9px;">
+        <div style="width:28px;height:28px;border-radius:8px;background:${grad};color:#fff;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${init}</div>
+        <span style="font-weight:700;color:#0f172a;">${nm}</span>
+      </div></td>
+      <td style="font-family:'JetBrains Mono',monospace;color:#2563eb;font-weight:700;">${e.id||'—'}</td>
+      <td>${hasCode?`<span style="background:#ede9fe;color:#7c3aed;padding:4px 12px;border-radius:99px;font-size:10px;font-weight:900;border:1px solid #ddd6fe;font-family:'JetBrains Mono',monospace;">${e.deviceCode}</span>`:`<span style="color:#ef4444;font-size:10px;font-weight:700;">⚠ Not Set</span>`}</td>
+      <td><span class="badge badge-blue">${e.dept||'—'}</span></td>
+      <td style="color:#475569;">${e.job||e.designation||'—'}</td>
       <td>${hasCode?'<span class="badge badge-green">✓ Ready</span>':'<span class="badge badge-red">Missing</span>'}</td>
     </tr>`;
   }).join('');
 }
 
+// ── DROP ZONE ──
 function setupDrop(){
   const dz=document.getElementById('dropZone');
   dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag-over');});
   dz.addEventListener('dragleave',()=>dz.classList.remove('drag-over'));
-  dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag-over');const file=e.dataTransfer.files[0];if(file)processFile(file);});
+  dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag-over');const f=e.dataTransfer.files[0];if(f)processFile(f);});
 }
-
 function handleFile(evt){processFile(evt.target.files[0]);}
-function processFile(file){const reader=new FileReader();reader.onload=e=>parseCSV(e.target.result);reader.readAsText(file);}
+function processFile(file){const r=new FileReader();r.onload=e=>parseCSV(e.target.result);r.readAsText(file);}
 
 function parseCSV(text){
   const lines=text.split(/\r?\n/).filter(l=>l.trim());
-  if(lines.length<2){alert('CSV empty or invalid!');return;}
+  if(lines.length<2){showToast('CSV empty or invalid!','error');return;}
   const delim=lines[0].includes('\t')?'\t':',';
-  const headers=lines[0].split(delim).map(h=>h.trim().replace(/^"|"$/g,'').trim());
+  const headers=lines[0].split(delim).map(h=>h.trim().replace(/^"|"$/g,''));
   const colEmp=document.getElementById('colEmpCode').value.trim();
   const colDate=document.getElementById('colDate').value.trim();
   const colIn=document.getElementById('colIn').value.trim();
   const colSt=document.getElementById('colStatus').value.trim();
   const findCol=name=>{let idx=headers.findIndex(h=>h.toLowerCase()===name.toLowerCase());if(idx===-1)idx=headers.findIndex(h=>h.toLowerCase().includes(name.toLowerCase()));return idx;};
   const iEmp=findCol(colEmp),iDate=findCol(colDate),iIn=findCol(colIn),iSt=findCol(colSt);
-  if(iEmp===-1||iDate===-1){alert(`Column "${colEmp}" or "${colDate}" not found!\n\nAvailable: ${headers.join(', ')}`);return;}
+  if(iEmp===-1||iDate===-1){showToast(`Column "${colEmp}" or "${colDate}" not found!`,'error');return;}
   const devMap={};
   employees.forEach((emp,idx)=>{if(emp.deviceCode&&emp.deviceCode.trim())devMap[emp.deviceCode.trim().toUpperCase()]={emp,idx};});
   parsedRows=[];
@@ -380,12 +522,10 @@ function parseCSV(text){
     const inTime=iIn>=0?(cols[iIn]||'').trim():'';
     const status=iSt>=0?(cols[iSt]||'').trim():'';
     if(!devCode||!rawDate)continue;
-    const isoDate=parseDate(rawDate);
-    if(!isoDate)continue;
+    const isoDate=parseDate(rawDate);if(!isoDate)continue;
     dates.add(isoDate);empsFound.add(devCode);
     const match=devMap[devCode];
-    const attStatus=determineStatus(status,inTime);
-    parsedRows.push({devCode,rawDate,isoDate,inTime,status,attStatus,matched:!!match,emp:match?match.emp:null,empIdx:match?match.idx:-1});
+    parsedRows.push({devCode,rawDate,isoDate,inTime,status,attStatus:determineStatus(status,inTime),matched:!!match,emp:match?match.emp:null,empIdx:match?match.idx:-1});
     if(!match)unmatched.add(devCode);
   }
   const matched=parsedRows.filter(r=>r.matched).length;
@@ -394,181 +534,193 @@ function parseCSV(text){
   document.getElementById('stTotal').textContent=parsedRows.length;
   document.getElementById('stDates').textContent=dates.size;
   document.getElementById('stEmps').textContent=empsFound.size;
-  document.getElementById('statsSection').style.display='block';
+  document.getElementById('statsSection').style.display='grid';
   document.getElementById('previewSection').style.display='block';
   document.getElementById('applyBtn').style.display='inline-flex';
   const filterEmp=document.getElementById('filterEmp');
   filterEmp.innerHTML='<option value="">All Employees</option>';
-  [...empsFound].forEach(code=>{const match=devMap[code];filterEmp.innerHTML+=`<option value="${code}">${match?`${match.emp.fName} ${match.emp.lName} (${code})`:`❓ ${code}`}</option>`;});
+  [...empsFound].forEach(code=>{const m=devMap[code];filterEmp.innerHTML+=`<option value="${code}">${m?`${m.emp.fName} ${m.emp.lName} (${code})`:`❓ ${code}`}</option>`;});
   const unmSec=document.getElementById('unmatchedSection');
-  if(unmatched.size>0){unmSec.style.display='block';document.getElementById('unmatchedList').innerHTML=[...unmatched].map(code=>`<span style="background:#fef2f2;color:#ef4444;border:1px solid #fecaca;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:800;">${code}</span>`).join('');}
+  if(unmatched.size>0){unmSec.style.display='block';document.getElementById('unmatchedList').innerHTML=[...unmatched].map(c=>`<span style="background:#fff;border:1.5px solid #fecaca;color:#dc2626;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:800;font-family:'JetBrains Mono',monospace;">${c}</span>`).join('');}
   else unmSec.style.display='none';
   renderPreview();
+  showToast(`${parsedRows.length} records loaded — ${matched} matched`,'success');
 }
 
 function determineStatus(statusStr,inTime){
   const s=(statusStr||'').toUpperCase().trim();
-  if(s.includes('A')||s==='ABSENT')return'A';
-  if(s.includes('WO')||s.includes('WEEKOFF'))return'WO';
-  if(s.includes('HD')||s.includes('HOLIDAY'))return'HD';
-  if(s.includes('H')||s.includes('HALF'))return'H';
-  if(s.includes('L')||s.includes('LEAVE'))return'L';
+  if(s.includes('ABSENT')||s==='A')return'A';
+  if(s.includes('WEEKOFF')||s.includes('WO'))return'WO';
+  if(s.includes('HOLIDAY')||s.includes('HD'))return'HD';
+  if(s.includes('HALF')||s.includes('HD'))return'H';
+  if(s.includes('LEAVE')||s==='L')return'L';
   if(inTime&&inTime.trim())return'P';
   return'P';
 }
-
 function parseDate(raw){
   if(!raw||!raw.trim())return null;
   if(/^\d{4}-\d{2}-\d{2}/.test(raw))return raw.substring(0,10);
-  const m1=raw.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
-  if(m1)return`${m1[3]}-${m1[2].padStart(2,'0')}-${m1[1].padStart(2,'0')}`;
+  const m=raw.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
+  if(m)return`${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`;
   const d=new Date(raw);if(!isNaN(d))return d.toISOString().substring(0,10);
   return null;
 }
 
 function renderPreview(){
-  const filterEmp=document.getElementById('filterEmp').value;
-  const filterStatus=document.getElementById('filterStatus').value;
+  const fEmp=document.getElementById('filterEmp').value;
+  const fSt=document.getElementById('filterStatus').value;
   let rows=parsedRows;
-  if(filterEmp)rows=rows.filter(r=>r.devCode===filterEmp.toUpperCase());
-  if(filterStatus==='matched')rows=rows.filter(r=>r.matched);
-  if(filterStatus==='unmatched')rows=rows.filter(r=>!r.matched);
-  const statusColors={P:'badge-green',A:'badge-red',H:'badge-yellow',L:'badge-yellow',WO:'badge-gray',OH:'badge-blue',HD:'badge-blue'};
-  const statusLabels={P:'Present',A:'Absent',H:'Half Day',L:'Leave',WO:'Week Off',OH:'On Holiday',HD:'Holiday'};
+  if(fEmp)rows=rows.filter(r=>r.devCode===fEmp.toUpperCase());
+  if(fSt==='matched')rows=rows.filter(r=>r.matched);
+  if(fSt==='unmatched')rows=rows.filter(r=>!r.matched);
+  const statusBadge={P:'badge-green',A:'badge-red',H:'badge-yellow',L:'badge-yellow',WO:'badge-gray',HD:'badge-blue'};
+  const statusLabel={P:'Present',A:'Absent',H:'Half Day',L:'Leave',WO:'Week Off',HD:'Holiday'};
   document.getElementById('previewBody').innerHTML=rows.slice(0,200).map((r,i)=>`
     <tr>
-      <td style="color:#94a3b8;">${i+1}</td>
-      <td style="font-weight:900;color:#7c3aed;">${r.devCode}</td>
-      <td style="font-weight:800;color:${r.matched?'#1e293b':'#ef4444'};">${r.matched?`${r.emp.fName} ${r.emp.lName}`:'Not Found'}</td>
-      <td>${r.isoDate}</td>
+      <td style="color:#94a3b8;font-size:10px;font-weight:800;">${i+1}</td>
+      <td style="font-weight:900;color:#8b5cf6;font-family:'JetBrains Mono',monospace;">${r.devCode}</td>
+      <td style="font-weight:700;color:${r.matched?'#0f172a':'#ef4444'};">${r.matched?`${r.emp.fName} ${r.emp.lName}`:'Not Found'}</td>
+      <td style="font-family:'JetBrains Mono',monospace;">${r.isoDate}</td>
       <td style="color:#64748b;">${r.inTime||'—'}</td>
-      <td><span class="badge ${statusColors[r.attStatus]||'badge-gray'}">${statusLabels[r.attStatus]||r.attStatus}</span></td>
-      <td>${r.matched?'<span class="badge badge-green">✓</span>':'<span class="badge badge-red">✗</span>'}</td>
-    </tr>`).join('')||'<tr><td colspan="7" style="padding:16px;text-align:center;color:#94a3b8;">No records</td></tr>';
+      <td><span class="badge ${statusBadge[r.attStatus]||'badge-gray'}">${statusLabel[r.attStatus]||r.attStatus}</span></td>
+      <td>${r.matched?'<span class="badge badge-green">✓ Match</span>':'<span class="badge badge-red">✗ No Match</span>'}</td>
+    </tr>`).join('')||'<tr><td colspan="7" style="text-align:center;padding:24px;color:#94a3b8;font-weight:700;">No records to show</td></tr>';
 }
 
 function applyToAttendance(){
   const matched=parsedRows.filter(r=>r.matched);
-  if(!matched.length){alert('No matched records to apply!');return;}
+  if(!matched.length){showToast('No matched records to apply!','error');return;}
   let att=JSON.parse(localStorage.getItem('attendance')||'{}');
   let applied=0;
-  matched.forEach(r=>{
-    const empKey=String(r.emp.id||r.empIdx);
-    if(!att[empKey])att[empKey]={};
-    if(!att[empKey][r.isoDate]){att[empKey][r.isoDate]=r.attStatus;applied++;}
-  });
+  matched.forEach(r=>{const k=String(r.emp.id||r.empIdx);if(!att[k])att[k]={};if(!att[k][r.isoDate]){att[k][r.isoDate]=r.attStatus;applied++;}});
   localStorage.setItem('attendance',JSON.stringify(att));
   document.getElementById('successBanner').style.display='flex';
-  document.getElementById('successText').textContent=`${applied} entries applied. ${matched.length-applied} already had manual data (preserved).`;
+  document.getElementById('successText').textContent=`${applied} new entries applied. ${matched.length-applied} skipped (manual data preserved).`;
   document.getElementById('previewSection').style.display='none';
   document.getElementById('statsSection').style.display='none';
   document.getElementById('applyBtn').style.display='none';
   parsedRows=[];
+  showToast(`${applied} attendance records applied!`,'success');
 }
 
-function switchTab(tab){
-  document.getElementById('section-csv').style.display=tab==='csv'?'block':'none';
-  document.getElementById('section-db').style.display=tab==='db'?'block':'none';
-  document.getElementById('tab-csv').style.background=tab==='csv'?'#1d4ed8':'transparent';
-  document.getElementById('tab-csv').style.color=tab==='csv'?'#fff':'#64748b';
-  document.getElementById('tab-db').style.background=tab==='db'?'#1d4ed8':'transparent';
-  document.getElementById('tab-db').style.color=tab==='db'?'#fff':'#64748b';
+function clearImported(){
+  parsedRows=[];
+  ['previewSection','successBanner','unmatchedSection'].forEach(id=>{document.getElementById(id).style.display='none';});
+  document.getElementById('statsSection').style.display='none';
+  document.getElementById('applyBtn').style.display='none';
+  document.getElementById('fileInput').value='';
 }
 
+// ── DB CONNECT ──
+async function autoReconnect(){
+  const url=document.getElementById('dbBridgeUrl').value.trim();
+  const st=document.getElementById('dbStatus');
+  st.textContent='Reconnecting...';st.style.background='rgba(251,191,36,.2)';st.style.color='#fbbf24';st.style.borderColor='rgba(251,191,36,.35)';
+  try{
+    const res=await fetch(url+'/api/test',{signal:AbortSignal.timeout(4000)});
+    const d=await res.json();
+    if(d.success){setDBStatus(true);}else{setDBStatus(false);}
+  }catch(e){setDBStatus(false);}
+}
+function setDBStatus(connected){
+  const st=document.getElementById('dbStatus');
+  if(connected){st.textContent='✓ Connected';st.style.background='rgba(16,185,129,.2)';st.style.color='#6ee7b7';st.style.borderColor='rgba(16,185,129,.35)';showDBButtons(true);}
+  else{st.textContent='Disconnected';st.style.background='rgba(239,68,68,.2)';st.style.color='#fca5a5';st.style.borderColor='rgba(239,68,68,.35)';showDBButtons(false);}
+}
+function showDBButtons(show){
+  ['btnFetchDB','btnFetchAll','btnTables','btnPreview','btnDiag'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=show?'inline-flex':'none';});
+}
 async function testDBConnection(){
   const url=document.getElementById('dbBridgeUrl').value.trim();
   const st=document.getElementById('dbStatus');
   st.textContent='Testing...';st.style.background='rgba(251,191,36,.2)';st.style.color='#fbbf24';
   try{
-    const res=await fetch(url+'/api/test');const data=await res.json();
-    if(data.success){
-      st.textContent='✓ Connected';st.style.background='rgba(22,163,74,.2)';st.style.color='#4ade80';
-      showDBButtons(true);
-      localStorage.setItem('dbWasConnected','true');localStorage.setItem('dbBridgeUrl',url);
-      localStorage.setItem('dbTable',document.getElementById('dbTable').value);
-      alert('✅ Connected!\n\nDiagnose button click karo to check data.');
-    }else{st.textContent='✗ Failed';st.style.background='rgba(239,68,68,.2)';st.style.color='#f87171';localStorage.removeItem('dbWasConnected');alert('❌ Failed: '+data.error);}
-  }catch(e){st.textContent='✗ No Bridge';st.style.background='rgba(239,68,68,.2)';st.style.color='#f87171';localStorage.removeItem('dbWasConnected');alert('❌ Bridge server not running!\n\nnode server.js\n\n'+e.message);}
+    const res=await fetch(url+'/api/test');const d=await res.json();
+    if(d.success){
+      setDBStatus(true);
+      localStorage.setItem('dbWasConnected','true');localStorage.setItem('dbBridgeUrl',url);localStorage.setItem('dbTable',document.getElementById('dbTable').value);
+      showToast('Connected! Diagnose button click karo.','success');
+    }else{setDBStatus(false);showToast('Connection failed: '+d.error,'error');}
+  }catch(e){setDBStatus(false);showToast('Bridge server not running! node server.js\n'+e.message,'error');}
 }
-
 async function fetchFromDB(noDateFilter=false){
   const url=document.getElementById('dbBridgeUrl').value.trim();
   const tbl=document.getElementById('dbTable').value.trim();
   const from=noDateFilter?'':document.getElementById('dbFrom').value;
   const to=noDateFilter?'':document.getElementById('dbTo').value;
   const sec=document.getElementById('dbResultSection');
-  sec.innerHTML='<div style="background:#fff;border-radius:12px;padding:20px;text-align:center;color:#64748b;font-weight:700;text-transform:uppercase;">Fetching...</div>';
-  sec.style.display='block';
+  sec.innerHTML='<div class="card" style="text-align:center;padding:32px;color:#94a3b8;font-weight:700;text-transform:uppercase;">Fetching data from SQL Server...</div>';
   try{
     const res=await fetch(url+'/api/attendance',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fromDate:from,toDate:to,table:tbl})});
     const data=await res.json();
-    if(!data.success){sec.innerHTML=`<div style="background:#fef2f2;border-radius:12px;padding:20px;border:1px solid #fecaca;"><div style="color:#ef4444;font-weight:800;">${data.error}</div></div>`;return;}
+    if(!data.success){sec.innerHTML=`<div class="card" style="border-left:4px solid #ef4444;"><div style="color:#ef4444;font-weight:800;">${data.error}</div></div>`;return;}
     parsedRows=data.attendance.map(r=>({devCode:r.devCode.toUpperCase(),rawDate:r.date,isoDate:r.date,inTime:r.inTime,status:'',attStatus:r.status,matched:false,emp:null,empIdx:-1}));
-    const devMap={};
-    employees.forEach((emp,idx)=>{if(emp.deviceCode&&emp.deviceCode.trim())devMap[emp.deviceCode.trim().toUpperCase()]={emp,idx};});
-    const unmatched=new Set(),empsFound=new Set(),dates=new Set();
-    parsedRows.forEach(r=>{empsFound.add(r.devCode);dates.add(r.isoDate);const match=devMap[r.devCode];if(match){r.matched=true;r.emp=match.emp;r.empIdx=match.idx;}else unmatched.add(r.devCode);});
+    const devMap={};employees.forEach((emp,idx)=>{if(emp.deviceCode&&emp.deviceCode.trim())devMap[emp.deviceCode.trim().toUpperCase()]={emp,idx};});
+    const unmatched=new Set();
+    parsedRows.forEach(r=>{const m=devMap[r.devCode];if(m){r.matched=true;r.emp=m.emp;r.empIdx=m.idx;}else unmatched.add(r.devCode);});
     const matched=parsedRows.filter(r=>r.matched).length;
-    sec.innerHTML=`<div style="background:#fff;border-radius:12px;padding:18px 22px;border:1px solid #f1f5f9;margin-bottom:14px;">
-      <div style="font-size:13px;font-weight:900;text-transform:uppercase;color:#1e293b;margin-bottom:14px;">📊 DB Fetch Results — ${data.count} Records</div>
-      ${unmatched.size?`<div style="background:#fef2f2;border-radius:8px;padding:10px 14px;border:1px solid #fecaca;margin-bottom:10px;"><div style="font-size:9px;font-weight:800;color:#ef4444;text-transform:uppercase;margin-bottom:6px;">⚠ Unmatched</div><div style="display:flex;gap:6px;flex-wrap:wrap;">${[...unmatched].map(c=>`<span style="background:#fff;border:1px solid #fecaca;color:#ef4444;padding:3px 10px;border-radius:99px;font-size:10px;font-weight:800;">${c}</span>`).join('')}</div></div>`:''}
-      <button onclick="applyToAttendance()" class="btn btn-green"><span class="material-icons-round">sync</span>Apply ${matched} Records</button>
+    sec.innerHTML=`<div class="card">
+      <div class="card-hd"><div class="card-title">DB Fetch Results — ${data.count} Records</div></div>
+      <div class="g4" style="margin-bottom:16px;">
+        <div class="stat-box sb-blue"><div class="stat-icon si-blue"><span class="material-icons-round">list_alt</span></div><div class="stat-lbl">Total Records</div><div class="stat-val">${data.count}</div></div>
+        <div class="stat-box sb-green"><div class="stat-icon si-green"><span class="material-icons-round">check_circle</span></div><div class="stat-lbl">Matched</div><div class="stat-val">${matched}</div></div>
+        <div class="stat-box sb-red"><div class="stat-icon si-red"><span class="material-icons-round">cancel</span></div><div class="stat-lbl">Unmatched</div><div class="stat-val">${unmatched.size}</div></div>
+      </div>
+      ${unmatched.size?`<div style="background:#fef2f2;border-radius:12px;padding:14px;border:1px solid #fecaca;margin-bottom:14px;"><div style="font-size:10px;font-weight:800;color:#dc2626;text-transform:uppercase;margin-bottom:8px;">⚠ Unmatched Device Codes</div><div style="display:flex;gap:8px;flex-wrap:wrap;">${[...unmatched].map(c=>`<span style="background:#fff;border:1.5px solid #fecaca;color:#dc2626;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:800;font-family:'JetBrains Mono',monospace;">${c}</span>`).join('')}</div></div>`:''}
+      <button onclick="applyToAttendance()" class="btn btn-green"><span class="material-icons-round">sync</span>Apply ${matched} Matched Records</button>
     </div>`;
-  }catch(e){sec.innerHTML=`<div style="background:#fef2f2;border-radius:12px;padding:20px;"><div style="color:#ef4444;font-weight:800;">${e.message}</div></div>`;}
+    showToast(`${data.count} records fetched — ${matched} matched`,'success');
+  }catch(e){sec.innerHTML=`<div class="card" style="border-left:4px solid #ef4444;"><div style="color:#ef4444;font-weight:800;">Error: ${e.message}</div></div>`;showToast(e.message,'error');}
 }
-
 async function showDBTables(){
   const url=document.getElementById('dbBridgeUrl').value.trim();
-  try{const res=await fetch(url+'/api/tables');const data=await res.json();if(data.success)alert('📋 Tables:\n\n'+data.tables.join('\n'));}catch(e){alert('Error: '+e.message);}
+  try{const res=await fetch(url+'/api/tables');const d=await res.json();if(d.success)alert('📋 Available Tables:\n\n'+d.tables.join('\n'));}catch(e){showToast('Error: '+e.message,'error');}
 }
 async function previewTable(){
   const url=document.getElementById('dbBridgeUrl').value.trim();
   const tbl=document.getElementById('dbTable').value.trim();
-  const sec=document.getElementById('dbResultSection');sec.style.display='block';
-  sec.innerHTML='<div style="background:#fff;border-radius:12px;padding:16px;text-align:center;font-weight:700;color:#64748b;">Loading preview...</div>';
-  try{const res=await fetch(url+'/api/preview/'+tbl);const data=await res.json();if(!data.success){sec.innerHTML=`<div style="background:#fef2f2;border-radius:12px;padding:16px;color:#ef4444;">${data.error}</div>`;return;}
-    const cols=data.columns,rows=data.rows;
-    const colHtml=cols.map(c=>`<th style="padding:8px 12px;background:#1e293b;color:#fff;font-size:8px;text-transform:uppercase;white-space:nowrap;">${c}</th>`).join('');
-    const rowHtml=rows.map(r=>`<tr style="border-bottom:1px solid #f1f5f9;">${cols.map(c=>`<td style="padding:7px 12px;font-size:10px;color:#475569;white-space:nowrap;">${r[c]===null?'—':String(r[c]).substring(0,30)}</td>`).join('')}</tr>`).join('');
-    sec.innerHTML=`<div style="background:#fff;border-radius:12px;border:1px solid #f1f5f9;overflow:hidden;margin-bottom:14px;"><div style="background:#0f172a;padding:12px 18px;font-size:12px;font-weight:900;color:#fff;text-transform:uppercase;">📋 ${tbl}</div><div style="overflow-x:auto;-webkit-overflow-scrolling:touch;"><table style="width:100%;border-collapse:collapse;"><thead><tr>${colHtml}</tr></thead><tbody>${rowHtml}</tbody></table></div></div>`;
-  }catch(e){sec.innerHTML=`<div style="background:#fef2f2;border-radius:12px;padding:16px;"><div style="color:#ef4444;font-weight:800;">Error: ${e.message}</div></div>`;}
+  const sec=document.getElementById('dbResultSection');sec.innerHTML='<div class="card" style="text-align:center;padding:32px;color:#94a3b8;font-weight:700;">Loading preview...</div>';
+  try{
+    const res=await fetch(url+'/api/preview/'+tbl);const d=await res.json();
+    if(!d.success){sec.innerHTML=`<div class="card" style="border-left:4px solid #ef4444;"><div style="color:#ef4444;font-weight:800;">${d.error}</div></div>`;return;}
+    const cols=d.columns,rows=d.rows;
+    sec.innerHTML=`<div class="card"><div class="card-hd"><div class="card-title">📋 Table Preview — ${tbl}</div><span class="badge badge-blue">${cols.length} Columns</span></div>
+      <div class="tbl-wrap"><table class="dtbl" style="min-width:0;">
+        <thead><tr>${cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead>
+        <tbody>${rows.map(r=>`<tr>${cols.map(c=>`<td>${r[c]===null?'—':String(r[c]).substring(0,30)}</td>`).join('')}</tr>`).join('')}</tbody>
+      </table></div></div>`;
+  }catch(e){showToast('Error: '+e.message,'error');}
 }
 async function diagnoseTable(){
   const url=document.getElementById('dbBridgeUrl').value.trim();
   const tbl=document.getElementById('dbTable').value.trim();
-  const sec=document.getElementById('dbResultSection');sec.style.display='block';
-  sec.innerHTML='<div style="background:#fff;border-radius:12px;padding:16px;text-align:center;font-weight:700;color:#64748b;">Diagnosing...</div>';
+  const sec=document.getElementById('dbResultSection');sec.innerHTML='<div class="card" style="text-align:center;padding:32px;color:#94a3b8;font-weight:700;">Diagnosing...</div>';
   try{
     const res=await fetch(url+'/api/diagnose/'+tbl);const d=await res.json();
     if(!d.success){previewTable();return;}
     const minD=d.dateRange?.min?new Date(d.dateRange.min).toLocaleDateString('en-IN'):'—';
     const maxD=d.dateRange?.max?new Date(d.dateRange.max).toLocaleDateString('en-IN'):'—';
-    sec.innerHTML=`<div style="background:#fff;border-radius:12px;border:1px solid #f1f5f9;overflow:hidden;margin-bottom:14px;">
-      <div style="background:${d.totalRows>0?'linear-gradient(135deg,#065f46,#16a34a)':'linear-gradient(135deg,#7f1d1d,#ef4444)'};padding:12px 18px;display:flex;align-items:center;gap:10px;">
-        <span class="material-icons-round" style="color:#fff;">${d.totalRows>0?'check_circle':'warning'}</span>
-        <span style="font-size:13px;font-weight:900;color:#fff;text-transform:uppercase;">${d.totalRows>0?'Data Found':'Empty'} — ${tbl}</span>
+    sec.innerHTML=`<div class="card">
+      <div class="card-hd">
+        <div class="card-title">🔍 Diagnose — ${tbl}</div>
+        <span class="badge ${d.totalRows>0?'badge-green':'badge-red'}">${d.totalRows>0?'Data Found':'Empty Table'}</span>
       </div>
-      <div style="padding:18px 22px;">
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:16px;">
-          <div style="background:#f8fafc;border-radius:10px;padding:14px;text-align:center;border-left:3px solid #2563eb;"><div style="font-size:28px;font-weight:900;color:#2563eb;">${d.totalRows.toLocaleString()}</div><div style="font-size:9px;color:#94a3b8;text-transform:uppercase;">Total Rows</div></div>
-          <div style="background:#f8fafc;border-radius:10px;padding:14px;text-align:center;border-left:3px solid #16a34a;"><div style="font-size:14px;font-weight:900;color:#16a34a;">${minD}</div><div style="font-size:9px;color:#94a3b8;text-transform:uppercase;">Oldest</div></div>
-          <div style="background:#f8fafc;border-radius:10px;padding:14px;text-align:center;border-left:3px solid #f97316;"><div style="font-size:14px;font-weight:900;color:#f97316;">${maxD}</div><div style="font-size:9px;color:#94a3b8;text-transform:uppercase;">Latest</div></div>
-        </div>
-        ${d.sampleUserIds?.length?`<div style="background:#f5f3ff;border-radius:8px;padding:10px 14px;margin-bottom:14px;border:1px solid #ddd6fe;"><div style="font-size:9px;font-weight:800;color:#7c3aed;text-transform:uppercase;margin-bottom:6px;">Sample Device Codes</div><div style="display:flex;gap:8px;flex-wrap:wrap;">${d.sampleUserIds.map(u=>`<span style="background:#ede9fe;color:#7c3aed;padding:3px 12px;border-radius:99px;font-size:11px;font-weight:800;">${u}</span>`).join('')}</div></div>`:''}
-        ${d.totalRows>0?`<button onclick="fetchFromDB(true)" class="btn btn-green"><span class="material-icons-round">download_for_offline</span>Fetch All Data</button>`:''}
+      <div class="g4" style="margin-bottom:16px;">
+        <div class="stat-box sb-blue"><div class="stat-icon si-blue"><span class="material-icons-round">list_alt</span></div><div class="stat-lbl">Total Rows</div><div class="stat-val">${d.totalRows.toLocaleString()}</div></div>
+        <div class="stat-box sb-green"><div class="stat-icon si-green"><span class="material-icons-round">event</span></div><div class="stat-lbl">Oldest Record</div><div class="stat-val" style="font-size:14px;">${minD}</div></div>
+        <div class="stat-box sb-orange"><div class="stat-icon si-orange"><span class="material-icons-round">event</span></div><div class="stat-lbl">Latest Record</div><div class="stat-val" style="font-size:14px;">${maxD}</div></div>
       </div>
+      ${d.sampleUserIds?.length?`<div style="background:#f5f3ff;border-radius:12px;padding:14px;border:1px solid #ddd6fe;margin-bottom:14px;"><div style="font-size:10px;font-weight:800;color:#7c3aed;text-transform:uppercase;margin-bottom:8px;">Sample Device Codes in DB</div><div style="display:flex;gap:8px;flex-wrap:wrap;">${d.sampleUserIds.map(u=>`<span style="background:#ede9fe;color:#7c3aed;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:800;font-family:'JetBrains Mono',monospace;">${u}</span>`).join('')}</div></div>`:''}
+      ${d.totalRows>0?`<button onclick="fetchFromDB(true)" class="btn btn-green"><span class="material-icons-round">download_for_offline</span>Fetch All ${d.totalRows.toLocaleString()} Records</button>`:''}
     </div>`;
   }catch(e){previewTable();}
 }
 
-function clearImported(){
-  parsedRows=[];
-  document.getElementById('previewSection').style.display='none';
-  document.getElementById('statsSection').style.display='none';
-  document.getElementById('applyBtn').style.display='none';
-  document.getElementById('successBanner').style.display='none';
-  document.getElementById('fileInput').value='';
-  document.getElementById('unmatchedSection').style.display='none';
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');t.className='toast '+type;
+  document.getElementById('toastIcon').textContent=type==='success'?'check_circle':'error';
+  document.getElementById('toastMsg').textContent=msg;
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);
 }
 </script>
 </body>
