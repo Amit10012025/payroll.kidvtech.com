@@ -3,96 +3,275 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>KIDV Tech | Shifts</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<script>if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}</script>
 <style>
+:root{
+  --sidebar-w:260px;
+  --navy:#07101f;
+  --blue:#2563eb;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--purple:#8b5cf6;--amber:#f59e0b;
+  --text-m:rgba(148,163,184,.65);--text-d:rgba(148,163,184,.32);
+  --border:rgba(255,255,255,.06);--border-b:rgba(255,255,255,.11);
+  --glass:rgba(255,255,255,.04);--glass-h:rgba(255,255,255,.08);
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f4f8;}
+html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflow:hidden;}
 .app{display:flex;height:100vh;}
-.sidebar{width:220px;min-width:220px;background:#fff;border-right:1px solid #e2e8f0;display:flex;flex-direction:column;padding:18px 12px;height:100vh;}
-.logo{display:flex;align-items:center;gap:10px;padding:6px 8px;margin-bottom:22px;}
-.logo-icon{width:36px;height:36px;background:#2563eb;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:900;box-shadow:0 4px 12px rgba(37,99,235,.28);}
-.logo-text{font-size:14px;font-weight:900;color:#1e293b;}.logo-text span{color:#2563eb;}
-.nav-sec{font-size:8px;color:#94a3b8;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:0 10px;margin:10px 0 4px;}
-.nav a{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;font-size:11px;font-weight:700;color:#64748b;text-decoration:none;margin-bottom:2px;text-transform:uppercase;letter-spacing:.03em;transition:all .15s;}
-.nav a:hover{background:#f1f5f9;color:#1e293b;}
-.nav a.active{background:#2563eb;color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.3);}
-.nav a .material-icons-round{font-size:16px;flex-shrink:0;}
-.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;}
-.topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
-.topbar h1{font-size:16px;font-weight:900;text-transform:uppercase;color:#1e293b;}
-.scroll{flex:1;overflow-y:auto;padding:20px 24px;}
-.scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
-.btn{display:flex;align-items:center;gap:5px;padding:8px 16px;border-radius:10px;font-size:11px;font-weight:800;border:none;cursor:pointer;transition:all .15s;text-transform:uppercase;font-family:'Plus Jakarta Sans',sans-serif;}
-.btn-blue{background:#2563eb;color:#fff;}.btn-blue:hover{background:#1d4ed8;}
-.btn-red{background:#fef2f2;color:#ef4444;border:1px solid #fee2e2;}.btn-red:hover{background:#fee2e2;}
-.btn-sm{padding:5px 10px;font-size:10px;border-radius:8px;}
+
+/* ═══ SIDEBAR ═══ */
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden;border-right:1px solid rgba(255,255,255,.05);box-shadow:8px 0 40px rgba(0,0,0,.35);}
+.sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:199;backdrop-filter:blur(6px);}
+.logo-area{position:relative;z-index:1;flex-shrink:0;overflow:hidden;background:#fff;border-bottom:1px solid rgba(255,255,255,.06);}
+.logo-area img{width:100%;height:auto;object-fit:cover;display:block;}
+.nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 10px 4px;position:relative;z-index:1;}
+.nav::-webkit-scrollbar{width:3px;}.nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:99px;}
+.nav-sec{font-size:8.5px;color:var(--text-d);font-weight:700;text-transform:uppercase;letter-spacing:.2em;padding:0 8px;margin:16px 0 5px;display:flex;align-items:center;gap:8px;}
+.nav-sec::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07);}
+.nav a{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:11px;font-size:11px;font-weight:600;color:var(--text-m);text-decoration:none;margin-bottom:1px;text-transform:uppercase;letter-spacing:.055em;transition:color .18s,background .18s,transform .18s;position:relative;}
+.nav a:hover{color:rgba(241,245,249,.9);background:rgba(255,255,255,.07);transform:translateX(2px);}
+.nav a.active{color:#fff;background:linear-gradient(120deg,rgba(37,99,235,.32) 0%,rgba(6,182,212,.18) 100%);border:1px solid rgba(59,130,246,.28);box-shadow:0 4px 20px rgba(37,99,235,.22),inset 0 1px 0 rgba(255,255,255,.09);}
+.nav a.active::after{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:55%;background:linear-gradient(180deg,#93c5fd,#22d3ee);border-radius:0 3px 3px 0;box-shadow:0 0 10px rgba(96,165,250,.8);}
+.ic{width:29px;height:29px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .18s;}
+.ic .material-icons-round{font-size:15px;}
+.ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
+.ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-int{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.ic-adm{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
+.nav a.active .ic{transform:scale(1.08);box-shadow:0 0 14px rgba(37,99,235,.4);}
+.nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
+.user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--glass);margin-bottom:8px;border:1px solid var(--border-b);}
+.user-av{width:33px;height:33px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.user-name{font-size:10.5px;font-weight:700;color:#fff;text-transform:uppercase;}
+.user-role{font-size:8px;color:var(--text-d);font-weight:500;text-transform:uppercase;margin-top:1px;}
+.logout-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:10px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);color:rgba(252,165,165,.8);font-size:10px;font-weight:700;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;}
+.logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;}
+.logout-btn .material-icons-round{font-size:14px;}
+
+/* ═══ MAIN ═══ */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:var(--sidebar-w);}
+.topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:13px 26px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:14px;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.topbar-left{display:flex;align-items:center;gap:13px;}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;}
+.menu-btn .material-icons-round{font-size:22px;}
+.page-title{font-size:15px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
+.page-sub{font-size:9.5px;color:#94a3b8;font-weight:500;margin-top:2px;letter-spacing:.05em;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.06em;font-family:'Outfit',sans-serif;white-space:nowrap;}
+.btn-blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 16px rgba(37,99,235,.32);}
+.btn-blue:hover{box-shadow:0 6px 22px rgba(37,99,235,.48);transform:translateY(-1px);}
+.btn-green{background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 4px 14px rgba(16,185,129,.3);}
+.btn-green:hover{transform:translateY(-1px);}
+.btn-ghost{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}
+.btn-ghost:hover{background:#e2e8f0;}
+.btn-sm{padding:6px 12px;font-size:10px;border-radius:8px;}
 .btn .material-icons-round{font-size:14px;}
-.shift-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
-.shift-card{background:#fff;border-radius:16px;border:1px solid #f1f5f9;padding:20px;position:relative;transition:all .2s;}
-.shift-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.08);}
-.sc-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
-.sc-icon{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;}
-.sc-name{font-size:14px;font-weight:900;color:#1e293b;text-transform:uppercase;}
-.sc-type{font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.06em;}
-.sc-info{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
-.sci{background:#f8fafc;border-radius:9px;padding:8px 10px;}
-.sci-l{font-size:7px;color:#94a3b8;text-transform:uppercase;font-weight:700;margin-bottom:2px;}
-.sci-v{font-size:11px;color:#1e293b;font-weight:800;text-transform:uppercase;}
-.sc-actions{display:flex;gap:6px;justify-content:flex-end;}
-.emp-count{display:inline-flex;align-items:center;gap:4px;background:#eff6ff;color:#2563eb;border-radius:99px;padding:3px 10px;font-size:9px;font-weight:800;text-transform:uppercase;cursor:pointer;}
-.emp-count:hover{background:#dbeafe;}
-.panel-overlay{position:fixed;inset:0;background:rgba(15,23,42,.5);backdrop-filter:blur(4px);z-index:100;display:flex;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .25s;}
+
+.scroll{flex:1;overflow-y:auto;padding:20px 26px;}
+.scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+
+/* ═══ SHIFT GRID ═══ */
+.shift-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:15px;}
+
+/* SHIFT CARD */
+.shift-card{
+  background:#fff;border-radius:18px;
+  border:1px solid #ecf0f6;
+  padding:20px;position:relative;
+  transition:all .22s;
+  box-shadow:0 1px 4px rgba(0,0,0,.04);
+  animation:fadeUp .38s ease both;
+  overflow:hidden;
+}
+.shift-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;transition:opacity .22s;opacity:0;}
+.shift-card:hover{transform:translateY(-3px);box-shadow:0 10px 32px rgba(0,0,0,.1);border-color:#dde4ef;}
+.shift-card:hover::before{opacity:1;}
+
+/* Type-based accent colors */
+.sc-general::before{background:linear-gradient(90deg,#2563eb,#06b6d4);}
+.sc-morning::before{background:linear-gradient(90deg,#f59e0b,#f97316);}
+.sc-afternoon::before{background:linear-gradient(90deg,#10b981,#06b6d4);}
+.sc-night::before{background:linear-gradient(90deg,#8b5cf6,#6366f1);}
+.sc-rotational::before{background:linear-gradient(90deg,#ef4444,#ec4899);}
+
+.sc-header{display:flex;align-items:center;gap:13px;margin-bottom:16px;padding-right:70px;}
+.sc-emoji{
+  width:46px;height:46px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;flex-shrink:0;
+}
+.sc-name{font-size:13px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.03em;}
+.sc-type-badge{
+  display:inline-flex;align-items:center;
+  padding:3px 9px;border-radius:99px;
+  font-size:8px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.06em;
+  margin-top:4px;
+}
+
+.card-actions{position:absolute;top:14px;right:14px;display:flex;gap:5px;}
+.card-action-btn{
+  width:30px;height:30px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid #ecf0f6;background:#f8fafc;
+  cursor:pointer;transition:all .18s;color:#64748b;
+}
+.card-action-btn:hover.edit{background:#fff7ed;color:#f59e0b;border-color:#fed7aa;}
+.card-action-btn:hover.del{background:#fef2f2;color:#ef4444;border-color:#fecaca;}
+.card-action-btn .material-icons-round{font-size:14px;}
+
+.sc-info{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:15px;}
+.sci{background:#f8fafc;border-radius:10px;padding:9px 11px;border:1px solid #f1f5f9;transition:background .15s;}
+.sci:hover{background:#f0f4f8;}
+.sci-l{font-size:7.5px;color:#94a3b8;text-transform:uppercase;font-weight:600;letter-spacing:.07em;margin-bottom:3px;}
+.sci-v{font-size:11px;color:#0f172a;font-weight:700;text-transform:uppercase;font-family:'JetBrains Mono',monospace;}
+
+.sc-footer{display:flex;align-items:center;justify-content:space-between;padding-top:13px;border-top:1px solid #f1f5f9;}
+.emp-count-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:#eff6ff;color:#2563eb;
+  border:1px solid #bfdbfe;
+  border-radius:99px;padding:5px 12px;
+  font-size:9px;font-weight:700;text-transform:uppercase;
+  cursor:pointer;transition:all .18s;
+}
+.emp-count-badge:hover{background:#dbeafe;box-shadow:0 2px 8px rgba(37,99,235,.2);}
+.emp-count-badge .material-icons-round{font-size:13px;}
+
+/* EMPTY STATE */
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;color:#94a3b8;text-align:center;grid-column:1/-1;}
+.empty-state .material-icons-round{font-size:64px;margin-bottom:14px;opacity:.35;}
+.empty-title{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
+.empty-sub{font-size:11px;font-weight:500;opacity:.7;}
+
+/* ═══ PANEL ═══ */
+.panel-overlay{position:fixed;inset:0;background:rgba(7,16,31,.65);backdrop-filter:blur(6px);z-index:500;display:flex;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .28s;}
 .panel-overlay.open{opacity:1;pointer-events:all;}
-.panel{width:500px;height:100vh;background:#fff;box-shadow:-10px 0 40px rgba(0,0,0,.12);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s;}
+.panel{width:520px;max-width:100vw;height:100vh;background:#fff;box-shadow:-12px 0 50px rgba(0,0,0,.18);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);}
 .panel-overlay.open .panel{transform:translateX(0);}
-.ph{padding:20px 22px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;background:#f8fafc;}
-.pt{font-size:14px;font-weight:900;text-transform:uppercase;font-style:italic;color:#1e293b;}
-.pscroll{flex:1;overflow-y:auto;padding:20px 22px;}
+.panel-header{padding:16px 22px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;background:#f8fafc;flex-shrink:0;}
+.panel-title{font-size:14px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.08em;}
+.xbtn{width:32px;height:32px;background:#f1f5f9;border:none;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;color:#64748b;}
+.xbtn:hover{background:#fef2f2;color:#ef4444;}
+.xbtn .material-icons-round{font-size:17px;}
+.pscroll{flex:1;overflow-y:auto;padding:22px;}
 .pscroll::-webkit-scrollbar{width:4px;}.pscroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
-.fl{font-size:8px;color:#64748b;font-weight:700;text-transform:uppercase;display:block;margin-bottom:5px;}
-input[type=text],input[type=time],input[type=number],select{width:100%;padding:10px 13px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;outline:none;transition:border .15s;}
-input:focus,select:focus{border-color:#2563eb;background:#fff;}
+
+/* Form fields */
+.fl{font-size:8.5px;font-weight:700;text-transform:uppercase;color:#64748b;letter-spacing:.07em;display:block;margin-bottom:5px;}
+.form-inp,.form-sel{width:100%;padding:10px 13px;border-radius:10px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;color:#1e293b;background:#f8fafc;outline:none;transition:all .15s;text-transform:uppercase;}
+.form-inp:focus,.form-sel:focus{border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
+.form-inp[readonly]{opacity:.55;cursor:not-allowed;}
 .fg{margin-bottom:14px;}
-.xbtn{width:30px;height:30px;background:#f1f5f9;border:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
-.xbtn:hover{background:#fee2e2;color:#ef4444;}
-.mo{position:fixed;inset:0;background:rgba(15,23,42,.6);backdrop-filter:blur(4px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}
+.form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+/* Shift type visual selector */
+.type-selector{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px;}
+.type-opt{
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  padding:10px 6px;border-radius:11px;border:1.5px solid #e2e8f0;
+  cursor:pointer;transition:all .18s;background:#f8fafc;
+}
+.type-opt:hover{border-color:#bfdbfe;background:#eff6ff;}
+.type-opt.selected{border-color:#2563eb;background:#eff6ff;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
+.type-opt-emoji{font-size:20px;}
+.type-opt-lbl{font-size:7.5px;font-weight:700;text-transform:uppercase;color:#64748b;letter-spacing:.04em;}
+.type-opt.selected .type-opt-lbl{color:#2563eb;}
+
+/* Save btn */
+.save-btn{width:100%;padding:13px;border-radius:14px;background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:none;cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 18px rgba(37,99,235,.35);margin-top:6px;}
+.save-btn:hover{box-shadow:0 6px 24px rgba(37,99,235,.5);transform:translateY(-1px);}
+.save-btn .material-icons-round{font-size:17px;}
+
+/* ═══ ASSIGN MODAL ═══ */
+.mo{position:fixed;inset:0;background:rgba(7,16,31,.65);backdrop-filter:blur(6px);z-index:600;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}
 .mo.open{opacity:1;pointer-events:all;}
-.mb{background:#fff;border-radius:20px;width:600px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 30px 70px rgba(0,0,0,.2);}
-.mh{padding:16px 20px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.mb{background:#fff;border-radius:20px;width:92%;max-width:580px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 30px 70px rgba(0,0,0,.22);transform:translateY(20px);transition:transform .25s;}
+.mo.open .mb{transform:translateY(0);}
+.mb::-webkit-scrollbar{width:4px;}
+.mh{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #f1f5f9;flex-shrink:0;border-radius:20px 20px 0 0;background:#f8fafc;}
 .mscroll{flex:1;overflow-y:auto;padding:16px 20px;}
 .mscroll::-webkit-scrollbar{width:4px;}.mscroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
-.emp-row{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:10px;border:1px solid #f1f5f9;margin-bottom:6px;cursor:pointer;transition:all .15s;}
+
+.emp-row{display:flex;align-items:center;justify-content:space-between;padding:10px 13px;border-radius:12px;border:1.5px solid #f1f5f9;margin-bottom:7px;cursor:pointer;transition:all .18s;}
 .emp-row:hover{background:#f8fafc;border-color:#e2e8f0;}
 .emp-row.assigned{background:#eff6ff;border-color:#bfdbfe;}
-.er-info{display:flex;align-items:center;gap:10px;}
-.er-av{width:32px;height:32px;border-radius:9px;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;}
-.er-name{font-size:11px;font-weight:800;text-transform:uppercase;color:#1e293b;}
-.er-job{font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;}
+.er-av{width:34px;height:34px;border-radius:10px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.er-nm{font-size:12px;font-weight:700;text-transform:uppercase;color:#0f172a;}
+.er-jb{font-size:8.5px;color:#94a3b8;font-weight:600;text-transform:uppercase;margin-top:1px;}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.2);}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{background:#065f46;border-left:4px solid #6ee7b7;}
+.toast.error{background:#7f1d1d;border-left:4px solid #fca5a5;}
+.toast .material-icons-round{font-size:16px;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);}
+  .sidebar-overlay.open{display:block;}
+  .main{margin-left:0!important;}
+  .menu-btn{display:flex!important;}
+  .topbar,.scroll{padding:11px 14px;}
+  .shift-grid{grid-template-columns:1fr;}
+  .type-selector{grid-template-columns:repeat(3,1fr);}
+}
 </style>
 </head>
-<body onload="loadShifts()">
+<body onload="init()">
+<div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
 <div class="app">
-<aside class="sidebar">
-  <div class="logo"><div class="logo-icon">K</div><div class="logo-text">KIDV <span>Tech</span></div></div>
+
+<!-- ═══ SIDEBAR ═══ -->
+<aside class="sidebar" id="sidebar">
+  <div class="logo-area"><img src="logo.png" alt="KIDV Tech"></div>
   <nav class="nav">
     <div class="nav-sec">Main</div>
-    <a href="index.html"><span class="material-icons-round">dashboard</span>Dashboard</a>
-    <a href="employees.html"><span class="material-icons-round">badge</span>Employees</a>
+    <a href="index.html"><span class="ic ic-main"><span class="material-icons-round">dashboard</span></span>Dashboard</a>
+    <a href="employees.html"><span class="ic ic-main"><span class="material-icons-round">badge</span></span>Employees</a>
     <div class="nav-sec">HR</div>
-    <a href="shifts.html" class="active"><span class="material-icons-round">schedule</span>Shifts</a>
-    <a href="holidays.html"><span class="material-icons-round">event</span>Holidays</a>
+    <a href="leave-management.html"><span class="ic ic-hr"><span class="material-icons-round">event_available</span></span>Leave</a>
+    <a href="shifts.html" class="active"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
+    <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
+    <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
     <div class="nav-sec">Operations</div>
-    <a href="attendance.html"><span class="material-icons-round">calendar_month</span>Attendance</a>
-    <a href="payroll.html"><span class="material-icons-round">receipt_long</span>Payroll</a>
+    <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
+    <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
+    <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
+    <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
     <div class="nav-sec">Integration</div>
-    <a href="device-manager.html"><span class="material-icons-round">device_hub</span>Device Manager</a>
+    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">device_hub</span></span>Device Manager</a>
+    <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
+    <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
+    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">shield</span></span>Roles &amp; Perms</a>
   </nav>
+  <div class="nav-bottom">
+    <div class="user-info">
+      <div class="user-av" id="sideAvatar">SA</div>
+      <div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Administrator</div></div>
+    </div>
+    <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
+  </div>
 </aside>
+
+<!-- ═══ MAIN ═══ -->
 <div class="main">
   <div class="topbar">
-    <h1>Shift Master</h1>
-    <button class="btn btn-blue" onclick="openPanel()"><span class="material-icons-round">add</span>Add Shift</button>
+    <div class="topbar-left">
+      <button class="menu-btn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
+      <div>
+        <div class="page-title">Shift Master</div>
+        <div class="page-sub" id="shiftCountSub">0 Shifts Configured</div>
+      </div>
+    </div>
+    <button class="btn btn-blue" onclick="openPanel()">
+      <span class="material-icons-round">add</span>Add Shift
+    </button>
   </div>
   <div class="scroll">
     <div id="shiftGrid" class="shift-grid"></div>
@@ -100,58 +279,149 @@ input:focus,select:focus{border-color:#2563eb;background:#fff;}
 </div>
 </div>
 
+<!-- ═══ ADD/EDIT PANEL ═══ -->
 <div id="panelOverlay" class="panel-overlay" onclick="if(event.target===this)closePanel()">
   <div class="panel">
-    <div class="ph">
-      <div class="pt" id="panelTitle">Add New Shift</div>
-      <button class="xbtn" onclick="closePanel()"><span class="material-icons-round" style="font-size:16px;">close</span></button>
+    <div class="panel-header">
+      <div class="panel-title" id="panelTitle">Add New Shift</div>
+      <button class="xbtn" onclick="closePanel()"><span class="material-icons-round">close</span></button>
     </div>
     <div class="pscroll">
       <input type="hidden" id="editIdx">
-      <div class="fg"><label class="fl">Shift Name *</label><input type="text" id="sName" placeholder="MORNING SHIFT"></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-        <div class="fg"><label class="fl">Start Time *</label><input type="time" id="sStart"></div>
-        <div class="fg"><label class="fl">End Time *</label><input type="time" id="sEnd"></div>
+
+      <div class="fg">
+        <label class="fl">Shift Name *</label>
+        <input type="text" class="form-inp" id="sName" placeholder="Morning Shift">
       </div>
-      <div class="fg"><label class="fl">Shift Type</label>
-        <select id="sType"><option>GENERAL</option><option>MORNING</option><option>AFTERNOON</option><option>NIGHT</option><option>ROTATIONAL</option></select>
+
+      <!-- Shift Type Visual Selector -->
+      <div class="fg">
+        <label class="fl">Shift Type</label>
+        <div class="type-selector" id="typeSel">
+          <div class="type-opt selected" data-type="GENERAL" onclick="selectType(this)"><span class="type-opt-emoji">🕐</span><span class="type-opt-lbl">General</span></div>
+          <div class="type-opt" data-type="MORNING" onclick="selectType(this)"><span class="type-opt-emoji">🌅</span><span class="type-opt-lbl">Morning</span></div>
+          <div class="type-opt" data-type="AFTERNOON" onclick="selectType(this)"><span class="type-opt-emoji">☀️</span><span class="type-opt-lbl">Afternoon</span></div>
+          <div class="type-opt" data-type="NIGHT" onclick="selectType(this)"><span class="type-opt-emoji">🌙</span><span class="type-opt-lbl">Night</span></div>
+          <div class="type-opt" data-type="ROTATIONAL" onclick="selectType(this)"><span class="type-opt-emoji">🔄</span><span class="type-opt-lbl">Rotation</span></div>
+        </div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-        <div class="fg"><label class="fl">Grace Time (Min)</label><input type="number" id="sGrace" value="10" min="0"></div>
-        <div class="fg"><label class="fl">Total Hours</label><input type="text" id="sHours" readonly placeholder="AUTO"></div>
+
+      <div class="form-grid-2">
+        <div class="fg"><label class="fl">Start Time *</label><input type="time" class="form-inp" id="sStart"></div>
+        <div class="fg"><label class="fl">End Time *</label><input type="time" class="form-inp" id="sEnd"></div>
       </div>
-      <div class="fg"><label class="fl">Week Off Day</label>
-        <select id="sWeekOff"><option>SUNDAY</option><option>MONDAY</option><option>SATURDAY</option><option>SUNDAY & SATURDAY</option></select>
+
+      <div class="form-grid-2">
+        <div class="fg"><label class="fl">Grace Time (Minutes)</label><input type="number" class="form-inp" id="sGrace" value="10" min="0"></div>
+        <div class="fg"><label class="fl">Total Hours (Auto)</label><input type="text" class="form-inp" id="sHours" readonly placeholder="Auto"></div>
       </div>
-      <div class="fg"><label class="fl">OT Calculation</label>
-        <select id="sOt"><option>AFTER SHIFT END</option><option>NOT APPLICABLE</option><option>DOUBLE RATE</option></select>
+
+      <div class="form-grid-2">
+        <div class="fg">
+          <label class="fl">Week Off Day</label>
+          <select class="form-sel" id="sWeekOff">
+            <option>SUNDAY</option>
+            <option>MONDAY</option>
+            <option>SATURDAY</option>
+            <option>SUNDAY &amp; SATURDAY</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label class="fl">OT Calculation</label>
+          <select class="form-sel" id="sOt">
+            <option>AFTER SHIFT END</option>
+            <option>NOT APPLICABLE</option>
+            <option>DOUBLE RATE</option>
+          </select>
+        </div>
       </div>
-      <div class="fg"><label class="fl">Description</label><input type="text" id="sDesc" placeholder="OPTIONAL"></div>
-      <button class="btn btn-blue" style="width:100%;justify-content:center;padding:12px;" onclick="saveShift()">Save Shift</button>
+
+      <div class="fg"><label class="fl">Description (Optional)</label><input type="text" class="form-inp" id="sDesc" placeholder="Brief description..."></div>
+
+      <button class="save-btn" onclick="saveShift()">
+        <span class="material-icons-round">save</span>Save Shift
+      </button>
     </div>
   </div>
 </div>
 
+<!-- ═══ ASSIGN MODAL ═══ -->
 <div id="assignModal" class="mo" onclick="if(event.target===this)closeAssign()">
   <div class="mb">
     <div class="mh">
       <div>
-        <div style="font-size:13px;font-weight:900;text-transform:uppercase;color:#1e293b;">Assign Employees</div>
-        <div id="assignShiftName" style="font-size:9px;color:#2563eb;font-weight:700;text-transform:uppercase;margin-top:2px;"></div>
+        <div style="font-size:13px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.05em;">Assign Employees</div>
+        <div id="assignShiftName" style="font-size:9px;color:#2563eb;font-weight:700;text-transform:uppercase;margin-top:2px;letter-spacing:.06em;"></div>
       </div>
       <div style="display:flex;gap:8px;align-items:center;">
-        <button class="btn btn-blue btn-sm" onclick="saveAssignments()"><span class="material-icons-round">save</span>Save</button>
+        <button class="btn btn-green btn-sm" onclick="saveAssignments()"><span class="material-icons-round">save</span>Save</button>
         <button class="xbtn" onclick="closeAssign()"><span class="material-icons-round" style="font-size:16px;">close</span></button>
       </div>
     </div>
+    <div style="padding:12px 20px;border-bottom:1px solid #f1f5f9;background:#f8fafc;">
+      <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid #e2e8f0;border-radius:9px;padding:8px 12px;">
+        <span class="material-icons-round" style="font-size:16px;color:#94a3b8;">search</span>
+        <input type="text" id="assignSearch" placeholder="Search employees..." oninput="filterAssignList()" style="border:none;background:transparent;font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;color:#1e293b;outline:none;width:100%;">
+      </div>
+    </div>
     <div class="mscroll" id="assignList"></div>
+    <div style="padding:12px 20px;border-top:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;background:#f8fafc;border-radius:0 0 20px 20px;">
+      <span id="assignCount" style="font-size:10px;font-weight:600;color:#94a3b8;text-transform:uppercase;"></span>
+      <button class="btn btn-green" onclick="saveAssignments()" style="padding:8px 18px;">
+        <span class="material-icons-round">check</span>Save Assignments
+      </button>
+    </div>
   </div>
 </div>
 
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="material-icons-round" id="toastIcon">check_circle</span>
+  <span id="toastMsg">Success</span>
+</div>
+
 <script>
+const TYPE_EMOJI={GENERAL:'🕐',MORNING:'🌅',AFTERNOON:'☀️',NIGHT:'🌙',ROTATIONAL:'🔄'};
+const TYPE_STYLES={
+  GENERAL:{bg:'#eff6ff',color:'#2563eb',badge:'background:#eff6ff;color:#2563eb;',cardClass:'sc-general'},
+  MORNING:{bg:'#fffbeb',color:'#d97706',badge:'background:#fffbeb;color:#d97706;',cardClass:'sc-morning'},
+  AFTERNOON:{bg:'#f0fdf4',color:'#10b981',badge:'background:#f0fdf4;color:#10b981;',cardClass:'sc-afternoon'},
+  NIGHT:{bg:'#f5f3ff',color:'#8b5cf6',badge:'background:#f5f3ff;color:#8b5cf6;',cardClass:'sc-night'},
+  ROTATIONAL:{bg:'#fef2f2',color:'#ef4444',badge:'background:#fef2f2;color:#ef4444;',cardClass:'sc-rotational'}
+};
+const AV_COLORS=['linear-gradient(135deg,#2563eb,#06b6d4)','linear-gradient(135deg,#8b5cf6,#ec4899)','linear-gradient(135deg,#10b981,#06b6d4)','linear-gradient(135deg,#f59e0b,#ef4444)','linear-gradient(135deg,#6366f1,#8b5cf6)','linear-gradient(135deg,#0891b2,#10b981)'];
+
 let currentAssignShiftIdx=null;
-document.getElementById('sStart').addEventListener('change',calcHours);
-document.getElementById('sEnd').addEventListener('change',calcHours);
+let allEmployees=[];
+
+function init(){
+  loadUserInfo();
+  allEmployees=JSON.parse(localStorage.getItem('employees')||'[]');
+  loadShifts();
+  // Attach time change listeners
+  document.getElementById('sStart').addEventListener('change',calcHours);
+  document.getElementById('sEnd').addEventListener('change',calcHours);
+}
+
+function loadUserInfo(){
+  const user=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+  if(user.name){
+    const p=user.name.trim().split(' ');
+    document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();
+    document.getElementById('sideName').textContent=user.name;
+    document.getElementById('sideRole').textContent=user.role||'Staff';
+  }
+  const role=(user.role||'').toLowerCase();
+  if(role==='super admin'||role==='admin'){
+    document.getElementById('adminNav').style.display='';
+    document.getElementById('usersLink').style.display='';
+    document.getElementById('rolesLink').style.display='';
+  }
+}
+function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');document.body.style.overflow='hidden';}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');document.body.style.overflow='';}
+
 function calcHours(){
   const s=document.getElementById('sStart').value,e=document.getElementById('sEnd').value;
   if(!s||!e)return;
@@ -159,88 +429,243 @@ function calcHours(){
   let mins=(eh*60+em)-(sh*60+sm);if(mins<0)mins+=1440;
   document.getElementById('sHours').value=Math.floor(mins/60)+'H '+(mins%60)+'M';
 }
-const COLORS=['#eff6ff:#2563eb','#f0fdf4:#16a34a','#fff7ed:#f97316','#fef2f2:#ef4444','#f5f3ff:#7c3aed','#fef9c3:#d97706'];
-const TYPE_EMOJI={GENERAL:'🕐',MORNING:'🌅',AFTERNOON:'☀️',NIGHT:'🌙',ROTATIONAL:'🔄'};
+
+function selectType(el){
+  document.querySelectorAll('.type-opt').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
 function loadShifts(){
   const shifts=JSON.parse(localStorage.getItem('shifts')||'[]');
+  document.getElementById('shiftCountSub').textContent=shifts.length+' Shift'+(shifts.length!==1?'s':'')+' Configured';
   const grid=document.getElementById('shiftGrid');
-  if(!shifts.length){grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#94a3b8;"><span class="material-icons-round" style="font-size:56px;display:block;margin-bottom:12px;">schedule</span><div style="font-size:14px;font-weight:700;text-transform:uppercase;">No Shifts Yet</div></div>`;return;}
-  const emps=JSON.parse(localStorage.getItem('employees')||'[]');
+  if(!shifts.length){
+    grid.innerHTML=`<div class="empty-state">
+      <span class="material-icons-round">schedule</span>
+      <div class="empty-title">No Shifts Configured</div>
+      <div class="empty-sub">Add your first shift to get started</div>
+    </div>`;
+    return;
+  }
   grid.innerHTML=shifts.map((s,i)=>{
-    const ci=i%COLORS.length;const[bg,acc]=COLORS[ci].split(':');
-    const assignedCount=emps.filter(e=>(e.assignedShift||'')==String(i)).length;
-    return `<div class="shift-card">
-      <div class="sc-header"><div class="sc-icon" style="background:${bg};color:${acc};">${TYPE_EMOJI[s.type]||'🕐'}</div><div><div class="sc-name">${s.name}</div><div class="sc-type">${s.type}</div></div></div>
-      <div class="sc-info">
-        <div class="sci"><div class="sci-l">Start Time</div><div class="sci-v">${s.start}</div></div>
-        <div class="sci"><div class="sci-l">End Time</div><div class="sci-v">${s.end}</div></div>
-        <div class="sci"><div class="sci-l">Total Hours</div><div class="sci-v">${s.hours||'--'}</div></div>
-        <div class="sci"><div class="sci-l">Grace Time</div><div class="sci-v">${s.grace} Min</div></div>
-        <div class="sci"><div class="sci-l">Week Off</div><div class="sci-v">${s.weekoff}</div></div>
-        <div class="sci"><div class="sci-l">OT Rule</div><div class="sci-v">${s.ot}</div></div>
+    const ts=TYPE_STYLES[s.type]||TYPE_STYLES.GENERAL;
+    const assignedCount=allEmployees.filter(e=>(e.assignedShift||'')==String(i)).length;
+    const animDelay=i*0.06;
+    return `<div class="shift-card ${ts.cardClass}" style="animation-delay:${animDelay}s">
+      <div class="card-actions">
+        <button class="card-action-btn edit" onclick="editShift(${i})" title="Edit"><span class="material-icons-round">edit</span></button>
+        <button class="card-action-btn del" onclick="delShift(${i})" title="Delete"><span class="material-icons-round">delete</span></button>
       </div>
-      ${s.desc?`<div style="font-size:9px;color:#94a3b8;margin-bottom:10px;text-transform:uppercase;">${s.desc}</div>`:''}
-      <div style="display:flex;align-items:center;justify-content:space-between;">
-        <span class="emp-count" onclick="openAssign(${i})"><span class="material-icons-round" style="font-size:12px;">group</span>${assignedCount} Employee${assignedCount!==1?'s':''}</span>
-        <div class="sc-actions">
-          <button class="btn btn-sm" style="background:#f8fafc;border:1px solid #e2e8f0;" onclick="editShift(${i})"><span class="material-icons-round" style="font-size:13px;">edit</span></button>
-          <button class="btn btn-sm btn-red" onclick="delShift(${i})"><span class="material-icons-round" style="font-size:13px;">delete</span></button>
+      <div class="sc-header">
+        <div class="sc-emoji" style="background:${ts.bg};">${TYPE_EMOJI[s.type]||'🕐'}</div>
+        <div>
+          <div class="sc-name">${s.name}</div>
+          <span class="sc-type-badge" style="${ts.badge}">${s.type}</span>
         </div>
+      </div>
+      <div class="sc-info">
+        <div class="sci"><div class="sci-l">Start Time</div><div class="sci-v">${fmtTime(s.start)}</div></div>
+        <div class="sci"><div class="sci-l">End Time</div><div class="sci-v">${fmtTime(s.end)}</div></div>
+        <div class="sci"><div class="sci-l">Total Hours</div><div class="sci-v">${s.hours||'—'}</div></div>
+        <div class="sci"><div class="sci-l">Grace Time</div><div class="sci-v">${s.grace} Min</div></div>
+        <div class="sci"><div class="sci-l">Week Off</div><div class="sci-v" style="font-size:10px;">${s.weekoff}</div></div>
+        <div class="sci"><div class="sci-l">OT Rule</div><div class="sci-v" style="font-size:9px;">${s.ot}</div></div>
+      </div>
+      ${s.desc?`<div style="font-size:9px;color:#94a3b8;margin-bottom:12px;text-transform:uppercase;font-weight:600;padding:6px 10px;background:#f8fafc;border-radius:7px;">${s.desc}</div>`:''}
+      <div class="sc-footer">
+        <span class="emp-count-badge" onclick="openAssign(${i})">
+          <span class="material-icons-round">group</span>
+          ${assignedCount} Employee${assignedCount!==1?'s':''}
+        </span>
+        <div style="font-size:9px;color:#94a3b8;font-weight:600;font-family:'JetBrains Mono',monospace;">${s.start||'--'} – ${s.end||'--'}</div>
       </div>
     </div>`;
   }).join('');
 }
-function openPanel(title='Add New Shift'){document.getElementById('panelTitle').textContent=title;document.getElementById('panelOverlay').classList.add('open');}
-function closePanel(){document.getElementById('panelOverlay').classList.remove('open');document.getElementById('editIdx').value='';['sName','sStart','sEnd','sGrace','sHours','sDesc'].forEach(id=>document.getElementById(id).value='');document.getElementById('sGrace').value=10;}
+
+function fmtTime(t){
+  if(!t) return '—';
+  const [h,m]=t.split(':').map(Number);
+  const ampm=h<12?'AM':'PM';
+  const hh=h%12||12;
+  return `${hh}:${String(m).padStart(2,'0')} ${ampm}`;
+}
+
+// ─── PANEL ───
+function openPanel(title='Add New Shift'){
+  document.getElementById('panelTitle').textContent=title;
+  document.getElementById('panelOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closePanel(){
+  document.getElementById('panelOverlay').classList.remove('open');
+  document.body.style.overflow='';
+  document.getElementById('editIdx').value='';
+  document.getElementById('sName').value='';
+  document.getElementById('sStart').value='';
+  document.getElementById('sEnd').value='';
+  document.getElementById('sGrace').value=10;
+  document.getElementById('sHours').value='';
+  document.getElementById('sDesc').value='';
+  document.getElementById('sWeekOff').value='SUNDAY';
+  document.getElementById('sOt').value='AFTER SHIFT END';
+  // Reset type selector
+  document.querySelectorAll('.type-opt').forEach(o=>o.classList.remove('selected'));
+  document.querySelector('.type-opt[data-type="GENERAL"]').classList.add('selected');
+}
+
 function saveShift(){
   const name=document.getElementById('sName').value.trim().toUpperCase();
-  if(!name){alert('Shift name required!');return;}
+  if(!name){showToast('Shift name is required!','error');return;}
+  const selectedType=document.querySelector('.type-opt.selected');
+  const type=selectedType?selectedType.dataset.type:'GENERAL';
   const shifts=JSON.parse(localStorage.getItem('shifts')||'[]');
-  const obj={name,start:document.getElementById('sStart').value,end:document.getElementById('sEnd').value,type:document.getElementById('sType').value,grace:document.getElementById('sGrace').value,hours:document.getElementById('sHours').value,weekoff:document.getElementById('sWeekOff').value,ot:document.getElementById('sOt').value,desc:document.getElementById('sDesc').value.toUpperCase()};
+  const obj={
+    name,type,
+    start:document.getElementById('sStart').value,
+    end:document.getElementById('sEnd').value,
+    grace:document.getElementById('sGrace').value,
+    hours:document.getElementById('sHours').value,
+    weekoff:document.getElementById('sWeekOff').value,
+    ot:document.getElementById('sOt').value,
+    desc:document.getElementById('sDesc').value.toUpperCase()
+  };
   const idx=document.getElementById('editIdx').value;
-  if(idx!=='')shifts[idx]=obj;else shifts.push(obj);
-  localStorage.setItem('shifts',JSON.stringify(shifts));closePanel();loadShifts();
+  if(idx!=='') shifts[idx]=obj;else shifts.push(obj);
+  localStorage.setItem('shifts',JSON.stringify(shifts));
+  closePanel();loadShifts();
+  showToast(idx!==''?'Shift updated!':'New shift created!','success');
 }
+
 function editShift(i){
   const s=JSON.parse(localStorage.getItem('shifts')||'[]')[i];
-  document.getElementById('editIdx').value=i;document.getElementById('sName').value=s.name;document.getElementById('sStart').value=s.start;document.getElementById('sEnd').value=s.end;document.getElementById('sType').value=s.type;document.getElementById('sGrace').value=s.grace;document.getElementById('sHours').value=s.hours;document.getElementById('sWeekOff').value=s.weekoff;document.getElementById('sOt').value=s.ot;document.getElementById('sDesc').value=s.desc||'';
+  document.getElementById('editIdx').value=i;
+  document.getElementById('sName').value=s.name;
+  document.getElementById('sStart').value=s.start;
+  document.getElementById('sEnd').value=s.end;
+  document.getElementById('sGrace').value=s.grace;
+  document.getElementById('sHours').value=s.hours||'';
+  document.getElementById('sWeekOff').value=s.weekoff;
+  document.getElementById('sOt').value=s.ot;
+  document.getElementById('sDesc').value=s.desc||'';
+  // Set type selector
+  document.querySelectorAll('.type-opt').forEach(o=>{
+    o.classList.toggle('selected',o.dataset.type===s.type);
+  });
   openPanel('Edit Shift');
 }
-function delShift(i){if(!confirm('Delete this shift?'))return;const shifts=JSON.parse(localStorage.getItem('shifts')||'[]');shifts.splice(i,1);localStorage.setItem('shifts',JSON.stringify(shifts));loadShifts();}
+
+function delShift(i){
+  if(!confirm('Delete this shift? Employees assigned to this shift will be unassigned.')) return;
+  const shifts=JSON.parse(localStorage.getItem('shifts')||'[]');
+  const emps=JSON.parse(localStorage.getItem('employees')||'[]');
+  emps.forEach(e=>{if((e.assignedShift||'')==String(i)){e.assignedShift='';e.shift='';}});
+  localStorage.setItem('employees',JSON.stringify(emps));
+  shifts.splice(i,1);
+  localStorage.setItem('shifts',JSON.stringify(shifts));
+  allEmployees=emps;
+  loadShifts();
+  showToast('Shift deleted','error');
+}
+
+// ─── ASSIGN ───
 function openAssign(shiftIdx){
   currentAssignShiftIdx=shiftIdx;
   const shifts=JSON.parse(localStorage.getItem('shifts')||'[]');
-  document.getElementById('assignShiftName').textContent=shifts[shiftIdx].name;
-  const emps=JSON.parse(localStorage.getItem('employees')||'[]');
-  const list=document.getElementById('assignList');
-  if(!emps.length){list.innerHTML='<div style="text-align:center;padding:30px;color:#94a3b8;">No employees found.</div>';document.getElementById('assignModal').classList.add('open');return;}
-  list.innerHTML=emps.map((e,i)=>{
-    const assigned=(e.assignedShift||'')==String(shiftIdx);
-    return `<div class="emp-row ${assigned?'assigned':''}" id="erow-${i}" onclick="toggleAssign(${i},${shiftIdx})">
-      <div class="er-info"><div class="er-av">${e.fName[0]}${e.lName[0]}</div><div><div class="er-name">${e.fName} ${e.lName}</div><div class="er-job">${e.job||'--'} | ${e.dept||'--'}</div></div></div>
-      <span class="material-icons-round" style="color:${assigned?'#2563eb':'#e2e8f0'};font-size:18px;" id="echeck-${i}">${assigned?'check_circle':'radio_button_unchecked'}</span>
-    </div>`;
-  }).join('');
+  document.getElementById('assignShiftName').textContent=`Shift: ${shifts[shiftIdx].name}`;
+  allEmployees=JSON.parse(localStorage.getItem('employees')||'[]');
+  renderAssignList(allEmployees);
+  document.getElementById('assignSearch').value='';
   document.getElementById('assignModal').classList.add('open');
 }
-function toggleAssign(empIdx,shiftIdx){
-  const row=document.getElementById(`erow-${empIdx}`),chk=document.getElementById(`echeck-${empIdx}`);
-  const isAssigned=row.classList.contains('assigned');
-  if(isAssigned){row.classList.remove('assigned');chk.textContent='radio_button_unchecked';chk.style.color='#e2e8f0';row.dataset.newShift='';}
-  else{row.classList.add('assigned');chk.textContent='check_circle';chk.style.color='#2563eb';row.dataset.newShift=String(shiftIdx);}
+
+function renderAssignList(emps){
+  const list=document.getElementById('assignList');
+  if(!emps.length){
+    list.innerHTML='<div style="text-align:center;padding:30px;color:#94a3b8;font-size:12px;font-weight:600;text-transform:uppercase;">No employees found</div>';
+    updateAssignCount();
+    return;
+  }
+  list.innerHTML=emps.map((e,localI)=>{
+    const realIdx=allEmployees.indexOf(e);
+    const assigned=(e.assignedShift||'')==String(currentAssignShiftIdx);
+    const grad=AV_COLORS[realIdx%AV_COLORS.length];
+    const initials=(e.fName?.[0]||'')+(e.lName?.[0]||'');
+    return `<div class="emp-row ${assigned?'assigned':''}" id="erow-${realIdx}" onclick="toggleAssign(${realIdx},${currentAssignShiftIdx})">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="er-av" style="background:${grad};">${initials}</div>
+        <div>
+          <div class="er-nm">${e.fName} ${e.lName}</div>
+          <div class="er-jb">${e.job||'—'} · ${e.dept||'—'}</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        ${e.assignedShift!==''&&e.assignedShift!==undefined&&e.assignedShift!==String(currentAssignShiftIdx)?`<span style="font-size:8px;background:#fef3c7;color:#d97706;padding:2px 8px;border-radius:99px;font-weight:700;text-transform:uppercase;">Other Shift</span>`:''}
+        <span class="material-icons-round" style="color:${assigned?'#2563eb':'#e2e8f0'};font-size:20px;" id="echeck-${realIdx}">${assigned?'check_circle':'radio_button_unchecked'}</span>
+      </div>
+    </div>`;
+  }).join('');
+  updateAssignCount();
 }
+
+function filterAssignList(){
+  const q=document.getElementById('assignSearch').value.toLowerCase();
+  if(!q){renderAssignList(allEmployees);return;}
+  renderAssignList(allEmployees.filter(e=>`${e.fName} ${e.lName}`.toLowerCase().includes(q)||(e.dept||'').toLowerCase().includes(q)||(e.job||'').toLowerCase().includes(q)));
+}
+
+function toggleAssign(empIdx,shiftIdx){
+  const row=document.getElementById(`erow-${empIdx}`);
+  const chk=document.getElementById(`echeck-${empIdx}`);
+  const isAssigned=row.classList.contains('assigned');
+  if(isAssigned){
+    row.classList.remove('assigned');
+    chk.textContent='radio_button_unchecked';chk.style.color='#e2e8f0';
+    row.dataset.newShift='';
+  } else {
+    row.classList.add('assigned');
+    chk.textContent='check_circle';chk.style.color='#2563eb';
+    row.dataset.newShift=String(shiftIdx);
+  }
+  updateAssignCount();
+}
+
+function updateAssignCount(){
+  const count=document.querySelectorAll('.emp-row.assigned').length;
+  document.getElementById('assignCount').textContent=count+' Employee'+(count!==1?'s':'')+' Selected';
+}
+
 function saveAssignments(){
   const emps=JSON.parse(localStorage.getItem('employees')||'[]');
   const shifts=JSON.parse(localStorage.getItem('shifts')||'[]');
   document.querySelectorAll('[id^="erow-"]').forEach(row=>{
     const i=parseInt(row.id.split('-')[1]);
-    const newShift='newShift' in row.dataset?row.dataset.newShift:emps[i].assignedShift||'';
+    const newShift='newShift' in row.dataset?row.dataset.newShift:(emps[i].assignedShift||'');
     emps[i].assignedShift=newShift;
-    if(newShift!==''&&shifts[parseInt(newShift)]){emps[i].shift=shifts[parseInt(newShift)].name;emps[i].weekoff=shifts[parseInt(newShift)].weekoff;}
+    if(newShift!==''&&shifts[parseInt(newShift)]){
+      emps[i].shift=shifts[parseInt(newShift)].name;
+      emps[i].weekoff=shifts[parseInt(newShift)].weekoff;
+    }
   });
-  localStorage.setItem('employees',JSON.stringify(emps));closeAssign();loadShifts();alert('Assignments saved!');
+  localStorage.setItem('employees',JSON.stringify(emps));
+  allEmployees=emps;
+  closeAssign();loadShifts();
+  showToast('Assignments saved!','success');
 }
-function closeAssign(){document.getElementById('assignModal').classList.remove('open');currentAssignShiftIdx=null;}
+
+function closeAssign(){
+  document.getElementById('assignModal').classList.remove('open');
+  currentAssignShiftIdx=null;
+}
+
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');
+  t.className='toast '+type;
+  document.getElementById('toastIcon').textContent=type==='success'?'check_circle':'error';
+  document.getElementById('toastMsg').textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3500);
+}
 </script>
 </body>
 </html>
