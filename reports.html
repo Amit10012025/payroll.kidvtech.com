@@ -2,197 +2,232 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>KIDV Tech | Reports & Analytics</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>KIDV Tech | Reports &amp; Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 <script>if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}</script>
 <style>
+:root{--navy:#07101f;--blue:#2563eb;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--purple:#8b5cf6;--amber:#f59e0b;--orange:#f97316;--text-m:rgba(148,163,184,.65);--text-d:rgba(148,163,184,.32);--border-b:rgba(255,255,255,.11);--glass:rgba(255,255,255,.04);--sidebar-w:260px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f4f8;}
+html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflow:hidden;}
 .app{display:flex;height:100vh;}
 
 /* SIDEBAR */
-.sidebar{width:220px;min-width:220px;background:#fff;border-right:1px solid #e2e8f0;display:flex;flex-direction:column;padding:18px 12px;height:100vh;position:fixed;left:0;top:0;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1);overflow-y:auto;}
-.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:199;}
-.logo{display:flex;align-items:center;gap:10px;padding:6px 8px;margin-bottom:22px;}
-.logo-icon{width:36px;height:36px;background:#2563eb;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:900;box-shadow:0 4px 12px rgba(37,99,235,.28);flex-shrink:0;}
-.logo-text{font-size:14px;font-weight:900;color:#1e293b;}.logo-text span{color:#2563eb;}
-.nav-sec{font-size:8px;color:#94a3b8;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:0 10px;margin:10px 0 4px;}
-.nav a{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;font-size:11px;font-weight:700;color:#64748b;text-decoration:none;margin-bottom:2px;text-transform:uppercase;letter-spacing:.03em;transition:all .15s;}
-.nav a:hover{background:#f1f5f9;color:#1e293b;}
-.nav a.active{background:#2563eb;color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.3);}
-.nav a .material-icons-round{font-size:16px;flex-shrink:0;}
-.nav-bottom{margin-top:auto;padding-top:12px;border-top:1px solid #f1f5f9;}
-.user-info{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;background:#f8fafc;margin-bottom:6px;}
-.user-av{width:30px;height:30px;border-radius:8px;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0;}
-.user-name{font-size:10px;font-weight:800;color:#1e293b;text-transform:uppercase;line-height:1.2;}
-.user-role{font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;}
-.logout-btn{display:flex;align-items:center;gap:7px;width:100%;padding:8px 10px;border-radius:10px;background:none;border:1px solid #fee2e2;color:#ef4444;font-size:10px;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s;}
-.logout-btn:hover{background:#fef2f2;}
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden;border-right:1px solid rgba(255,255,255,.05);box-shadow:8px 0 40px rgba(0,0,0,.35);}
+.sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:199;backdrop-filter:blur(6px);}
+.logo-area{position:relative;z-index:1;flex-shrink:0;overflow:hidden;background:#fff;border-bottom:1px solid rgba(255,255,255,.06);}
+.logo-area img{width:100%;height:auto;display:block;}
+.nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 10px 4px;position:relative;z-index:1;}
+.nav::-webkit-scrollbar{width:3px;}.nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:99px;}
+.nav-sec{font-size:8.5px;color:var(--text-d);font-weight:700;text-transform:uppercase;letter-spacing:.2em;padding:0 8px;margin:16px 0 5px;display:flex;align-items:center;gap:8px;}
+.nav-sec::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07);}
+.nav a{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:11px;font-size:11px;font-weight:600;color:var(--text-m);text-decoration:none;margin-bottom:1px;text-transform:uppercase;letter-spacing:.055em;transition:color .18s,background .18s,transform .18s;position:relative;}
+.nav a:hover{color:rgba(241,245,249,.9);background:rgba(255,255,255,.07);transform:translateX(2px);}
+.nav a.active{color:#fff;background:linear-gradient(120deg,rgba(37,99,235,.32) 0%,rgba(6,182,212,.18) 100%);border:1px solid rgba(59,130,246,.28);box-shadow:0 4px 20px rgba(37,99,235,.22),inset 0 1px 0 rgba(255,255,255,.09);}
+.nav a.active::after{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:55%;background:linear-gradient(180deg,#93c5fd,#22d3ee);border-radius:0 3px 3px 0;box-shadow:0 0 10px rgba(96,165,250,.8);}
+.ic{width:29px;height:29px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .18s;}
+.ic .material-icons-round{font-size:15px;}
+.ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
+.ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-int{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.ic-adm{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
+.nav a.active .ic{transform:scale(1.08);box-shadow:0 0 14px rgba(37,99,235,.4);}
+.nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
+.user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--glass);margin-bottom:8px;border:1px solid var(--border-b);}
+.user-av{width:33px;height:33px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.user-name{font-size:10.5px;font-weight:700;color:#fff;text-transform:uppercase;}
+.user-role{font-size:8px;color:var(--text-d);font-weight:500;text-transform:uppercase;margin-top:1px;}
+.logout-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:10px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);color:rgba(252,165,165,.8);font-size:10px;font-weight:700;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;}
+.logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;}
 .logout-btn .material-icons-round{font-size:14px;}
 
 /* MAIN */
-.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:220px;}
-.topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;}
-.topbar-left{display:flex;align-items:center;gap:10px;}
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:var(--sidebar-w);}
+.topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:11px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.topbar-left{display:flex;align-items:center;gap:12px;}
 .menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;}
 .menu-btn .material-icons-round{font-size:22px;}
-.tb-title{font-size:15px;font-weight:900;text-transform:uppercase;color:#1e293b;}
-.tb-sub{font-size:10px;font-weight:700;color:#2563eb;text-transform:uppercase;letter-spacing:.1em;}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:9px;font-size:11px;font-weight:800;border:none;cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.03em;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;}
-.btn-blue{background:#2563eb;color:#fff;}.btn-blue:hover{background:#1d4ed8;}
-.btn-green{background:#16a34a;color:#fff;}.btn-green:hover{background:#15803d;}
-.btn-ghost{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}.btn-ghost:hover{background:#e2e8f0;}
-.btn .material-icons-round{font-size:14px;}
+.page-title{font-size:15px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
+.page-sub{font-size:9px;color:#94a3b8;font-weight:500;margin-top:2px;letter-spacing:.05em;text-transform:uppercase;}
 
 /* TABS */
-.tab-bar{background:#fff;border-bottom:1px solid #e2e8f0;padding:0 20px;display:flex;overflow-x:auto;flex-shrink:0;}
-.tab-bar::-webkit-scrollbar{height:3px;}
-.tab-btn{display:flex;align-items:center;gap:7px;padding:12px 16px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:#94a3b8;border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;transition:all .15s;white-space:nowrap;font-family:'Plus Jakarta Sans',sans-serif;}
-.tab-btn:hover{color:#1e293b;}
+.tab-bar{background:#fff;border-bottom:1px solid #e8edf5;padding:0 24px;display:flex;gap:0;overflow-x:auto;flex-shrink:0;box-shadow:0 1px 4px rgba(0,0,0,.03);}
+.tab-bar::-webkit-scrollbar{height:3px;}.tab-bar::-webkit-scrollbar-thumb{background:#e2e8f0;}
+.tab-btn{display:flex;align-items:center;gap:7px;padding:13px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#94a3b8;border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;transition:all .18s;white-space:nowrap;font-family:'Outfit',sans-serif;}
+.tab-btn:hover{color:#0f172a;}
 .tab-btn.active{color:#2563eb;border-bottom-color:#2563eb;}
-.tab-btn .material-icons-round{font-size:16px;}
+.tab-btn .material-icons-round{font-size:15px;}
+
+/* BTNS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.06em;font-family:'Outfit',sans-serif;white-space:nowrap;}
+.btn-blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.3);}
+.btn-blue:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,.44);}
+.btn-green{background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 4px 14px rgba(16,185,129,.28);}
+.btn-green:hover{transform:translateY(-1px);}
+.btn-dark{background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.25);}
+.btn-dark:hover{transform:translateY(-1px);}
+.btn-ghost{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}
+.btn-ghost:hover{background:#e2e8f0;}
+.btn-orange{background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;box-shadow:0 4px 14px rgba(249,115,22,.28);}
+.btn-orange:hover{transform:translateY(-1px);}
+.btn-purple{background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;box-shadow:0 4px 14px rgba(139,92,246,.28);}
+.btn-purple:hover{transform:translateY(-1px);}
+.btn-sm{padding:6px 12px;font-size:10px;border-radius:8px;}
+.btn .material-icons-round{font-size:14px;}
 
 /* SCROLL */
-.scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:16px 20px;}
+.scroll{flex:1;overflow-y:auto;padding:18px 24px;}
 .scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
-.tab-pane{display:none;}.tab-pane.active{display:block;}
 
-/* CARD */
-.card{background:#fff;border-radius:15px;border:1px solid #f1f5f9;padding:20px;margin-bottom:14px;}
+/* PANES */
+.tab-pane{display:none;animation:fadeIn .2s ease;}.tab-pane.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+/* CARDS */
+.card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
 .card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
-.card-title{font-size:13px;font-weight:900;text-transform:uppercase;color:#1e293b;font-style:italic;}
+.card-title{font-size:12px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.08em;}
 
-/* STATS GRID */
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
-.stat-card{background:#fff;border-radius:14px;border:1px solid #f1f5f9;padding:16px 18px;position:relative;overflow:hidden;}
-.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
-.sc-blue::before{background:#2563eb;}.sc-green::before{background:#16a34a;}
-.sc-orange::before{background:#f97316;}.sc-red::before{background:#ef4444;}
-.sc-purple::before{background:#7c3aed;}
-.stat-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
-.stat-icon .material-icons-round{font-size:18px;}
-.sc-blue .stat-icon{background:#eff6ff;color:#2563eb;}
-.sc-green .stat-icon{background:#f0fdf4;color:#16a34a;}
-.sc-orange .stat-icon{background:#fff7ed;color:#f97316;}
-.sc-red .stat-icon{background:#fef2f2;color:#ef4444;}
-.sc-purple .stat-icon{background:#f5f3ff;color:#7c3aed;}
-.stat-lbl{font-size:8px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:.1em;}
-.stat-val{font-size:22px;font-weight:900;color:#1e293b;margin-top:4px;}
-.stat-sub{font-size:9px;font-weight:700;color:#94a3b8;margin-top:3px;}
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
 
-/* FILTERS */
-.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center;}
-.filter-sel{padding:7px 12px;border-radius:9px;border:1px solid #e2e8f0;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;color:#475569;background:#f8fafc;cursor:pointer;}
-.filter-sel:focus{outline:none;border-color:#2563eb;}
+/* STAT BOXES */
+.stat-box{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:16px 18px;position:relative;overflow:hidden;transition:all .18s;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.stat-box:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.08);}
+.stat-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.sb-blue::before{background:linear-gradient(90deg,#2563eb,#06b6d4);}
+.sb-green::before{background:linear-gradient(90deg,#10b981,#06b6d4);}
+.sb-orange::before{background:linear-gradient(90deg,#f97316,#fbbf24);}
+.sb-purple::before{background:linear-gradient(90deg,#8b5cf6,#ec4899);}
+.sb-red::before{background:linear-gradient(90deg,#ef4444,#f97316);}
+.stat-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
+.stat-icon .material-icons-round{font-size:17px;}
+.si-blue{background:rgba(37,99,235,.1);color:#2563eb;}
+.si-green{background:rgba(16,185,129,.1);color:#10b981;}
+.si-orange{background:rgba(249,115,22,.1);color:#f97316;}
+.si-purple{background:rgba(139,92,246,.1);color:#8b5cf6;}
+.si-red{background:rgba(239,68,68,.1);color:#ef4444;}
+.stat-lbl{font-size:8.5px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.06em;}
+.stat-val{font-size:22px;font-weight:900;color:#0f172a;margin-top:3px;font-family:'JetBrains Mono',monospace;}
+.stat-sub{font-size:9px;color:#94a3b8;font-weight:500;margin-top:3px;}
 
-/* TABLE */
-.tbl-wrap{border-radius:11px;overflow:hidden;border:1px solid #f1f5f9;overflow-x:auto;}
-table.dtbl{width:100%;border-collapse:collapse;font-size:12px;min-width:700px;}
-table.dtbl thead th{background:#f8fafc;padding:10px 14px;font-size:9px;color:#94a3b8;text-transform:uppercase;font-weight:800;text-align:left;white-space:nowrap;}
-table.dtbl tbody tr{border-top:1px solid #f8fafc;transition:background .12s;}
-table.dtbl tbody tr:hover{background:#fafafa;}
-table.dtbl td{padding:11px 14px;font-weight:700;color:#475569;text-transform:uppercase;vertical-align:middle;}
-table.dtbl tfoot td{background:#f8fafc;padding:11px 14px;font-size:11px;font-weight:900;color:#1e293b;text-transform:uppercase;border-top:2px solid #e2e8f0;}
-
+/* DATA TABLE */
+.tbl-wrap{border-radius:12px;overflow:hidden;border:1px solid #ecf0f6;overflow-x:auto;}
+.tbl-wrap::-webkit-scrollbar{height:4px;}.tbl-wrap::-webkit-scrollbar-thumb{background:#e2e8f0;border-radius:10px;}
+table.dtbl{width:100%;border-collapse:collapse;font-size:11px;min-width:600px;}
+table.dtbl thead th{background:#0f172a;color:#fff;padding:10px 14px;font-size:8.5px;text-transform:uppercase;font-weight:700;text-align:left;white-space:nowrap;letter-spacing:.07em;}
+table.dtbl tbody tr{border-bottom:1px solid #f8fafc;transition:background .12s;}
+table.dtbl tbody tr:hover{background:#fafbfc;}
+table.dtbl tbody tr:last-child{border-bottom:none;}
+table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercase;vertical-align:middle;}
+table.dtbl tfoot tr{background:#f8fafc;border-top:2px solid #e2e8f0;}
+table.dtbl tfoot td{padding:11px 14px;font-size:11px;font-weight:900;color:#0f172a;text-transform:uppercase;}
 .emp-cell{display:flex;align-items:center;gap:9px;}
-.emp-av{width:28px;height:28px;border-radius:7px;color:#fff;font-size:9px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.emp-name-cell{font-size:12px;font-weight:800;color:#1e293b;}
-.emp-sub-cell{font-size:9px;color:#94a3b8;font-weight:700;margin-top:1px;}
-
-/* BAR CHARTS */
-.bar-chart{display:flex;flex-direction:column;gap:10px;}
-.bar-item{display:flex;align-items:center;gap:12px;}
-.bar-label{font-size:10px;font-weight:800;text-transform:uppercase;color:#1e293b;min-width:120px;flex-shrink:0;}
-.bar-track{flex:1;background:#f1f5f9;border-radius:99px;height:10px;overflow:hidden;}
-.bar-fill{height:100%;border-radius:99px;transition:width .6s cubic-bezier(.4,0,.2,1);}
-.bar-val{font-size:11px;font-weight:900;color:#1e293b;min-width:90px;text-align:right;flex-shrink:0;}
-.bar-pct{font-size:9px;font-weight:700;color:#94a3b8;min-width:40px;text-align:right;}
-
-/* DEPT CARDS */
-.dept-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px;}
-.dept-card{background:#fff;border-radius:13px;border:1px solid #f1f5f9;padding:16px;position:relative;overflow:hidden;}
-.dept-card-accent{position:absolute;top:0;left:0;bottom:0;width:4px;border-radius:13px 0 0 13px;}
-.dept-name{font-size:12px;font-weight:900;text-transform:uppercase;color:#1e293b;margin-bottom:10px;}
-.dept-stat{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed #f8fafc;font-size:11px;}
-.dept-stat:last-child{border-bottom:none;}
-.dept-stat-lbl{color:#94a3b8;font-weight:700;text-transform:uppercase;font-size:10px;}
-.dept-stat-val{font-weight:900;color:#1e293b;}
-
-/* HISTORY CHART */
-.hist-bars{display:flex;align-items:flex-end;gap:8px;height:160px;padding:10px 0;}
-.hist-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
-.hist-bar{width:100%;border-radius:6px 6px 0 0;min-width:20px;cursor:pointer;transition:opacity .15s;}
-.hist-bar:hover{opacity:.8;}
-.hist-bar-lbl{font-size:8px;font-weight:800;text-transform:uppercase;color:#94a3b8;text-align:center;}
-.hist-bar-val{font-size:8px;font-weight:900;color:#1e293b;text-align:center;}
+.eav{width:30px;height:30px;border-radius:8px;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ename{font-size:11px;font-weight:700;color:#0f172a;}
+.eid{font-size:8.5px;color:#94a3b8;font-weight:500;margin-top:1px;}
 
 /* BADGES */
-.badge{display:inline-flex;padding:3px 9px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;}
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;}
 .badge-blue{background:#eff6ff;color:#2563eb;}
-.badge-green{background:#dcfce7;color:#16a34a;}
-.badge-orange{background:#fff7ed;color:#f97316;}
+.badge-green{background:#dcfce7;color:#15803d;}
+.badge-orange{background:#fff7ed;color:#c2410c;}
+.badge-red{background:#fee2e2;color:#dc2626;}
+.badge-gray{background:#f1f5f9;color:#64748b;}
+.badge-purple{background:#ede9fe;color:#6d28d9;}
+.badge-cyan{background:#ecfeff;color:#0e7490;}
+
+/* FILTER BAR */
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px;}
+.form-sel{padding:8px 12px;border-radius:9px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;color:#1e293b;background:#f8fafc;cursor:pointer;transition:all .15s;}
+.form-sel:focus{outline:none;border-color:#2563eb;background:#fff;}
+.form-inp{padding:8px 12px;border-radius:9px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:11.5px;font-weight:600;color:#1e293b;background:#f8fafc;transition:all .15s;}
+.form-inp:focus{outline:none;border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
+
+/* BAR CHART */
+.bar-chart{display:flex;flex-direction:column;gap:12px;}
+.bar-item{display:flex;align-items:center;gap:12px;}
+.bar-label{font-size:10px;font-weight:800;text-transform:uppercase;color:#0f172a;min-width:130px;flex-shrink:0;}
+.bar-track{flex:1;background:#f1f5f9;border-radius:99px;height:10px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:99px;transition:width .7s cubic-bezier(.4,0,.2,1);}
+.bar-val{font-size:11px;font-weight:900;color:#0f172a;min-width:100px;text-align:right;flex-shrink:0;font-family:'JetBrains Mono',monospace;}
+.bar-pct{font-size:9px;font-weight:700;color:#94a3b8;min-width:42px;text-align:right;}
+
+/* DEPT CARDS */
+.dept-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
+.dept-card{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:16px;position:relative;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:all .18s;}
+.dept-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.08);}
+.dept-card-accent{position:absolute;top:0;left:0;right:0;height:3px;}
+.dept-name{font-size:12px;font-weight:800;text-transform:uppercase;color:#0f172a;margin-bottom:11px;}
+.dept-stat{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed #f8fafc;font-size:11px;}
+.dept-stat:last-child{border-bottom:none;}
+.dept-stat-lbl{color:#94a3b8;font-weight:600;text-transform:uppercase;font-size:10px;}
+.dept-stat-val{font-weight:800;color:#0f172a;font-family:'JetBrains Mono',monospace;}
+
+/* GROWTH CHART */
+.growth-bars{display:flex;align-items:flex-end;gap:8px;height:180px;padding:10px 0;}
+.growth-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.growth-bar{width:100%;border-radius:6px 6px 0 0;transition:height .7s cubic-bezier(.4,0,.2,1);}
+.growth-bar-lbl{font-size:8px;font-weight:700;text-transform:uppercase;color:#94a3b8;text-align:center;}
+.growth-bar-val{font-size:9px;font-weight:900;color:#0f172a;text-align:center;font-family:'JetBrains Mono',monospace;}
+
+/* SUMMARY HIGHLIGHTS */
+.highlight-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
+.hl-box{background:#fff;border-radius:12px;border:1px solid #ecf0f6;padding:14px 16px;text-align:center;}
+.hl-lbl{font-size:8.5px;font-weight:700;text-transform:uppercase;color:#94a3b8;letter-spacing:.06em;}
+.hl-val{font-size:20px;font-weight:900;color:#0f172a;margin-top:4px;font-family:'JetBrains Mono',monospace;}
 
 /* TOAST */
-.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;}
+.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.2);}
 .toast.show{transform:translateY(0);opacity:1;}
 .toast.success{background:#065f46;border-left:4px solid #6ee7b7;}
+.toast.error{background:#7f1d1d;border-left:4px solid #fca5a5;}
 .toast .material-icons-round{font-size:16px;}
 
-/* Print */
-@media print{body *{visibility:hidden!important;}#printZone,#printZone *{visibility:visible!important;}#printZone{position:fixed!important;inset:0!important;background:white!important;z-index:9999!important;padding:20px!important;overflow:auto!important;}}
+/* PRINT */
+#printZone{display:none;position:fixed;inset:0;background:white;padding:20px;z-index:9999;overflow:auto;}
+@media print{body *{visibility:hidden!important;}#printZone,#printZone *{visibility:visible!important;}#printZone{position:fixed!important;inset:0!important;z-index:9999!important;padding:20px!important;overflow:auto!important;}}
 
 /* RESPONSIVE */
-@media(max-width:1000px){.stats-grid{grid-template-columns:1fr 1fr;}.dept-grid{grid-template-columns:1fr 1fr;}}
-@media(max-width:640px){
-  .sidebar{transform:translateX(-100%);}
-  .sidebar.open{transform:translateX(0);}
-  .sidebar-overlay.open{display:block;}
-  .main{margin-left:0!important;}
-  .menu-btn{display:flex!important;}
-  .topbar{padding:8px 12px;}
-  .scroll{padding:10px 12px;}
-  .btn span.btn-label{display:none;}
-  .stats-grid{grid-template-columns:1fr 1fr;}
-  .dept-grid{grid-template-columns:1fr;}
-  .card{padding:14px;}
-  .tab-btn span.tab-lbl{display:none;}
-}
+@media(max-width:1000px){.g4{grid-template-columns:1fr 1fr;}.g3{grid-template-columns:1fr 1fr;}.dept-grid{grid-template-columns:1fr 1fr;}.highlight-row{grid-template-columns:1fr 1fr;}}
+@media(max-width:768px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.sidebar-overlay.open{display:block;}.main{margin-left:0!important;}.menu-btn{display:flex!important;}.topbar,.scroll{padding:11px 14px;}.g2,.g3,.g4,.dept-grid{grid-template-columns:1fr;}.highlight-row{grid-template-columns:1fr 1fr;}}
 </style>
 </head>
 <body onload="init()">
-<div id="printZone" style="display:none;"></div>
+<div id="printZone"></div>
 <div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
 <div class="app">
 
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
-  <div class="logo"><div class="logo-icon">K</div><div class="logo-text">KIDV <span>Tech</span></div></div>
+  <div class="logo-area"><img src="logo.png" alt="KIDV Tech"></div>
   <nav class="nav">
     <div class="nav-sec">Main</div>
-    <a href="index.html"><span class="material-icons-round">dashboard</span>Dashboard</a>
-    <a href="employees.html"><span class="material-icons-round">badge</span>Employees</a>
+    <a href="index.html"><span class="ic ic-main"><span class="material-icons-round">dashboard</span></span>Dashboard</a>
+    <a href="employees.html"><span class="ic ic-main"><span class="material-icons-round">badge</span></span>Employees</a>
     <div class="nav-sec">HR</div>
-    <a href="leave-management.html"><span class="material-icons-round">event_available</span>Leave</a>
-    <a href="shifts.html"><span class="material-icons-round">schedule</span>Shifts</a>
-    <a href="holidays.html"><span class="material-icons-round">event</span>Holidays</a>
+    <a href="leave-management.html"><span class="ic ic-hr"><span class="material-icons-round">event_available</span></span>Leave</a>
+    <a href="shifts.html"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
+    <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
+    <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
     <div class="nav-sec">Operations</div>
-    <a href="attendance.html"><span class="material-icons-round">calendar_month</span>Attendance</a>
-    <a href="payroll.html"><span class="material-icons-round">receipt_long</span>Payroll</a>
-    <a href="payslip.html"><span class="material-icons-round">description</span>Payslips</a>
-    <a href="statutory-compliance.html"><span class="material-icons-round">gavel</span>Compliance</a>
-    <a href="reports.html" class="active"><span class="material-icons-round">bar_chart</span>Reports</a>
+    <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
+    <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
+    <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
+    <a href="reports.html" class="active"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
     <div class="nav-sec">Integration</div>
-    <a href="device-manager.html"><span class="material-icons-round">device_hub</span>Device Manager</a>
+    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">device_hub</span></span>Device Manager</a>
     <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
-    <a href="users.html" id="usersLink" style="display:none;"><span class="material-icons-round">manage_accounts</span>Users</a>
-    <a href="roles.html" id="rolesLink" style="display:none;"><span class="material-icons-round">shield</span>Roles & Perms</a>
+    <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
+    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">shield</span></span>Roles &amp; Perms</a>
   </nav>
   <div class="nav-bottom">
-    <div class="user-info">
-      <div class="user-av" id="sideAvatar">SA</div>
-      <div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Administrator</div></div>
-    </div>
+    <div class="user-info"><div class="user-av" id="sideAvatar">SA</div><div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Administrator</div></div></div>
     <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
   </div>
 </aside>
@@ -203,80 +238,43 @@ table.dtbl tfoot td{background:#f8fafc;padding:11px 14px;font-size:11px;font-wei
     <div class="topbar-left">
       <button class="menu-btn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
       <div>
-        <div class="tb-title">Reports & Analytics</div>
-        <div class="tb-sub">Salary Register · Department Cost · Employee History</div>
+        <div class="page-title">Reports &amp; Analytics</div>
+        <div class="page-sub">Salary Register · Department Cost · Headcount · Salary History</div>
       </div>
     </div>
-    <div style="display:flex;gap:8px;">
-      <button class="btn btn-ghost" onclick="printReport()"><span class="material-icons-round">print</span><span class="btn-label">Print</span></button>
-      <button class="btn btn-blue" onclick="exportCurrentReport()"><span class="material-icons-round">download</span><span class="btn-label">Export CSV</span></button>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-ghost" onclick="printReport()"><span class="material-icons-round">print</span>Print</button>
+      <button class="btn btn-dark" onclick="exportReport()"><span class="material-icons-round">download</span>Export CSV</button>
     </div>
   </div>
 
   <!-- TABS -->
   <div class="tab-bar">
-    <button class="tab-btn active" onclick="switchTab('register')" id="tab-register">
-      <span class="material-icons-round">table_chart</span><span class="tab-lbl">Salary Register</span>
-    </button>
-    <button class="tab-btn" onclick="switchTab('dept')" id="tab-dept">
-      <span class="material-icons-round">corporate_fare</span><span class="tab-lbl">Dept. Cost Analysis</span>
-    </button>
-    <button class="tab-btn" onclick="switchTab('history')" id="tab-history">
-      <span class="material-icons-round">history</span><span class="tab-lbl">Salary History</span>
-    </button>
-    <button class="tab-btn" onclick="switchTab('headcount')" id="tab-headcount">
-      <span class="material-icons-round">people</span><span class="tab-lbl">Headcount</span>
-    </button>
+    <button class="tab-btn active" id="tab-register" onclick="switchTab('register')"><span class="material-icons-round">table_chart</span>Salary Register</button>
+    <button class="tab-btn" id="tab-dept" onclick="switchTab('dept')"><span class="material-icons-round">corporate_fare</span>Dept. Cost Analysis</button>
+    <button class="tab-btn" id="tab-history" onclick="switchTab('history')"><span class="material-icons-round">history</span>Salary History</button>
+    <button class="tab-btn" id="tab-headcount" onclick="switchTab('headcount')"><span class="material-icons-round">people</span>Headcount</button>
   </div>
 
   <div class="scroll">
 
-    <!-- ═══════ TAB 1: MONTHLY SALARY REGISTER ═══════ -->
+    <!-- ══════════ TAB 1 — SALARY REGISTER ══════════ -->
     <div class="tab-pane active" id="pane-register">
-      <!-- Stats -->
-      <div class="stats-grid">
-        <div class="stat-card sc-blue">
-          <div class="stat-icon"><span class="material-icons-round">people</span></div>
-          <div class="stat-lbl">Total Employees</div>
-          <div class="stat-val" id="r-empcount">0</div>
-          <div class="stat-sub">On payroll</div>
-        </div>
-        <div class="stat-card sc-green">
-          <div class="stat-icon"><span class="material-icons-round">payments</span></div>
-          <div class="stat-lbl">Total Gross Payroll</div>
-          <div class="stat-val" id="r-gross">₹0</div>
-          <div class="stat-sub">This month</div>
-        </div>
-        <div class="stat-card sc-orange">
-          <div class="stat-icon"><span class="material-icons-round">money_off</span></div>
-          <div class="stat-lbl">Total Deductions</div>
-          <div class="stat-val" id="r-ded">₹0</div>
-          <div class="stat-sub">PF + ESIC + PT</div>
-        </div>
-        <div class="stat-card sc-purple">
-          <div class="stat-icon"><span class="material-icons-round">account_balance_wallet</span></div>
-          <div class="stat-lbl">Total Net Pay-out</div>
-          <div class="stat-val" id="r-net">₹0</div>
-          <div class="stat-sub">Bank transfers</div>
-        </div>
+      <div class="g4" style="margin-bottom:16px;">
+        <div class="stat-box sb-blue"><div class="stat-icon si-blue"><span class="material-icons-round">people</span></div><div class="stat-lbl">Total Employees</div><div class="stat-val" id="r-count">0</div><div class="stat-sub">On payroll</div></div>
+        <div class="stat-box sb-green"><div class="stat-icon si-green"><span class="material-icons-round">payments</span></div><div class="stat-lbl">Total Gross Payroll</div><div class="stat-val" id="r-gross" style="font-size:17px;">₹0</div><div class="stat-sub">This month</div></div>
+        <div class="stat-box sb-orange"><div class="stat-icon si-orange"><span class="material-icons-round">money_off</span></div><div class="stat-lbl">Total Deductions</div><div class="stat-val" id="r-ded" style="font-size:17px;">₹0</div><div class="stat-sub">PF + ESIC + PT</div></div>
+        <div class="stat-box sb-purple"><div class="stat-icon si-purple"><span class="material-icons-round">account_balance_wallet</span></div><div class="stat-lbl">Net Pay-out</div><div class="stat-val" id="r-net" style="font-size:17px;">₹0</div><div class="stat-sub">Bank transfers</div></div>
       </div>
 
       <div class="card">
         <div class="card-hd">
           <div class="card-title">Monthly Salary Register</div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-            <select class="filter-sel" id="reg-month">
-              <option value="1">January</option><option value="2">February</option>
-              <option value="3">March</option><option value="4">April</option>
-              <option value="5">May</option><option value="6">June</option>
-              <option value="7">July</option><option value="8">August</option>
-              <option value="9">September</option><option value="10">October</option>
-              <option value="11">November</option><option value="12">December</option>
-            </select>
-            <select class="filter-sel" id="reg-year"></select>
-            <select class="filter-sel" id="reg-dept" onchange="renderRegister()">
-              <option value="">All Departments</option>
-            </select>
+            <select class="form-sel" id="reg-month"></select>
+            <select class="form-sel" id="reg-year"></select>
+            <select class="form-sel" id="reg-dept" onchange="renderRegister()"><option value="">All Departments</option></select>
+            <input type="text" class="form-inp" id="reg-search" placeholder="Search employee..." style="width:160px;" oninput="renderRegister()">
           </div>
         </div>
         <div class="tbl-wrap">
@@ -293,50 +291,29 @@ table.dtbl tfoot td{background:#f8fafc;padding:11px 14px;font-size:11px;font-wei
       </div>
     </div>
 
-    <!-- ═══════ TAB 2: DEPT COST ANALYSIS ═══════ -->
+    <!-- ══════════ TAB 2 — DEPT COST ANALYSIS ══════════ -->
     <div class="tab-pane" id="pane-dept">
-      <div class="stats-grid">
-        <div class="stat-card sc-blue">
-          <div class="stat-icon"><span class="material-icons-round">corporate_fare</span></div>
-          <div class="stat-lbl">Total Departments</div>
-          <div class="stat-val" id="d-deptcount">0</div>
-        </div>
-        <div class="stat-card sc-green">
-          <div class="stat-icon"><span class="material-icons-round">payments</span></div>
-          <div class="stat-lbl">Highest Dept. Cost</div>
-          <div class="stat-val" id="d-maxdept">₹0</div>
-          <div class="stat-sub" id="d-maxdeptname">—</div>
-        </div>
-        <div class="stat-card sc-orange">
-          <div class="stat-icon"><span class="material-icons-round">trending_up</span></div>
-          <div class="stat-lbl">Total Monthly CTC</div>
-          <div class="stat-val" id="d-totalctc">₹0</div>
-        </div>
-        <div class="stat-card sc-purple">
-          <div class="stat-icon"><span class="material-icons-round">person</span></div>
-          <div class="stat-lbl">Avg. CTC / Employee</div>
-          <div class="stat-val" id="d-avgctc">₹0</div>
-        </div>
+      <div class="g4" style="margin-bottom:16px;">
+        <div class="stat-box sb-blue"><div class="stat-icon si-blue"><span class="material-icons-round">corporate_fare</span></div><div class="stat-lbl">Total Departments</div><div class="stat-val" id="d-count">0</div></div>
+        <div class="stat-box sb-green"><div class="stat-icon si-green"><span class="material-icons-round">payments</span></div><div class="stat-lbl">Highest Dept. Cost</div><div class="stat-val" id="d-max" style="font-size:17px;">₹0</div><div class="stat-sub" id="d-maxname">—</div></div>
+        <div class="stat-box sb-orange"><div class="stat-icon si-orange"><span class="material-icons-round">trending_up</span></div><div class="stat-lbl">Total Monthly CTC</div><div class="stat-val" id="d-ctc" style="font-size:17px;">₹0</div></div>
+        <div class="stat-box sb-purple"><div class="stat-icon si-purple"><span class="material-icons-round">person</span></div><div class="stat-lbl">Avg. CTC / Employee</div><div class="stat-val" id="d-avg" style="font-size:17px;">₹0</div></div>
       </div>
 
-      <!-- Dept Cards -->
       <div class="dept-grid" id="deptCards"></div>
 
-      <!-- Bar Chart -->
       <div class="card">
         <div class="card-hd"><div class="card-title">Department-wise Cost Breakdown</div></div>
         <div class="bar-chart" id="deptBarChart"></div>
       </div>
     </div>
 
-    <!-- ═══════ TAB 3: SALARY HISTORY ═══════ -->
+    <!-- ══════════ TAB 3 — SALARY HISTORY ══════════ -->
     <div class="tab-pane" id="pane-history">
       <div class="card">
         <div class="card-hd">
           <div class="card-title">Employee Salary History</div>
-          <select class="filter-sel" id="hist-emp" onchange="renderHistory()">
-            <option value="">-- All Employees --</option>
-          </select>
+          <select class="form-sel" id="hist-emp" onchange="renderHistory()"><option value="">-- All Employees --</option></select>
         </div>
         <div class="tbl-wrap">
           <table class="dtbl">
@@ -349,44 +326,37 @@ table.dtbl tfoot td{background:#f8fafc;padding:11px 14px;font-size:11px;font-wei
         </div>
       </div>
 
-      <!-- Salary Growth Chart -->
-      <div class="card" id="growthChartWrap" style="display:none;">
-        <div class="card-hd">
-          <div class="card-title" id="growthChartTitle">Salary Growth</div>
-        </div>
-        <div style="display:flex;align-items:flex-end;gap:8px;height:180px;padding:10px 0;" id="growthBars"></div>
+      <div class="card" id="growthCard" style="display:none;">
+        <div class="card-hd"><div class="card-title" id="growthTitle">Salary Growth Chart</div></div>
+        <div class="growth-bars" id="growthBars"></div>
       </div>
     </div>
 
-    <!-- ═══════ TAB 4: HEADCOUNT ═══════ -->
+    <!-- ══════════ TAB 4 — HEADCOUNT ══════════ -->
     <div class="tab-pane" id="pane-headcount">
-      <div class="stats-grid">
-        <div class="stat-card sc-blue">
-          <div class="stat-icon"><span class="material-icons-round">people</span></div>
-          <div class="stat-lbl">Total Headcount</div>
-          <div class="stat-val" id="hc-total">0</div>
-        </div>
-        <div class="stat-card sc-green">
-          <div class="stat-icon"><span class="material-icons-round">work</span></div>
-          <div class="stat-lbl">Permanent</div>
-          <div class="stat-val" id="hc-perm">0</div>
-        </div>
-        <div class="stat-card sc-orange">
-          <div class="stat-icon"><span class="material-icons-round">assignment_ind</span></div>
-          <div class="stat-lbl">Contract / Probation</div>
-          <div class="stat-val" id="hc-contract">0</div>
-        </div>
-        <div class="stat-card sc-purple">
-          <div class="stat-icon"><span class="material-icons-round">account_balance_wallet</span></div>
-          <div class="stat-lbl">On Payroll</div>
-          <div class="stat-val" id="hc-payroll">0</div>
-          <div class="stat-sub">With salary assigned</div>
-        </div>
+      <div class="g4" style="margin-bottom:16px;">
+        <div class="stat-box sb-blue"><div class="stat-icon si-blue"><span class="material-icons-round">people</span></div><div class="stat-lbl">Total Headcount</div><div class="stat-val" id="hc-total">0</div></div>
+        <div class="stat-box sb-green"><div class="stat-icon si-green"><span class="material-icons-round">work</span></div><div class="stat-lbl">Permanent</div><div class="stat-val" id="hc-perm">0</div></div>
+        <div class="stat-box sb-orange"><div class="stat-icon si-orange"><span class="material-icons-round">assignment_ind</span></div><div class="stat-lbl">Contract / Probation</div><div class="stat-val" id="hc-contract">0</div></div>
+        <div class="stat-box sb-purple"><div class="stat-icon si-purple"><span class="material-icons-round">account_balance_wallet</span></div><div class="stat-lbl">On Payroll</div><div class="stat-val" id="hc-payroll">0</div><div class="stat-sub">Salary assigned</div></div>
       </div>
 
-      <div class="card">
-        <div class="card-hd"><div class="card-title">Department-wise Headcount</div></div>
-        <div class="bar-chart" id="hcBarChart"></div>
+      <div class="g2" style="margin-bottom:16px;">
+        <div class="card">
+          <div class="card-hd"><div class="card-title">Department-wise Headcount</div></div>
+          <div class="bar-chart" id="hcDeptBars"></div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">PF &amp; ESIC Enrollment</div></div>
+          <div style="margin-bottom:14px;">
+            <div style="font-size:10px;font-weight:800;color:#2563eb;text-transform:uppercase;margin-bottom:8px;">Provident Fund</div>
+            <div class="bar-chart" id="pfBars"></div>
+          </div>
+          <div>
+            <div style="font-size:10px;font-weight:800;color:#10b981;text-transform:uppercase;margin-bottom:8px;">ESIC</div>
+            <div class="bar-chart" id="esicBars"></div>
+          </div>
+        </div>
       </div>
 
       <div class="card">
@@ -398,215 +368,168 @@ table.dtbl tfoot td{background:#f8fafc;padding:11px 14px;font-size:11px;font-wei
           </table>
         </div>
       </div>
-
-      <div class="card">
-        <div class="card-hd"><div class="card-title">PF & ESIC Enrollment Summary</div></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-          <div style="background:#eff6ff;border-radius:12px;padding:16px;">
-            <div style="font-size:11px;font-weight:900;color:#1d4ed8;text-transform:uppercase;margin-bottom:12px;">PF Enrollment</div>
-            <div id="pfEnrollBars" class="bar-chart"></div>
-          </div>
-          <div style="background:#f0fdf4;border-radius:12px;padding:16px;">
-            <div style="font-size:11px;font-weight:900;color:#15803d;text-transform:uppercase;margin-bottom:12px;">ESIC Enrollment</div>
-            <div id="esicEnrollBars" class="bar-chart"></div>
-          </div>
-        </div>
-      </div>
     </div>
 
   </div><!-- /scroll -->
 </div>
-</div><!-- /app -->
-
-<div class="toast" id="toast">
-  <span class="material-icons-round" id="toastIcon">check_circle</span>
-  <span id="toastMsg">Success</span>
 </div>
+
+<div class="toast" id="toast"><span class="material-icons-round" id="toastIcon">check_circle</span><span id="toastMsg"></span></div>
 
 <script>
 const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const AV_COLORS=['linear-gradient(135deg,#2563eb,#06b6d4)','linear-gradient(135deg,#8b5cf6,#ec4899)','linear-gradient(135deg,#10b981,#06b6d4)','linear-gradient(135deg,#f59e0b,#ef4444)','linear-gradient(135deg,#6366f1,#8b5cf6)','linear-gradient(135deg,#0891b2,#10b981)'];
+const DEPT_COLORS=['#2563eb','#8b5cf6','#10b981','#f97316','#0891b2','#db2777','#ea580c','#0d9488','#7c3aed','#16a34a'];
 const fmt=v=>'₹'+Math.round(parseFloat(v)||0).toLocaleString('en-IN');
 const n=s=>parseFloat(s||0);
-const DEPT_COLORS=['#2563eb','#7c3aed','#16a34a','#f97316','#0891b2','#db2777','#ea580c','#0d9488'];
 let employees=[], currentTab='register';
 
 function init(){
   loadUserInfo();
   employees=JSON.parse(localStorage.getItem('employees')||'[]');
-  populateYears();
+  populateMonthYear();
   populateDeptFilter();
-  populateHistEmpFilter();
-  setCurrentMonth();
+  populateHistFilter();
   renderRegister();
   renderDeptAnalysis();
   renderHistory();
   renderHeadcount();
 }
 
-function populateYears(){
-  const now=new Date();
-  ['reg-year'].forEach(id=>{
-    const sel=document.getElementById(id);
-    if(!sel) return;
-    for(let y=now.getFullYear();y>=now.getFullYear()-3;y--){
-      const o=document.createElement('option');
-      o.value=y; o.textContent=y;
-      if(y===now.getFullYear()) o.selected=true;
-      sel.appendChild(o);
-    }
-  });
+function loadUserInfo(){
+  const u=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+  if(u.name){const p=u.name.trim().split(' ');document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();document.getElementById('sideName').textContent=u.name;document.getElementById('sideRole').textContent=u.role||'Staff';}
+  const r=(u.role||'').toLowerCase();
+  if(r==='super admin'||r==='admin'){document.getElementById('adminNav').style.display='';document.getElementById('usersLink').style.display='';document.getElementById('rolesLink').style.display='';}
+}
+function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');}
+function switchTab(t){
+  currentTab=t;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  document.getElementById('pane-'+t).classList.add('active');
 }
 
-function setCurrentMonth(){
+function populateMonthYear(){
   const now=new Date();
-  document.getElementById('reg-month').value=now.getMonth()+1;
+  const mSel=document.getElementById('reg-month');
+  MONTHS.forEach((m,i)=>{const o=document.createElement('option');o.value=i+1;o.textContent=m;if(i===now.getMonth())o.selected=true;mSel.appendChild(o);});
+  const ySel=document.getElementById('reg-year');
+  for(let y=now.getFullYear();y>=now.getFullYear()-3;y--){const o=document.createElement('option');o.value=y;o.textContent=y;ySel.appendChild(o);}
+  mSel.addEventListener('change',renderRegister);
+  ySel.addEventListener('change',renderRegister);
 }
 
 function populateDeptFilter(){
   const depts=[...new Set(employees.map(e=>e.dept||'').filter(Boolean))].sort();
   const sel=document.getElementById('reg-dept');
-  depts.forEach(d=>{
-    const o=document.createElement('option');
-    o.value=d; o.textContent=d;
-    sel.appendChild(o);
-  });
+  depts.forEach(d=>{const o=document.createElement('option');o.value=d;o.textContent=d;sel.appendChild(o);});
 }
 
-function populateHistEmpFilter(){
+function populateHistFilter(){
   const sel=document.getElementById('hist-emp');
-  employees.forEach((e,i)=>{
-    const name=`${e.fName||e.firstName||''} ${e.lName||e.lastName||''}`.trim();
-    const o=document.createElement('option');
-    o.value=i; o.textContent=`${e.id||''} — ${name}`;
-    sel.appendChild(o);
-  });
+  employees.forEach((e,i)=>{const nm=`${e.fName||''} ${e.lName||''}`.trim();const o=document.createElement('option');o.value=i;o.textContent=`${e.id||''} — ${nm}`;sel.appendChild(o);});
 }
 
-function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
-function loadUserInfo(){
-  const user=JSON.parse(localStorage.getItem('kidv_user')||'{}');
-  if(user.name){
-    const p=user.name.trim().split(' ');
-    document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();
-    document.getElementById('sideName').textContent=user.name;
-    document.getElementById('sideRole').textContent=user.role||'Staff';
-  }
-  const r=(user.role||'').toLowerCase();
-  if(r==='super admin'||r==='admin'){document.getElementById('adminNav').style.display='';document.getElementById('usersLink').style.display='';document.getElementById('rolesLink').style.display='';}
-}
-function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');}
-function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');}
-
-function switchTab(tab){
-  currentTab=tab;
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
-  document.getElementById('tab-'+tab).classList.add('active');
-  document.getElementById('pane-'+tab).classList.add('active');
-}
-
-// ── SALARY REGISTER ──
 function getCalc(e){
   const gross=n(e.sal_gross),basic=n(e.sal_basic),wash=n(e.sal_wash);
   const pfApp=(e.pf||'').toUpperCase()==='YES';
   const pfEmp=pfApp?Math.round(basic*.12):0;
-  const esicOk=gross<21000;
+  const esicOk=gross>0&&gross<21000;
   const esicEmp=esicOk?Math.round((gross-wash)*.0075):0;
-  const pt=n(e.ded_pt);
+  const pt=n(e.ded_pt)||(gross<6000?0:gross<9000?80:gross<12000?150:200);
   const totalDed=pfEmp+esicEmp+pt;
   const netPay=gross-totalDed;
   const ctc=n(e.sal_ctc)||gross;
-  return{gross,basic,pfEmp,esicEmp,pt,totalDed,netPay,ctc};
+  return{gross,basic,pfEmp,esicEmp,pt,totalDed,netPay,ctc,pfApp,esicOk};
 }
 
+// ══ SALARY REGISTER ══
 function renderRegister(){
-  const deptFilter=document.getElementById('reg-dept').value;
-  const empList=employees.filter(e=>e.sal_gross&&(!deptFilter||e.dept===deptFilter));
-  const tbody=document.getElementById('registerBody');
-  const tfoot=document.getElementById('registerFoot');
-  let tGross=0,tDed=0,tNet=0,tCtc=0,tPf=0,tEsic=0,tPt=0,tBasic=0;
-  const colors=['#2563eb','#7c3aed','#16a34a','#0891b2','#f97316','#db2777'];
-  if(!empList.length){
-    tbody.innerHTML='<tr><td colspan="11" style="text-align:center;padding:32px;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;">No employees with salary data</td></tr>';
-    tfoot.innerHTML='';
-  } else {
-    tbody.innerHTML=empList.map((e,i)=>{
-      const c=getCalc(e);
-      tGross+=c.gross;tDed+=c.totalDed;tNet+=c.netPay;tCtc+=c.ctc;
-      tPf+=c.pfEmp;tEsic+=c.esicEmp;tPt+=c.pt;tBasic+=c.basic;
-      const name=`${e.fName||''} ${e.lName||''}`.trim();
-      const initials=name.split(' ').map(w=>w[0]||'').slice(0,2).join('').toUpperCase();
-      const col=colors[i%colors.length];
-      return `<tr>
-        <td style="color:#94a3b8;font-weight:800;">${i+1}</td>
-        <td><div class="emp-cell">
-          <div class="emp-av" style="background:${col}">${initials}</div>
-          <div><div class="emp-name-cell">${name}</div><div class="emp-sub-cell">${e.id||''}</div></div>
-        </div></td>
-        <td><span class="badge badge-blue">${e.dept||'—'}</span></td>
-        <td style="color:#1e293b;font-weight:800;">${fmt(c.basic)}</td>
-        <td style="color:#2563eb;font-weight:900;">${fmt(c.gross)}</td>
-        <td style="color:#ef4444;">${c.pfEmp>0?fmt(c.pfEmp):'N/A'}</td>
-        <td style="color:#ef4444;">${c.esicEmp>0?fmt(c.esicEmp):'N/A'}</td>
-        <td style="color:#f97316;">${c.pt>0?fmt(c.pt):'—'}</td>
-        <td style="color:#ef4444;font-weight:900;">${fmt(c.totalDed)}</td>
-        <td style="color:#16a34a;font-weight:900;font-size:13px;">${fmt(c.netPay)}</td>
-        <td style="color:#7c3aed;font-weight:900;">${fmt(c.ctc)}</td>
-      </tr>`;
-    }).join('');
-    tfoot.innerHTML=`<td></td><td style="color:#1e293b;">TOTAL (${empList.length})</td><td></td>
-      <td>${fmt(tBasic)}</td><td style="color:#2563eb;">${fmt(tGross)}</td>
-      <td style="color:#ef4444;">${fmt(tPf)}</td><td style="color:#ef4444;">${fmt(tEsic)}</td>
-      <td style="color:#f97316;">${fmt(tPt)}</td><td style="color:#ef4444;">${fmt(tDed)}</td>
-      <td style="color:#16a34a;">${fmt(tNet)}</td><td style="color:#7c3aed;">${fmt(tCtc)}</td>`;
-  }
-  document.getElementById('r-empcount').textContent=empList.length;
-  document.getElementById('r-gross').textContent=fmt(tGross);
-  document.getElementById('r-ded').textContent=fmt(tDed);
-  document.getElementById('r-net').textContent=fmt(tNet);
+  const deptF=document.getElementById('reg-dept').value;
+  const q=(document.getElementById('reg-search').value||'').toLowerCase();
+  let list=employees.filter(e=>{
+    if(!e.sal_gross)return false;
+    if(deptF&&e.dept!==deptF)return false;
+    if(q){const nm=`${e.fName||''} ${e.lName||''} ${e.id||''}`.toLowerCase();if(!nm.includes(q))return false;}
+    return true;
+  });
+  const tbody=document.getElementById('registerBody'),tfoot=document.getElementById('registerFoot');
+  let tGross=0,tDed=0,tNet=0,tCtc=0,tBasic=0,tPf=0,tEsic=0,tPt=0;
+  if(!list.length){tbody.innerHTML='<tr><td colspan="11" style="text-align:center;padding:32px;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;">No employees with salary data found.</td></tr>';tfoot.innerHTML='';updateRegisterStats(0,0,0,0);return;}
+  tbody.innerHTML=list.map((e,i)=>{
+    const c=getCalc(e),idx=employees.indexOf(e);
+    tGross+=c.gross;tDed+=c.totalDed;tNet+=c.netPay;tCtc+=c.ctc;tBasic+=c.basic;tPf+=c.pfEmp;tEsic+=c.esicEmp;tPt+=c.pt;
+    const nm=`${e.fName||''} ${e.lName||''}`.trim();
+    const init=nm.split(' ').map(w=>w[0]||'').slice(0,2).join('').toUpperCase();
+    const grad=AV_COLORS[idx%AV_COLORS.length];
+    return`<tr>
+      <td style="color:#94a3b8;font-weight:800;font-size:10px;">${i+1}</td>
+      <td><div class="emp-cell"><div class="eav" style="background:${grad};">${init}</div><div><div class="ename">${nm}</div><div class="eid">${e.id||''}</div></div></div></td>
+      <td><span class="badge badge-blue">${e.dept||'—'}</span></td>
+      <td style="font-weight:800;color:#0f172a;font-family:'JetBrains Mono',monospace;">${fmt(c.basic)}</td>
+      <td style="color:#2563eb;font-weight:900;font-family:'JetBrains Mono',monospace;">${fmt(c.gross)}</td>
+      <td style="color:#ef4444;font-family:'JetBrains Mono',monospace;">${c.pfEmp>0?fmt(c.pfEmp):'N/A'}</td>
+      <td style="color:#ef4444;font-family:'JetBrains Mono',monospace;">${c.esicEmp>0?fmt(c.esicEmp):'N/A'}</td>
+      <td style="color:#f97316;font-family:'JetBrains Mono',monospace;">${c.pt>0?fmt(c.pt):'—'}</td>
+      <td style="color:#ef4444;font-weight:900;font-family:'JetBrains Mono',monospace;">${fmt(c.totalDed)}</td>
+      <td style="color:#10b981;font-weight:900;font-size:12px;font-family:'JetBrains Mono',monospace;">${fmt(c.netPay)}</td>
+      <td style="color:#8b5cf6;font-weight:900;font-family:'JetBrains Mono',monospace;">${fmt(c.ctc)}</td>
+    </tr>`;
+  }).join('');
+  tfoot.innerHTML=`<td></td><td style="color:#0f172a;font-weight:900;">TOTAL (${list.length})</td><td></td>
+    <td style="font-family:'JetBrains Mono',monospace;">${fmt(tBasic)}</td>
+    <td style="color:#2563eb;font-family:'JetBrains Mono',monospace;">${fmt(tGross)}</td>
+    <td style="color:#ef4444;font-family:'JetBrains Mono',monospace;">${fmt(tPf)}</td>
+    <td style="color:#ef4444;font-family:'JetBrains Mono',monospace;">${fmt(tEsic)}</td>
+    <td style="color:#f97316;font-family:'JetBrains Mono',monospace;">${fmt(tPt)}</td>
+    <td style="color:#ef4444;font-family:'JetBrains Mono',monospace;">${fmt(tDed)}</td>
+    <td style="color:#10b981;font-family:'JetBrains Mono',monospace;">${fmt(tNet)}</td>
+    <td style="color:#8b5cf6;font-family:'JetBrains Mono',monospace;">${fmt(tCtc)}</td>`;
+  updateRegisterStats(list.length,tGross,tDed,tNet);
+}
+function updateRegisterStats(cnt,gross,ded,net){
+  document.getElementById('r-count').textContent=cnt;
+  document.getElementById('r-gross').textContent=fmt(gross);
+  document.getElementById('r-ded').textContent=fmt(ded);
+  document.getElementById('r-net').textContent=fmt(net);
 }
 
-// ── DEPT ANALYSIS ──
+// ══ DEPT ANALYSIS ══
 function renderDeptAnalysis(){
   const empWithSal=employees.filter(e=>e.sal_gross);
   const deptMap={};
   empWithSal.forEach(e=>{
     const dept=e.dept||'Other';
-    if(!deptMap[dept]) deptMap[dept]={count:0,gross:0,net:0,ctc:0,pf:0,esic:0};
+    if(!deptMap[dept])deptMap[dept]={count:0,gross:0,net:0,ctc:0,pf:0,esic:0};
     const c=getCalc(e);
-    deptMap[dept].count++;
-    deptMap[dept].gross+=c.gross;
-    deptMap[dept].net+=c.netPay;
-    deptMap[dept].ctc+=c.ctc;
-    deptMap[dept].pf+=c.pfEmp;
-    deptMap[dept].esic+=c.esicEmp;
+    deptMap[dept].count++;deptMap[dept].gross+=c.gross;deptMap[dept].net+=c.netPay;deptMap[dept].ctc+=c.ctc;deptMap[dept].pf+=c.pfEmp;deptMap[dept].esic+=c.esicEmp;
   });
   const depts=Object.entries(deptMap).sort((a,b)=>b[1].ctc-a[1].ctc);
   const totalCtc=depts.reduce((s,[,d])=>s+d.ctc,0);
   const maxCtc=depts.length?depts[0][1].ctc:0;
-  document.getElementById('d-deptcount').textContent=depts.length;
-  document.getElementById('d-maxdept').textContent=fmt(maxCtc);
-  document.getElementById('d-maxdeptname').textContent=depts.length?depts[0][0]:'—';
-  document.getElementById('d-totalctc').textContent=fmt(totalCtc);
-  document.getElementById('d-avgctc').textContent=fmt(empWithSal.length?Math.round(totalCtc/empWithSal.length):0);
-
-  // Dept cards
+  document.getElementById('d-count').textContent=depts.length;
+  document.getElementById('d-max').textContent=fmt(maxCtc);
+  document.getElementById('d-maxname').textContent=depts.length?depts[0][0]:'—';
+  document.getElementById('d-ctc').textContent=fmt(totalCtc);
+  document.getElementById('d-avg').textContent=fmt(empWithSal.length?Math.round(totalCtc/empWithSal.length):0);
   document.getElementById('deptCards').innerHTML=depts.map(([dept,d],i)=>`
     <div class="dept-card">
-      <div class="dept-card-accent" style="background:${DEPT_COLORS[i%DEPT_COLORS.length]};"></div>
+      <div class="dept-card-accent" style="background:linear-gradient(90deg,${DEPT_COLORS[i%DEPT_COLORS.length]},${DEPT_COLORS[(i+1)%DEPT_COLORS.length]});"></div>
       <div class="dept-name" style="color:${DEPT_COLORS[i%DEPT_COLORS.length]};">${dept}</div>
       <div class="dept-stat"><span class="dept-stat-lbl">Employees</span><span class="dept-stat-val">${d.count}</span></div>
       <div class="dept-stat"><span class="dept-stat-lbl">Gross Payroll</span><span class="dept-stat-val" style="color:#2563eb;">${fmt(d.gross)}</span></div>
-      <div class="dept-stat"><span class="dept-stat-lbl">Net Pay-out</span><span class="dept-stat-val" style="color:#16a34a;">${fmt(d.net)}</span></div>
-      <div class="dept-stat"><span class="dept-stat-lbl">Monthly CTC</span><span class="dept-stat-val" style="color:#7c3aed;">${fmt(d.ctc)}</span></div>
-      <div class="dept-stat"><span class="dept-stat-lbl">Avg CTC/Emp</span><span class="dept-stat-val">${fmt(Math.round(d.ctc/d.count))}</span></div>
-      <div class="dept-stat"><span class="dept-stat-lbl">% of Total Cost</span><span class="dept-stat-val">${totalCtc?((d.ctc/totalCtc)*100).toFixed(1):'0'}%</span></div>
+      <div class="dept-stat"><span class="dept-stat-lbl">Net Pay-out</span><span class="dept-stat-val" style="color:#10b981;">${fmt(d.net)}</span></div>
+      <div class="dept-stat"><span class="dept-stat-lbl">Monthly CTC</span><span class="dept-stat-val" style="color:#8b5cf6;">${fmt(d.ctc)}</span></div>
+      <div class="dept-stat"><span class="dept-stat-lbl">Avg CTC / Emp</span><span class="dept-stat-val">${fmt(Math.round(d.ctc/d.count))}</span></div>
+      <div class="dept-stat"><span class="dept-stat-lbl">% of Total Cost</span><span class="dept-stat-val">${totalCtc?((d.ctc/totalCtc)*100).toFixed(1):0}%</span></div>
     </div>`).join('');
-
-  // Bar chart
   document.getElementById('deptBarChart').innerHTML=depts.map(([dept,d],i)=>{
     const pct=maxCtc>0?((d.ctc/maxCtc)*100).toFixed(1):0;
-    return `<div class="bar-item">
+    return`<div class="bar-item">
       <div class="bar-label">${dept}</div>
       <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${DEPT_COLORS[i%DEPT_COLORS.length]};"></div></div>
       <div class="bar-val">${fmt(d.ctc)}</div>
@@ -615,73 +538,67 @@ function renderDeptAnalysis(){
   }).join('');
 }
 
-// ── SALARY HISTORY ──
+// ══ SALARY HISTORY ══
 function renderHistory(){
   const idx=document.getElementById('hist-emp').value;
+  let list=idx===''?employees:employees.filter((_,i)=>i===parseInt(idx));
+  list=list.filter(e=>e.sal_gross);
   const tbody=document.getElementById('historyBody');
-  let empList=idx===''?employees:employees.filter((_,i)=>i===parseInt(idx));
-  empList=empList.filter(e=>e.sal_gross);
-  const colors=['#2563eb','#7c3aed','#16a34a','#0891b2','#f97316'];
   let rows=[];
-  empList.forEach((e,ei)=>{
-    const name=`${e.fName||''} ${e.lName||''}`.trim();
-    const initials=name.split(' ').map(w=>w[0]||'').slice(0,2).join('').toUpperCase();
-    const col=colors[ei%colors.length];
+  list.forEach((e,ei)=>{
+    const nm=`${e.fName||''} ${e.lName||''}`.trim();
+    const init=nm.split(' ').map(w=>w[0]||'').slice(0,2).join('').toUpperCase();
+    const grad=AV_COLORS[ei%AV_COLORS.length];
     const hist=e.history||[];
-    // Historical rows
     hist.forEach((h,hi)=>{
-      const prevGross=hi>0?n(hist[hi-1].amount):0;
-      const change=prevGross>0?((n(h.amount)-prevGross)/prevGross*100).toFixed(1):null;
-      rows.push(`<tr style="opacity:.7;">
-        <td><div class="emp-cell"><div class="emp-av" style="background:${col}">${initials}</div><div><div class="emp-name-cell">${name}</div><div class="emp-sub-cell">${e.id||''}</div></div></div></td>
+      const prev=hi>0?n(hist[hi-1].amount):0;
+      const chg=prev>0?((n(h.amount)-prev)/prev*100).toFixed(1):null;
+      rows.push(`<tr style="opacity:.65;">
+        <td><div class="emp-cell"><div class="eav" style="background:${grad};width:26px;height:26px;font-size:9px;">${init}</div><div><div class="ename">${nm}</div><div class="eid">${e.id||''}</div></div></div></td>
         <td><span class="badge badge-blue">${e.dept||'—'}</span></td>
-        <td>${h.date||'—'}</td>
-        <td>${fmt(n(h.amount)*.4)}</td>
-        <td>${fmt(h.amount)}</td>
-        <td>${fmt(n(h.amount)*.88)}</td>
-        <td>${fmt(n(h.amount)*1.15)}</td>
-        <td>${change?`<span style="color:${change>0?'#16a34a':'#ef4444'};font-weight:900;">${change>0?'▲':'▼'} ${Math.abs(change)}%</span>`:'—'}</td>
+        <td style="color:#94a3b8;">${h.date||'—'}</td>
+        <td style="font-family:'JetBrains Mono',monospace;">${fmt(n(h.amount)*.4)}</td>
+        <td style="font-family:'JetBrains Mono',monospace;">${fmt(h.amount)}</td>
+        <td style="font-family:'JetBrains Mono',monospace;">${fmt(n(h.amount)*.88)}</td>
+        <td style="font-family:'JetBrains Mono',monospace;">${fmt(n(h.amount)*1.15)}</td>
+        <td>${chg?`<span style="color:${chg>0?'#10b981':'#ef4444'};font-weight:900;">${chg>0?'▲':'▼'} ${Math.abs(chg)}%</span>`:'—'}</td>
       </tr>`);
     });
-    // Current row
     const c=getCalc(e);
-    const prevHist=hist.length?n(hist[hist.length-1].amount):0;
-    const change=prevHist>0?((c.gross-prevHist)/prevHist*100).toFixed(1):null;
-    rows.push(`<tr style="border-left:3px solid ${col};">
-      <td><div class="emp-cell"><div class="emp-av" style="background:${col}">${initials}</div><div><div class="emp-name-cell" style="color:${col};">${name}</div><div class="emp-sub-cell">${e.id||''}</div></div></div></td>
+    const prevH=hist.length?n(hist[hist.length-1].amount):0;
+    const chg=prevH>0?((c.gross-prevH)/prevH*100).toFixed(1):null;
+    rows.push(`<tr>
+      <td><div class="emp-cell"><div class="eav" style="background:${grad};width:26px;height:26px;font-size:9px;">${init}</div><div><div class="ename" style="color:#2563eb;">${nm}</div><div class="eid">${e.id||''}</div></div></div></td>
       <td><span class="badge badge-blue">${e.dept||'—'}</span></td>
-      <td style="color:${col};font-weight:900;">${e.sal_effective_date||e.doj||'—'} <span class="badge badge-green" style="margin-left:4px;">Current</span></td>
-      <td style="font-weight:900;color:#1e293b;">${fmt(c.basic)}</td>
-      <td style="font-weight:900;color:#2563eb;">${fmt(c.gross)}</td>
-      <td style="font-weight:900;color:#16a34a;">${fmt(c.netPay)}</td>
-      <td style="font-weight:900;color:#7c3aed;">${fmt(c.ctc)}</td>
-      <td>${change?`<span style="color:${change>0?'#16a34a':'#ef4444'};font-weight:900;">${change>0?'▲':'▼'} ${Math.abs(change)}%</span>`:'<span style="color:#94a3b8;">—</span>'}</td>
+      <td><span style="color:#10b981;font-weight:800;">${e.sal_effective_date||e.doj||'—'}</span> <span class="badge badge-green" style="margin-left:4px;">Current</span></td>
+      <td style="font-weight:900;color:#0f172a;font-family:'JetBrains Mono',monospace;">${fmt(c.basic)}</td>
+      <td style="font-weight:900;color:#2563eb;font-family:'JetBrains Mono',monospace;">${fmt(c.gross)}</td>
+      <td style="font-weight:900;color:#10b981;font-family:'JetBrains Mono',monospace;">${fmt(c.netPay)}</td>
+      <td style="font-weight:900;color:#8b5cf6;font-family:'JetBrains Mono',monospace;">${fmt(c.ctc)}</td>
+      <td>${chg?`<span style="color:${chg>0?'#10b981':'#ef4444'};font-weight:900;">${chg>0?'▲':'▼'} ${Math.abs(chg)}%</span>`:'<span style="color:#94a3b8;">—</span>'}</td>
     </tr>`);
   });
-  tbody.innerHTML=rows.length?rows.join(''):'<tr><td colspan="8" style="text-align:center;padding:32px;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;">No salary history found</td></tr>';
+  tbody.innerHTML=rows.length?rows.join(''):'<tr><td colspan="8" style="text-align:center;padding:32px;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;">No salary history found.</td></tr>';
 
-  // Growth chart for single employee
-  const growthWrap=document.getElementById('growthChartWrap');
-  if(idx!==''&&empList.length){
-    const e=empList[0];
-    const hist=e.history||[];
-    const c=getCalc(e);
+  const growthCard=document.getElementById('growthCard');
+  if(idx!==''&&list.length){
+    const e=list[0];const hist=e.history||[];const c=getCalc(e);
     const allData=[...hist.map(h=>({label:h.date,val:n(h.amount)})),{label:'Current',val:c.gross}];
     if(allData.length>1){
-      growthWrap.style.display='block';
-      document.getElementById('growthChartTitle').textContent=`Salary Growth — ${empList[0].fName||''} ${empList[0].lName||''}`.trim();
+      growthCard.style.display='block';
+      document.getElementById('growthTitle').textContent=`Salary Growth — ${list[0].fName||''} ${list[0].lName||''}`.trim();
       const maxVal=Math.max(...allData.map(d=>d.val));
       document.getElementById('growthBars').innerHTML=allData.map((d,i)=>`
-        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
-          <div style="font-size:9px;font-weight:900;color:#1e293b;">${fmt(d.val)}</div>
-          <div style="width:80%;border-radius:6px 6px 0 0;background:${i===allData.length-1?'#2563eb':'#bfdbfe'};height:${maxVal>0?(d.val/maxVal*140):0}px;min-height:8px;transition:height .6s;"></div>
-          <div style="font-size:8px;font-weight:800;color:#94a3b8;text-transform:uppercase;text-align:center;">${d.label}</div>
+        <div class="growth-bar-wrap">
+          <div class="growth-bar-val">${fmt(d.val)}</div>
+          <div class="growth-bar" style="background:${i===allData.length-1?'#2563eb':'#bfdbfe'};height:${maxVal>0?(d.val/maxVal*150):0}px;width:80%;"></div>
+          <div class="growth-bar-lbl">${d.label}</div>
         </div>`).join('');
-    } else growthWrap.style.display='none';
-  } else growthWrap.style.display='none';
+    } else growthCard.style.display='none';
+  } else growthCard.style.display='none';
 }
 
-// ── HEADCOUNT ──
+// ══ HEADCOUNT ══
 function renderHeadcount(){
   const total=employees.length;
   const perm=employees.filter(e=>(e.empType||'').toLowerCase().includes('perm')).length;
@@ -696,104 +613,86 @@ function renderHeadcount(){
   const deptMap={};
   employees.forEach(e=>{const d=e.dept||'Other';deptMap[d]=(deptMap[d]||0)+1;});
   const depts=Object.entries(deptMap).sort((a,b)=>b[1]-a[1]);
-  const maxCount=depts.length?depts[0][1]:1;
-  document.getElementById('hcBarChart').innerHTML=depts.map(([dept,count],i)=>`
+  const maxC=depts.length?depts[0][1]:1;
+  document.getElementById('hcDeptBars').innerHTML=depts.map(([dept,cnt],i)=>`
     <div class="bar-item">
       <div class="bar-label">${dept}</div>
-      <div class="bar-track"><div class="bar-fill" style="width:${(count/maxCount*100)}%;background:${DEPT_COLORS[i%DEPT_COLORS.length]};"></div></div>
-      <div class="bar-val" style="font-size:16px;font-weight:900;color:#1e293b;min-width:30px;">${count}</div>
-      <div class="bar-pct">${total?((count/total)*100).toFixed(0):0}%</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(cnt/maxC*100).toFixed(0)}%;background:${DEPT_COLORS[i%DEPT_COLORS.length]};"></div></div>
+      <div class="bar-val" style="min-width:30px;font-size:15px;">${cnt}</div>
+      <div class="bar-pct">${total?((cnt/total)*100).toFixed(0):0}%</div>
+    </div>`).join('');
+
+  // PF / ESIC
+  const pfYes=employees.filter(e=>(e.pf||'').toUpperCase()==='YES').length;
+  const esicYes=employees.filter(e=>n(e.sal_gross)>0&&n(e.sal_gross)<21000).length;
+  document.getElementById('pfBars').innerHTML=[['Enrolled',pfYes,'#2563eb'],['Exempt',total-pfYes,'#bfdbfe']].map(([l,v,c])=>`
+    <div class="bar-item">
+      <div class="bar-label" style="min-width:80px;font-size:9px;">${l}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${total?((v/total)*100):0}%;background:${c};"></div></div>
+      <div class="bar-val" style="min-width:24px;font-size:14px;color:${c};">${v}</div>
+    </div>`).join('');
+  document.getElementById('esicBars').innerHTML=[['Applicable',esicYes,'#10b981'],['Gross ≥ ₹21K',payroll-esicYes,'#6ee7b7']].map(([l,v,c])=>`
+    <div class="bar-item">
+      <div class="bar-label" style="min-width:80px;font-size:9px;">${l}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${payroll?((v/payroll)*100):0}%;background:${c};"></div></div>
+      <div class="bar-val" style="min-width:24px;font-size:14px;color:${c};">${v}</div>
     </div>`).join('');
 
   // Designation table
   const desigMap={};
-  employees.forEach(e=>{
-    const d=e.job||e.designation||'Other';
-    if(!desigMap[d]) desigMap[d]={count:0,ctcTotal:0};
-    desigMap[d].count++;
-    desigMap[d].ctcTotal+=n(e.sal_ctc)||0;
-  });
-  const desigs=Object.entries(desigMap).sort((a,b)=>b[1].count-a[1].count);
-  document.getElementById('desigBody').innerHTML=desigs.map(([desig,d])=>`<tr>
-    <td style="color:#1e293b;font-weight:800;">${desig}</td>
-    <td style="color:#2563eb;font-weight:900;">${d.count}</td>
-    <td>${d.ctcTotal>0?fmt(Math.round(d.ctcTotal/d.count)):'—'}</td>
-    <td>${d.ctcTotal>0?fmt(d.ctcTotal):'—'}</td>
+  employees.forEach(e=>{const d=e.job||e.designation||'Other';if(!desigMap[d])desigMap[d]={count:0,ctcTotal:0};desigMap[d].count++;desigMap[d].ctcTotal+=n(e.sal_ctc)||0;});
+  document.getElementById('desigBody').innerHTML=Object.entries(desigMap).sort((a,b)=>b[1].count-a[1].count).map(([desig,d])=>`<tr>
+    <td style="color:#0f172a;font-weight:800;">${desig}</td>
+    <td style="color:#2563eb;font-weight:900;font-family:'JetBrains Mono',monospace;">${d.count}</td>
+    <td style="font-family:'JetBrains Mono',monospace;">${d.ctcTotal>0?fmt(Math.round(d.ctcTotal/d.count)):'—'}</td>
+    <td style="font-family:'JetBrains Mono',monospace;">${d.ctcTotal>0?fmt(d.ctcTotal):'—'}</td>
     <td><div style="display:flex;align-items:center;gap:8px;">
-      <div style="flex:1;background:#f1f5f9;border-radius:99px;height:6px;overflow:hidden;">
-        <div style="width:${total?((d.count/total)*100).toFixed(0):0}%;height:100%;background:#2563eb;border-radius:99px;"></div>
-      </div>
-      <span style="font-size:10px;font-weight:800;color:#2563eb;">${total?((d.count/total)*100).toFixed(1):0}%</span>
+      <div style="flex:1;background:#f1f5f9;border-radius:99px;height:6px;overflow:hidden;"><div style="width:${total?((d.count/total)*100).toFixed(0):0}%;height:100%;background:linear-gradient(90deg,#2563eb,#06b6d4);border-radius:99px;"></div></div>
+      <span style="font-size:10px;font-weight:800;color:#2563eb;min-width:36px;">${total?((d.count/total)*100).toFixed(1):0}%</span>
     </div></td>
   </tr>`).join('');
-
-  // PF/ESIC enrollment
-  const pfYes=employees.filter(e=>(e.pf||'').toUpperCase()==='YES').length;
-  const pfNo=total-pfYes;
-  const esicYes=employees.filter(e=>n(e.sal_gross)<21000&&e.sal_gross).length;
-  const esicNo=payroll-esicYes;
-  document.getElementById('pfEnrollBars').innerHTML=[
-    ['PF Enrolled',pfYes,'#2563eb'],['PF Exempt',pfNo,'#bfdbfe']
-  ].map(([l,v,c])=>`<div class="bar-item">
-    <div class="bar-label" style="min-width:90px;font-size:9px;">${l}</div>
-    <div class="bar-track"><div class="bar-fill" style="width:${total?((v/total)*100).toFixed(0):0}%;background:${c};"></div></div>
-    <div class="bar-val" style="font-size:14px;color:${c};min-width:24px;">${v}</div>
-  </div>`).join('');
-  document.getElementById('esicEnrollBars').innerHTML=[
-    ['ESIC Applicable',esicYes,'#16a34a'],['Gross ≥ ₹21K',esicNo,'#86efac']
-  ].map(([l,v,c])=>`<div class="bar-item">
-    <div class="bar-label" style="min-width:90px;font-size:9px;">${l}</div>
-    <div class="bar-track"><div class="bar-fill" style="width:${payroll?((v/payroll)*100).toFixed(0):0}%;background:${c};"></div></div>
-    <div class="bar-val" style="font-size:14px;color:${c};min-width:24px;">${v}</div>
-  </div>`).join('');
 }
 
-// ── EXPORT ──
-function exportCurrentReport(){
-  let csv='',name='Report';
+// ══ EXPORT ══
+function exportReport(){
+  let csv='',fname='Report';
   if(currentTab==='register'){
-    name='Salary_Register';
-    const deptFilter=document.getElementById('reg-dept').value;
-    const mo=document.getElementById('reg-month').value;
-    const yr=document.getElementById('reg-year').value;
+    fname='Salary_Register';
+    const deptF=document.getElementById('reg-dept').value;
+    const list=employees.filter(e=>e.sal_gross&&(!deptF||e.dept===deptF));
     csv=['#,Emp ID,Name,Department,Basic,Gross,PF Emp,ESIC Emp,Prof Tax,Total Ded,Net Pay,CTC'];
-    employees.filter(e=>e.sal_gross&&(!deptFilter||e.dept===deptFilter)).forEach((e,i)=>{
-      const c=getCalc(e);
-      const nm=`${e.fName||''} ${e.lName||''}`.trim();
-      csv.push(`${i+1},${e.id||''},${nm},${e.dept||''},${c.basic},${c.gross},${c.pfEmp},${c.esicEmp},${c.pt},${c.totalDed},${c.netPay},${c.ctc}`);
-    });
+    list.forEach((e,i)=>{const c=getCalc(e);const nm=`${e.fName||''} ${e.lName||''}`.trim();csv.push(`${i+1},${e.id||''},${nm},${e.dept||''},${c.basic},${c.gross},${c.pfEmp},${c.esicEmp},${c.pt},${c.totalDed},${c.netPay},${c.ctc}`);});
     csv=csv.join('\n');
   } else if(currentTab==='dept'){
-    name='Dept_Cost_Analysis';
-    const deptMap={};
-    employees.filter(e=>e.sal_gross).forEach(e=>{
-      const dept=e.dept||'Other';
-      if(!deptMap[dept]) deptMap[dept]={count:0,gross:0,net:0,ctc:0};
-      const c=getCalc(e);
-      deptMap[dept].count++;deptMap[dept].gross+=c.gross;deptMap[dept].net+=c.netPay;deptMap[dept].ctc+=c.ctc;
-    });
-    csv=['Department,Employees,Gross Payroll,Net Pay,Monthly CTC,Avg CTC'].concat(
-      Object.entries(deptMap).map(([dept,d])=>`${dept},${d.count},${d.gross},${d.net},${d.ctc},${Math.round(d.ctc/d.count)}`)
-    ).join('\n');
+    fname='Dept_Cost_Analysis';
+    const deptMap={};employees.filter(e=>e.sal_gross).forEach(e=>{const dept=e.dept||'Other';if(!deptMap[dept])deptMap[dept]={count:0,gross:0,net:0,ctc:0};const c=getCalc(e);deptMap[dept].count++;deptMap[dept].gross+=c.gross;deptMap[dept].net+=c.netPay;deptMap[dept].ctc+=c.ctc;});
+    csv=['Department,Employees,Gross Payroll,Net Pay,Monthly CTC,Avg CTC'];
+    Object.entries(deptMap).forEach(([dept,d])=>csv.push(`${dept},${d.count},${d.gross},${d.net},${d.ctc},${Math.round(d.ctc/d.count)}`));
+    csv=csv.join('\n');
+  } else if(currentTab==='history'){
+    fname='Salary_History';
+    csv=['Emp ID,Name,Department,Effective Date,Basic,Gross,Net Pay,CTC'];
+    employees.filter(e=>e.sal_gross).forEach(e=>{const c=getCalc(e);const nm=`${e.fName||''} ${e.lName||''}`.trim();csv.push(`${e.id||''},${nm},${e.dept||''},${e.sal_effective_date||''},${c.basic},${c.gross},${c.netPay},${c.ctc}`);});
+    csv=csv.join('\n');
   } else if(currentTab==='headcount'){
-    name='Headcount_Report';
-    csv=['Emp ID,Name,Department,Designation,Emp Type,Joining Date,PF,Gross'].concat(
-      employees.map(e=>`${e.id||''},${(e.fName||'')+' '+(e.lName||'')},${e.dept||''},${e.job||''},${e.empType||''},${e.doj||''},${e.pf||''},${e.sal_gross||0}`)
-    ).join('\n');
+    fname='Headcount_Report';
+    csv=['Emp ID,Name,Department,Designation,Emp Type,DOJ,PF,Gross'];
+    employees.forEach(e=>{const nm=`${e.fName||''} ${e.lName||''}`.trim();csv.push(`${e.id||''},${nm},${e.dept||''},${e.job||''},${e.empType||''},${e.doj||''},${e.pf||''},${e.sal_gross||0}`);});
+    csv=csv.join('\n');
   }
-  if(csv){
-    const a=document.createElement('a');
-    a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
-    a.download=`KIDV_${name}_${new Date().toLocaleDateString('en-IN').replace(/\//g,'-')}.csv`;
-    a.click();
-    showToast('Report exported!','success');
-  }
+  if(csv){const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download=`KIDV_${fname}_${new Date().toISOString().split('T')[0]}.csv`;a.click();showToast(`${fname.replace(/_/g,' ')} exported!`,'success');}
 }
 
 function printReport(){
   const pz=document.getElementById('printZone');
-  const activePane=document.querySelector('.tab-pane.active');
-  pz.innerHTML=`<div style="font-family:'Plus Jakarta Sans',sans-serif;"><div style="background:#1e293b;padding:14px 20px;color:#fff;border-radius:8px;margin-bottom:16px;"><div style="font-size:16px;font-weight:900;">KIDV Tech — Analytics Report</div><div style="font-size:9px;opacity:.4;margin-top:3px;">${new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'})}</div></div>${activePane.innerHTML}</div>`;
+  const active=document.querySelector('.tab-pane.active');
+  pz.innerHTML=`<div style="font-family:'Outfit',sans-serif;padding:16px;">
+    <div style="background:#07101f;padding:14px 20px;color:#fff;border-radius:10px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-size:16px;font-weight:900;text-transform:uppercase;">KIDV Tech — ${document.querySelector('.tab-btn.active').textContent.trim()}</div>
+      <div style="font-size:10px;opacity:.4;">${new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'})}</div>
+    </div>
+    ${active.innerHTML}
+  </div>`;
   pz.style.display='block';
   window.print();
   pz.style.display='none';
@@ -801,12 +700,10 @@ function printReport(){
 }
 
 function showToast(msg,type='success'){
-  const t=document.getElementById('toast');
-  t.className='toast '+type;
-  document.getElementById('toastIcon').textContent='check_circle';
+  const t=document.getElementById('toast');t.className='toast '+type;
+  document.getElementById('toastIcon').textContent=type==='success'?'check_circle':'error';
   document.getElementById('toastMsg').textContent=msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3500);
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);
 }
 </script>
 </body>
