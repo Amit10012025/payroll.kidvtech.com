@@ -3,322 +3,762 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>KIDV Tech | Holidays</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<script>if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}</script>
 <style>
+:root{
+  --sidebar-w:260px;
+  --navy:#07101f;
+  --blue:#2563eb;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--purple:#8b5cf6;--amber:#f59e0b;
+  --text-m:rgba(148,163,184,.65);--text-d:rgba(148,163,184,.32);
+  --border:rgba(255,255,255,.06);--border-b:rgba(255,255,255,.11);
+  --glass:rgba(255,255,255,.04);
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f4f8;}
-.app{display:flex;height:100vh;overflow:hidden;}
+html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflow:hidden;}
+.app{display:flex;height:100vh;}
 
-/* ── SIDEBAR ── */
-.sidebar{width:220px;min-width:220px;background:#fff;border-right:1px solid #e2e8f0;display:flex;flex-direction:column;padding:18px 12px;height:100vh;transition:transform .3s;z-index:300;}
-.logo{display:flex;align-items:center;gap:10px;padding:6px 8px;margin-bottom:22px;}
-.logo-icon{width:36px;height:36px;background:#2563eb;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:900;box-shadow:0 4px 12px rgba(37,99,235,.28);}
-.logo-text{font-size:14px;font-weight:900;color:#1e293b;}.logo-text span{color:#2563eb;}
-.nav-sec{font-size:8px;color:#94a3b8;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:0 10px;margin:10px 0 4px;}
-.nav a{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;font-size:11px;font-weight:700;color:#64748b;text-decoration:none;margin-bottom:2px;text-transform:uppercase;letter-spacing:.03em;transition:all .15s;}
-.nav a:hover{background:#f1f5f9;color:#1e293b;}
-.nav a.active{background:#2563eb;color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.3);}
-.nav a .material-icons-round{font-size:16px;flex-shrink:0;}
-.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:250;backdrop-filter:blur(2px);}
+/* ═══ SIDEBAR ═══ */
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden;border-right:1px solid rgba(255,255,255,.05);box-shadow:8px 0 40px rgba(0,0,0,.35);}
+.sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:199;backdrop-filter:blur(6px);}
+.logo-area{position:relative;z-index:1;flex-shrink:0;overflow:hidden;background:#fff;border-bottom:1px solid rgba(255,255,255,.06);}
+.logo-area img{width:100%;height:auto;display:block;}
+.nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 10px 4px;position:relative;z-index:1;}
+.nav::-webkit-scrollbar{width:3px;}.nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:99px;}
+.nav-sec{font-size:8.5px;color:var(--text-d);font-weight:700;text-transform:uppercase;letter-spacing:.2em;padding:0 8px;margin:16px 0 5px;display:flex;align-items:center;gap:8px;}
+.nav-sec::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07);}
+.nav a{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:11px;font-size:11px;font-weight:600;color:var(--text-m);text-decoration:none;margin-bottom:1px;text-transform:uppercase;letter-spacing:.055em;transition:color .18s,background .18s,transform .18s;position:relative;}
+.nav a:hover{color:rgba(241,245,249,.9);background:rgba(255,255,255,.07);transform:translateX(2px);}
+.nav a.active{color:#fff;background:linear-gradient(120deg,rgba(37,99,235,.32) 0%,rgba(6,182,212,.18) 100%);border:1px solid rgba(59,130,246,.28);box-shadow:0 4px 20px rgba(37,99,235,.22),inset 0 1px 0 rgba(255,255,255,.09);}
+.nav a.active::after{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:55%;background:linear-gradient(180deg,#93c5fd,#22d3ee);border-radius:0 3px 3px 0;box-shadow:0 0 10px rgba(96,165,250,.8);}
+.ic{width:29px;height:29px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .18s;}
+.ic .material-icons-round{font-size:15px;}
+.ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
+.ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-int{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.ic-adm{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
+.nav a.active .ic{transform:scale(1.08);box-shadow:0 0 14px rgba(37,99,235,.4);}
+.nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
+.user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--glass);margin-bottom:8px;border:1px solid var(--border-b);}
+.user-av{width:33px;height:33px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.user-name{font-size:10.5px;font-weight:700;color:#fff;text-transform:uppercase;}
+.user-role{font-size:8px;color:var(--text-d);font-weight:500;text-transform:uppercase;margin-top:1px;}
+.logout-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:10px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);color:rgba(252,165,165,.8);font-size:10px;font-weight:700;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;}
+.logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;}
+.logout-btn .material-icons-round{font-size:14px;}
 
-/* ── MAIN ── */
-.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;}
-.topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;flex-wrap:wrap;}
-.topbar h1{font-size:16px;font-weight:900;text-transform:uppercase;color:#1e293b;flex-shrink:0;}
-.scroll{flex:1;overflow-y:auto;padding:20px 24px;}
+/* ═══ MAIN ═══ */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:var(--sidebar-w);}
+.topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:13px 26px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:14px;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.topbar-left{display:flex;align-items:center;gap:13px;}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;}
+.menu-btn .material-icons-round{font-size:22px;}
+.page-title{font-size:15px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
+.page-sub{font-size:9.5px;color:#94a3b8;font-weight:500;margin-top:2px;letter-spacing:.05em;}
+.topbar-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.06em;font-family:'Outfit',sans-serif;white-space:nowrap;}
+.btn-blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 16px rgba(37,99,235,.32);}
+.btn-blue:hover{box-shadow:0 6px 22px rgba(37,99,235,.48);transform:translateY(-1px);}
+.btn-green{background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 4px 14px rgba(16,185,129,.28);}
+.btn-green:hover{transform:translateY(-1px);}
+.btn-amber{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;box-shadow:0 4px 14px rgba(245,158,11,.28);}
+.btn-amber:hover{transform:translateY(-1px);}
+.btn-ghost{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}
+.btn-ghost:hover{background:#e2e8f0;}
+.btn-sm{padding:6px 12px;font-size:10px;border-radius:8px;}
+.btn .material-icons-round{font-size:14px;}
+
+.year-sel{padding:9px 14px;background:#f8fafc;border:1.5px solid #e8edf5;border-radius:10px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;color:#0f172a;outline:none;cursor:pointer;transition:border .15s;}
+.year-sel:focus{border-color:#2563eb;}
+
+.scroll{flex:1;overflow-y:auto;padding:20px 26px;}
 .scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
 
-.hamburger{display:none;width:36px;height:36px;background:#f1f5f9;border:none;border-radius:9px;cursor:pointer;align-items:center;justify-content:center;flex-shrink:0;}
-.hamburger .material-icons-round{font-size:20px;color:#1e293b;}
+/* ═══ STAT CARDS ═══ */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px;}
+.stat-card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:16px 18px;position:relative;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:all .2s;}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.09);}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.sc-total::before{background:linear-gradient(90deg,#2563eb,#06b6d4);}
+.sc-national::before{background:linear-gradient(90deg,#ef4444,#f87171);}
+.sc-festival::before{background:linear-gradient(90deg,#8b5cf6,#c084fc);}
+.sc-optional::before{background:linear-gradient(90deg,#f59e0b,#fcd34d);}
+.stat-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
+.sc-total .stat-icon{background:#eff6ff;color:#2563eb;}
+.sc-national .stat-icon{background:#fef2f2;color:#ef4444;}
+.sc-festival .stat-icon{background:#f5f3ff;color:#8b5cf6;}
+.sc-optional .stat-icon{background:#fffbeb;color:#f59e0b;}
+.stat-icon .material-icons-round{font-size:18px;}
+.stat-label{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#94a3b8;margin-bottom:4px;}
+.stat-num{font-size:28px;font-weight:900;color:#0f172a;font-family:'JetBrains Mono',monospace;}
 
-.btn{display:flex;align-items:center;gap:5px;padding:8px 16px;border-radius:10px;font-size:11px;font-weight:800;border:none;cursor:pointer;transition:all .15s;text-transform:uppercase;font-family:'Plus Jakarta Sans',sans-serif;}
-.btn-blue{background:#2563eb;color:#fff;}.btn-blue:hover{background:#1d4ed8;}
-.btn-green{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;}.btn-green:hover{background:#dcfce7;}
-.btn-red{background:#fef2f2;color:#ef4444;border:1px solid #fee2e2;}
-.btn-sm{padding:5px 10px;font-size:10px;border-radius:8px;}
-.btn .material-icons-round{font-size:14px;}
-select.year-sel{padding:8px 12px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;outline:none;}
+/* ═══ CONTENT GRID ═══ */
+.content-grid{display:grid;grid-template-columns:1fr 340px;gap:16px;align-items:start;}
+.card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
+.card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
+.card-title{font-size:12px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.08em;}
 
-.content-grid{display:grid;grid-template-columns:1fr 340px;gap:16px;}
-.card{background:#fff;border-radius:16px;border:1px solid #f1f5f9;padding:20px;}
-.card-title{font-size:13px;font-weight:900;text-transform:uppercase;color:#1e293b;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;}
-.htbl{width:100%;border-collapse:collapse;font-size:11px;}
-.htbl thead th{background:#f8fafc;padding:10px 14px;font-size:9px;color:#94a3b8;text-transform:uppercase;font-weight:700;text-align:left;border-bottom:1px solid #f1f5f9;}
-.htbl tbody tr{border-bottom:1px solid #f8fafc;transition:background .12s;}
-.htbl tbody tr:hover{background:#f8fafc;}
-.htbl td{padding:10px 14px;font-weight:700;color:#475569;text-transform:uppercase;vertical-align:middle;}
-.htype{display:inline-block;padding:2px 8px;border-radius:99px;font-size:8px;font-weight:800;}
+/* MONTH FILTER TABS */
+.month-tabs{display:flex;gap:4px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;}
+.month-tabs::-webkit-scrollbar{height:3px;}.month-tabs::-webkit-scrollbar-thumb{background:#e2e8f0;border-radius:10px;}
+.month-tab{padding:5px 12px;border-radius:8px;border:1.5px solid #e8edf5;font-size:9.5px;font-weight:700;text-transform:uppercase;color:#64748b;cursor:pointer;white-space:nowrap;transition:all .18s;background:#f8fafc;}
+.month-tab:hover{border-color:#bfdbfe;color:#2563eb;background:#eff6ff;}
+.month-tab.active{background:#2563eb;color:#fff;border-color:#2563eb;box-shadow:0 2px 8px rgba(37,99,235,.3);}
+
+/* HOLIDAY TABLE */
+.tbl-wrap{border-radius:12px;overflow:hidden;border:1px solid #f1f5f9;overflow-x:auto;}
+.htbl{width:100%;border-collapse:collapse;font-size:11.5px;min-width:500px;}
+.htbl thead th{background:#f8fafc;padding:10px 14px;font-size:8.5px;color:#94a3b8;text-transform:uppercase;font-weight:700;text-align:left;white-space:nowrap;letter-spacing:.06em;}
+.htbl tbody tr{border-top:1px solid #f8fafc;transition:background .12s;}
+.htbl tbody tr:hover{background:#fafafa;}
+.htbl td{padding:11px 14px;font-weight:600;color:#475569;text-transform:uppercase;vertical-align:middle;}
+
+/* Holiday type badges */
+.htype{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:99px;font-size:8.5px;font-weight:700;text-transform:uppercase;white-space:nowrap;}
 .type-national{background:#fef2f2;color:#ef4444;}
-.type-optional{background:#fff7ed;color:#f97316;}
+.type-optional{background:#fffbeb;color:#d97706;}
 .type-gazetted{background:#eff6ff;color:#2563eb;}
-.type-festival{background:#f5f3ff;color:#7c3aed;}
-.type-restricted{background:#f0fdf4;color:#16a34a;}
+.type-festival{background:#f5f3ff;color:#8b5cf6;}
+.type-restricted{background:#f0fdf4;color:#10b981;}
 
-.fg{margin-bottom:12px;}
-.fl{font-size:8px;color:#64748b;font-weight:700;text-transform:uppercase;display:block;margin-bottom:5px;}
-input[type=text],input[type=date],select.form-sel{width:100%;padding:9px 12px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;outline:none;transition:border .15s;}
-input:focus,select.form-sel:focus{border-color:#2563eb;background:#fff;}
+/* Upcoming badge */
+.upcoming-dot{width:7px;height:7px;border-radius:50%;background:#10b981;display:inline-block;box-shadow:0 0 6px rgba(16,185,129,.6);}
+.past-row td{opacity:.5;}
 
-/* PANEL */
-.panel-overlay{position:fixed;inset:0;background:rgba(15,23,42,.5);backdrop-filter:blur(4px);z-index:100;display:flex;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .25s;}
+/* Day chip */
+.day-chip{display:inline-flex;padding:2px 8px;border-radius:6px;font-size:9px;font-weight:700;background:#f1f5f9;color:#64748b;}
+.day-weekend{background:#fef2f2;color:#ef4444;}
+
+/* DELETE BTN */
+.del-btn{width:28px;height:28px;border-radius:7px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;background:#fef2f2;color:#ef4444;transition:all .15s;}
+.del-btn:hover{background:#ef4444;color:#fff;}
+.del-btn .material-icons-round{font-size:13px;}
+
+/* ═══ ADD FORM ═══ */
+.form-group{margin-bottom:13px;}
+.form-label{font-size:8.5px;font-weight:700;text-transform:uppercase;color:#64748b;letter-spacing:.08em;margin-bottom:5px;display:block;}
+.form-inp,.form-sel{width:100%;padding:9px 12px;border-radius:9px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:11.5px;font-weight:600;color:#1e293b;background:#f8fafc;outline:none;transition:all .15s;text-transform:uppercase;}
+.form-inp:focus,.form-sel:focus{border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
+
+/* Type color preview */
+.type-preview{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+.type-prev-chip{padding:4px 10px;border-radius:8px;font-size:9px;font-weight:700;cursor:pointer;border:1.5px solid transparent;transition:all .15s;text-transform:uppercase;}
+.type-prev-chip.sel{border-color:currentColor;box-shadow:0 0 0 2px rgba(0,0,0,.06);}
+
+/* ADD BTN */
+.add-btn{width:100%;padding:12px;border-radius:12px;background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:none;cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 16px rgba(37,99,235,.32);margin-top:4px;}
+.add-btn:hover{box-shadow:0 6px 22px rgba(37,99,235,.48);transform:translateY(-1px);}
+.add-btn .material-icons-round{font-size:17px;}
+
+/* ═══ ASSIGN PANEL ═══ */
+.panel-overlay{position:fixed;inset:0;background:rgba(7,16,31,.65);backdrop-filter:blur(6px);z-index:500;display:flex;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .28s;}
 .panel-overlay.open{opacity:1;pointer-events:all;}
-.panel{width:480px;max-width:100vw;height:100vh;background:#fff;box-shadow:-10px 0 40px rgba(0,0,0,.12);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s;}
+.panel{width:500px;max-width:100vw;height:100vh;background:#fff;box-shadow:-12px 0 50px rgba(0,0,0,.18);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);}
 .panel-overlay.open .panel{transform:translateX(0);}
-.ph{padding:18px 20px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;background:#f8fafc;flex-shrink:0;}
-.pscroll{flex:1;overflow-y:auto;padding:16px 20px;}
-.emp-row{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:10px;border:1px solid #f1f5f9;margin-bottom:6px;cursor:pointer;transition:all .15s;}
-.emp-row:hover{background:#f8fafc;}
+.ph{padding:16px 22px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;background:#f8fafc;flex-shrink:0;}
+.pt{font-size:14px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
+.xbtn{width:32px;height:32px;background:#f1f5f9;border:none;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;color:#64748b;}
+.xbtn:hover{background:#fef2f2;color:#ef4444;}
+.xbtn .material-icons-round{font-size:17px;}
+.pscroll{flex:1;overflow-y:auto;padding:18px 22px;}
+.pscroll::-webkit-scrollbar{width:4px;}.pscroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+.emp-row{display:flex;align-items:center;justify-content:space-between;padding:10px 13px;border-radius:12px;border:1.5px solid #f1f5f9;margin-bottom:7px;cursor:pointer;transition:all .18s;}
+.emp-row:hover{background:#f8fafc;border-color:#e2e8f0;}
 .emp-row.sel{background:#eff6ff;border-color:#bfdbfe;}
-.er-av{width:30px;height:30px;border-radius:8px;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;flex-shrink:0;}
-.xbtn{width:28px;height:28px;background:#f1f5f9;border:none;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
-.xbtn:hover{background:#fee2e2;color:#ef4444;}
+.er-av{width:34px;height:34px;border-radius:10px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
 
-.stat-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
-.stat{background:#fff;border-radius:10px;padding:10px 14px;flex:1;min-width:80px;text-align:center;}
-.stat-n{font-size:20px;font-weight:900;color:#1e293b;}
-.stat-l{font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;}
+/* MINI CALENDAR PREVIEW */
+.cal-preview{background:#f8fafc;border-radius:12px;border:1px solid #ecf0f6;overflow:hidden;margin-bottom:16px;}
+.cal-prev-hd{padding:12px 14px;background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;display:flex;align-items:center;justify-content:space-between;}
+.cal-prev-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;}
+.cal-prev-body{padding:12px;}
+.hol-timeline{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto;}
+.hol-timeline::-webkit-scrollbar{width:3px;}.hol-timeline::-webkit-scrollbar-thumb{background:#e2e8f0;}
+.hol-tl-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:9px;background:#fff;border:1px solid #f1f5f9;transition:background .15s;}
+.hol-tl-item:hover{background:#eff6ff;}
+.hol-tl-item.upcoming{border-left:3px solid #10b981;}
+.hol-tl-item.past{opacity:.5;}
+.hol-tl-date{text-align:center;min-width:34px;}
+.hol-tl-day{font-size:17px;font-weight:900;color:#2563eb;line-height:1;font-family:'JetBrains Mono',monospace;}
+.hol-tl-mon{font-size:7.5px;font-weight:700;color:#94a3b8;text-transform:uppercase;}
+.hol-tl-name{font-size:11px;font-weight:700;text-transform:uppercase;color:#0f172a;}
+.hol-tl-type{font-size:8px;font-weight:600;color:#94a3b8;text-transform:uppercase;margin-top:1px;}
 
-/* MOBILE */
-@media(max-width:900px){
-  .content-grid{grid-template-columns:1fr!important;}
-  .add-form-card{order:-1;}
-}
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.2);}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{background:#065f46;border-left:4px solid #6ee7b7;}
+.toast.error{background:#7f1d1d;border-left:4px solid #fca5a5;}
+.toast.info{background:#1e3a5f;border-left:4px solid #60a5fa;}
+.toast .material-icons-round{font-size:16px;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+@media(max-width:1100px){.content-grid{grid-template-columns:1fr;}.stat-grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:768px){
-  .sidebar{position:fixed;left:0;top:0;height:100vh;transform:translateX(-100%);z-index:300;}
+  .sidebar{transform:translateX(-100%);}
   .sidebar.open{transform:translateX(0);}
   .sidebar-overlay.open{display:block;}
-  .hamburger{display:flex;}
-  .topbar{padding:10px 14px;gap:8px;}
-  .topbar-actions{flex-wrap:wrap;gap:6px!important;}
-  .scroll{padding:12px;}
-  .card{padding:14px;}
-  .tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-  .btn{padding:7px 12px;font-size:10px;}
+  .main{margin-left:0!important;}
+  .menu-btn{display:flex!important;}
+  .topbar,.scroll{padding:11px 14px;}
+  .stat-grid{grid-template-columns:repeat(2,1fr);}
   .btn .btn-text{display:none;}
-}
-@media(max-width:480px){
-  .topbar h1{font-size:13px;}
-  .stat{min-width:60px;}
+  .month-tabs{gap:3px;}
 }
 </style>
 </head>
 <body onload="init()">
+<div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
 <div class="app">
-<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
+<!-- ═══ SIDEBAR ═══ -->
 <aside class="sidebar" id="sidebar">
-  <button onclick="closeSidebar()" style="display:none;position:absolute;top:14px;right:14px;background:#f1f5f9;border:none;border-radius:8px;width:30px;height:30px;cursor:pointer;align-items:center;justify-content:center;" id="sidebarCloseBtn">
-    <span class="material-icons-round" style="font-size:16px;color:#64748b;">close</span>
-  </button>
-  <div class="logo"><div class="logo-icon">K</div><div class="logo-text">KIDV <span>Tech</span></div></div>
+  <div class="logo-area"><img src="logo.png" alt="KIDV Tech"></div>
   <nav class="nav">
     <div class="nav-sec">Main</div>
-    <a href="index.html"><span class="material-icons-round">dashboard</span>Dashboard</a>
-    <a href="employees.html"><span class="material-icons-round">badge</span>Employees</a>
+    <a href="index.html"><span class="ic ic-main"><span class="material-icons-round">dashboard</span></span>Dashboard</a>
+    <a href="employees.html"><span class="ic ic-main"><span class="material-icons-round">badge</span></span>Employees</a>
     <div class="nav-sec">HR</div>
-    <a href="shifts.html"><span class="material-icons-round">schedule</span>Shifts</a>
-    <a href="holidays.html" class="active"><span class="material-icons-round">event</span>Holidays</a>
+    <a href="leave-management.html"><span class="ic ic-hr"><span class="material-icons-round">event_available</span></span>Leave</a>
+    <a href="shifts.html"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
+    <a href="holidays.html" class="active"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
+    <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
     <div class="nav-sec">Operations</div>
-    <a href="attendance.html"><span class="material-icons-round">calendar_month</span>Attendance</a>
-    <a href="payroll.html"><span class="material-icons-round">receipt_long</span>Payroll</a>
-    <a href="device-manager.html"><span class="material-icons-round">device_hub</span>Device Manager</a>
+    <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
+    <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
+    <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
+    <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
+    <div class="nav-sec">Integration</div>
+    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">device_hub</span></span>Device Manager</a>
+    <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
+    <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
+    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">shield</span></span>Roles &amp; Perms</a>
   </nav>
+  <div class="nav-bottom">
+    <div class="user-info">
+      <div class="user-av" id="sideAvatar">SA</div>
+      <div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Administrator</div></div>
+    </div>
+    <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
+  </div>
 </aside>
 
+<!-- ═══ MAIN ═══ -->
 <div class="main">
   <div class="topbar">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <button class="hamburger" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
-      <h1>Holiday Master</h1>
+    <div class="topbar-left">
+      <button class="menu-btn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
+      <div>
+        <div class="page-title">Holiday Master</div>
+        <div class="page-sub" id="pageSubtitle">Managing 2025 holidays</div>
+      </div>
     </div>
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;" class="topbar-actions">
-      <select class="year-sel" id="yearSel" onchange="loadHolidays()"></select>
-      <button class="btn btn-green" onclick="loadDefaults()">
+    <div class="topbar-actions">
+      <select class="year-sel" id="yearSel" onchange="onYearChange()"></select>
+      <button class="btn btn-amber" onclick="loadDefaults()">
         <span class="material-icons-round">auto_awesome</span>
-        <span class="btn-text">Load India Defaults</span>
+        <span class="btn-text">Load Defaults</span>
       </button>
-      <button class="btn btn-blue" onclick="openAssignPanel()">
+      <button class="btn btn-ghost" onclick="openAssignPanel()">
         <span class="material-icons-round">group</span>
-        <span class="btn-text">Assign</span>
+        <span class="btn-text">Assign Policy</span>
+      </button>
+      <button class="btn btn-blue" onclick="exportHolidays()">
+        <span class="material-icons-round">download</span>
+        <span class="btn-text">Export</span>
       </button>
     </div>
   </div>
 
   <div class="scroll">
-    <div class="stat-row">
-      <div class="stat"><div class="stat-n" id="statTotal">0</div><div class="stat-l">Total</div></div>
-      <div class="stat"><div class="stat-n" id="statNat">0</div><div class="stat-l">National</div></div>
-      <div class="stat"><div class="stat-n" id="statFest">0</div><div class="stat-l">Festival</div></div>
-      <div class="stat"><div class="stat-n" id="statOpt">0</div><div class="stat-l">Optional</div></div>
+    <!-- STAT CARDS -->
+    <div class="stat-grid">
+      <div class="stat-card sc-total">
+        <div class="stat-icon"><span class="material-icons-round">calendar_month</span></div>
+        <div class="stat-label">Total Holidays</div>
+        <div class="stat-num" id="statTotal">0</div>
+      </div>
+      <div class="stat-card sc-national">
+        <div class="stat-icon"><span class="material-icons-round">flag</span></div>
+        <div class="stat-label">National / Gazetted</div>
+        <div class="stat-num" id="statNat">0</div>
+      </div>
+      <div class="stat-card sc-festival">
+        <div class="stat-icon"><span class="material-icons-round">celebration</span></div>
+        <div class="stat-label">Festival</div>
+        <div class="stat-num" id="statFest">0</div>
+      </div>
+      <div class="stat-card sc-optional">
+        <div class="stat-icon"><span class="material-icons-round">star</span></div>
+        <div class="stat-label">Optional / Restricted</div>
+        <div class="stat-num" id="statOpt">0</div>
+      </div>
     </div>
+
     <div class="content-grid">
-      <!-- Holiday Table -->
-      <div class="card">
-        <div class="card-title"><span>Holiday List <span id="yearLabel"></span></span></div>
-        <div class="tbl-scroll" style="border-radius:10px;border:1px solid #f1f5f9;overflow:hidden;overflow-x:auto;-webkit-overflow-scrolling:touch;">
-          <table class="htbl" style="min-width:500px;">
-            <thead><tr><th>#</th><th>Date</th><th>Holiday Name</th><th>Type</th><th>Day</th><th style="text-align:right;">Action</th></tr></thead>
-            <tbody id="holidayList"></tbody>
-          </table>
+      <!-- LEFT: Holiday List -->
+      <div>
+        <!-- Mini calendar / timeline preview -->
+        <div class="cal-preview" id="timelineCard">
+          <div class="cal-prev-hd">
+            <div class="cal-prev-title">Upcoming Holidays</div>
+            <span id="upcomingCount" style="font-size:9px;color:rgba(255,255,255,.5);font-weight:600;text-transform:uppercase;"></span>
+          </div>
+          <div class="cal-prev-body">
+            <div class="hol-timeline" id="holTimeline">
+              <div style="text-align:center;padding:14px;color:#94a3b8;font-size:11px;font-weight:600;text-transform:uppercase;">No upcoming holidays</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table card -->
+        <div class="card">
+          <div class="card-hd">
+            <div class="card-title" id="tableTitle">All Holidays — 2025</div>
+            <span id="listCount" style="font-size:9.5px;font-weight:600;color:#94a3b8;text-transform:uppercase;"></span>
+          </div>
+
+          <!-- Month filter tabs -->
+          <div class="month-tabs" id="monthTabs">
+            <div class="month-tab active" data-month="all" onclick="filterMonth(this)">All</div>
+            <div class="month-tab" data-month="1" onclick="filterMonth(this)">Jan</div>
+            <div class="month-tab" data-month="2" onclick="filterMonth(this)">Feb</div>
+            <div class="month-tab" data-month="3" onclick="filterMonth(this)">Mar</div>
+            <div class="month-tab" data-month="4" onclick="filterMonth(this)">Apr</div>
+            <div class="month-tab" data-month="5" onclick="filterMonth(this)">May</div>
+            <div class="month-tab" data-month="6" onclick="filterMonth(this)">Jun</div>
+            <div class="month-tab" data-month="7" onclick="filterMonth(this)">Jul</div>
+            <div class="month-tab" data-month="8" onclick="filterMonth(this)">Aug</div>
+            <div class="month-tab" data-month="9" onclick="filterMonth(this)">Sep</div>
+            <div class="month-tab" data-month="10" onclick="filterMonth(this)">Oct</div>
+            <div class="month-tab" data-month="11" onclick="filterMonth(this)">Nov</div>
+            <div class="month-tab" data-month="12" onclick="filterMonth(this)">Dec</div>
+          </div>
+
+          <div class="tbl-wrap">
+            <table class="htbl">
+              <thead><tr>
+                <th>#</th><th>Date</th><th>Holiday Name</th>
+                <th>Type</th><th>Day</th><th>Days Away</th><th style="text-align:right;">Action</th>
+              </tr></thead>
+              <tbody id="holidayList"></tbody>
+            </table>
+          </div>
         </div>
       </div>
-      <!-- Add Form -->
-      <div class="card add-form-card" style="height:fit-content;">
-        <div class="card-title">Add Holiday</div>
-        <div class="fg"><label class="fl">Holiday Name *</label><input type="text" id="hName" placeholder="DIWALI"></div>
-        <div class="fg"><label class="fl">Date *</label><input type="date" id="hDate"></div>
-        <div class="fg"><label class="fl">Type</label>
-          <select class="form-sel" id="hType">
-            <option value="NATIONAL">NATIONAL</option>
-            <option value="GAZETTED">GAZETTED</option>
-            <option value="FESTIVAL">FESTIVAL</option>
-            <option value="OPTIONAL">OPTIONAL</option>
-            <option value="RESTRICTED">RESTRICTED</option>
-          </select>
+
+      <!-- RIGHT: Add Form -->
+      <div>
+        <div class="card">
+          <div class="card-hd">
+            <div class="card-title" style="color:#2563eb;">Add Holiday</div>
+            <span class="material-icons-round" style="color:#2563eb;font-size:18px;">add_circle</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Holiday Name *</label>
+            <input type="text" class="form-inp" id="hName" placeholder="Diwali">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date *</label>
+            <input type="date" class="form-inp" id="hDate">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Type</label>
+            <select class="form-sel" id="hType" onchange="updateTypePreview()">
+              <option value="NATIONAL">National Holiday</option>
+              <option value="GAZETTED">Gazetted Holiday</option>
+              <option value="FESTIVAL">Festival Holiday</option>
+              <option value="OPTIONAL">Optional Holiday</option>
+              <option value="RESTRICTED">Restricted Holiday</option>
+            </select>
+            <div class="type-preview" id="typePreview">
+              <span class="htype type-national type-prev-chip sel">National</span>
+              <span class="htype type-gazetted type-prev-chip">Gazetted</span>
+              <span class="htype type-festival type-prev-chip">Festival</span>
+              <span class="htype type-optional type-prev-chip">Optional</span>
+              <span class="htype type-restricted type-prev-chip">Restricted</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description (Optional)</label>
+            <input type="text" class="form-inp" id="hDesc" placeholder="Brief note...">
+          </div>
+          <button class="add-btn" onclick="addHoliday()">
+            <span class="material-icons-round">add</span>Add Holiday
+          </button>
         </div>
-        <div class="fg"><label class="fl">Description</label><input type="text" id="hDesc" placeholder="OPTIONAL NOTE"></div>
-        <button class="btn btn-blue" style="width:100%;justify-content:center;padding:11px;" onclick="addHoliday()">
-          <span class="material-icons-round">add</span>Add Holiday
-        </button>
+
+        <!-- Quick stats for current month -->
+        <div class="card" style="margin-top:14px;" id="monthStatsCard">
+          <div class="card-title" id="monthStatsTitle" style="font-size:11px;margin-bottom:12px;">This Month</div>
+          <div id="monthStatsList" style="font-size:11px;color:#94a3b8;font-weight:600;text-align:center;padding:10px;">No holidays this month</div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 </div>
 
-<!-- ASSIGN PANEL -->
+<!-- ═══ ASSIGN PANEL ═══ -->
 <div id="assignOverlay" class="panel-overlay" onclick="if(event.target===this)closeAssign()">
   <div class="panel">
     <div class="ph">
       <div>
-        <div style="font-size:13px;font-weight:900;text-transform:uppercase;color:#1e293b;">Assign Holiday Policy</div>
-        <div style="font-size:9px;color:#2563eb;font-weight:700;text-transform:uppercase;margin-top:2px;" id="assignYear"></div>
+        <div class="pt">Assign Holiday Policy</div>
+        <div style="font-size:9px;color:#2563eb;font-weight:700;text-transform:uppercase;margin-top:2px;" id="assignYearLbl"></div>
       </div>
-      <div style="display:flex;gap:8px;">
-        <button class="btn btn-blue btn-sm" onclick="saveAssign()"><span class="material-icons-round">save</span>Save</button>
-        <button class="xbtn" onclick="closeAssign()"><span class="material-icons-round" style="font-size:15px;">close</span></button>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn btn-green btn-sm" onclick="saveAssign()"><span class="material-icons-round">save</span>Save</button>
+        <button class="xbtn" onclick="closeAssign()"><span class="material-icons-round">close</span></button>
       </div>
     </div>
-    <div class="pscroll">
-      <div style="margin-bottom:14px;padding:10px;background:#f0fdf4;border-radius:10px;border:1px solid #bbf7d0;">
-        <div style="font-size:9px;font-weight:800;color:#16a34a;text-transform:uppercase;margin-bottom:6px;">Holiday Policy Applicable</div>
-        <div style="display:flex;gap:8px;">
-          <button class="btn btn-sm btn-blue" onclick="selectAll()">Select All</button>
-          <button class="btn btn-sm" style="background:#f1f5f9;" onclick="selectNone()">Deselect All</button>
-        </div>
+    <div style="padding:12px 22px;border-bottom:1px solid #f1f5f9;background:#f8fafc;">
+      <div style="display:flex;gap:8px;margin-bottom:10px;">
+        <button class="btn btn-blue btn-sm" onclick="selectAll()"><span class="material-icons-round">done_all</span>Select All</button>
+        <button class="btn btn-ghost btn-sm" onclick="selectNone()"><span class="material-icons-round">remove_done</span>Deselect All</button>
       </div>
-      <div id="empAssignList"></div>
+      <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid #e2e8f0;border-radius:9px;padding:8px 12px;">
+        <span class="material-icons-round" style="font-size:16px;color:#94a3b8;">search</span>
+        <input type="text" id="assignSearch" placeholder="Search employees..." oninput="filterAssignSearch()" style="border:none;background:transparent;font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;color:#1e293b;outline:none;width:100%;">
+      </div>
+    </div>
+    <div class="pscroll" id="empAssignList"></div>
+    <div style="padding:12px 22px;border-top:1px solid #f1f5f9;background:#f8fafc;display:flex;align-items:center;justify-content:space-between;border-radius:0 0 0 0;">
+      <span id="assignSelCount" style="font-size:10px;color:#94a3b8;font-weight:600;text-transform:uppercase;"></span>
+      <button class="btn btn-green" onclick="saveAssign()" style="padding:8px 18px;">
+        <span class="material-icons-round">check</span>Save Policy
+      </button>
     </div>
   </div>
 </div>
 
-<script>
-function openSidebar(){
-  document.getElementById('sidebar').classList.add('open');
-  document.getElementById('sidebarOverlay').classList.add('open');
-  document.getElementById('sidebarCloseBtn').style.display='flex';
-}
-function closeSidebar(){
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('sidebarOverlay').classList.remove('open');
-}
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="material-icons-round" id="toastIcon">check_circle</span>
+  <span id="toastMsg">Success</span>
+</div>
 
-const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+<script>
+const DAYS_FULL=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const DAYS_SHORT=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const SHORT_MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const AV_COLORS=['linear-gradient(135deg,#2563eb,#06b6d4)','linear-gradient(135deg,#8b5cf6,#ec4899)','linear-gradient(135deg,#10b981,#06b6d4)','linear-gradient(135deg,#f59e0b,#ef4444)','linear-gradient(135deg,#6366f1,#8b5cf6)','linear-gradient(135deg,#0891b2,#10b981)'];
+const TYPE_STYLES={
+  NATIONAL:{cls:'type-national',emoji:'🇮🇳'},
+  GAZETTED:{cls:'type-gazetted',emoji:'🏛️'},
+  FESTIVAL:{cls:'type-festival',emoji:'🎉'},
+  OPTIONAL:{cls:'type-optional',emoji:'⭐'},
+  RESTRICTED:{cls:'type-restricted',emoji:'📋'}
+};
+const TYPE_LABELS={NATIONAL:'National Holiday',GAZETTED:'Gazetted Holiday',FESTIVAL:'Festival Holiday',OPTIONAL:'Optional Holiday',RESTRICTED:'Restricted Holiday'};
+
+let activeMonthFilter='all';
+let allEmployees=[];
+
 function init(){
+  loadUserInfo();
+  allEmployees=JSON.parse(localStorage.getItem('employees')||'[]');
   const y=new Date().getFullYear();
   const sel=document.getElementById('yearSel');
-  for(let yr=y-5;yr<=y+2;yr++){const o=document.createElement('option');o.value=yr;o.textContent=yr;if(yr===y)o.selected=true;sel.appendChild(o);}
+  for(let yr=y-3;yr<=y+3;yr++){
+    const o=document.createElement('option');o.value=yr;o.textContent=yr;
+    if(yr===y)o.selected=true;sel.appendChild(o);
+  }
+  loadHolidays();
+  updateTypePreview();
+  // Default today's date in form
+  document.getElementById('hDate').value=new Date().toISOString().split('T')[0];
+}
+
+function loadUserInfo(){
+  const user=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+  if(user.name){
+    const p=user.name.trim().split(' ');
+    document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();
+    document.getElementById('sideName').textContent=user.name;
+    document.getElementById('sideRole').textContent=user.role||'Staff';
+  }
+  const role=(user.role||'').toLowerCase();
+  if(role==='super admin'||role==='admin'){
+    document.getElementById('adminNav').style.display='';
+    document.getElementById('usersLink').style.display='';
+    document.getElementById('rolesLink').style.display='';
+  }
+}
+function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');document.body.style.overflow='hidden';}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');document.body.style.overflow='';}
+
+function getYear(){return document.getElementById('yearSel').value;}
+function getKey(yr){return`holidays_${yr||getYear()}`;}
+
+function onYearChange(){
+  activeMonthFilter='all';
+  document.querySelectorAll('.month-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelector('.month-tab[data-month="all"]').classList.add('active');
   loadHolidays();
 }
-function getYear(){return document.getElementById('yearSel').value;}
-function getKey(){return`holidays_${getYear()}`;}
+
 function loadHolidays(){
-  document.getElementById('yearLabel').textContent=getYear();
-  document.getElementById('assignYear').textContent=`YEAR ${getYear()} HOLIDAY LIST`;
+  const yr=getYear();
+  document.getElementById('pageSubtitle').textContent=`Managing ${yr} holidays`;
+  document.getElementById('tableTitle').textContent=`All Holidays — ${yr}`;
+  document.getElementById('assignYearLbl').textContent=`Year ${yr} Holiday Policy`;
+
+  // Also save to 'holidays' key for other modules (leave management)
   const list=JSON.parse(localStorage.getItem(getKey())||'[]');
   list.sort((a,b)=>new Date(a.date)-new Date(b.date));
+
+  // Sync to generic 'holidays' key for use in leave management & attendance
+  const mapped=list.map(h=>({...h,holidayDate:h.date,holidayName:h.name}));
+  localStorage.setItem('holidays',JSON.stringify(mapped));
+
   updateStats(list);
-  const tbody=document.getElementById('holidayList');
-  if(!list.length){tbody.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:30px;color:#94a3b8;font-weight:700;text-transform:uppercase;">No holidays for ${getYear()}. Click "Load India Defaults".</td></tr>`;return;}
-  tbody.innerHTML=list.map((h,i)=>{
-    const d=new Date(h.date);const day=DAYS[d.getDay()];
-    const typeCls={'NATIONAL':'type-national','OPTIONAL':'type-optional','GAZETTED':'type-gazetted','FESTIVAL':'type-festival','RESTRICTED':'type-restricted'}[h.type]||'type-festival';
-    return`<tr>
-      <td style="color:#94a3b8;font-size:10px;">${i+1}</td>
-      <td style="font-weight:800;color:#1e293b;">${h.date}</td>
-      <td style="font-weight:800;color:#1e293b;">${h.name}</td>
-      <td><span class="htype ${typeCls}">${h.type}</span></td>
-      <td style="color:#64748b;">${day}</td>
-      <td style="text-align:right;"><button class="btn btn-sm btn-red" onclick="delHoliday(${i})"><span class="material-icons-round" style="font-size:12px;">delete</span></button></td>
-    </tr>`;
-  }).join('');
+  renderTimeline(list);
+  renderTable(list);
+  renderMonthStats(list);
 }
+
 function updateStats(list){
   document.getElementById('statTotal').textContent=list.length;
   document.getElementById('statNat').textContent=list.filter(h=>h.type==='NATIONAL'||h.type==='GAZETTED').length;
   document.getElementById('statFest').textContent=list.filter(h=>h.type==='FESTIVAL').length;
   document.getElementById('statOpt').textContent=list.filter(h=>h.type==='OPTIONAL'||h.type==='RESTRICTED').length;
 }
-function addHoliday(){
-  const name=document.getElementById('hName').value.trim().toUpperCase(),date=document.getElementById('hDate').value;
-  if(!name||!date){alert('Name and Date required!');return;}
+
+function renderTimeline(list){
+  const today=new Date();today.setHours(0,0,0,0);
+  const upcoming=list.filter(h=>new Date(h.date)>=today).slice(0,6);
+  document.getElementById('upcomingCount').textContent=upcoming.length+' upcoming';
+  const tl=document.getElementById('holTimeline');
+  if(!upcoming.length){
+    tl.innerHTML='<div style="text-align:center;padding:14px;color:#94a3b8;font-size:11px;font-weight:600;text-transform:uppercase;">No upcoming holidays</div>';
+    return;
+  }
+  tl.innerHTML=upcoming.map(h=>{
+    const d=new Date(h.date);
+    const diff=Math.round((d-today)/(1000*60*60*24));
+    const diffText=diff===0?'Today':diff===1?'Tomorrow':`In ${diff} days`;
+    const ts=TYPE_STYLES[h.type]||TYPE_STYLES.FESTIVAL;
+    return `<div class="hol-tl-item upcoming" style="animation:fadeUp .3s ease both;">
+      <div class="hol-tl-date">
+        <div class="hol-tl-day">${d.getDate()}</div>
+        <div class="hol-tl-mon">${SHORT_MONTHS[d.getMonth()]}</div>
+      </div>
+      <div style="flex:1;">
+        <div class="hol-tl-name">${h.name}</div>
+        <div class="hol-tl-type">${DAYS_SHORT[d.getDay()]} · <span class="htype ${ts.cls}" style="padding:1px 6px;font-size:7.5px;">${h.type}</span></div>
+      </div>
+      <div style="font-size:9px;font-weight:700;color:#10b981;text-align:right;white-space:nowrap;">${diffText}</div>
+    </div>`;
+  }).join('');
+}
+
+function filterMonth(tab){
+  document.querySelectorAll('.month-tab').forEach(t=>t.classList.remove('active'));
+  tab.classList.add('active');
+  activeMonthFilter=tab.dataset.month;
   const list=JSON.parse(localStorage.getItem(getKey())||'[]');
+  list.sort((a,b)=>new Date(a.date)-new Date(b.date));
+  renderTable(list);
+}
+
+function renderTable(list){
+  const today=new Date();today.setHours(0,0,0,0);
+  let filtered=list;
+  if(activeMonthFilter!=='all'){
+    filtered=list.filter(h=>{
+      const m=new Date(h.date).getMonth()+1;
+      return m===parseInt(activeMonthFilter);
+    });
+  }
+  document.getElementById('listCount').textContent=filtered.length+' Records';
+  const tbody=document.getElementById('holidayList');
+  if(!filtered.length){
+    tbody.innerHTML=`<tr><td colspan="7" style="text-align:center;padding:32px;color:#94a3b8;font-size:12px;font-weight:600;text-transform:uppercase;">No holidays found</td></tr>`;
+    return;
+  }
+  tbody.innerHTML=filtered.map((h,i)=>{
+    const d=new Date(h.date);
+    const dayOfWeek=d.getDay();
+    const isWeekend=dayOfWeek===0||dayOfWeek===6;
+    const isPast=d<today;
+    const diff=Math.round((d-today)/(1000*60*60*24));
+    const diffText=diff<0?`${Math.abs(diff)}d ago`:diff===0?'Today':diff===1?'Tomorrow':`${diff} days`;
+    const diffColor=diff<0?'#94a3b8':diff===0?'#10b981':diff<=7?'#f59e0b':'#2563eb';
+    const ts=TYPE_STYLES[h.type]||TYPE_STYLES.FESTIVAL;
+    return `<tr class="${isPast?'past-row':''}" style="animation:fadeUp .25s ease both;animation-delay:${i*0.03}s;">
+      <td style="color:#94a3b8;font-size:10px;font-weight:600;">${i+1}</td>
+      <td>
+        <div style="font-weight:800;color:#0f172a;font-family:'JetBrains Mono',monospace;font-size:11px;">${h.date}</div>
+        <div style="font-size:8.5px;color:#94a3b8;margin-top:1px;">${MONTHS[d.getMonth()]} ${d.getFullYear()}</div>
+      </td>
+      <td>
+        <div style="display:flex;align-items:center;gap:7px;">
+          <span style="font-size:16px;">${ts.emoji}</span>
+          <div>
+            <div style="font-weight:800;color:#0f172a;font-size:11.5px;">${h.name}</div>
+            ${h.desc?`<div style="font-size:8.5px;color:#94a3b8;margin-top:1px;">${h.desc}</div>`:''}
+          </div>
+        </div>
+      </td>
+      <td><span class="htype ${ts.cls}">${h.type}</span></td>
+      <td><span class="day-chip ${isWeekend?'day-weekend':''}">${DAYS_SHORT[dayOfWeek]}</span></td>
+      <td style="font-size:10px;font-weight:700;color:${diffColor};">${diffText}</td>
+      <td style="text-align:right;"><button class="del-btn" onclick="delHoliday('${h.date}')"><span class="material-icons-round">delete</span></button></td>
+    </tr>`;
+  }).join('');
+}
+
+function renderMonthStats(list){
+  const now=new Date();
+  const currMonth=now.getMonth();
+  const currYear=now.getFullYear();
+  const thisMonth=list.filter(h=>{const d=new Date(h.date);return d.getMonth()===currMonth&&d.getFullYear()===parseInt(getYear());});
+  const title=document.getElementById('monthStatsTitle');
+  const body=document.getElementById('monthStatsList');
+  title.textContent=`${MONTHS[currMonth]} ${getYear()} — ${thisMonth.length} Holiday${thisMonth.length!==1?'s':''}`;
+  if(!thisMonth.length){body.innerHTML='<div style="text-align:center;padding:10px;color:#94a3b8;font-size:11px;font-weight:600;text-transform:uppercase;">No holidays this month</div>';return;}
+  body.innerHTML=thisMonth.map(h=>{
+    const d=new Date(h.date);
+    const ts=TYPE_STYLES[h.type]||TYPE_STYLES.FESTIVAL;
+    return `<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px dashed #f1f5f9;">
+      <div style="width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;background:#f8fafc;flex-shrink:0;">${ts.emoji}</div>
+      <div style="flex:1;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:#0f172a;">${h.name}</div>
+        <div style="font-size:8.5px;color:#94a3b8;text-transform:uppercase;">${d.getDate()} ${SHORT_MONTHS[d.getMonth()]} · ${DAYS_SHORT[d.getDay()]}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─── ADD HOLIDAY ───
+function addHoliday(){
+  const name=document.getElementById('hName').value.trim().toUpperCase();
+  const date=document.getElementById('hDate').value;
+  if(!name||!date){showToast('Name and Date are required!','error');return;}
+  const list=JSON.parse(localStorage.getItem(getKey())||'[]');
+  if(list.find(h=>h.date===date)){showToast('A holiday already exists on this date!','error');return;}
   list.push({name,date,type:document.getElementById('hType').value,desc:document.getElementById('hDesc').value.toUpperCase()});
   localStorage.setItem(getKey(),JSON.stringify(list));
-  document.getElementById('hName').value='';document.getElementById('hDate').value='';document.getElementById('hDesc').value='';
+  document.getElementById('hName').value='';
+  document.getElementById('hDesc').value='';
   loadHolidays();
+  showToast(`${name} added!`,'success');
 }
-function delHoliday(i){
-  if(!confirm('Delete this holiday?'))return;
+
+function delHoliday(date){
+  if(!confirm('Delete this holiday?')) return;
   const list=JSON.parse(localStorage.getItem(getKey())||'[]');
-  list.splice(i,1);localStorage.setItem(getKey(),JSON.stringify(list));loadHolidays();
+  const idx=list.findIndex(h=>h.date===date);
+  if(idx<0) return;
+  const name=list[idx].name;
+  list.splice(idx,1);
+  localStorage.setItem(getKey(),JSON.stringify(list));
+  loadHolidays();
+  showToast(`${name} deleted`,'error');
 }
+
+// ─── LOAD DEFAULTS ───
 function loadDefaults(){
-  if(!confirm(`Load default India holidays for ${getYear()}?`))return;
+  if(!confirm(`Load default India holidays for ${getYear()}?`)) return;
   const y=parseInt(getYear());
   const defaults=[
-    {name:"NEW YEAR'S DAY",date:`${y}-01-01`,type:'NATIONAL'},{name:'REPUBLIC DAY',date:`${y}-01-26`,type:'NATIONAL'},
-    {name:'MAKAR SANKRANTI',date:`${y}-01-14`,type:'FESTIVAL'},{name:'HOLI',date:`${y}-03-14`,type:'FESTIVAL'},
-    {name:'DR. AMBEDKAR JAYANTI',date:`${y}-04-14`,type:'NATIONAL'},{name:'GOOD FRIDAY',date:`${y}-04-18`,type:'GAZETTED'},
-    {name:'EID-UL-FITR',date:`${y}-04-10`,type:'FESTIVAL'},{name:'MAHARASHTRA DAY',date:`${y}-05-01`,type:'GAZETTED'},
-    {name:'INDEPENDENCE DAY',date:`${y}-08-15`,type:'NATIONAL'},{name:'JANMASHTAMI',date:`${y}-08-16`,type:'FESTIVAL'},
-    {name:'GANDHI JAYANTI',date:`${y}-10-02`,type:'NATIONAL'},{name:'EID-UL-ADHA',date:`${y}-06-17`,type:'FESTIVAL'},
-    {name:'DUSSEHRA',date:`${y}-10-02`,type:'FESTIVAL'},{name:'DIWALI',date:`${y}-10-20`,type:'FESTIVAL'},
-    {name:'DIWALI (LAXMI PUJA)',date:`${y}-10-21`,type:'FESTIVAL'},{name:'GURU NANAK JAYANTI',date:`${y}-11-05`,type:'FESTIVAL'},
-    {name:'CHRISTMAS',date:`${y}-12-25`,type:'NATIONAL'},
+    {name:"NEW YEAR'S DAY",date:`${y}-01-01`,type:'NATIONAL',desc:''},
+    {name:'REPUBLIC DAY',date:`${y}-01-26`,type:'NATIONAL',desc:''},
+    {name:'HOLI',date:`${y}-03-14`,type:'FESTIVAL',desc:''},
+    {name:'GUDI PADWA',date:`${y}-03-30`,type:'FESTIVAL',desc:''},
+    {name:'DR. AMBEDKAR JAYANTI',date:`${y}-04-14`,type:'NATIONAL',desc:''},
+    {name:'GOOD FRIDAY',date:`${y}-04-18`,type:'GAZETTED',desc:''},
+    {name:'EIDUL FITR',date:`${y}-04-01`,type:'GAZETTED',desc:''},
+    {name:'INDEPENDENCE DAY',date:`${y}-08-15`,type:'NATIONAL',desc:''},
+    {name:'JANMASHTAMI',date:`${y}-08-16`,type:'FESTIVAL',desc:''},
+    {name:'GANDHI JAYANTI',date:`${y}-10-02`,type:'NATIONAL',desc:''},
+    {name:'DUSSEHRA',date:`${y}-10-02`,type:'FESTIVAL',desc:''},
+    {name:'DIWALI',date:`${y}-10-20`,type:'FESTIVAL',desc:''},
+    {name:'CHRISTMAS',date:`${y}-12-25`,type:'NATIONAL',desc:''}
   ];
   const existing=JSON.parse(localStorage.getItem(getKey())||'[]');
-  const existingDates=existing.map(h=>h.date);
-  const toAdd=defaults.filter(d=>!existingDates.includes(d.date));
+  const existDates=new Set(existing.map(h=>h.date));
+  const toAdd=defaults.filter(d=>!existDates.has(d.date));
   localStorage.setItem(getKey(),JSON.stringify([...existing,...toAdd]));
-  loadHolidays();alert(`Added ${toAdd.length} default holidays for ${y}!`);
+  loadHolidays();
+  showToast(`${toAdd.length} default holidays added for ${y}!`,'success');
 }
+
+// ─── TYPE PREVIEW ───
+function updateTypePreview(){
+  const val=document.getElementById('hType').value;
+  const typeMap={NATIONAL:'National',GAZETTED:'Gazetted',FESTIVAL:'Festival',OPTIONAL:'Optional',RESTRICTED:'Restricted'};
+  document.querySelectorAll('.type-prev-chip').forEach(chip=>{
+    chip.classList.toggle('sel',chip.textContent.trim()===typeMap[val]);
+  });
+}
+
+// ─── ASSIGN PANEL ───
 function openAssignPanel(){
-  const emps=JSON.parse(localStorage.getItem('employees')||'[]');
-  const el=document.getElementById('empAssignList');
-  if(!emps.length){el.innerHTML='<div style="text-align:center;padding:30px;color:#94a3b8;">No employees found.</div>';}
-  else{
-    el.innerHTML=emps.map((e,i)=>{
-      const assigned=(e.holidayYear||'')==getYear();
-      return`<div class="emp-row ${assigned?'sel':''}" id="arow-${i}" onclick="toggleEmp(${i})">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div class="er-av">${e.fName[0]}${e.lName[0]}</div>
-          <div><div style="font-size:11px;font-weight:800;text-transform:uppercase;color:#1e293b;">${e.fName} ${e.lName}</div><div style="font-size:8px;color:#94a3b8;text-transform:uppercase;">${e.job||'--'} | ${e.dept||'--'}</div></div>
-        </div>
-        <span class="material-icons-round" style="color:${assigned?'#2563eb':'#e2e8f0'};" id="achk-${i}">${assigned?'check_circle':'radio_button_unchecked'}</span>
-      </div>`;
-    }).join('');
-  }
+  allEmployees=JSON.parse(localStorage.getItem('employees')||'[]');
+  renderAssignList(allEmployees);
+  document.getElementById('assignSearch').value='';
   document.getElementById('assignOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
 }
+
+function renderAssignList(emps){
+  const list=document.getElementById('empAssignList');
+  if(!emps.length){
+    list.innerHTML='<div style="text-align:center;padding:30px;color:#94a3b8;font-size:12px;font-weight:600;text-transform:uppercase;">No employees found</div>';
+    updateAssignCount();return;
+  }
+  list.innerHTML=emps.map((e,localI)=>{
+    const realIdx=allEmployees.indexOf(e);
+    const assigned=(e.holidayYear||'')==getYear();
+    const grad=AV_COLORS[realIdx%AV_COLORS.length];
+    const init=(e.fName?.[0]||'')+(e.lName?.[0]||'');
+    return `<div class="emp-row ${assigned?'sel':''}" id="arow-${realIdx}" onclick="toggleEmp(${realIdx})">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="er-av" style="background:${grad};">${init}</div>
+        <div>
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;color:#0f172a;">${e.fName} ${e.lName}</div>
+          <div style="font-size:8.5px;color:#94a3b8;text-transform:uppercase;margin-top:1px;">${e.job||'—'} · ${e.dept||'—'}</div>
+        </div>
+      </div>
+      <span class="material-icons-round" style="color:${assigned?'#2563eb':'#e2e8f0'};font-size:20px;" id="achk-${realIdx}">${assigned?'check_circle':'radio_button_unchecked'}</span>
+    </div>`;
+  }).join('');
+  updateAssignCount();
+}
+
+function filterAssignSearch(){
+  const q=document.getElementById('assignSearch').value.toLowerCase();
+  renderAssignList(q?allEmployees.filter(e=>`${e.fName} ${e.lName}`.toLowerCase().includes(q)||(e.dept||'').toLowerCase().includes(q)):[...allEmployees]);
+}
+
 function toggleEmp(i){
-  const row=document.getElementById(`arow-${i}`),chk=document.getElementById(`achk-${i}`);
+  const row=document.getElementById(`arow-${i}`);
+  const chk=document.getElementById(`achk-${i}`);
   const on=row.classList.contains('sel');
-  row.classList.toggle('sel');chk.textContent=on?'radio_button_unchecked':'check_circle';chk.style.color=on?'#e2e8f0':'#2563eb';
+  row.classList.toggle('sel');
+  chk.textContent=on?'radio_button_unchecked':'check_circle';
+  chk.style.color=on?'#e2e8f0':'#2563eb';
+  updateAssignCount();
 }
-function selectAll(){document.querySelectorAll('[id^="arow-"]').forEach(r=>{r.classList.add('sel');const i=r.id.split('-')[1];document.getElementById(`achk-${i}`).textContent='check_circle';document.getElementById(`achk-${i}`).style.color='#2563eb';});}
-function selectNone(){document.querySelectorAll('[id^="arow-"]').forEach(r=>{r.classList.remove('sel');const i=r.id.split('-')[1];document.getElementById(`achk-${i}`).textContent='radio_button_unchecked';document.getElementById(`achk-${i}`).style.color='#e2e8f0';});}
+
+function updateAssignCount(){
+  const c=document.querySelectorAll('.emp-row.sel').length;
+  document.getElementById('assignSelCount').textContent=c+' Employee'+(c!==1?'s':'')+' Selected';
+}
+
+function selectAll(){document.querySelectorAll('[id^="arow-"]').forEach(r=>{r.classList.add('sel');const i=r.id.split('-')[1];const chk=document.getElementById(`achk-${i}`);if(chk){chk.textContent='check_circle';chk.style.color='#2563eb';}});updateAssignCount();}
+function selectNone(){document.querySelectorAll('[id^="arow-"]').forEach(r=>{r.classList.remove('sel');const i=r.id.split('-')[1];const chk=document.getElementById(`achk-${i}`);if(chk){chk.textContent='radio_button_unchecked';chk.style.color='#e2e8f0';}});updateAssignCount();}
+
 function saveAssign(){
   const emps=JSON.parse(localStorage.getItem('employees')||'[]');
   document.querySelectorAll('[id^="arow-"]').forEach(row=>{
@@ -327,9 +767,41 @@ function saveAssign(){
     emps[i].holidayList=row.classList.contains('sel')?getKey():'';
   });
   localStorage.setItem('employees',JSON.stringify(emps));
-  closeAssign();alert('Holiday assignment saved!');
+  allEmployees=emps;
+  closeAssign();
+  showToast('Holiday policy assigned!','success');
 }
-function closeAssign(){document.getElementById('assignOverlay').classList.remove('open');}
+
+function closeAssign(){
+  document.getElementById('assignOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// ─── EXPORT ───
+function exportHolidays(){
+  const list=JSON.parse(localStorage.getItem(getKey())||'[]');
+  list.sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const rows=[['#','Date','Holiday Name','Type','Day','Description']];
+  list.forEach((h,i)=>{
+    const d=new Date(h.date);
+    rows.push([i+1,h.date,h.name,h.type,DAYS_FULL[d.getDay()],h.desc||'']);
+  });
+  const csv=rows.map(r=>r.map(c=>`"${c||''}"`).join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download=`Holiday_List_${getYear()}.csv`;a.click();
+  showToast('Exported!','success');
+}
+
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');
+  const icons={success:'check_circle',error:'error',info:'info'};
+  t.className='toast '+type;
+  document.getElementById('toastIcon').textContent=icons[type]||'info';
+  document.getElementById('toastMsg').textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3600);
+}
 </script>
 </body>
 </html>
