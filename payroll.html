@@ -3,250 +3,415 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>KIDV Tech | Payroll</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<script>if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}</script>
 <style>
+:root{--navy:#07101f;--blue:#2563eb;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--purple:#8b5cf6;--amber:#f59e0b;--orange:#f97316;--text-m:rgba(148,163,184,.65);--text-d:rgba(148,163,184,.32);--border-b:rgba(255,255,255,.11);--glass:rgba(255,255,255,.04);--sidebar-w:260px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f4f8;}
-.app{display:flex;height:100vh;overflow:hidden;}
-
-/* ── SIDEBAR ── */
-.sidebar{width:220px;min-width:220px;background:#fff;border-right:1px solid #e2e8f0;display:flex;flex-direction:column;padding:18px 12px;height:100vh;transition:transform .3s;z-index:300;}
-.logo{display:flex;align-items:center;gap:10px;padding:6px 8px;margin-bottom:22px;}
-.logo-icon{width:36px;height:36px;background:#2563eb;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:900;box-shadow:0 4px 12px rgba(37,99,235,.28);}
-.logo-text{font-size:14px;font-weight:900;color:#1e293b;}.logo-text span{color:#2563eb;}
-.nav-sec{font-size:8px;color:#94a3b8;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:0 10px;margin:10px 0 4px;}
-.nav a{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;font-size:11px;font-weight:700;color:#64748b;text-decoration:none;margin-bottom:2px;text-transform:uppercase;letter-spacing:.03em;transition:all .15s;}
-.nav a:hover{background:#f1f5f9;color:#1e293b;}
-.nav a.active{background:#2563eb;color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.3);}
-.nav a .material-icons-round{font-size:16px;flex-shrink:0;}
-.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:250;backdrop-filter:blur(2px);}
-
-/* ── MAIN ── */
-.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;}
-.topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;flex-wrap:wrap;}
-.topbar h1{font-size:15px;font-weight:900;text-transform:uppercase;color:#1e293b;flex-shrink:0;}
-.scroll{flex:1;overflow-y:auto;padding:16px 24px;}
+html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflow:hidden;}
+.app{display:flex;height:100vh;}
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden;border-right:1px solid rgba(255,255,255,.05);box-shadow:8px 0 40px rgba(0,0,0,.35);}
+.sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:199;backdrop-filter:blur(6px);}
+.logo-area{position:relative;z-index:1;flex-shrink:0;overflow:hidden;background:#fff;border-bottom:1px solid rgba(255,255,255,.06);}
+.logo-area img{width:100%;height:auto;display:block;}
+.nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 10px 4px;position:relative;z-index:1;}
+.nav::-webkit-scrollbar{width:3px;}.nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:99px;}
+.nav-sec{font-size:8.5px;color:var(--text-d);font-weight:700;text-transform:uppercase;letter-spacing:.2em;padding:0 8px;margin:16px 0 5px;display:flex;align-items:center;gap:8px;}
+.nav-sec::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07);}
+.nav a{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:11px;font-size:11px;font-weight:600;color:var(--text-m);text-decoration:none;margin-bottom:1px;text-transform:uppercase;letter-spacing:.055em;transition:color .18s,background .18s,transform .18s;position:relative;}
+.nav a:hover{color:rgba(241,245,249,.9);background:rgba(255,255,255,.07);transform:translateX(2px);}
+.nav a.active{color:#fff;background:linear-gradient(120deg,rgba(37,99,235,.32) 0%,rgba(6,182,212,.18) 100%);border:1px solid rgba(59,130,246,.28);box-shadow:0 4px 20px rgba(37,99,235,.22),inset 0 1px 0 rgba(255,255,255,.09);}
+.nav a.active::after{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:55%;background:linear-gradient(180deg,#93c5fd,#22d3ee);border-radius:0 3px 3px 0;box-shadow:0 0 10px rgba(96,165,250,.8);}
+.ic{width:29px;height:29px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .18s;}
+.ic .material-icons-round{font-size:15px;}
+.ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
+.ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-int{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.ic-adm{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
+.nav a.active .ic{transform:scale(1.08);box-shadow:0 0 14px rgba(37,99,235,.4);}
+.nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
+.user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--glass);margin-bottom:8px;border:1px solid var(--border-b);}
+.user-av{width:33px;height:33px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.user-name{font-size:10.5px;font-weight:700;color:#fff;text-transform:uppercase;}
+.user-role{font-size:8px;color:var(--text-d);font-weight:500;text-transform:uppercase;margin-top:1px;}
+.logout-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:10px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);color:rgba(252,165,165,.8);font-size:10px;font-weight:700;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;}
+.logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;}
+.logout-btn .material-icons-round{font-size:14px;}
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:var(--sidebar-w);}
+.topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:11px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.topbar-left{display:flex;align-items:center;gap:12px;}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;}
+.menu-btn .material-icons-round{font-size:22px;}
+.page-title{font-size:15px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
+.page-sub{font-size:9px;color:#94a3b8;font-weight:500;margin-top:2px;letter-spacing:.05em;text-transform:uppercase;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.06em;font-family:'Outfit',sans-serif;white-space:nowrap;}
+.btn-blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.3);}
+.btn-blue:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,.44);}
+.btn-green{background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 4px 14px rgba(16,185,129,.28);}
+.btn-green:hover{transform:translateY(-1px);}
+.btn-dark{background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.25);}
+.btn-dark:hover{transform:translateY(-1px);}
+.btn-amber{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;box-shadow:0 4px 14px rgba(245,158,11,.28);}
+.btn-amber:hover{transform:translateY(-1px);}
+.btn-ghost{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}
+.btn-ghost:hover{background:#e2e8f0;}
+.btn-sm{padding:6px 12px;font-size:10px;border-radius:8px;}
+.btn-icon{width:36px;height:36px;padding:0;border-radius:9px;display:flex;align-items:center;justify-content:center;}
+.btn .material-icons-round{font-size:14px;}
+.ctrl-sel{padding:8px 12px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:9px;font-family:'Outfit',sans-serif;font-size:11.5px;font-weight:600;color:#1e293b;outline:none;cursor:pointer;transition:border-color .15s;}
+.ctrl-sel:focus{border-color:#2563eb;}
+.scroll{flex:1;overflow-y:auto;padding:18px 24px;}
 .scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
-
-.hamburger{display:none;width:36px;height:36px;background:#f1f5f9;border:none;border-radius:9px;cursor:pointer;align-items:center;justify-content:center;flex-shrink:0;}
-.hamburger .material-icons-round{font-size:20px;color:#1e293b;}
-
-.btn{display:flex;align-items:center;gap:5px;padding:7px 14px;border-radius:9px;font-size:10px;font-weight:800;border:none;cursor:pointer;transition:all .15s;text-transform:uppercase;font-family:'Plus Jakarta Sans',sans-serif;}
-.btn-blue{background:#2563eb;color:#fff;}.btn-blue:hover{background:#1d4ed8;}
-.btn-green{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;}.btn-green:hover{background:#dcfce7;}
-.btn-dark{background:#1e293b;color:#fff;}.btn-dark:hover{background:#334155;}
-.btn .material-icons-round{font-size:13px;}
-select.ctrl{padding:7px 11px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;outline:none;text-transform:uppercase;}
-
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
-.stat{background:#fff;border-radius:12px;padding:14px 16px;border:1px solid #f1f5f9;}
-.stat-l{font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;margin-bottom:4px;}
-.stat-n{font-size:20px;font-weight:900;color:#1e293b;}
-.stat-sub{font-size:8px;color:#64748b;font-weight:700;text-transform:uppercase;margin-top:2px;}
-
-.ptbl{width:100%;border-collapse:collapse;font-size:11px;}
-.ptbl thead th{background:#1e293b;color:#fff;padding:10px 14px;font-size:8px;text-transform:uppercase;font-weight:700;text-align:right;white-space:nowrap;}
+/* STAT CARDS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.stat-card{background:#fff;border-radius:14px;padding:16px 18px;border:1px solid #ecf0f6;position:relative;overflow:hidden;transition:all .18s;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.09);}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.sc-emp::before{background:linear-gradient(90deg,#2563eb,#06b6d4);}
+.sc-gross::before{background:linear-gradient(90deg,#06b6d4,#8b5cf6);}
+.sc-net::before{background:linear-gradient(90deg,#10b981,#06b6d4);}
+.sc-ctc::before{background:linear-gradient(90deg,#8b5cf6,#ec4899);}
+.stat-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
+.stat-icon .material-icons-round{font-size:17px;}
+.si-emp{background:rgba(37,99,235,.1);color:#2563eb;}
+.si-gross{background:rgba(6,182,212,.1);color:#0891b2;}
+.si-net{background:rgba(16,185,129,.1);color:#10b981;}
+.si-ctc{background:rgba(139,92,246,.1);color:#8b5cf6;}
+.stat-lbl{font-size:8.5px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.06em;}
+.stat-val{font-size:22px;font-weight:900;color:#0f172a;margin-top:3px;font-family:'JetBrains Mono',monospace;}
+/* STATUS BANNER */
+.status-banner{display:flex;align-items:center;justify-content:space-between;background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:14px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.banner-title{font-size:13px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:99px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;}
+.badge-draft{background:#fef9c3;color:#a16207;border:1px solid #fde68a;}
+.badge-final{background:#dcfce7;color:#15803d;border:1px solid #86efac;}
+.badge-lock{background:rgba(239,68,68,.1);color:#dc2626;border:1px solid rgba(239,68,68,.2);}
+/* PAYROLL TABLE */
+.tbl-wrap{background:#fff;border-radius:14px;border:1px solid #ecf0f6;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.tbl-overflow{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.tbl-overflow::-webkit-scrollbar{height:5px;}.tbl-overflow::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+.ptbl{width:100%;border-collapse:collapse;font-size:11px;min-width:1000px;}
+.ptbl thead th{background:#0f172a;color:#fff;padding:10px 14px;font-size:8px;text-transform:uppercase;font-weight:700;white-space:nowrap;letter-spacing:.07em;}
+.ptbl thead th{text-align:right;}
 .ptbl thead th:first-child,.ptbl thead th:nth-child(2),.ptbl thead th:nth-child(3){text-align:left;}
-.ptbl tbody tr{border-bottom:1px solid #f1f5f9;transition:background .12s;}
-.ptbl tbody tr:hover{background:#f8fafc;}
-.ptbl td{padding:10px 14px;font-weight:700;text-transform:uppercase;text-align:right;vertical-align:middle;font-size:11px;}
+.ptbl thead th.hdr-ded{color:#fca5a5;}
+.ptbl thead th.hdr-er{color:#fdba74;}
+.ptbl thead th.hdr-net{color:#6ee7b7;}
+.ptbl tbody tr{border-bottom:1px solid #f8fafc;transition:background .12s;}
+.ptbl tbody tr:hover{background:#fafbfc;}
+.ptbl tbody tr:last-child{border-bottom:none;}
+.ptbl td{padding:10px 14px;font-weight:600;text-transform:uppercase;text-align:right;vertical-align:middle;font-size:11px;color:#475569;}
 .ptbl td:first-child,.ptbl td:nth-child(2),.ptbl td:nth-child(3){text-align:left;}
-.ptbl tfoot td{background:#f8fafc;font-weight:900;font-size:11px;padding:10px 14px;text-align:right;border-top:2px solid #e2e8f0;}
+.ptbl tfoot td{background:#f8fafc;font-weight:800;font-size:11px;padding:11px 14px;text-align:right;border-top:2px solid #e8edf5;}
 .ptbl tfoot td:first-child,.ptbl tfoot td:nth-child(2),.ptbl tfoot td:nth-child(3){text-align:left;}
-.emp-cell{display:flex;align-items:center;gap:8px;}
-.eav{width:30px;height:30px;border-radius:9px;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;flex-shrink:0;}
-.amt-green{color:#16a34a;font-weight:900;}
-.amt-red{color:#ef4444;font-weight:800;}
-.amt-blue{color:#2563eb;font-weight:900;}
-.amt-org{color:#f97316;font-weight:800;}
-
-/* MODAL */
-.mo{position:fixed;inset:0;background:rgba(15,23,42,.6);backdrop-filter:blur(4px);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .25s;}
-.mo.open{opacity:1;pointer-events:all;}
-.mb{background:#fff;border-radius:20px;width:680px;max-width:100%;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 30px 70px rgba(0,0,0,.22);}
-.mh{padding:14px 18px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
-.mscroll{flex:1;overflow-y:auto;padding:18px;}
-.mscroll::-webkit-scrollbar{width:4px;}.mscroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
-.xbtn{width:28px;height:28px;background:#f1f5f9;border:none;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
-.xbtn:hover{background:#fee2e2;color:#ef4444;}
-
-/* Mobile payroll cards */
-.pay-card{background:#fff;border-radius:14px;border:1px solid #f1f5f9;padding:14px;margin-bottom:10px;}
-.pay-card-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+/* Emp cell */
+.emp-cell{display:flex;align-items:center;gap:9px;}
+.eav{width:32px;height:32px;border-radius:9px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;}
+.ename{font-size:11px;font-weight:700;color:#0f172a;}
+.eid{font-size:8.5px;color:#94a3b8;font-weight:500;margin-top:1px;}
+/* amt colors */
+.c-blue{color:#2563eb;font-weight:800;font-family:'JetBrains Mono',monospace;}
+.c-green{color:#10b981;font-weight:800;font-family:'JetBrains Mono',monospace;}
+.c-red{color:#ef4444;font-weight:700;font-family:'JetBrains Mono',monospace;}
+.c-orange{color:#f97316;font-weight:700;font-family:'JetBrains Mono',monospace;}
+.c-purple{color:#8b5cf6;font-weight:800;font-family:'JetBrains Mono',monospace;}
+.c-muted{color:#94a3b8;font-weight:600;}
+/* att cell */
+.att-cell{display:flex;flex-direction:column;align-items:flex-end;}
+.att-days{font-size:11.5px;font-weight:800;color:#0f172a;font-family:'JetBrains Mono',monospace;}
+.att-bar-mini{height:3px;background:#f1f5f9;border-radius:99px;overflow:hidden;width:50px;margin-top:3px;}
+.att-bar-fill{height:100%;background:linear-gradient(90deg,#10b981,#06b6d4);border-radius:99px;}
+/* mobile cards */
+.pay-cards{display:none;padding:12px;}
+.pay-card{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.pay-card-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
 .pay-card-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.pay-card-item{background:#f8fafc;border-radius:8px;padding:8px 10px;}
-.pay-card-label{font-size:7px;color:#94a3b8;font-weight:700;text-transform:uppercase;}
-.pay-card-val{font-size:12px;font-weight:900;margin-top:2px;}
-
-@media print{body *{visibility:hidden!important;}#printSlip,#printSlip *{visibility:visible!important;}#printSlip{position:fixed!important;inset:0!important;background:white!important;padding:20px!important;z-index:9999!important;overflow:auto!important;}}
-
-/* MOBILE */
+.pay-card-item{background:#f8fafc;border-radius:10px;padding:9px 12px;border:1px solid #f1f5f9;}
+.pay-card-lbl{font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.05em;}
+.pay-card-val{font-size:13px;font-weight:900;margin-top:3px;font-family:'JetBrains Mono',monospace;}
+/* MODAL */
+.mo{position:fixed;inset:0;background:rgba(7,16,31,.65);backdrop-filter:blur(6px);z-index:500;display:none;align-items:center;justify-content:center;padding:16px;}
+.mo.open{display:flex;}
+.mb{background:#fff;border-radius:20px;width:700px;max-width:100%;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 30px 70px rgba(0,0,0,.22);}
+.mh{padding:15px 20px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-radius:20px 20px 0 0;}
+.mt{font-size:13px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.06em;}
+.mscroll{flex:1;overflow-y:auto;padding:20px;}
+.mscroll::-webkit-scrollbar{width:4px;}.mscroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+.xbtn{width:32px;height:32px;background:#f1f5f9;border:none;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;color:#64748b;}
+.xbtn:hover{background:#fef2f2;color:#ef4444;}
+.xbtn .material-icons-round{font-size:16px;}
+/* SALARY SLIP INSIDE MODAL */
+.slip{font-family:'Outfit',sans-serif;}
+.slip-header{background:linear-gradient(135deg,#07101f,#0f2644 55%,#1d4ed8 100%);padding:22px 28px;border-radius:12px;color:#fff;position:relative;overflow:hidden;margin-bottom:16px;}
+.slip-header::after{content:'SALARY';position:absolute;right:-5px;top:-5px;font-size:80px;font-weight:900;opacity:.04;letter-spacing:-.04em;font-family:'JetBrains Mono',monospace;}
+.slip-brand{font-size:18px;font-weight:900;letter-spacing:.05em;}
+.slip-brand span{color:#60a5fa;}
+.slip-tagline{font-size:7.5px;opacity:.35;text-transform:uppercase;letter-spacing:.2em;margin-top:2px;}
+.slip-emp-row{display:flex;align-items:center;justify-content:space-between;margin-top:14px;flex-wrap:wrap;gap:10px;}
+.slip-name{font-size:17px;font-weight:900;text-transform:uppercase;}
+.slip-job{font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.08em;margin-top:3px;}
+.slip-period{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:8px 14px;text-align:right;}
+.slip-period-lbl{font-size:7.5px;opacity:.5;text-transform:uppercase;letter-spacing:.08em;}
+.slip-period-val{font-size:13px;font-weight:900;color:#93c5fd;margin-top:2px;}
+.slip-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px;}
+.slip-chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);border-radius:99px;padding:3px 10px;font-size:8px;font-weight:700;text-transform:uppercase;}
+.slip-body{padding:0;}
+.slip-att{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;}
+.slip-att-box{background:#f8fafc;border-radius:10px;padding:10px;text-align:center;border:1px solid #ecf0f6;}
+.slip-att-n{font-size:20px;font-weight:900;font-family:'JetBrains Mono',monospace;color:#0f172a;line-height:1;}
+.slip-att-l{font-size:7.5px;font-weight:700;text-transform:uppercase;color:#94a3b8;margin-top:3px;}
+.slip-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.slip-sec-title{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;padding-left:7px;border-left:3px solid;}
+.slip-earn-title{color:#2563eb;border-color:#2563eb;}
+.slip-ded-title{color:#ef4444;border-color:#ef4444;}
+.slip-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed #f1f5f9;font-size:11px;}
+.slip-row:last-child{border-bottom:none;}
+.slip-lbl{color:#64748b;font-weight:600;font-size:10.5px;text-transform:uppercase;}
+.slip-val{font-weight:800;color:#0f172a;font-family:'JetBrains Mono',monospace;}
+.slip-subtotal{display:flex;justify-content:space-between;padding:7px 0;border-top:2px solid;margin-top:4px;font-size:13px;font-weight:900;text-transform:uppercase;}
+.slip-earn-sub{border-color:#2563eb;color:#2563eb;}
+.slip-ded-sub{border-color:#ef4444;color:#ef4444;}
+.slip-net{background:linear-gradient(135deg,#064e3b,#059669);border-radius:12px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;color:#fff;}
+.slip-net-lbl{font-size:11px;font-weight:700;text-transform:uppercase;opacity:.7;}
+.slip-net-val{font-size:26px;font-weight:900;font-family:'JetBrains Mono',monospace;}
+.slip-ctc{display:flex;justify-content:space-between;align-items:center;background:#0f172a;border-radius:11px;padding:12px 18px;margin-bottom:14px;}
+.slip-ctc-lbl{font-size:10px;font-weight:700;text-transform:uppercase;color:rgba(255,255,255,.4);}
+.slip-ctc-val{font-size:20px;font-weight:900;color:#60a5fa;font-family:'JetBrains Mono',monospace;}
+.slip-er{background:#fff7ed;border:1.5px solid #fed7aa;border-radius:11px;padding:12px 16px;margin-bottom:14px;}
+.slip-er-title{font-size:9px;font-weight:800;text-transform:uppercase;color:#c2410c;margin-bottom:8px;}
+.slip-er-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.slip-er-item .lbl{font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;}
+.slip-er-item .val{font-size:14px;font-weight:900;color:#f97316;margin-top:2px;font-family:'JetBrains Mono',monospace;}
+.slip-bank{background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:11px;padding:12px 16px;margin-bottom:14px;}
+.slip-bank-title{font-size:9px;font-weight:800;text-transform:uppercase;color:#10b981;margin-bottom:8px;}
+.slip-bank-row{display:flex;gap:24px;flex-wrap:wrap;}
+.slip-bank-item .lbl{font-size:8px;font-weight:700;color:#64748b;text-transform:uppercase;}
+.slip-bank-item .val{font-size:12px;font-weight:800;color:#0f172a;text-transform:uppercase;margin-top:1px;font-family:'JetBrains Mono',monospace;}
+.slip-footer{border-top:1px dashed #e2e8f0;padding-top:12px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:8px;}
+.slip-footer-note{font-size:8px;color:#94a3b8;font-weight:600;text-transform:uppercase;line-height:1.8;}
+.slip-sign-line{width:120px;height:1px;background:#0f172a;margin-bottom:4px;margin-left:auto;}
+.slip-sign-lbl{font-size:8px;font-weight:700;text-transform:uppercase;color:#64748b;text-align:right;}
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.2);}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{background:#065f46;border-left:4px solid #6ee7b7;}
+.toast.error{background:#7f1d1d;border-left:4px solid #fca5a5;}
+.toast.warning{background:#78350f;border-left:4px solid #fcd34d;}
+.toast .material-icons-round{font-size:16px;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+@media print{body *{visibility:hidden!important;}#printSlip,#printSlip *{visibility:visible!important;}#printSlip{position:fixed!important;inset:0!important;background:white!important;z-index:9999!important;padding:16px!important;overflow:auto!important;}}
+@media(max-width:1100px){.stats{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:768px){
-  .sidebar{position:fixed;left:0;top:0;height:100vh;transform:translateX(-100%);z-index:300;}
-  .sidebar.open{transform:translateX(0);}
+  .sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}
   .sidebar-overlay.open{display:block;}
-  .hamburger{display:flex;}
-  .topbar{padding:8px 12px;gap:6px;}
-  .scroll{padding:10px 12px;}
-  .stats{grid-template-columns:repeat(2,1fr);gap:8px;}
-  .stat-n{font-size:16px;}
-  .topbar-controls{flex-wrap:wrap;gap:6px;}
-  .table-view{display:none!important;}
-  .card-view{display:block!important;}
-  select.ctrl{font-size:10px;padding:6px 8px;}
-  .btn{padding:6px 10px;font-size:9px;}
-}
-@media(min-width:769px){
-  .card-view{display:none!important;}
-}
-@media(max-width:480px){
-  .stats{grid-template-columns:repeat(2,1fr);}
-  .topbar h1{font-size:13px;}
+  .main{margin-left:0!important;}.menu-btn{display:flex!important;}
+  .topbar,.scroll{padding:11px 14px;}
+  .tbl-overflow{display:none!important;}
+  .pay-cards{display:block!important;}
+  .slip-grid{grid-template-columns:1fr;}
+  .slip-att{grid-template-columns:1fr 1fr;}
 }
 </style>
 </head>
 <body onload="init()">
 <div id="printSlip" style="display:none;position:fixed;inset:0;background:white;padding:20px;z-index:9999;overflow:auto;"></div>
+<div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
 <div class="app">
-<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
+<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
-  <button onclick="closeSidebar()" style="display:none;position:absolute;top:14px;right:14px;background:#f1f5f9;border:none;border-radius:8px;width:30px;height:30px;cursor:pointer;align-items:center;justify-content:center;" id="sidebarCloseBtn">
-    <span class="material-icons-round" style="font-size:16px;color:#64748b;">close</span>
-  </button>
-  <div class="logo"><div class="logo-icon">K</div><div class="logo-text">KIDV <span>Tech</span></div></div>
+  <div class="logo-area"><img src="logo.png" alt="KIDV Tech"></div>
   <nav class="nav">
     <div class="nav-sec">Main</div>
-    <a href="index.html"><span class="material-icons-round">dashboard</span>Dashboard</a>
-    <a href="employees.html"><span class="material-icons-round">badge</span>Employees</a>
+    <a href="index.html"><span class="ic ic-main"><span class="material-icons-round">dashboard</span></span>Dashboard</a>
+    <a href="employees.html"><span class="ic ic-main"><span class="material-icons-round">badge</span></span>Employees</a>
     <div class="nav-sec">HR</div>
-    <a href="shifts.html"><span class="material-icons-round">schedule</span>Shifts</a>
-    <a href="holidays.html"><span class="material-icons-round">event</span>Holidays</a>
+    <a href="leave-management.html"><span class="ic ic-hr"><span class="material-icons-round">event_available</span></span>Leave</a>
+    <a href="shifts.html"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
+    <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
+    <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
     <div class="nav-sec">Operations</div>
-    <a href="attendance.html"><span class="material-icons-round">calendar_month</span>Attendance</a>
-    <a href="payroll.html" class="active"><span class="material-icons-round">receipt_long</span>Payroll</a>
+    <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
+    <a href="payroll.html" class="active"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
+    <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
+    <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
     <div class="nav-sec">Integration</div>
-    <a href="device-manager.html"><span class="material-icons-round">device_hub</span>Device Manager</a>
+    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">device_hub</span></span>Device Manager</a>
+    <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
+    <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
+    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">shield</span></span>Roles &amp; Perms</a>
   </nav>
+  <div class="nav-bottom">
+    <div class="user-info"><div class="user-av" id="sideAvatar">SA</div><div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Administrator</div></div></div>
+    <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
+  </div>
 </aside>
 
+<!-- MAIN -->
 <div class="main">
   <div class="topbar">
-    <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
-      <button class="hamburger" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
-      <h1>Payroll</h1>
+    <div class="topbar-left">
+      <button class="menu-btn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
+      <div>
+        <div class="page-title">Payroll</div>
+        <div class="page-sub">Attendance-Linked · Auto Calc · Salary Register</div>
+      </div>
     </div>
-    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;" class="topbar-controls">
-      <select class="ctrl" id="monthSel" onchange="loadPayroll()"></select>
-      <select class="ctrl" id="yearSel" onchange="loadPayroll()"></select>
-      <button class="btn btn-green" onclick="loadPayroll()"><span class="material-icons-round">sync</span></button>
-      <button class="btn btn-blue" onclick="lockPayroll()"><span class="material-icons-round">lock</span></button>
-      <button class="btn btn-dark" onclick="exportCSV()"><span class="material-icons-round">download</span></button>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <select class="ctrl-sel" id="monthSel" onchange="loadPayroll()"></select>
+      <select class="ctrl-sel" id="yearSel" onchange="loadPayroll()"></select>
+      <button class="btn btn-ghost btn-icon" onclick="loadPayroll()" title="Refresh">
+        <span class="material-icons-round">sync</span>
+      </button>
+      <button class="btn btn-amber" onclick="lockPayroll()">
+        <span class="material-icons-round">lock</span>Finalize
+      </button>
+      <button class="btn btn-dark" onclick="exportCSV()">
+        <span class="material-icons-round">download</span>Export CSV
+      </button>
     </div>
   </div>
+
   <div class="scroll">
+    <!-- Stat cards -->
     <div class="stats">
-      <div class="stat"><div class="stat-l">Employees</div><div class="stat-n" id="stEmp">0</div></div>
-      <div class="stat"><div class="stat-l">Gross Payable</div><div class="stat-n amt-blue" id="stGross">₹0</div></div>
-      <div class="stat"><div class="stat-l">Net Pay</div><div class="stat-n amt-green" id="stNet">₹0</div></div>
-      <div class="stat"><div class="stat-l">Total CTC</div><div class="stat-n" style="color:#7c3aed;" id="stCTC">₹0</div></div>
+      <div class="stat-card sc-emp">
+        <div class="stat-icon si-emp"><span class="material-icons-round">people</span></div>
+        <div class="stat-lbl">Employees</div>
+        <div class="stat-val" id="stEmp">0</div>
+      </div>
+      <div class="stat-card sc-gross">
+        <div class="stat-icon si-gross"><span class="material-icons-round">account_balance_wallet</span></div>
+        <div class="stat-lbl">Gross Payable</div>
+        <div class="stat-val c-blue" id="stGross">0</div>
+      </div>
+      <div class="stat-card sc-net">
+        <div class="stat-icon si-net"><span class="material-icons-round">payments</span></div>
+        <div class="stat-lbl">Net Pay</div>
+        <div class="stat-val c-green" id="stNet">0</div>
+      </div>
+      <div class="stat-card sc-ctc">
+        <div class="stat-icon si-ctc"><span class="material-icons-round">corporate_fare</span></div>
+        <div class="stat-lbl">Total CTC</div>
+        <div class="stat-val c-purple" id="stCTC">0</div>
+      </div>
     </div>
 
-    <div style="background:#fff;border-radius:14px;border:1px solid #f1f5f9;overflow:hidden;">
-      <div style="padding:14px 18px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;">
-        <div style="font-size:12px;font-weight:900;text-transform:uppercase;color:#1e293b;" id="payrollTitle">Payroll</div>
-        <div id="lockBadge" style="font-size:9px;font-weight:800;padding:3px 10px;border-radius:99px;background:#fef9c3;color:#d97706;text-transform:uppercase;">Draft</div>
+    <!-- Status banner -->
+    <div class="status-banner">
+      <div class="banner-title" id="payrollTitle">Payroll</div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div id="lockBadge" class="badge badge-draft"><span class="material-icons-round" style="font-size:12px;">edit_note</span>Draft</div>
       </div>
+    </div>
 
-      <!-- Desktop Table view -->
-      <div class="table-view" style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
-        <table class="ptbl" style="min-width:900px;">
+    <!-- TABLE -->
+    <div class="tbl-wrap">
+      <div class="tbl-overflow">
+        <table class="ptbl">
           <thead><tr>
-            <th>Employee</th><th>Dept</th><th>Att.</th>
-            <th>Gross</th><th>Payable</th>
-            <th style="color:#fca5a5;">PF</th><th style="color:#fca5a5;">ESIC</th><th style="color:#fca5a5;">PT</th><th style="color:#fca5a5;">Ded.</th>
-            <th style="color:#86efac;">Net Pay</th>
-            <th style="color:#fdba74;">PF ER</th><th style="color:#fdba74;">ESIC ER</th><th style="color:#fdba74;">Grat.</th>
+            <th style="text-align:left;">Employee</th>
+            <th style="text-align:left;">Dept</th>
+            <th>Attendance</th>
+            <th>Gross Full</th>
+            <th>Payable</th>
+            <th class="hdr-ded">PF Emp</th>
+            <th class="hdr-ded">ESIC Emp</th>
+            <th class="hdr-ded">PT</th>
+            <th class="hdr-ded">Total Ded.</th>
+            <th class="hdr-net">Net Pay</th>
+            <th class="hdr-er">PF Emplyr</th>
+            <th class="hdr-er">ESIC Emplyr</th>
+            <th class="hdr-er">Gratuity</th>
             <th>Slip</th>
           </tr></thead>
           <tbody id="payrollBody"></tbody>
           <tfoot id="payrollFoot"></tfoot>
         </table>
       </div>
-
-      <!-- Mobile Card view -->
-      <div class="card-view" style="padding:12px;" id="payrollCards"></div>
+      <!-- Mobile cards -->
+      <div class="pay-cards" id="payrollCards"></div>
     </div>
   </div>
 </div>
 </div>
 
-<!-- SLIP MODAL -->
+<!-- SALARY SLIP MODAL -->
 <div id="slipModal" class="mo" onclick="if(event.target===this)closeSlip()">
   <div class="mb">
     <div class="mh">
-      <div style="font-size:13px;font-weight:900;text-transform:uppercase;color:#1e293b;">Salary Slip</div>
+      <div class="mt">Salary Slip</div>
       <div style="display:flex;gap:8px;">
-        <button class="btn btn-blue" onclick="printSlip()" style="padding:6px 12px;font-size:10px;"><span class="material-icons-round">print</span>Print</button>
-        <button class="xbtn" onclick="closeSlip()"><span class="material-icons-round" style="font-size:14px;">close</span></button>
+        <button class="btn btn-blue btn-sm" onclick="printSlip()"><span class="material-icons-round">print</span>Print</button>
+        <button class="xbtn" onclick="closeSlip()"><span class="material-icons-round">close</span></button>
       </div>
     </div>
     <div class="mscroll" id="slipContent"></div>
   </div>
 </div>
 
-<script>
-function openSidebar(){
-  document.getElementById('sidebar').classList.add('open');
-  document.getElementById('sidebarOverlay').classList.add('open');
-  document.getElementById('sidebarCloseBtn').style.display='flex';
-}
-function closeSidebar(){
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('sidebarOverlay').classList.remove('open');
-}
+<!-- TOAST -->
+<div class="toast" id="toast"><span class="material-icons-round" id="toastIcon">check_circle</span><span id="toastMsg"></span></div>
 
+<script>
 const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
-const fmt=v=>'₹'+parseFloat(v||0).toLocaleString('en-IN',{minimumFractionDigits:0,maximumFractionDigits:0});
+const AV_COLORS=['linear-gradient(135deg,#2563eb,#06b6d4)','linear-gradient(135deg,#8b5cf6,#ec4899)','linear-gradient(135deg,#10b981,#06b6d4)','linear-gradient(135deg,#f59e0b,#ef4444)','linear-gradient(135deg,#6366f1,#8b5cf6)','linear-gradient(135deg,#0891b2,#10b981)'];
+const fmt=v=>'Rs.'+Math.round(parseFloat(v)||0).toLocaleString('en-IN');
 const n=v=>parseFloat(v||0);
 
 function init(){
-  const now=new Date();const mSel=document.getElementById('monthSel'),ySel=document.getElementById('yearSel');
+  loadUserInfo();
+  const now=new Date();
+  const mSel=document.getElementById('monthSel'),ySel=document.getElementById('yearSel');
   MONTHS.forEach((m,i)=>{const o=document.createElement('option');o.value=i;o.textContent=m;if(i===now.getMonth())o.selected=true;mSel.appendChild(o);});
   for(let y=now.getFullYear()-3;y<=now.getFullYear()+1;y++){const o=document.createElement('option');o.value=y;o.textContent=y;if(y===now.getFullYear())o.selected=true;ySel.appendChild(o);}
   loadPayroll();
 }
+
 function getM(){return parseInt(document.getElementById('monthSel').value);}
 function getY(){return parseInt(document.getElementById('yearSel').value);}
 function getPayKey(){return`payroll_${getY()}_${getM()}`;}
-function getAttStatus(empId,date){return localStorage.getItem(`att_${empId}_${date}`)||'';}
+function getAttStatus(eid,date){return localStorage.getItem(`att_${eid}_${date}`)||'';}
+function empId(e,i){return e.id||('EMP'+i);}
 
-function calcAttDays(e){
+function calcAttDays(e,ei){
   const m=getM(),y=getY(),days=new Date(y,m+1,0).getDate();
+  const eid=empId(e,ei);
   let present=0,absent=0,half=0,leave=0,workingDays=0;
   for(let d=1;d<=days;d++){
     const dt=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const s=getAttStatus(e.id||'',dt);
-    if(s==='WO'||s==='HD')continue;
+    const s=getAttStatus(eid,dt);
+    if(s==='WO'||s==='HD'||s==='OH')continue;
     workingDays++;
-    if(s==='P'||s==='OH')present++;else if(s==='A')absent++;else if(s==='H')half++;else if(s==='L')leave++;else present++;
+    if(s==='P')present++;
+    else if(s==='A')absent++;
+    else if(s==='H')half++;
+    else if(s==='L')leave++;
+    else present++; // unset defaults to present
   }
-  return{present,absent,half,leave,workingDays,attDays:present+half*.5+leave};
+  return{present,absent,half,leave,workingDays,attDays:present+half*.5};
 }
 
-function calcRow(e){
-  const att=calcAttDays(e);
+function calcRow(e,ei){
+  const att=calcAttDays(e,ei);
   const basic=n(e.sal_basic),wash=n(e.sal_wash),gross=n(e.sal_gross);
-  const ratio=att.workingDays>0?att.attDays/att.workingDays:1;
+  const ratio=att.workingDays>0?(att.attDays/att.workingDays):1;
   const payGross=Math.round(gross*ratio),payBasic=Math.round(basic*ratio);
   const pfApp=(e.pf||'').toUpperCase()==='YES';
   const pfEmp=pfApp?Math.round(payBasic*.12):0,pfEr=pfApp?Math.round(payBasic*.12):0;
   const esicOk=payGross<21000,esicBase=payGross-Math.round(wash*ratio);
   const esicEmp=esicOk?Math.round(esicBase*.0075):0,esicEr=esicOk?Math.round(esicBase*.0375):0;
-  const grat=Math.round(payBasic*.0481),pt=n(e.ded_pt);
-  const totDed=pfEmp+esicEmp+pt,netPay=payGross-totDed;
-  return{att,payGross,payBasic,pfEmp,pfEr,esicEmp,esicEr,grat,pt,totDed,netPay,gross};
+  const grat=Math.round(payBasic*.0481),pt=n(e.ded_pt)||0;
+  const totDed=pfEmp+esicEmp+pt;
+  const netPay=payGross-totDed;
+  const ctc=payGross+pfEr+esicEr+grat;
+  return{att,payGross,payBasic,pfEmp,pfEr,esicEmp,esicEr,grat,pt,totDed,netPay,gross,ctc};
 }
 
 function loadPayroll(){
@@ -254,55 +419,77 @@ function loadPayroll(){
   const m=getM(),y=getY();
   document.getElementById('payrollTitle').textContent=`Payroll — ${MONTHS[m]} ${y}`;
   const locked=localStorage.getItem(getPayKey()+'_locked')==='true';
-  document.getElementById('lockBadge').textContent=locked?'Finalized':'Draft';
-  document.getElementById('lockBadge').style.background=locked?'#f0fdf4':'#fef9c3';
-  document.getElementById('lockBadge').style.color=locked?'#16a34a':'#d97706';
+  const badge=document.getElementById('lockBadge');
+  badge.className='badge '+(locked?'badge-final':'badge-draft');
+  badge.innerHTML=locked?'<span class="material-icons-round" style="font-size:12px;">check_circle</span>Finalized':'<span class="material-icons-round" style="font-size:12px;">edit_note</span>Draft';
 
   if(!emps.length){
-    document.getElementById('payrollBody').innerHTML='<tr><td colspan="14" style="text-align:center;padding:30px;color:#94a3b8;text-transform:uppercase;font-weight:700;">No employees.</td></tr>';
-    document.getElementById('payrollCards').innerHTML='<div style="text-align:center;padding:30px;color:#94a3b8;font-weight:700;text-transform:uppercase;">No employees.</div>';
+    const empty='<tr><td colspan="14" style="text-align:center;padding:40px;color:#94a3b8;font-size:12px;font-weight:600;text-transform:uppercase;">No employees found. Add employees first.</td></tr>';
+    document.getElementById('payrollBody').innerHTML=empty;
+    document.getElementById('payrollCards').innerHTML='<div style="text-align:center;padding:40px;color:#94a3b8;font-size:12px;font-weight:600;text-transform:uppercase;">No employees found.</div>';
+    document.getElementById('stEmp').textContent=0;document.getElementById('stGross').textContent=0;document.getElementById('stNet').textContent=0;document.getElementById('stCTC').textContent=0;
     return;
   }
 
-  let tGross=0,tNet=0,tCtc=0,tDed=0;
+  let tGross=0,tNet=0,tCtc=0,tDed=0,tPfEmp=0,tEsicEmp=0,tPfEr=0,tEsicEr=0,tGrat=0;
+
   const rows=emps.map((e,ei)=>{
-    const r=calcRow(e);
-    tGross+=r.payGross;tNet+=r.netPay;tCtc+=r.payGross+r.pfEr+r.esicEr+r.grat;tDed+=r.totDed;
-    const slipData=JSON.stringify({e,att:r.att,payGross:r.payGross,payBasic:r.payBasic,pfEmp:r.pfEmp,esicEmp:r.esicEmp,pt:r.pt,totDed:r.totDed,netPay:r.netPay,pfEr:r.pfEr,esicEr:r.esicEr,grat:r.grat,m,y});
+    const r=calcRow(e,ei);
+    tGross+=r.payGross;tNet+=r.netPay;tCtc+=r.ctc;tDed+=r.totDed;
+    tPfEmp+=r.pfEmp;tEsicEmp+=r.esicEmp;tPfEr+=r.pfEr;tEsicEr+=r.esicEr;tGrat+=r.grat;
+    const grad=AV_COLORS[ei%AV_COLORS.length];
+    const pct=r.att.workingDays>0?Math.round(r.att.attDays/r.att.workingDays*100):100;
+    const sd=encodeURIComponent(JSON.stringify({e,att:r.att,payGross:r.payGross,payBasic:r.payBasic,pfEmp:r.pfEmp,esicEmp:r.esicEmp,pt:r.pt,totDed:r.totDed,netPay:r.netPay,pfEr:r.pfEr,esicEr:r.esicEr,grat:r.grat,ctc:r.ctc,m,y,gross:r.gross}));
     return`<tr>
-      <td><div class="emp-cell"><div class="eav">${e.fName[0]}${e.lName[0]}</div><div><div style="font-size:11px;font-weight:800;color:#1e293b;">${e.fName} ${e.lName}</div><div style="font-size:8px;color:#94a3b8;">${e.id||''}</div></div></div></td>
-      <td style="font-size:10px;color:#64748b;">${e.dept||'--'}</td>
-      <td><span style="font-weight:800;">${r.att.attDays}</span><span style="font-size:8px;color:#94a3b8;">/${r.att.workingDays}</span></td>
-      <td>${fmt(r.gross)}</td><td class="amt-blue">${fmt(r.payGross)}</td>
-      <td class="amt-red">${r.pfEmp>0?fmt(r.pfEmp):'--'}</td><td class="amt-red">${r.esicEmp>0?fmt(r.esicEmp):'--'}</td>
-      <td class="amt-red">${r.pt>0?fmt(r.pt):'--'}</td><td class="amt-red">${r.totDed>0?fmt(r.totDed):'--'}</td>
-      <td class="amt-green">${fmt(r.netPay)}</td>
-      <td class="amt-org">${r.pfEr>0?fmt(r.pfEr):'--'}</td><td class="amt-org">${r.esicEr>0?fmt(r.esicEr):'--'}</td>
-      <td class="amt-org">${fmt(r.grat)}</td>
-      <td><button class="btn btn-blue" style="padding:5px 10px;font-size:9px;" onclick='showSlip(${slipData})'><span class="material-icons-round">receipt</span></button></td>
+      <td><div class="emp-cell"><div class="eav" style="background:${grad};">${(e.fName||'?')[0]}${(e.lName||'?')[0]}</div><div><div class="ename">${e.fName||''} ${e.lName||''}</div><div class="eid">${empId(e,ei)}</div></div></div></td>
+      <td style="color:#64748b;font-size:10.5px;">${e.dept||'—'}</td>
+      <td><div class="att-cell"><div class="att-days">${r.att.attDays}<span style="font-size:9px;color:#94a3b8;font-weight:500;">/${r.att.workingDays}</span></div><div class="att-bar-mini"><div class="att-bar-fill" style="width:${pct}%;background:${pct>=90?'linear-gradient(90deg,#10b981,#06b6d4)':pct>=75?'linear-gradient(90deg,#f59e0b,#fbbf24)':'linear-gradient(90deg,#ef4444,#f97316)'};"></div></div></div></td>
+      <td class="c-muted">${fmt(r.gross)}</td>
+      <td class="c-blue">${fmt(r.payGross)}</td>
+      <td class="${r.pfEmp>0?'c-red':'c-muted'}">${r.pfEmp>0?fmt(r.pfEmp):'—'}</td>
+      <td class="${r.esicEmp>0?'c-red':'c-muted'}">${r.esicEmp>0?fmt(r.esicEmp):'—'}</td>
+      <td class="${r.pt>0?'c-red':'c-muted'}">${r.pt>0?fmt(r.pt):'—'}</td>
+      <td class="${r.totDed>0?'c-red':'c-muted'}">${r.totDed>0?fmt(r.totDed):'—'}</td>
+      <td class="c-green">${fmt(r.netPay)}</td>
+      <td class="${r.pfEr>0?'c-orange':'c-muted'}">${r.pfEr>0?fmt(r.pfEr):'—'}</td>
+      <td class="${r.esicEr>0?'c-orange':'c-muted'}">${r.esicEr>0?fmt(r.esicEr):'—'}</td>
+      <td class="c-orange">${fmt(r.grat)}</td>
+      <td><button class="btn btn-blue btn-sm btn-icon" onclick="showSlip('${sd}')" title="View Slip"><span class="material-icons-round">receipt</span></button></td>
     </tr>`;
   }).join('');
+
   document.getElementById('payrollBody').innerHTML=rows;
-  document.getElementById('payrollFoot').innerHTML=`<tr><td colspan="3" style="text-align:left;color:#1e293b;font-weight:900;font-size:12px;text-transform:uppercase;">TOTALS</td><td></td><td class="amt-blue" style="font-size:12px;">${fmt(tGross)}</td><td colspan="3"></td><td class="amt-red" style="font-size:12px;">${fmt(tDed)}</td><td class="amt-green" style="font-size:12px;">${fmt(tNet)}</td><td colspan="3" style="color:#f97316;font-size:12px;text-align:right;font-weight:900;">CTC: ${fmt(tCtc)}</td><td></td></tr>`;
+  document.getElementById('payrollFoot').innerHTML=`<tr>
+    <td colspan="3" style="text-align:left;color:#0f172a;font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.05em;">Totals (${emps.length} employees)</td>
+    <td class="c-muted">${fmt(emps.reduce((s,e,i)=>s+n(e.sal_gross),0))}</td>
+    <td class="c-blue" style="font-size:13px;">${fmt(tGross)}</td>
+    <td class="c-red">${fmt(tPfEmp)}</td>
+    <td class="c-red">${fmt(tEsicEmp)}</td>
+    <td class="c-muted">—</td>
+    <td class="c-red" style="font-size:13px;">${fmt(tDed)}</td>
+    <td class="c-green" style="font-size:13px;font-weight:900;">${fmt(tNet)}</td>
+    <td class="c-orange">${fmt(tPfEr)}</td>
+    <td class="c-orange">${fmt(tEsicEr)}</td>
+    <td class="c-orange">${fmt(tGrat)}</td>
+    <td><div style="font-size:9px;font-weight:700;color:#8b5cf6;text-transform:uppercase;">CTC</div><div class="c-purple" style="font-size:13px;font-weight:900;">${fmt(tCtc)}</div></td>
+  </tr>`;
 
   // Mobile cards
   const cards=emps.map((e,ei)=>{
-    const r=calcRow(e);
-    const slipData=JSON.stringify({e,att:r.att,payGross:r.payGross,payBasic:r.payBasic,pfEmp:r.pfEmp,esicEmp:r.esicEmp,pt:r.pt,totDed:r.totDed,netPay:r.netPay,pfEr:r.pfEr,esicEr:r.esicEr,grat:r.grat,m,y});
-    return`<div class="pay-card">
-      <div class="pay-card-header">
-        <div class="eav">${e.fName[0]}${e.lName[0]}</div>
-        <div style="flex:1;">
-          <div style="font-size:12px;font-weight:800;color:#1e293b;">${e.fName} ${e.lName}</div>
-          <div style="font-size:9px;color:#94a3b8;">${e.dept||'--'} · ${r.att.attDays}/${r.att.workingDays} days</div>
-        </div>
-        <button class="btn btn-blue" style="padding:5px 10px;font-size:9px;" onclick='showSlip(${slipData})'><span class="material-icons-round">receipt</span></button>
+    const r=calcRow(e,ei);
+    const grad=AV_COLORS[ei%AV_COLORS.length];
+    const sd=encodeURIComponent(JSON.stringify({e,att:r.att,payGross:r.payGross,payBasic:r.payBasic,pfEmp:r.pfEmp,esicEmp:r.esicEmp,pt:r.pt,totDed:r.totDed,netPay:r.netPay,pfEr:r.pfEr,esicEr:r.esicEr,grat:r.grat,ctc:r.ctc,m,y,gross:r.gross}));
+    return`<div class="pay-card" style="animation:fadeUp .2s ease ${ei*.05}s both;">
+      <div class="pay-card-head">
+        <div class="eav" style="background:${grad};width:36px;height:36px;border-radius:10px;">${(e.fName||'?')[0]}${(e.lName||'?')[0]}</div>
+        <div style="flex:1;"><div class="ename">${e.fName||''} ${e.lName||''}</div><div class="eid">${e.dept||'—'} · ${r.att.attDays}/${r.att.workingDays} days</div></div>
+        <button class="btn btn-blue btn-sm btn-icon" onclick="showSlip('${sd}')" title="View Slip"><span class="material-icons-round">receipt</span></button>
       </div>
       <div class="pay-card-grid">
-        <div class="pay-card-item"><div class="pay-card-label">Gross Payable</div><div class="pay-card-val amt-blue">${fmt(r.payGross)}</div></div>
-        <div class="pay-card-item"><div class="pay-card-label">Net Pay</div><div class="pay-card-val amt-green">${fmt(r.netPay)}</div></div>
-        <div class="pay-card-item"><div class="pay-card-label">Deductions</div><div class="pay-card-val amt-red">${r.totDed>0?fmt(r.totDed):'--'}</div></div>
-        <div class="pay-card-item"><div class="pay-card-label">PF + ESIC</div><div class="pay-card-val" style="color:#f97316;">${fmt(r.pfEmp+r.esicEmp)}</div></div>
+        <div class="pay-card-item"><div class="pay-card-lbl">Gross Payable</div><div class="pay-card-val c-blue">${fmt(r.payGross)}</div></div>
+        <div class="pay-card-item"><div class="pay-card-lbl">Net Pay</div><div class="pay-card-val c-green">${fmt(r.netPay)}</div></div>
+        <div class="pay-card-item"><div class="pay-card-lbl">Deductions</div><div class="pay-card-val c-red">${r.totDed>0?fmt(r.totDed):'—'}</div></div>
+        <div class="pay-card-item"><div class="pay-card-lbl">Total CTC</div><div class="pay-card-val c-purple">${fmt(r.ctc)}</div></div>
       </div>
     </div>`;
   }).join('');
@@ -314,69 +501,159 @@ function loadPayroll(){
   document.getElementById('stCTC').textContent=fmt(tCtc);
 }
 
-function lockPayroll(){if(!confirm(`Finalize payroll for ${MONTHS[getM()]} ${getY()}?`))return;localStorage.setItem(getPayKey()+'_locked','true');loadPayroll();alert('Payroll finalized!');}
+function lockPayroll(){
+  const locked=localStorage.getItem(getPayKey()+'_locked')==='true';
+  if(locked){
+    // Unlock
+    if(!confirm(`Unlock payroll for ${MONTHS[getM()]} ${getY()}?`))return;
+    localStorage.removeItem(getPayKey()+'_locked');
+    loadPayroll();
+    showToast('Payroll unlocked for editing','warning');
+  } else {
+    if(!confirm(`Finalize payroll for ${MONTHS[getM()]} ${getY()}?\nThis will mark it as finalized.`))return;
+    localStorage.setItem(getPayKey()+'_locked','true');
+    loadPayroll();
+    showToast('Payroll finalized successfully!','success');
+  }
+}
 
-function showSlip(d){
-  const{e,att,payGross,payBasic,pfEmp,esicEmp,pt,totDed,netPay,pfEr,esicEr,grat,m,y}=d;
-  const today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+function showSlip(encoded){
+  const d=JSON.parse(decodeURIComponent(encoded));
+  const{e,att,payGross,payBasic,pfEmp,esicEmp,pt,totDed,netPay,pfEr,esicEr,grat,ctc,m,y,gross}=d;
   const monthLabel=`${MONTHS[m]} ${y}`;
-  const slipRow=(l,v,col='#1e293b')=>v>0?`<tr><td style="padding:5px 10px;color:#64748b;font-weight:700;text-transform:uppercase;font-size:10px;">${l}</td><td style="padding:5px 10px;text-align:right;font-weight:800;color:${col};font-size:10px;">${fmt(v)}</td></tr>`:'';
-  document.getElementById('slipContent').innerHTML=`<div style="font-family:'Plus Jakarta Sans',sans-serif;">
-    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #2563eb;padding-bottom:12px;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
-      <div><div style="font-size:18px;font-weight:900;text-transform:uppercase;">KIDV TECH</div><div style="font-size:8px;color:#94a3b8;text-transform:uppercase;">SALARY SLIP — ${monthLabel}</div></div>
-      <div style="text-align:right;"><div style="font-size:8px;color:#94a3b8;">Generated: ${today}</div></div>
-    </div>
-    <div style="background:#f1f5f9;border-radius:10px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
-      <div><div style="font-size:14px;font-weight:900;text-transform:uppercase;">${e.fName} ${e.mName||''} ${e.lName}</div><div style="font-size:8px;color:#2563eb;text-transform:uppercase;">${e.job||'--'} | ${e.dept||'--'}</div></div>
-      <div style="text-align:right;"><div style="font-size:8px;color:#94a3b8;">Emp ID</div><div style="font-size:12px;font-weight:900;color:#2563eb;">${e.id||'--'}</div></div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;">
-      <div style="border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;">
-        <div style="background:#eff6ff;padding:8px 10px;font-size:8px;font-weight:800;color:#2563eb;text-transform:uppercase;border-left:3px solid #2563eb;">Earnings</div>
-        <table style="width:100%;border-collapse:collapse;">
-          ${slipRow('Basic Pay',payBasic)}${slipRow('HRA',Math.round(parseFloat(e.sal_hra||0)*att.attDays/att.workingDays))}
-          ${slipRow('Conveyance',Math.round(parseFloat(e.sal_conv||0)*att.attDays/att.workingDays))}
-          ${slipRow('Attendance',Math.round(parseFloat(e.sal_att||0)*att.attDays/att.workingDays))}
-          ${slipRow('Washing',Math.round(parseFloat(e.sal_wash||0)*att.attDays/att.workingDays))}
-          <tr style="border-top:2px solid #2563eb;"><td style="padding:6px 10px;font-size:10px;font-weight:900;text-transform:uppercase;color:#2563eb;">Gross Payable</td><td style="padding:6px 10px;text-align:right;font-size:12px;font-weight:900;color:#2563eb;">${fmt(payGross)}</td></tr>
-        </table>
+  const today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+  const daysInMonth=new Date(y,m+1,0).getDate();
+  const grad=AV_COLORS[(employees.indexOf(e)+6)%AV_COLORS.length];
+  const initials=((e.fName||'?')[0]+(e.lName||'?')[0]).toUpperCase();
+  const pfApp=(e.pf||'').toUpperCase()==='YES';
+  const esicOk=payGross<21000;
+
+  const fmtRow=(l,v,col='#0f172a')=>v>0?`<div class="slip-row"><span class="slip-lbl">${l}</span><span class="slip-val" style="color:${col};">${fmt(v)}</span></div>`:'';
+
+  const earns=[
+    ['Basic Pay',payBasic],
+    ['HRA',Math.round(n(e.sal_hra)*(att.workingDays>0?att.attDays/att.workingDays:1))],
+    ['Conveyance',Math.round(n(e.sal_conv)*(att.workingDays>0?att.attDays/att.workingDays:1))],
+    ['Special Allow.',Math.round(n(e.sal_spec)*(att.workingDays>0?att.attDays/att.workingDays:1))],
+    ['Other Allow.',Math.round(n(e.sal_att)*(att.workingDays>0?att.attDays/att.workingDays:1))],
+  ].filter(([l,v])=>v>0).map(([l,v])=>fmtRow(l,v)).join('');
+
+  const deds=[
+    ['PF Employee (12%)',pfEmp,'#ef4444'],
+    ['ESIC Employee (0.75%)',esicEmp,'#ef4444'],
+    ['Professional Tax',pt,'#ef4444'],
+  ].filter(([l,v])=>v>0).map(([l,v,c])=>fmtRow(l,v,c)).join('');
+
+  document.getElementById('slipContent').innerHTML=`<div class="slip">
+    <div class="slip-header">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;">
+        <div><div class="slip-brand">KIDV <span>Tech</span></div><div class="slip-tagline">Salary Statement · Confidential</div></div>
+        <div class="slip-period"><div class="slip-period-lbl">Pay Period</div><div class="slip-period-val">${monthLabel}</div></div>
       </div>
-      <div style="border:1px solid #fee2e2;border-radius:10px;overflow:hidden;background:#fff5f5;">
-        <div style="background:#fee2e2;padding:8px 10px;font-size:8px;font-weight:800;color:#ef4444;text-transform:uppercase;border-left:3px solid #ef4444;">Deductions</div>
-        <table style="width:100%;border-collapse:collapse;">
-          ${pfEmp>0?slipRow('PF (EMP) 12%',pfEmp,'#ef4444'):''}${esicEmp>0?slipRow('ESIC (EMP) 0.75%',esicEmp,'#ef4444'):''}${pt>0?slipRow('Professional Tax',pt,'#ef4444'):''}
-          ${totDed===0?'<tr><td colspan="2" style="padding:8px 10px;text-align:center;color:#94a3b8;font-size:10px;">No Deductions</td></tr>':''}
-          <tr style="border-top:2px solid #ef4444;"><td style="padding:6px 10px;font-size:10px;font-weight:900;text-transform:uppercase;color:#ef4444;">Total</td><td style="padding:6px 10px;text-align:right;font-size:12px;font-weight:900;color:#ef4444;">${fmt(totDed)}</td></tr>
-        </table>
+      <div class="slip-emp-row">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:44px;height:44px;border-radius:12px;background:${grad};color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;border:1px solid rgba(255,255,255,.2);flex-shrink:0;">${initials}</div>
+          <div><div class="slip-name">${e.fName||''} ${e.lName||''}</div><div class="slip-job">${(e.job||e.designation||'Employee').toUpperCase()} · ${(e.dept||'—').toUpperCase()}</div></div>
+        </div>
       </div>
-      <div style="border:1px solid #fed7aa;border-radius:10px;overflow:hidden;background:#fff7ed;">
-        <div style="background:#fed7aa;padding:8px 10px;font-size:8px;font-weight:800;color:#f97316;text-transform:uppercase;border-left:3px solid #f97316;">ER Contributions</div>
-        <table style="width:100%;border-collapse:collapse;">
-          ${pfEr>0?slipRow('PF (ER) 12%',pfEr,'#f97316'):''}${esicEr>0?slipRow('ESIC (ER) 3.75%',esicEr,'#f97316'):''}${slipRow('Gratuity 4.81%',grat,'#f97316')}
-          <tr style="border-top:2px solid #f97316;"><td style="padding:6px 10px;font-size:10px;font-weight:900;text-transform:uppercase;color:#f97316;">Total ER</td><td style="padding:6px 10px;text-align:right;font-size:12px;font-weight:900;color:#f97316;">${fmt(pfEr+esicEr+grat)}</td></tr>
-        </table>
+      <div class="slip-chips">
+        <div class="slip-chip">ID: ${e.id||'—'}</div>
+        ${e.uan?`<div class="slip-chip">UAN: ${e.uan}</div>`:''}
+        <div class="slip-chip">${e.empType||'Permanent'}</div>
+        ${pfApp?'<div class="slip-chip">PF Enrolled</div>':''}
+        ${esicOk?'<div class="slip-chip">ESIC Enrolled</div>':''}
       </div>
     </div>
-    <div style="background:#1e293b;border-radius:12px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-      <div><div style="font-size:9px;color:rgba(255,255,255,.5);text-transform:uppercase;font-weight:700;">Net Pay (Take Home)</div><div style="font-size:26px;font-weight:900;color:#fff;">${fmt(netPay)}</div></div>
-      <div style="text-align:right;"><div style="font-size:9px;color:rgba(255,255,255,.5);">Bank: ${e.bankName||'--'}</div><div style="font-size:11px;color:#fff;font-weight:800;">${e.bankAcc||'--'}</div></div>
+    <div class="slip-body">
+      <div style="height:14px;"></div>
+      <div class="slip-att">
+        <div class="slip-att-box"><div class="slip-att-n">${daysInMonth}</div><div class="slip-att-l">Days in Month</div></div>
+        <div class="slip-att-box"><div class="slip-att-n" style="color:#2563eb;">${att.workingDays}</div><div class="slip-att-l">Working Days</div></div>
+        <div class="slip-att-box"><div class="slip-att-n" style="color:#10b981;">${att.attDays}</div><div class="slip-att-l">Days Present</div></div>
+        <div class="slip-att-box"><div class="slip-att-n" style="color:${att.absent>0?'#ef4444':'#94a3b8'};">${att.absent}</div><div class="slip-att-l">Days Absent</div></div>
+      </div>
+      <div class="slip-grid">
+        <div>
+          <div class="slip-sec-title slip-earn-title">Earnings</div>
+          ${earns||fmtRow('Gross Salary',payGross)}
+          <div class="slip-subtotal slip-earn-sub"><span>Gross Payable</span><span>${fmt(payGross)}</span></div>
+        </div>
+        <div>
+          <div class="slip-sec-title slip-ded-title">Deductions</div>
+          ${deds||'<div class="slip-row"><span class="slip-lbl" style="color:#10b981;">No Deductions</span><span class="slip-val" style="color:#10b981;">Rs.0</span></div>'}
+          <div class="slip-subtotal slip-ded-sub"><span>Total Deductions</span><span>${fmt(totDed)}</span></div>
+        </div>
+      </div>
+      <div class="slip-net">
+        <div><div class="slip-net-lbl">Net Take Home Pay</div><div class="slip-net-val">${fmt(netPay)}</div><div style="font-size:9px;opacity:.4;margin-top:3px;">${monthLabel} · ${att.attDays}/${att.workingDays} days</div></div>
+      </div>
+      <div class="slip-ctc">
+        <div><div class="slip-ctc-lbl">Total Monthly CTC</div><div style="font-size:8px;color:rgba(255,255,255,.2);margin-top:1px;">Employer contributions included</div></div>
+        <div class="slip-ctc-val">${fmt(ctc)}</div>
+      </div>
+      <div class="slip-er">
+        <div class="slip-er-title">Employer Contributions (Not deducted from salary)</div>
+        <div class="slip-er-grid">
+          <div class="slip-er-item"><div class="lbl">Employer PF</div><div class="val">${pfApp?fmt(pfEr):'N/A'}</div></div>
+          <div class="slip-er-item"><div class="lbl">Employer ESIC</div><div class="val">${esicOk?fmt(esicEr):'N/A'}</div></div>
+          <div class="slip-er-item"><div class="lbl">Gratuity</div><div class="val">${fmt(grat)}</div></div>
+        </div>
+      </div>
+      <div class="slip-bank">
+        <div class="slip-bank-title">Salary Credited To</div>
+        <div class="slip-bank-row">
+          <div class="slip-bank-item"><div class="lbl">Bank Name</div><div class="val">${e.bankName||'—'}</div></div>
+          <div class="slip-bank-item"><div class="lbl">Account No.</div><div class="val">${e.bankAcc||'—'}</div></div>
+          <div class="slip-bank-item"><div class="lbl">IFSC Code</div><div class="val">${e.ifsc||'—'}</div></div>
+        </div>
+      </div>
+      <div class="slip-footer">
+        <div><div class="slip-footer-note">Generated: ${today}</div><div class="slip-footer-note">Computer generated document — No signature required</div></div>
+        <div><div class="slip-sign-line"></div><div class="slip-sign-lbl">Authorized Signatory</div></div>
+      </div>
     </div>
   </div>`;
   document.getElementById('slipModal').classList.add('open');
 }
 
+let employees=[];
 function closeSlip(){document.getElementById('slipModal').classList.remove('open');}
-function printSlip(){const ps=document.getElementById('printSlip');ps.innerHTML=document.getElementById('slipContent').innerHTML;ps.style.display='block';window.print();ps.style.display='none';ps.innerHTML='';}
+function printSlip(){
+  const ps=document.getElementById('printSlip');
+  ps.innerHTML=document.getElementById('slipContent').innerHTML;
+  ps.style.display='block';window.print();ps.style.display='none';ps.innerHTML='';
+}
 
 function exportCSV(){
   const emps=JSON.parse(localStorage.getItem('employees')||'[]');
-  if(!emps.length){alert('No employees!');return;}
-  let csv='Emp ID,Name,Department,Working Days,Present,Gross Full,Gross Payable,PF Emp,ESIC Emp,PT,Total Ded,Net Pay,PF ER,ESIC ER,Gratuity\n';
-  emps.forEach(e=>{
-    const r=calcRow(e);
-    csv+=`${e.id},"${e.fName} ${e.lName}",${e.dept||''},${r.att.workingDays},${r.att.attDays},${r.gross},${r.payGross},${r.pfEmp},${r.esicEmp},${r.pt},${r.totDed},${r.netPay},${r.pfEr},${r.esicEr},${r.grat}\n`;
+  if(!emps.length){showToast('No employees to export','error');return;}
+  let csv='Emp ID,Name,Department,Working Days,Present,Gross Full,Gross Payable,PF Emp,ESIC Emp,PT,Total Ded,Net Pay,PF Employer,ESIC Employer,Gratuity,CTC\n';
+  emps.forEach((e,ei)=>{
+    const r=calcRow(e,ei);
+    csv+=`${empId(e,ei)},"${e.fName||''} ${e.lName||''}","${e.dept||''}",${r.att.workingDays},${r.att.attDays},${r.gross},${r.payGross},${r.pfEmp},${r.esicEmp},${r.pt},${r.totDed},${r.netPay},${r.pfEr},${r.esicEr},${r.grat},${r.ctc}\n`;
   });
-  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download=`Payroll_${MONTHS[getM()]}_${getY()}.csv`;a.click();
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download=`Payroll_${MONTHS[getM()]}_${getY()}.csv`;a.click();
+  showToast('Payroll exported as CSV!','success');
+}
+
+function loadUserInfo(){
+  const user=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+  employees=JSON.parse(localStorage.getItem('employees')||'[]');
+  if(user.name){const p=user.name.trim().split(' ');document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();document.getElementById('sideName').textContent=user.name;document.getElementById('sideRole').textContent=user.role||'Staff';}
+  const role=(user.role||'').toLowerCase();
+  if(role==='super admin'||role==='admin'){document.getElementById('adminNav').style.display='';document.getElementById('usersLink').style.display='';document.getElementById('rolesLink').style.display='';}
+}
+function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');document.body.style.overflow='hidden';}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');document.body.style.overflow='';}
+
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');t.className='toast '+type;
+  document.getElementById('toastIcon').textContent=type==='success'?'check_circle':type==='warning'?'warning':'error';
+  document.getElementById('toastMsg').textContent=msg;
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);
 }
 </script>
 </body>
