@@ -1,692 +1,706 @@
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>KIDV Tech | Employee Profile</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-  <script>if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}</script>
-  <style>
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-  html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif;background:#f0f4f8;}
-  .app{display:flex;height:100vh;}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>KIDV Tech | Employee Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<script>if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}</script>
+<style>
+:root{--navy:#07101f;--blue:#2563eb;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--purple:#8b5cf6;--amber:#f59e0b;--orange:#f97316;--text-m:rgba(148,163,184,.65);--text-d:rgba(148,163,184,.32);--border-b:rgba(255,255,255,.11);--glass:rgba(255,255,255,.04);--sidebar-w:260px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflow:hidden;}
+.app{display:flex;height:100vh;}
 
-  /* ── SIDEBAR ── */
-  .sidebar{width:220px;min-width:220px;background:#fff;border-right:1px solid #e2e8f0;display:flex;flex-direction:column;padding:18px 12px;height:100vh;position:fixed;left:0;top:0;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1);overflow-y:auto;}
-  .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:199;}
-  .logo{display:flex;align-items:center;gap:10px;padding:6px 8px;margin-bottom:22px;}
-  .logo-icon{width:36px;height:36px;background:#2563eb;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:900;box-shadow:0 4px 12px rgba(37,99,235,.28);flex-shrink:0;}
-  .logo-text{font-size:14px;font-weight:900;color:#1e293b;}.logo-text span{color:#2563eb;}
-  .nav-sec{font-size:8px;color:#94a3b8;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:0 10px;margin:10px 0 4px;}
-  .nav a{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;font-size:11px;font-weight:700;color:#64748b;text-decoration:none;margin-bottom:2px;text-transform:uppercase;letter-spacing:.03em;transition:all .15s;}
-  .nav a:hover{background:#f1f5f9;color:#1e293b;}
-  .nav a.active{background:#2563eb;color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.3);}
-  .nav a .material-icons-round{font-size:16px;flex-shrink:0;}
-  .nav-bottom{margin-top:auto;padding-top:12px;border-top:1px solid #f1f5f9;}
-  .user-info{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;background:#f8fafc;margin-bottom:6px;}
-  .user-av{width:30px;height:30px;border-radius:8px;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0;}
-  .user-name{font-size:10px;font-weight:800;color:#1e293b;text-transform:uppercase;line-height:1.2;}
-  .user-role{font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;}
-  .logout-btn{display:flex;align-items:center;gap:7px;width:100%;padding:8px 10px;border-radius:10px;background:none;border:1px solid #fee2e2;color:#ef4444;font-size:10px;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s;}
-  .logout-btn:hover{background:#fef2f2;}
-  .logout-btn .material-icons-round{font-size:14px;}
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden;border-right:1px solid rgba(255,255,255,.05);box-shadow:8px 0 40px rgba(0,0,0,.35);}
+.sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:199;backdrop-filter:blur(6px);}
+.logo-area{position:relative;z-index:1;flex-shrink:0;overflow:hidden;background:#fff;border-bottom:1px solid rgba(255,255,255,.06);}
+.logo-area img{width:100%;height:auto;display:block;}
+.nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 10px 4px;position:relative;z-index:1;}
+.nav::-webkit-scrollbar{width:3px;}.nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:99px;}
+.nav-sec{font-size:8.5px;color:var(--text-d);font-weight:700;text-transform:uppercase;letter-spacing:.2em;padding:0 8px;margin:16px 0 5px;display:flex;align-items:center;gap:8px;}
+.nav-sec::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07);}
+.nav a{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:11px;font-size:11px;font-weight:600;color:var(--text-m);text-decoration:none;margin-bottom:1px;text-transform:uppercase;letter-spacing:.055em;transition:color .18s,background .18s,transform .18s;position:relative;}
+.nav a:hover{color:rgba(241,245,249,.9);background:rgba(255,255,255,.07);transform:translateX(2px);}
+.nav a.active{color:#fff;background:linear-gradient(120deg,rgba(37,99,235,.32) 0%,rgba(6,182,212,.18) 100%);border:1px solid rgba(59,130,246,.28);box-shadow:0 4px 20px rgba(37,99,235,.22),inset 0 1px 0 rgba(255,255,255,.09);}
+.nav a.active::after{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:55%;background:linear-gradient(180deg,#93c5fd,#22d3ee);border-radius:0 3px 3px 0;box-shadow:0 0 10px rgba(96,165,250,.8);}
+.ic{width:29px;height:29px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .18s;}
+.ic .material-icons-round{font-size:15px;}
+.ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
+.ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-int{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.ic-adm{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
+.nav a.active .ic{transform:scale(1.08);box-shadow:0 0 14px rgba(37,99,235,.4);}
+.nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
+.user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--glass);margin-bottom:8px;border:1px solid var(--border-b);}
+.user-av{width:33px;height:33px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.user-name{font-size:10.5px;font-weight:700;color:#fff;text-transform:uppercase;}
+.user-role{font-size:8px;color:var(--text-d);font-weight:500;text-transform:uppercase;margin-top:1px;}
+.logout-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:10px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);color:rgba(252,165,165,.8);font-size:10px;font-weight:700;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;}
+.logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;}
+.logout-btn .material-icons-round{font-size:14px;}
 
-  /* ── MAIN ── */
-  .main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:220px;transition:margin-left .3s;}
-  .topbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;}
-  .topbar-left{display:flex;align-items:center;gap:10px;}
-  .menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;flex-shrink:0;}
-  .menu-btn .material-icons-round{font-size:22px;}
-  .back-btn{width:32px;height:32px;background:#f1f5f9;border-radius:9px;display:flex;align-items:center;justify-content:center;text-decoration:none;color:#64748b;transition:all .15s;flex-shrink:0;}
-  .back-btn:hover{background:#2563eb;color:#fff;}
-  .tb-info{min-width:0;}
-  .tb-name{font-size:15px;font-weight:900;text-transform:uppercase;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .tb-job{font-size:10px;font-weight:700;color:#2563eb;text-transform:uppercase;letter-spacing:.1em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .tb-btns{display:flex;gap:8px;flex-shrink:0;}
-  .btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:9px;font-size:11px;font-weight:800;border:none;cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.03em;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;}
-  .btn-blue{background:#2563eb;color:#fff;}.btn-blue:hover{background:#1d4ed8;}
-  .btn-dark{background:#1e293b;color:#fff;}.btn-dark:hover{background:#334155;}
-  .btn .material-icons-round{font-size:14px;}
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:var(--sidebar-w);}
+.topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.topbar-left{display:flex;align-items:center;gap:10px;}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;}
+.menu-btn .material-icons-round{font-size:22px;}
+.back-btn{width:32px;height:32px;background:#f1f5f9;border-radius:9px;display:flex;align-items:center;justify-content:center;text-decoration:none;color:#64748b;transition:all .18s;flex-shrink:0;border:1px solid #e2e8f0;}
+.back-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue);}
+.tb-name{font-size:15px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tb-job{font-size:9px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:.1em;margin-top:2px;}
+.tb-btns{display:flex;gap:8px;flex-shrink:0;}
 
-  /* ── SCROLL ── */
-  .scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:16px 20px;}
-  .scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+/* BTNS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 15px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.06em;font-family:'Outfit',sans-serif;white-space:nowrap;}
+.btn-blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.3);}
+.btn-blue:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,.44);}
+.btn-ghost{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}
+.btn-ghost:hover{background:#e2e8f0;}
+.btn .material-icons-round{font-size:14px;}
 
-  /* ── PROFILE GRID ── */
-  .pg{display:grid;grid-template-columns:290px 1fr;gap:14px;align-items:start;width:100%;}
-  .left-col{display:flex;flex-direction:column;gap:12px;min-width:0;}
-  .right-col{display:flex;flex-direction:column;gap:12px;min-width:0;}
+/* SCROLL */
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:16px 20px;}
+.scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
 
-  /* ── CARDS ── */
-  .card{background:#fff;border-radius:15px;border:1px solid #f1f5f9;padding:22px;}
-  .stitle{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding-left:8px;margin-bottom:11px;border-left:3px solid currentColor;}
-  /* Avatar */
-  .av-wrap{width:72px;height:72px;border-radius:20px;background:#2563eb;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:900;margin:0 auto 11px;}
-  .av-name{text-align:center;font-size:17px;font-weight:900;text-transform:uppercase;color:#1e293b;}
-  .av-job{text-align:center;font-size:11px;font-weight:700;color:#2563eb;text-transform:uppercase;letter-spacing:.2em;margin-top:2px;}
-  .meta{margin-top:12px;padding-top:12px;border-top:1px solid #f1f5f9;}
-  .mr{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-bottom:1px dashed #f8fafc;}
-  .mr:last-child{border-bottom:none;}
-  .ml{font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:700;}
-  .mv{font-size:13px;color:#1e293b;font-weight:800;text-transform:uppercase;text-align:right;}
-  /* personal 2col */
-  .p2{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;}
-  .p2-i .pl{font-size:9px;color:#94a3b8;text-transform:uppercase;font-weight:700;}
-  .p2-i .pv{font-size:13px;color:#1e293b;font-weight:800;text-transform:uppercase;margin-top:1px;}
-  /* irow */
-  .ir{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-bottom:1px dashed #f8fafc;}
-  .ir:last-child{border-bottom:none;}
-  .il{font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:700;flex-shrink:0;padding-right:6px;}
-  .iv{font-size:13px;color:#1e293b;font-weight:800;text-transform:uppercase;text-align:right;max-width:60%;}
-  /* sub-section */
-  .sub-hd{font-size:10px;font-weight:800;text-transform:uppercase;margin:9px 0 6px;padding-top:8px;border-top:1px dashed #f1f5f9;}
+/* PROFILE GRID */
+.pg{display:grid;grid-template-columns:295px 1fr;gap:14px;align-items:start;}
+.left-col{display:flex;flex-direction:column;gap:12px;min-width:0;}
+.right-col{display:flex;flex-direction:column;gap:12px;min-width:0;}
 
-  /* RIGHT — Salary */
-  .sal-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
-  .earn-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed #f8fafc;font-size:13px;text-transform:uppercase;font-weight:700;}
-  .earn-row:last-child{border-bottom:none;}
-  .earn-lbl{color:#64748b;}
-  .earn-val{font-weight:800;color:#1e293b;}
-  .earn-total{display:flex;justify-content:space-between;padding:8px 0 0;border-top:2px solid #2563eb;margin-top:4px;font-size:14px;font-weight:900;color:#2563eb;text-transform:uppercase;}
-  /* ded blocks */
-  .db{border-radius:12px;padding:12px;margin-bottom:9px;}
-  .db-red{background:#fff5f5;border:1px solid #fee2e2;}
-  .db-org{background:#fff7ed;border:1px solid #fed7aa;}
-  .db-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
-  .db-title{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;}
-  .esic-badge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:99px;}
-  .esic-ok{background:#dcfce7;color:#16a34a;}
-  .esic-na{background:#f1f5f9;color:#94a3b8;}
-  .dr{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px dashed rgba(0,0,0,.06);}
-  .dr:last-of-type{border-bottom:none;}
-  .dl-wrap .dlbl{font-size:12px;color:#64748b;font-weight:700;text-transform:uppercase;}
-  .dl-wrap .dsub{font-size:9px;color:#94a3b8;margin-top:1px;}
-  .dl-inline{display:flex;align-items:center;gap:4px;}
-  .eb{background:#fef2f2;color:#ef4444;font-size:9px;padding:1px 5px;border-radius:99px;font-weight:700;}
-  .rb{background:#fff7ed;color:#f97316;font-size:9px;padding:1px 5px;border-radius:99px;font-weight:700;}
-  .amt-red{font-size:13px;font-weight:800;color:#ef4444;}
-  .amt-org{font-size:13px;font-weight:800;color:#f97316;}
-  .amt-zero{font-size:13px;font-weight:800;color:#e2e8f0;}
-  .db-tot{display:flex;justify-content:space-between;padding-top:7px;border-top:1px solid;margin-top:3px;font-size:13px;font-weight:900;text-transform:uppercase;}
-  .db-tot-red{border-color:#fca5a5;color:#ef4444;}
-  .db-tot-org{border-color:#fdba74;color:#f97316;}
-  .take{display:flex;justify-content:space-between;padding-top:5px;margin-top:3px;border-top:1px solid #fca5a5;font-size:14px;font-weight:900;color:#16a34a;text-transform:uppercase;}
-  /* CTC card */
-  .ctc-card{background:#1e293b;border-radius:14px;padding:16px 18px;color:#fff;position:relative;overflow:hidden;}
-  .ctc-lbl{font-size:11px;font-weight:700;opacity:.5;text-transform:uppercase;letter-spacing:.1em;}
-  .ctc-val{font-size:32px;font-weight:900;font-style:italic;margin-top:3px;}
-  .ctc-note{font-size:9px;opacity:.3;margin-top:3px;}
-  .ctc-ico{position:absolute;right:-10px;bottom:-10px;font-size:70px;opacity:.07;}
-  /* history table */
-  .htbl{width:100%;border-collapse:collapse;font-size:12px;}
-  .htbl thead th{background:#f8fafc;padding:10px 14px;font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:700;text-align:left;}
-  .htbl tbody tr{border-top:1px solid #f8fafc;}
-  .htbl tbody tr:hover{background:#fafafa;}
-  .htbl td{padding:10px 14px;font-weight:700;color:#475569;text-transform:uppercase;}
-  .htbl tr.row-active td{color:#1d4ed8;font-weight:900;}
-  .htbl tr.row-active{border-left:3px solid #2563eb;}
-  .badge-r{background:#fff7ed;color:#f97316;font-size:10px;padding:2px 8px;border-radius:99px;font-weight:800;}
-  .badge-a{background:#2563eb;color:#fff;font-size:10px;padding:2px 8px;border-radius:99px;font-weight:800;}
+/* CARDS */
+.card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:box-shadow .2s;}
+.card:hover{box-shadow:0 4px 16px rgba(0,0,0,.07);}
+.stitle{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding-left:9px;margin-bottom:12px;border-left:3px solid currentColor;}
 
-  /* Print menu */
-  .pmenu-item{display:flex;align-items:center;gap:9px;width:100%;padding:10px 16px;font-size:12px;font-weight:700;color:#1e293b;background:none;border:none;cursor:pointer;text-align:left;font-family:'Plus Jakarta Sans',sans-serif;text-transform:uppercase;transition:background .12s;}
-  .pmenu-item:hover{background:#f1f5f9;}
-  .pmenu-item .material-icons-round{font-size:16px;color:#2563eb;}
+/* AVATAR CARD */
+.av-wrap{width:70px;height:70px;border-radius:18px;background:linear-gradient(135deg,#2563eb,#7c3aed);display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:900;margin:0 auto 12px;box-shadow:0 8px 20px rgba(37,99,235,.3);}
+.av-name{text-align:center;font-size:16px;font-weight:900;text-transform:uppercase;color:#0f172a;}
+.av-job{text-align:center;font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.15em;margin-top:3px;}
+.meta{margin-top:12px;padding-top:12px;border-top:1px solid #f1f5f9;}
+.mr{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px dashed #f5f7fa;}
+.mr:last-child{border-bottom:none;}
+.ml{font-size:9px;color:#94a3b8;text-transform:uppercase;font-weight:700;}
+.mv{font-size:11.5px;color:#0f172a;font-weight:800;text-transform:uppercase;text-align:right;font-family:'JetBrains Mono',monospace;}
 
-  /* MODAL */
-  .mo{position:fixed;inset:0;background:rgba(15,23,42,.6);backdrop-filter:blur(4px);z-index:300;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}
-  .mo.open{opacity:1;pointer-events:all;}
-  .mb{background:#fff;border-radius:20px;width:90%;max-width:820px;max-height:88vh;overflow-y:auto;box-shadow:0 30px 70px rgba(0,0,0,.22);transform:translateY(20px);transition:transform .25s;}
-  .mb::-webkit-scrollbar{width:4px;}.mb::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
-  .mo.open .mb{transform:translateY(0);}
-  .mh{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #f1f5f9;position:sticky;top:0;background:#fff;z-index:1;border-radius:20px 20px 0 0;}
-  .mt{font-size:12px;font-weight:900;text-transform:uppercase;color:#1e293b;font-style:italic;}
-  .xbtn{width:30px;height:30px;border-radius:8px;background:#f1f5f9;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
-  .xbtn:hover{background:#fee2e2;color:#ef4444;}
-  .mbody{padding:20px;}
+/* PERSONAL 2COL */
+.p2{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;}
+.p2-i .pl{font-size:8.5px;color:#94a3b8;text-transform:uppercase;font-weight:700;}
+.p2-i .pv{font-size:11.5px;color:#0f172a;font-weight:800;text-transform:uppercase;margin-top:2px;}
 
-  /* PRINT */
-  @media print{body *{visibility:hidden!important;}#printArea,#printArea *{visibility:visible!important;}#printArea{position:fixed!important;inset:0!important;background:white!important;padding:20px!important;z-index:9999!important;overflow:auto!important;}}
+/* IROW */
+.ir{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px dashed #f5f7fa;}
+.ir:last-child{border-bottom:none;}
+.il{font-size:9px;color:#94a3b8;text-transform:uppercase;font-weight:700;flex-shrink:0;padding-right:8px;}
+.iv{font-size:11.5px;color:#0f172a;font-weight:800;text-transform:uppercase;text-align:right;max-width:62%;font-family:'JetBrains Mono',monospace;}
+.sub-hd{font-size:9.5px;font-weight:800;text-transform:uppercase;margin:10px 0 6px;padding-top:9px;border-top:1px dashed #f1f5f9;}
 
-  /* ══════════════════
-     RESPONSIVE
-  ══════════════════ */
-  @media(max-width:900px){
-    .pg{grid-template-columns:1fr;}
-    .right-col{position:static;max-height:none;overflow:visible;}
-    .sal-grid{grid-template-columns:1fr;}
-  }
-  @media(max-width:640px){
-    .sidebar{transform:translateX(-100%);}
-    .sidebar.open{transform:translateX(0);}
-    .sidebar-overlay.open{display:block;}
-    .main{margin-left:0 !important;}
-    .menu-btn{display:flex !important;}
-    .topbar{padding:8px 12px;}
-    .scroll{padding:10px 12px;}
-    .btn span.btn-label{display:none;}
-    .tb-name{font-size:13px;}
-    .pg{grid-template-columns:1fr;}
-    .sal-grid{grid-template-columns:1fr;}
-    .p2{grid-template-columns:1fr 1fr;}
-    .card{padding:14px;}
-  }
-  </style>
-  </head>
-  <body onload="loadProfile()">
-  <div id="printArea" style="display:none;position:fixed;inset:0;background:white;padding:20px;z-index:9999;overflow:auto;"></div>
+/* SALARY — RIGHT */
+.sal-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.earn-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed #f5f7fa;font-size:12px;text-transform:uppercase;font-weight:700;}
+.earn-row:last-child{border-bottom:none;}
+.earn-lbl{color:#64748b;}
+.earn-val{font-weight:800;color:#0f172a;font-family:'JetBrains Mono',monospace;}
+.earn-total{display:flex;justify-content:space-between;padding:8px 0 0;border-top:2px solid var(--blue);margin-top:4px;font-size:13px;font-weight:900;color:var(--blue);text-transform:uppercase;}
+.earn-total span:last-child{font-family:'JetBrains Mono',monospace;}
 
-  <!-- Mobile overlay -->
-  <div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
+/* DEDUCTION BLOCKS */
+.db{border-radius:12px;padding:13px;margin-bottom:10px;}
+.db-red{background:#fff5f5;border:1px solid #fee2e2;}
+.db-org{background:#fff7ed;border:1px solid #fed7aa;}
+.db-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;}
+.db-title{display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;}
+.esic-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:99px;}
+.esic-ok{background:#dcfce7;color:#16a34a;}
+.esic-na{background:#f1f5f9;color:#94a3b8;}
+.dr{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px dashed rgba(0,0,0,.06);}
+.dr:last-of-type{border-bottom:none;}
+.dl-wrap .dlbl{font-size:11.5px;color:#64748b;font-weight:700;text-transform:uppercase;}
+.dl-wrap .dsub{font-size:8.5px;color:#94a3b8;margin-top:1px;}
+.dl-inline{display:flex;align-items:center;gap:4px;}
+.eb{background:#fef2f2;color:#ef4444;font-size:8.5px;padding:1px 6px;border-radius:99px;font-weight:800;border:1px solid #fecaca;}
+.rb{background:#fff7ed;color:#f97316;font-size:8.5px;padding:1px 6px;border-radius:99px;font-weight:800;border:1px solid #fed7aa;}
+.amt-red{font-size:12.5px;font-weight:900;color:#ef4444;font-family:'JetBrains Mono',monospace;}
+.amt-org{font-size:12.5px;font-weight:900;color:#f97316;font-family:'JetBrains Mono',monospace;}
+.amt-zero{font-size:12.5px;font-weight:900;color:#e2e8f0;font-family:'JetBrains Mono',monospace;}
+.db-tot{display:flex;justify-content:space-between;padding-top:8px;border-top:1px solid;margin-top:4px;font-size:12.5px;font-weight:900;text-transform:uppercase;}
+.db-tot-red{border-color:#fca5a5;color:#ef4444;}
+.db-tot-org{border-color:#fdba74;color:#f97316;}
+.db-tot span:last-child,.take span:last-child{font-family:'JetBrains Mono',monospace;}
+.take{display:flex;justify-content:space-between;padding-top:6px;margin-top:4px;border-top:1px solid #fca5a5;font-size:13px;font-weight:900;color:#16a34a;text-transform:uppercase;}
 
-  <div class="app">
-  <!-- ── SIDEBAR ── -->
-  <aside class="sidebar" id="sidebar">
-    <div class="logo"><div class="logo-icon">K</div><div class="logo-text">KIDV <span>Tech</span></div></div>
-    <nav class="nav">
-      <div class="nav-sec">Main</div>
-      <a href="index.html"><span class="material-icons-round">dashboard</span>Dashboard</a>
-      <a href="employees.html" class="active"><span class="material-icons-round">badge</span>Employees</a>
-      <div class="nav-sec">HR</div>
-      <a href="shifts.html"><span class="material-icons-round">schedule</span>Shifts</a>
-      <a href="holidays.html"><span class="material-icons-round">event</span>Holidays</a>
-      <div class="nav-sec">Operations</div>
-      <a href="attendance.html"><span class="material-icons-round">calendar_month</span>Attendance</a>
-      <a href="payroll.html"><span class="material-icons-round">receipt_long</span>Payroll</a>
-      <div class="nav-sec">Integration</div>
-      <a href="device-manager.html"><span class="material-icons-round">device_hub</span>Device Manager</a>
-      <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
-      <a href="users.html" id="usersLink" style="display:none;"><span class="material-icons-round">manage_accounts</span>Users</a>
-      <a href="roles.html" id="rolesLink" style="display:none;"><span class="material-icons-round">shield</span>Roles & Perms</a>
-    </nav>
-    <div class="nav-bottom">
-      <div class="user-info">
-        <div class="user-av" id="sideAvatar">SA</div>
-        <div>
-          <div class="user-name" id="sideName">Admin</div>
-          <div class="user-role" id="sideRole">Administrator</div>
-        </div>
-      </div>
-      <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
-    </div>
-  </aside>
+/* CTC CARD */
+.ctc-card{background:var(--navy);border-radius:14px;padding:16px 18px;color:#fff;position:relative;overflow:hidden;}
+.ctc-card::before{content:'';position:absolute;bottom:-40px;right:-30px;width:140px;height:140px;background:radial-gradient(circle,rgba(37,99,235,.25) 0%,transparent 65%);}
+.ctc-lbl{font-size:10px;font-weight:700;opacity:.45;text-transform:uppercase;letter-spacing:.1em;}
+.ctc-val{font-size:30px;font-weight:900;font-style:italic;margin-top:3px;font-family:'JetBrains Mono',monospace;}
+.ctc-note{font-size:8.5px;opacity:.3;margin-top:3px;}
 
-  <!-- ── MAIN ── -->
-  <div class="main">
-    <div class="topbar">
-      <div class="topbar-left">
-        <button class="menu-btn" id="menuBtn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
-        <a href="employees.html" class="back-btn"><span class="material-icons-round" style="font-size:16px;">arrow_back</span></a>
-        <div class="tb-info">
-          <div id="tbName" class="tb-name">--</div>
-          <div id="tbJob" class="tb-job">--</div>
-        </div>
-      </div>
-      <div class="tb-btns">
-        <div style="position:relative;">
-          <button class="btn btn-blue" onclick="togglePrintMenu(event)">
-            <span class="material-icons-round">print</span>
-            <span class="btn-label">Print / Preview</span>
-            <span class="material-icons-round" style="font-size:14px;margin-left:2px;">arrow_drop_down</span>
-          </button>
-          <div id="printMenu" style="display:none;position:absolute;right:0;top:110%;background:#fff;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.15);border:1px solid #f1f5f9;z-index:400;min-width:220px;overflow:hidden;">
-            <div style="padding:8px 14px;font-size:8px;color:#94a3b8;font-weight:800;text-transform:uppercase;border-bottom:1px solid #f1f5f9;">Select Print Template</div>
-            <button onclick="openPrint('complete')" class="pmenu-item" style="background:#1e293b;color:#fff;"><span class="material-icons-round" style="color:#60a5fa;">workspace_premium</span>Complete Report (All Details)</button>
-            <button onclick="openPrint('full')" class="pmenu-item"><span class="material-icons-round">article</span>Full Employee Details</button>
-            <button onclick="openPrint('profile')" class="pmenu-item"><span class="material-icons-round">person</span>Profile Card Only</button>
-            <button onclick="openPrint('accounts')" class="pmenu-item"><span class="material-icons-round">account_balance</span>Accounts / Finance</button>
-            <button onclick="openPrint('hr')" class="pmenu-item"><span class="material-icons-round">badge</span>HR Record</button>
-            <button onclick="openPrint('ctc')" class="pmenu-item"><span class="material-icons-round">receipt_long</span>CTC Breakup</button>
-            <div style="height:1px;background:#f1f5f9;margin:4px 0;"></div>
-            <button onclick="openPrint('idcard')" class="pmenu-item" style="background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;"><span class="material-icons-round" style="color:#fff;">badge</span>Employee ID Card</button>
-          </div>
-        </div>
+/* HISTORY TABLE */
+.htbl{width:100%;border-collapse:collapse;font-size:12px;}
+.htbl thead th{background:#f8fafc;padding:10px 14px;font-size:9px;color:#94a3b8;text-transform:uppercase;font-weight:700;text-align:left;letter-spacing:.06em;}
+.htbl tbody tr{border-top:1px solid #f5f7fa;}
+.htbl tbody tr:hover{background:#fafbfc;}
+.htbl td{padding:10px 14px;font-weight:700;color:#475569;text-transform:uppercase;}
+.htbl .num-cell{font-family:'JetBrains Mono',monospace;}
+.htbl tr.row-active td{color:#1d4ed8;font-weight:900;}
+.htbl tr.row-active{border-left:3px solid #2563eb;}
+.badge-r{background:#fff7ed;color:#f97316;font-size:9.5px;padding:2px 9px;border-radius:99px;font-weight:800;}
+.badge-a{background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;font-size:9.5px;padding:2px 9px;border-radius:99px;font-weight:800;}
+
+/* PRINT MENU */
+.pmenu-item{display:flex;align-items:center;gap:9px;width:100%;padding:10px 16px;font-size:11.5px;font-weight:700;color:#1e293b;background:none;border:none;cursor:pointer;text-align:left;font-family:'Outfit',sans-serif;text-transform:uppercase;transition:background .12s;}
+.pmenu-item:hover{background:#f1f5f9;}
+.pmenu-item .material-icons-round{font-size:16px;color:var(--blue);}
+
+/* SECTION — EDU/EXP HEADERS */
+.tbl-header-row{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.tbl-header-row .material-icons-round{font-size:18px;color:#0891b2;}
+.tbl-header-title{font-size:14px;font-weight:900;text-transform:uppercase;color:#0f172a;font-style:italic;}
+
+/* MODAL */
+.mo{position:fixed;inset:0;background:rgba(7,16,31,.65);backdrop-filter:blur(6px);z-index:300;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}
+.mo.open{opacity:1;pointer-events:all;}
+.mb{background:#fff;border-radius:20px;width:90%;max-width:840px;max-height:90vh;overflow-y:auto;box-shadow:0 30px 70px rgba(0,0,0,.22);transform:translateY(20px);transition:transform .25s;}
+.mb::-webkit-scrollbar{width:4px;}.mb::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+.mo.open .mb{transform:translateY(0);}
+.mh{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-bottom:1px solid #f1f5f9;position:sticky;top:0;background:#fff;z-index:1;border-radius:20px 20px 0 0;}
+.mt{font-size:12px;font-weight:900;text-transform:uppercase;color:#0f172a;font-style:italic;letter-spacing:.06em;}
+.xbtn{width:32px;height:32px;border-radius:9px;background:#f1f5f9;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;color:#64748b;}
+.xbtn:hover{background:#fef2f2;color:#ef4444;}
+.xbtn .material-icons-round{font-size:16px;}
+.mbody{padding:20px;}
+
+/* PRINT */
+@media print{body *{visibility:hidden!important;}#printArea,#printArea *{visibility:visible!important;}#printArea{position:fixed!important;inset:0!important;background:white!important;padding:20px!important;z-index:9999!important;overflow:auto!important;}}
+
+/* RESPONSIVE */
+@media(max-width:960px){.pg{grid-template-columns:1fr;}.sal-grid{grid-template-columns:1fr;}}
+@media(max-width:768px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.sidebar-overlay.open{display:block;}.main{margin-left:0!important;}.menu-btn{display:flex!important;}.topbar,.scroll{padding:10px 14px;}.p2{grid-template-columns:1fr 1fr;}.card{padding:14px;}.sal-grid{grid-template-columns:1fr;}}
+@media(max-width:480px){.btn .btn-label{display:none;}.pg{grid-template-columns:1fr;}}
+</style>
+</head>
+<body onload="loadProfile()">
+<div id="printArea" style="display:none;position:fixed;inset:0;background:white;padding:20px;z-index:9999;overflow:auto;"></div>
+<div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
+
+<div class="app">
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="logo-area"><img src="logo.png" alt="KIDV Tech"></div>
+  <nav class="nav">
+    <div class="nav-sec">Main</div>
+    <a href="index.html"><span class="ic ic-main"><span class="material-icons-round">dashboard</span></span>Dashboard</a>
+    <a href="employees.html" class="active"><span class="ic ic-main"><span class="material-icons-round">badge</span></span>Employees</a>
+    <div class="nav-sec">HR</div>
+    <a href="leave-management.html"><span class="ic ic-hr"><span class="material-icons-round">event_available</span></span>Leave</a>
+    <a href="shifts.html"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
+    <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
+    <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
+    <div class="nav-sec">Operations</div>
+    <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
+    <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
+    <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
+    <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
+    <div class="nav-sec">Integration</div>
+    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">device_hub</span></span>Device Manager</a>
+    <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
+    <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
+    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">shield</span></span>Roles &amp; Perms</a>
+  </nav>
+  <div class="nav-bottom">
+    <div class="user-info"><div class="user-av" id="sideAvatar">SA</div><div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Super Admin</div></div></div>
+    <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="menu-btn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
+      <a href="employees.html" class="back-btn"><span class="material-icons-round" style="font-size:16px;">arrow_back</span></a>
+      <div>
+        <div id="tbName" class="tb-name">--</div>
+        <div id="tbJob" class="tb-job">--</div>
       </div>
     </div>
-
-    <div class="scroll">
-      <div class="pg">
-        <!-- ── LEFT COLUMN ── -->
-        <div class="left-col">
-          <!-- Avatar card -->
-          <div class="card" style="text-align:center;">
-            <div class="av-wrap" id="avatar">--</div>
-            <div class="av-name" id="pName">-- --</div>
-            <div class="av-job" id="pJob">--</div>
-            <div class="meta">
-              <div class="mr"><span class="ml">Emp ID</span><span class="mv" id="pId">--</span></div>
-              <div class="mr"><span class="ml">Emp Type</span><span class="mv" id="pEmpType">--</span></div>
-              <div class="mr"><span class="ml">Department</span><span class="mv" id="pDept">--</span></div>
-              <div class="mr"><span class="ml">Joined</span><span class="mv" id="pDoj">--</span></div>
-              <div class="mr"><span class="ml">Location</span><span class="mv" id="pLoc">--</span></div>
-              <div class="mr"><span class="ml">Manager</span><span class="mv" id="pMgr">--</span></div>
-            </div>
-          </div>
-          <!-- Personal -->
-          <div class="card">
-            <div class="stitle" style="color:#2563eb;">Personal Details</div>
-            <div class="p2">
-              <div class="p2-i"><div class="pl">Gender</div><div class="pv" id="pGender">--</div></div>
-              <div class="p2-i"><div class="pl">Blood Group</div><div class="pv" id="pBlood">--</div></div>
-              <div class="p2-i"><div class="pl">Date of Birth</div><div class="pv" id="pDob">--</div></div>
-              <div class="p2-i"><div class="pl">Marital</div><div class="pv" id="pMarital">--</div></div>
-              <div class="p2-i"><div class="pl">Mobile</div><div class="pv" id="pMob">--</div></div>
-              <div class="p2-i"><div class="pl">Nationality</div><div class="pv" id="pNat">--</div></div>
-              <div class="p2-i"><div class="pl">Shift</div><div class="pv" id="pShift">--</div></div>
-              <div class="p2-i"><div class="pl">Week Off</div><div class="pv" id="pWoff">--</div></div>
-              <div class="p2-i"><div class="pl">OT Eligible</div><div class="pv" id="pOt">--</div></div>
-              <div class="p2-i"><div class="pl">PF</div><div class="pv" id="pPf">--</div></div>
-              <div class="p2-i"><div class="pl">Notice Period</div><div class="pv" id="pNotice">--</div></div>
-              <div class="p2-i"><div class="pl">Confirmed On</div><div class="pv" id="pConf">--</div></div>
-            </div>
-          </div>
-          <!-- Legal IDs -->
-          <div class="card">
-            <div class="stitle" style="color:#7c3aed;">Legal & Statutory IDs</div>
-            <div class="ir"><span class="il">Aadhar</span><span class="iv" id="pAadhar">--</span></div>
-            <div class="ir"><span class="il">PAN</span><span class="iv" id="pPan">--</span></div>
-            <div class="ir"><span class="il">UAN (PF)</span><span class="iv" id="pUan">--</span></div>
-            <div class="ir"><span class="il">ESIC No.</span><span class="iv" id="pEsic">--</span></div>
-            <div class="ir"><span class="il">Passport</span><span class="iv" id="pPass">--</span></div>
-            <div class="ir"><span class="il">Passport Exp.</span><span class="iv" id="pPassExp">--</span></div>
-          </div>
-          <!-- Bank -->
-          <div class="card">
-            <div class="stitle" style="color:#16a34a;">Bank Details</div>
-            <div class="ir"><span class="il">Bank Name</span><span class="iv" id="pBank" style="max-width:55%;">--</span></div>
-            <div class="ir"><span class="il">Account No.</span><span class="iv" id="pAcc">--</span></div>
-            <div class="ir"><span class="il">IFSC Code</span><span class="iv" id="pIfsc">--</span></div>
-            <div class="ir"><span class="il">Acc Type</span><span class="iv" id="pAccT">--</span></div>
-            <div class="ir"><span class="il">Branch</span><span class="iv" id="pBranch">--</span></div>
-          </div>
-          <!-- Family -->
-          <div class="card">
-            <div class="stitle" style="color:#db2777;">Family & Emergency</div>
-            <div class="ir"><span class="il">Father</span><span class="iv" id="pFather">--</span></div>
-            <div class="ir"><span class="il">Mother</span><span class="iv" id="pMother">--</span></div>
-            <div class="ir"><span class="il">Spouse</span><span class="iv" id="pSpouse">--</span></div>
-            <div class="sub-hd" style="color:#ef4444;">Emergency Contact</div>
-            <div class="ir"><span class="il">Name</span><span class="iv" id="pEmName">--</span></div>
-            <div class="ir"><span class="il">Mobile</span><span class="iv" id="pEmMob">--</span></div>
-            <div class="ir"><span class="il">Relation</span><span class="iv" id="pEmRel">--</span></div>
-          </div>
-          <!-- Address -->
-          <div class="card">
-            <div class="stitle" style="color:#4f46e5;">Address</div>
-            <div style="margin-bottom:9px;">
-              <div style="font-size:7px;color:#2563eb;font-weight:800;text-transform:uppercase;margin-bottom:4px;">Current</div>
-              <div id="pCurrAddr" style="font-size:10px;font-weight:800;text-transform:uppercase;color:#1e293b;line-height:1.5;">--</div>
-            </div>
-            <div style="padding-top:9px;border-top:1px dashed #f1f5f9;">
-              <div style="font-size:7px;color:#4f46e5;font-weight:800;text-transform:uppercase;margin-bottom:4px;">Permanent</div>
-              <div id="pPermAddr" style="font-size:10px;font-weight:800;text-transform:uppercase;color:#1e293b;line-height:1.5;">--</div>
-            </div>
-          </div>
-        </div><!-- /left-col -->
-
-        <!-- ── RIGHT COLUMN ── -->
-        <div class="right-col">
-          <!-- Salary Architecture -->
-          <div class="card">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
-              <div style="font-size:15px;font-weight:900;text-transform:uppercase;font-style:italic;color:#1e293b;">Current Salary Architecture</div>
-              <div style="text-align:right;">
-                <div style="font-size:10px;color:#94a3b8;font-weight:700;text-transform:uppercase;">Effective From</div>
-                <div id="pEffDate" style="font-size:15px;font-weight:900;color:#2563eb;">--</div>
-              </div>
-            </div>
-            <div class="sal-grid">
-              <!-- Earnings -->
-              <div>
-                <div style="font-size:11px;font-weight:800;color:#2563eb;text-transform:uppercase;letter-spacing:.08em;margin-bottom:9px;border-left:3px solid #2563eb;padding-left:7px;">Earnings Breakup</div>
-                <div class="earn-row"><span class="earn-lbl">Basic Pay</span><span class="earn-val" id="eBasic">₹0</span></div>
-                <div class="earn-row"><span class="earn-lbl">HRA</span><span class="earn-val" id="eHra">₹0</span></div>
-                <div class="earn-row"><span class="earn-lbl">Conveyance</span><span class="earn-val" id="eConv">₹0</span></div>
-                <div class="earn-row"><span class="earn-lbl">Attendance Allw.</span><span class="earn-val" id="eAtt">₹0</span></div>
-                <div class="earn-row"><span class="earn-lbl">Washing Allw.</span><span class="earn-val" id="eWash">₹0</span></div>
-                <div class="earn-row" id="rowEdu" style="display:none;"><span class="earn-lbl">Education Allw.</span><span class="earn-val" id="eEdu">₹0</span></div>
-                <div class="earn-row" id="rowSpec" style="display:none;"><span class="earn-lbl">Special Allw.</span><span class="earn-val" id="eSpec">₹0</span></div>
-                <div class="earn-row" id="rowFlexi" style="display:none;"><span class="earn-lbl">Flexi Pay</span><span class="earn-val" id="eFlexi">₹0</span></div>
-                <div class="earn-total"><span>Gross Monthly</span><span id="eGross">₹0</span></div>
-              </div>
-              <!-- Deductions + CTC -->
-              <div>
-                <div class="db db-red">
-                  <div class="db-hd">
-                    <div class="db-title" style="color:#ef4444;"><span class="material-icons-round" style="font-size:14px;">remove_circle_outline</span>Employee Deductions</div>
-                    <span id="esicBadgeEmp" class="esic-badge esic-na">✕ ESIC N/A</span>
-                  </div>
-                  <div class="dr" id="drPfEmp">
-                    <div class="dl-wrap"><div class="dl-inline"><span class="dlbl">PF</span><span class="eb">EMP</span></div><div class="dsub">12% of Basic</div></div>
-                    <span id="aPfEmp" class="amt-zero">₹0</span>
-                  </div>
-                  <div class="dr" id="drEsicEmp">
-                    <div class="dl-wrap"><div class="dl-inline"><span class="dlbl">ESIC</span><span class="eb">EMP</span></div><div class="dsub" id="esicEmpSub">0.75%</div></div>
-                    <span id="aEsicEmp" class="amt-zero">₹0</span>
-                  </div>
-                  <div class="dr">
-                    <div class="dl-wrap"><div class="dl-inline"><span class="dlbl">PT</span></div><div class="dsub">Professional Tax</div></div>
-                    <span id="aPt" class="amt-red">₹0</span>
-                  </div>
-                  <div class="db-tot db-tot-red"><span>Total Deduction</span><span id="aTotDed">₹0</span></div>
-                  <div class="take"><span>Net Take Home</span><span id="aTakeHome">₹0</span></div>
-                </div>
-                <div class="db db-org">
-                  <div class="db-hd">
-                    <div class="db-title" style="color:#f97316;"><span class="material-icons-round" style="font-size:14px;">business_center</span>Employer Contributions</div>
-                    <span id="esicBadgeEr" class="esic-badge esic-na">✕ ESIC N/A</span>
-                  </div>
-                  <div class="dr">
-                    <div class="dl-wrap"><div class="dl-inline"><span class="dlbl">PF</span><span class="rb">ER</span></div><div class="dsub">12% of Basic</div></div>
-                    <span id="aPfEr" class="amt-zero">₹0</span>
-                  </div>
-                  <div class="dr" id="drEsicEr">
-                    <div class="dl-wrap"><div class="dl-inline"><span class="dlbl">ESIC</span><span class="rb">ER</span></div><div class="dsub" id="esicErSub">3.75%</div></div>
-                    <span id="aEsicEr" class="amt-zero">₹0</span>
-                  </div>
-                  <div class="dr">
-                    <div class="dl-wrap"><div class="dl-inline"><span class="dlbl">Gratuity</span><span class="rb">ER</span></div><div class="dsub">4.81% of Basic</div></div>
-                    <span id="aGrat" class="amt-org">₹0</span>
-                  </div>
-                  <div id="drPerf" class="dr" style="display:none;">
-                    <div class="dl-wrap"><div class="dl-inline"><span class="dlbl">Perf. Inc. Pay</span><span class="rb">VAR</span></div></div>
-                    <span id="aPerf" class="amt-org">₹0</span>
-                  </div>
-                  <div id="drRet" class="dr" style="display:none;">
-                    <div class="dl-wrap"><div class="dl-inline"><span class="dlbl">Retention</span><span class="rb">VAR</span></div></div>
-                    <span id="aRet" class="amt-org">₹0</span>
-                  </div>
-                  <div class="db-tot db-tot-org"><span>Total ER Contribution</span><span id="aTotEr">₹0</span></div>
-                </div>
-                <div class="ctc-card">
-                  <div class="ctc-lbl">Total Monthly CTC</div>
-                  <div class="ctc-val" id="aCtc">₹0</div>
-                  <div class="ctc-note">Gross + PF(ER) + ESIC(ER) + Gratuity + Other</div>
-                  <span class="material-icons-round ctc-ico">payments</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Salary History -->
-          <div class="card">
-            <div style="font-size:15px;font-weight:900;text-transform:uppercase;font-style:italic;color:#1e293b;margin-bottom:14px;">Salary Revision History</div>
-            <div style="border-radius:11px;overflow:hidden;border:1px solid #f1f5f9;overflow-x:auto;">
-              <table class="htbl">
-                <thead><tr><th>Effective Date</th><th>Gross Monthly</th><th>Designation</th><th style="text-align:right;">Status</th></tr></thead>
-                <tbody id="histBody"></tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Education -->
-          <div class="card">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
-              <span class="material-icons-round" style="font-size:18px;color:#0891b2;">school</span>
-              <div style="font-size:15px;font-weight:900;text-transform:uppercase;font-style:italic;color:#1e293b;">Education Qualifications</div>
-            </div>
-            <div style="border-radius:12px;overflow:hidden;border:1.5px solid #e0f2fe;overflow-x:auto;">
-              <div style="background:#0891b2;padding:8px 14px;min-width:420px;">
-                <div style="display:grid;grid-template-columns:2fr 2fr 1fr 1fr;">
-                  <span style="font-size:8px;font-weight:800;color:#fff;text-transform:uppercase;">Degree</span>
-                  <span style="font-size:8px;font-weight:800;color:#fff;text-transform:uppercase;">University</span>
-                  <span style="font-size:8px;font-weight:800;color:#fff;text-transform:uppercase;">Year</span>
-                  <span style="font-size:8px;font-weight:800;color:#fff;text-transform:uppercase;">Grade</span>
-                </div>
-              </div>
-              <div id="pEduBody" style="background:#fff;min-width:420px;"></div>
-            </div>
-          </div>
-
-          <!-- Work Experience -->
-          <div class="card">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
-              <span class="material-icons-round" style="font-size:18px;color:#0891b2;">work_history</span>
-              <div style="font-size:15px;font-weight:900;text-transform:uppercase;font-style:italic;color:#1e293b;">Work Experience History</div>
-            </div>
-            <div style="border-radius:12px;overflow:hidden;border:1.5px solid #e0f2fe;overflow-x:auto;">
-              <div style="background:#0891b2;padding:8px 14px;min-width:500px;">
-                <div style="display:grid;grid-template-columns:2fr 1.5fr 1fr 1fr 1.5fr;">
-                  <span style="font-size:8px;font-weight:800;color:#fff;text-transform:uppercase;">Company</span>
-                  <span style="font-size:8px;font-weight:800;color:#fff;text-transform:uppercase;">Designation</span>
-                  <span style="font-size:8px;font-weight:800;color:#fff;text-transform:uppercase;">Period</span>
-                  <span style="font-size:8px;font-weight:800;color:#fff;text-transform:uppercase;">CTC</span>
-                  <span style="font-size:8px;font-weight:800;color:#fff;text-transform:uppercase;">Reason</span>
-                </div>
-              </div>
-              <div id="pExpBody" style="background:#fff;min-width:500px;"></div>
-            </div>
-          </div>
-        </div><!-- /right-col -->
-      </div><!-- /pg -->
-    </div><!-- /scroll -->
-  </div><!-- /main -->
-  </div><!-- /app -->
-
-  <!-- MODAL -->
-  <div id="modal" class="mo" onclick="if(event.target===this)closeModal()">
-    <div class="mb">
-      <div class="mh">
-        <div class="mt" id="modalTitle">Print Preview</div>
-        <div style="display:flex;gap:8px;">
-          <button class="btn btn-blue" onclick="doPrint()"><span class="material-icons-round">print</span>Print</button>
-          <button class="xbtn" onclick="closeModal()"><span class="material-icons-round" style="font-size:16px;">close</span></button>
+    <div class="tb-btns">
+      <div style="position:relative;">
+        <button class="btn btn-blue" onclick="togglePrintMenu(event)">
+          <span class="material-icons-round">print</span>
+          <span class="btn-label">Print / Preview</span>
+          <span class="material-icons-round" style="font-size:13px;margin-left:2px;">arrow_drop_down</span>
+        </button>
+        <div id="printMenu" style="display:none;position:absolute;right:0;top:110%;background:#fff;border-radius:14px;box-shadow:0 12px 36px rgba(0,0,0,.15);border:1px solid #e8edf5;z-index:400;min-width:240px;overflow:hidden;">
+          <div style="padding:8px 16px;font-size:8px;color:#94a3b8;font-weight:800;text-transform:uppercase;border-bottom:1px solid #f1f5f9;letter-spacing:.1em;">Select Print Template</div>
+          <button onclick="openPrint('complete')" class="pmenu-item" style="background:var(--navy);color:#fff;"><span class="material-icons-round" style="color:#93c5fd;">workspace_premium</span>Complete Report (All Details)</button>
+          <button onclick="openPrint('full')" class="pmenu-item"><span class="material-icons-round">article</span>Full Employee Details</button>
+          <button onclick="openPrint('profile')" class="pmenu-item"><span class="material-icons-round">person</span>Profile Card Only</button>
+          <button onclick="openPrint('accounts')" class="pmenu-item"><span class="material-icons-round">account_balance</span>Accounts / Finance</button>
+          <button onclick="openPrint('hr')" class="pmenu-item"><span class="material-icons-round">badge</span>HR Record</button>
+          <button onclick="openPrint('ctc')" class="pmenu-item"><span class="material-icons-round">receipt_long</span>CTC Breakup</button>
+          <div style="height:1px;background:#f1f5f9;margin:4px 0;"></div>
+          <button onclick="openPrint('idcard')" class="pmenu-item" style="background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;"><span class="material-icons-round" style="color:#fff;">badge</span>Employee ID Card</button>
         </div>
       </div>
-      <div class="mbody" id="modalBody"></div>
     </div>
   </div>
 
-  <script>
-  // ── SIDEBAR MOBILE ──
-  function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');document.body.style.overflow='hidden';}
-  function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');document.body.style.overflow='';}
+  <div class="scroll">
+    <div class="pg">
+      <!-- LEFT COLUMN -->
+      <div class="left-col">
 
-  // ── AUTH ──
-  function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
-  function loadUserInfo(){
-    const user=JSON.parse(localStorage.getItem('kidv_user')||'{}');
-    if(user.name){
-      const p=user.name.trim().split(' ');
-      document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();
-      document.getElementById('sideName').textContent=user.name;
-      document.getElementById('sideRole').textContent=user.role||'Staff';
-    }
-    const role=(user.role||'').toLowerCase();
-    if(role==='super admin'||role==='admin'){
-      document.getElementById('adminNav').style.display='';
-      document.getElementById('usersLink').style.display='';
-      document.getElementById('rolesLink').style.display='';
-    }
+        <!-- Avatar Card -->
+        <div class="card" style="text-align:center;">
+          <div class="av-wrap" id="avatar">--</div>
+          <div class="av-name" id="pName">-- --</div>
+          <div class="av-job" id="pJob">--</div>
+          <div class="meta">
+            <div class="mr"><span class="ml">Emp ID</span><span class="mv" id="pId">--</span></div>
+            <div class="mr"><span class="ml">Emp Type</span><span class="mv" id="pEmpType">--</span></div>
+            <div class="mr"><span class="ml">Department</span><span class="mv" id="pDept">--</span></div>
+            <div class="mr"><span class="ml">Joined</span><span class="mv" id="pDoj">--</span></div>
+            <div class="mr"><span class="ml">Location</span><span class="mv" id="pLoc">--</span></div>
+            <div class="mr"><span class="ml">Manager</span><span class="mv" id="pMgr">--</span></div>
+          </div>
+        </div>
+
+        <!-- Personal Details -->
+        <div class="card">
+          <div class="stitle" style="color:#2563eb;">Personal Details</div>
+          <div class="p2">
+            <div class="p2-i"><div class="pl">Gender</div><div class="pv" id="pGender">--</div></div>
+            <div class="p2-i"><div class="pl">Blood Group</div><div class="pv" id="pBlood">--</div></div>
+            <div class="p2-i"><div class="pl">Date of Birth</div><div class="pv" id="pDob">--</div></div>
+            <div class="p2-i"><div class="pl">Marital</div><div class="pv" id="pMarital">--</div></div>
+            <div class="p2-i"><div class="pl">Mobile</div><div class="pv" id="pMob">--</div></div>
+            <div class="p2-i"><div class="pl">Nationality</div><div class="pv" id="pNat">--</div></div>
+            <div class="p2-i"><div class="pl">Shift</div><div class="pv" id="pShift">--</div></div>
+            <div class="p2-i"><div class="pl">Week Off</div><div class="pv" id="pWoff">--</div></div>
+            <div class="p2-i"><div class="pl">OT Eligible</div><div class="pv" id="pOt">--</div></div>
+            <div class="p2-i"><div class="pl">PF</div><div class="pv" id="pPf">--</div></div>
+            <div class="p2-i"><div class="pl">Notice Period</div><div class="pv" id="pNotice">--</div></div>
+            <div class="p2-i"><div class="pl">Confirmed On</div><div class="pv" id="pConf">--</div></div>
+          </div>
+        </div>
+
+        <!-- Legal IDs -->
+        <div class="card">
+          <div class="stitle" style="color:#7c3aed;">Legal &amp; Statutory IDs</div>
+          <div class="ir"><span class="il">Aadhar</span><span class="iv" id="pAadhar">--</span></div>
+          <div class="ir"><span class="il">PAN</span><span class="iv" id="pPan">--</span></div>
+          <div class="ir"><span class="il">UAN (PF)</span><span class="iv" id="pUan">--</span></div>
+          <div class="ir"><span class="il">ESIC No.</span><span class="iv" id="pEsic">--</span></div>
+          <div class="ir"><span class="il">Passport</span><span class="iv" id="pPass">--</span></div>
+          <div class="ir"><span class="il">Passport Exp.</span><span class="iv" id="pPassExp">--</span></div>
+        </div>
+
+        <!-- Bank Details -->
+        <div class="card">
+          <div class="stitle" style="color:#10b981;">Bank Details</div>
+          <div class="ir"><span class="il">Bank Name</span><span class="iv" id="pBank" style="max-width:55%;">--</span></div>
+          <div class="ir"><span class="il">Account No.</span><span class="iv" id="pAcc">--</span></div>
+          <div class="ir"><span class="il">IFSC Code</span><span class="iv" id="pIfsc">--</span></div>
+          <div class="ir"><span class="il">Acc Type</span><span class="iv" id="pAccT">--</span></div>
+          <div class="ir"><span class="il">Branch</span><span class="iv" id="pBranch">--</span></div>
+        </div>
+
+        <!-- Family -->
+        <div class="card">
+          <div class="stitle" style="color:#db2777;">Family &amp; Emergency</div>
+          <div class="ir"><span class="il">Father</span><span class="iv" id="pFather">--</span></div>
+          <div class="ir"><span class="il">Mother</span><span class="iv" id="pMother">--</span></div>
+          <div class="ir"><span class="il">Spouse</span><span class="iv" id="pSpouse">--</span></div>
+          <div class="sub-hd" style="color:#ef4444;">Emergency Contact</div>
+          <div class="ir"><span class="il">Name</span><span class="iv" id="pEmName">--</span></div>
+          <div class="ir"><span class="il">Mobile</span><span class="iv" id="pEmMob">--</span></div>
+          <div class="ir"><span class="il">Relation</span><span class="iv" id="pEmRel">--</span></div>
+        </div>
+
+        <!-- Address -->
+        <div class="card">
+          <div class="stitle" style="color:#4f46e5;">Address</div>
+          <div style="margin-bottom:10px;">
+            <div style="font-size:8px;color:#2563eb;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;">Current</div>
+            <div id="pCurrAddr" style="font-size:10px;font-weight:700;text-transform:uppercase;color:#1e293b;line-height:1.6;">--</div>
+          </div>
+          <div style="padding-top:10px;border-top:1px dashed #f1f5f9;">
+            <div style="font-size:8px;color:#4f46e5;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;">Permanent</div>
+            <div id="pPermAddr" style="font-size:10px;font-weight:700;text-transform:uppercase;color:#1e293b;line-height:1.6;">--</div>
+          </div>
+        </div>
+
+      </div><!-- /left-col -->
+
+      <!-- RIGHT COLUMN -->
+      <div class="right-col">
+
+        <!-- Salary Architecture -->
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+            <div style="font-size:15px;font-weight:900;text-transform:uppercase;font-style:italic;color:#0f172a;">Current Salary Architecture</div>
+            <div style="text-align:right;">
+              <div style="font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;">Effective From</div>
+              <div id="pEffDate" style="font-size:15px;font-weight:900;color:var(--blue);font-family:'JetBrains Mono',monospace;">--</div>
+            </div>
+          </div>
+          <div class="sal-grid">
+            <!-- Earnings -->
+            <div>
+              <div style="font-size:10.5px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;border-left:3px solid var(--blue);padding-left:8px;">Earnings Breakup</div>
+              <div class="earn-row"><span class="earn-lbl">Basic Pay</span><span class="earn-val" id="eBasic">₹0</span></div>
+              <div class="earn-row"><span class="earn-lbl">HRA</span><span class="earn-val" id="eHra">₹0</span></div>
+              <div class="earn-row"><span class="earn-lbl">Conveyance</span><span class="earn-val" id="eConv">₹0</span></div>
+              <div class="earn-row"><span class="earn-lbl">Attendance Allw.</span><span class="earn-val" id="eAtt">₹0</span></div>
+              <div class="earn-row"><span class="earn-lbl">Washing Allw.</span><span class="earn-val" id="eWash">₹0</span></div>
+              <div class="earn-row" id="rowEdu" style="display:none;"><span class="earn-lbl">Education Allw.</span><span class="earn-val" id="eEdu">₹0</span></div>
+              <div class="earn-row" id="rowSpec" style="display:none;"><span class="earn-lbl">Special Allw.</span><span class="earn-val" id="eSpec">₹0</span></div>
+              <div class="earn-row" id="rowFlexi" style="display:none;"><span class="earn-lbl">Flexi Pay</span><span class="earn-val" id="eFlexi">₹0</span></div>
+              <div class="earn-total"><span>Gross Monthly</span><span id="eGross">₹0</span></div>
+            </div>
+            <!-- Deductions + CTC -->
+            <div>
+              <div class="db db-red">
+                <div class="db-hd">
+                  <div class="db-title" style="color:#ef4444;"><span class="material-icons-round" style="font-size:14px;">remove_circle_outline</span>Employee Deductions</div>
+                  <span id="esicBadgeEmp" class="esic-badge esic-na">✕ ESIC N/A</span>
+                </div>
+                <div class="dr" id="drPfEmp">
+                  <div class="dl-wrap"><div class="dl-inline"><span class="dlbl">PF</span><span class="eb">EMP</span></div><div class="dsub">12% of Basic</div></div>
+                  <span id="aPfEmp" class="amt-zero">₹0</span>
+                </div>
+                <div class="dr" id="drEsicEmp">
+                  <div class="dl-wrap"><div class="dl-inline"><span class="dlbl">ESIC</span><span class="eb">EMP</span></div><div class="dsub" id="esicEmpSub">0.75%</div></div>
+                  <span id="aEsicEmp" class="amt-zero">₹0</span>
+                </div>
+                <div class="dr">
+                  <div class="dl-wrap"><div class="dl-inline"><span class="dlbl">PT</span></div><div class="dsub">Professional Tax</div></div>
+                  <span id="aPt" class="amt-red">₹0</span>
+                </div>
+                <div class="db-tot db-tot-red"><span>Total Deduction</span><span id="aTotDed">₹0</span></div>
+                <div class="take"><span>Net Take Home</span><span id="aTakeHome">₹0</span></div>
+              </div>
+              <div class="db db-org">
+                <div class="db-hd">
+                  <div class="db-title" style="color:#f97316;"><span class="material-icons-round" style="font-size:14px;">business_center</span>Employer Contributions</div>
+                  <span id="esicBadgeEr" class="esic-badge esic-na">✕ ESIC N/A</span>
+                </div>
+                <div class="dr">
+                  <div class="dl-wrap"><div class="dl-inline"><span class="dlbl">PF</span><span class="rb">ER</span></div><div class="dsub">12% of Basic</div></div>
+                  <span id="aPfEr" class="amt-zero">₹0</span>
+                </div>
+                <div class="dr" id="drEsicEr">
+                  <div class="dl-wrap"><div class="dl-inline"><span class="dlbl">ESIC</span><span class="rb">ER</span></div><div class="dsub" id="esicErSub">3.75%</div></div>
+                  <span id="aEsicEr" class="amt-zero">₹0</span>
+                </div>
+                <div class="dr">
+                  <div class="dl-wrap"><div class="dl-inline"><span class="dlbl">Gratuity</span><span class="rb">ER</span></div><div class="dsub">4.81% of Basic</div></div>
+                  <span id="aGrat" class="amt-org">₹0</span>
+                </div>
+                <div id="drPerf" class="dr" style="display:none;">
+                  <div class="dl-wrap"><div class="dl-inline"><span class="dlbl">Perf. Inc. Pay</span><span class="rb">VAR</span></div></div>
+                  <span id="aPerf" class="amt-org">₹0</span>
+                </div>
+                <div id="drRet" class="dr" style="display:none;">
+                  <div class="dl-wrap"><div class="dl-inline"><span class="dlbl">Retention</span><span class="rb">VAR</span></div></div>
+                  <span id="aRet" class="amt-org">₹0</span>
+                </div>
+                <div class="db-tot db-tot-org"><span>Total ER Contribution</span><span id="aTotEr">₹0</span></div>
+              </div>
+              <div class="ctc-card">
+                <div class="ctc-lbl">Total Monthly CTC</div>
+                <div class="ctc-val" id="aCtc">₹0</div>
+                <div class="ctc-note">Gross + PF(ER) + ESIC(ER) + Gratuity + Other</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Salary History -->
+        <div class="card">
+          <div style="font-size:15px;font-weight:900;text-transform:uppercase;font-style:italic;color:#0f172a;margin-bottom:14px;">Salary Revision History</div>
+          <div style="border-radius:11px;overflow:hidden;border:1px solid #ecf0f6;overflow-x:auto;">
+            <table class="htbl">
+              <thead><tr><th>Effective Date</th><th>Gross Monthly</th><th>Designation</th><th style="text-align:right;">Status</th></tr></thead>
+              <tbody id="histBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="card">
+          <div class="tbl-header-row"><span class="material-icons-round">school</span><div class="tbl-header-title">Education Qualifications</div></div>
+          <div style="border-radius:12px;overflow:hidden;border:1.5px solid #e0f2fe;overflow-x:auto;">
+            <div style="background:#0891b2;padding:9px 14px;min-width:420px;">
+              <div style="display:grid;grid-template-columns:2fr 2fr 1fr 1fr;">
+                <span style="font-size:8px;font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:.08em;">Degree</span>
+                <span style="font-size:8px;font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:.08em;">University</span>
+                <span style="font-size:8px;font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:.08em;">Year</span>
+                <span style="font-size:8px;font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:.08em;">Grade</span>
+              </div>
+            </div>
+            <div id="pEduBody" style="background:#fff;min-width:420px;"></div>
+          </div>
+        </div>
+
+        <!-- Work Experience -->
+        <div class="card">
+          <div class="tbl-header-row"><span class="material-icons-round">work_history</span><div class="tbl-header-title">Work Experience History</div></div>
+          <div style="border-radius:12px;overflow:hidden;border:1.5px solid #e0f2fe;overflow-x:auto;">
+            <div style="background:#0891b2;padding:9px 14px;min-width:500px;">
+              <div style="display:grid;grid-template-columns:2fr 1.5fr 1fr 1fr 1.5fr;">
+                <span style="font-size:8px;font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:.08em;">Company</span>
+                <span style="font-size:8px;font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:.08em;">Designation</span>
+                <span style="font-size:8px;font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:.08em;">Period</span>
+                <span style="font-size:8px;font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:.08em;">CTC</span>
+                <span style="font-size:8px;font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:.08em;">Reason</span>
+              </div>
+            </div>
+            <div id="pExpBody" style="background:#fff;min-width:500px;"></div>
+          </div>
+        </div>
+
+      </div><!-- /right-col -->
+    </div><!-- /pg -->
+  </div><!-- /scroll -->
+</div><!-- /main -->
+</div><!-- /app -->
+
+<!-- MODAL -->
+<div id="modal" class="mo" onclick="if(event.target===this)closeModal()">
+  <div class="mb">
+    <div class="mh">
+      <div class="mt" id="modalTitle">Print Preview</div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-blue" onclick="doPrint()"><span class="material-icons-round">print</span>Print</button>
+        <button class="xbtn" onclick="closeModal()"><span class="material-icons-round" style="font-size:16px;">close</span></button>
+      </div>
+    </div>
+    <div class="mbody" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+/* ── SIDEBAR / AUTH ── */
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');}
+function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
+
+function loadUserInfo(){
+  const user=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+  if(user.name){
+    const p=user.name.trim().split(' ');
+    document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();
+    document.getElementById('sideName').textContent=user.name;
+    document.getElementById('sideRole').textContent=user.role||'Staff';
+  }
+  const role=(user.role||'').toLowerCase();
+  if(role==='super admin'||role==='admin'){
+    document.getElementById('adminNav').style.display='';
+    document.getElementById('usersLink').style.display='';
+    document.getElementById('rolesLink').style.display='';
+  }
+}
+
+/* ── HELPERS ── */
+let E=null,C={};
+const fmt=v=>'₹'+parseFloat(v||0).toLocaleString('en-IN',{minimumFractionDigits:0,maximumFractionDigits:0});
+const v=s=>(s&&String(s).trim())?String(s).toUpperCase():'N/A';
+const n=s=>parseFloat(s||0);
+
+/* ── PROFILE LOAD ── */
+function loadProfile(){
+  loadUserInfo();
+  const id=new URLSearchParams(location.search).get('id');
+  const emps=JSON.parse(localStorage.getItem('employees')||'[]');
+  E=emps[parseInt(id)];
+  if(!E)E=emps.find(e=>String(e.id)===String(id)||String(e.empId)===String(id));
+  if(!E&&emps.length>0)E=emps[0];
+  if(!E){
+    document.body.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:Outfit,sans-serif;flex-direction:column;gap:16px;background:#eef2f7;"><div style="font-size:52px;">😕</div><div style="font-size:15px;font-weight:900;text-transform:uppercase;color:#0f172a;letter-spacing:.06em;">No Employee Data Found</div><a href="employees.html" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;padding:11px 24px;border-radius:12px;text-decoration:none;font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.06em;box-shadow:0 4px 14px rgba(37,99,235,.3);">← Back to Employees</a></div>';
+    return;
+  }
+  E.fName=E.fName||E.firstName||'?';E.lName=E.lName||E.lastName||'?';
+
+  document.getElementById('tbName').textContent=`${E.fName} ${E.lName}`.toUpperCase();
+  document.getElementById('tbJob').textContent=v(E.job||E.designation||'--');
+  document.getElementById('avatar').textContent=((E.fName[0]||'?')+(E.lName[0]||'?')).toUpperCase();
+  document.getElementById('pName').textContent=`${E.fName} ${E.mName||''} ${E.lName}`.trim().toUpperCase();
+  document.getElementById('pJob').textContent=v(E.job);
+
+  setT('pId',E.id);setT('pEmpType',E.empType);setT('pDept',E.dept);setT('pDoj',E.doj);setT('pLoc',E.workLocation);setT('pMgr',E.manager);
+  setT('pGender',E.gender);setT('pBlood',E.blood);setT('pDob',E.dob);setT('pMarital',E.marital);setT('pMob',E.mobile);setT('pNat',E.nationality);
+  setT('pShift',E.shift);setT('pWoff',E.weekoff);setT('pOt',E.otEligible);setT('pPf',E.pf);
+  document.getElementById('pNotice').textContent=E.noticePeriod?E.noticePeriod+' DAYS':'N/A';
+  setT('pConf',E.confirmDate);
+  setT('pAadhar',E.aadhar);setT('pPan',E.pan);setT('pUan',E.uan);setT('pEsic',E.esicNo);setT('pPass',E.passport);setT('pPassExp',E.passportExpiry);
+  setT('pBank',E.bankName);setT('pAcc',E.bankAcc);setT('pIfsc',E.ifsc);setT('pAccT',E.accType);setT('pBranch',E.bankBranch);
+  setT('pFather',E.fatherName);setT('pMother',E.motherName);setT('pSpouse',E.spouseName);
+  setT('pEmName',E.emergName);setT('pEmMob',E.emergMobile);setT('pEmRel',E.emergRelation);
+
+  // Education
+  const eduList=E.eduList||[];
+  const eduBody=document.getElementById('pEduBody');
+  if(eduList.length){
+    eduBody.innerHTML=eduList.map((r,i)=>`<div style="display:grid;grid-template-columns:2fr 2fr 1fr 1fr;border-top:${i>0?'1px solid #f0f9ff':'none'};padding:10px 14px;background:${i%2===0?'#fff':'#f8fbff'};align-items:center;">
+      <div><div style="font-size:11px;font-weight:800;color:#0f172a;text-transform:uppercase;">${r.degree||'—'}</div>${r.spec?`<div style="font-size:8.5px;color:#0891b2;font-weight:700;text-transform:uppercase;margin-top:2px;">${r.spec}</div>`:''}</div>
+      <div style="font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;">${r.university||'—'}</div>
+      <div style="font-size:11px;font-weight:700;color:#475569;">${r.year||'—'}</div>
+      <div><span style="background:#f0fdf4;color:#16a34a;font-size:10px;padding:3px 9px;border-radius:99px;font-weight:800;">${r.grade||'—'}</span></div>
+    </div>`).join('');
+  } else {
+    eduBody.innerHTML='<div style="padding:20px;text-align:center;color:#94a3b8;font-size:11px;font-weight:700;text-transform:uppercase;">No education records</div>';
   }
 
-  // ── PROFILE LOAD ──
-  let E=null,C={};
-  const fmt=v=>'₹'+parseFloat(v||0).toLocaleString('en-IN',{minimumFractionDigits:0,maximumFractionDigits:0});
-  const v=s=>(s&&String(s).trim())?String(s).toUpperCase():'N/A';
-  const n=s=>parseFloat(s||0);
-
-  function loadProfile(){
-    loadUserInfo();
-    const id=new URLSearchParams(location.search).get('id');
-    const emps=JSON.parse(localStorage.getItem('employees')||'[]');
-    E=emps[parseInt(id)];
-    if(!E)E=emps.find(e=>String(e.id)===String(id)||String(e.empId)===String(id));
-    if(!E&&emps.length>0)E=emps[0];
-    if(!E){
-      document.body.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:Plus Jakarta Sans,sans-serif;flex-direction:column;gap:14px;background:#f0f4f8;"><div style="font-size:48px;">😕</div><div style="font-size:15px;font-weight:900;text-transform:uppercase;color:#1e293b;">No Employee Data Found</div><a href="employees.html" style="background:#2563eb;color:#fff;padding:10px 22px;border-radius:10px;text-decoration:none;font-weight:800;font-size:12px;text-transform:uppercase;">← Back to Employees</a></div>';
-      return;
-    }
-    E.fName=E.fName||E.firstName||'?';E.lName=E.lName||E.lastName||'?';
-    document.getElementById('tbName').textContent=`${E.fName} ${E.lName}`.toUpperCase();
-    document.getElementById('tbJob').textContent=v(E.job||E.designation||'--');
-    document.getElementById('avatar').textContent=((E.fName[0]||'?')+(E.lName[0]||'?')).toUpperCase();
-    document.getElementById('pName').textContent=`${E.fName} ${E.mName||''} ${E.lName}`.trim().toUpperCase();
-    document.getElementById('pJob').textContent=v(E.job);
-    setT('pId',E.id);setT('pEmpType',E.empType);setT('pDept',E.dept);setT('pDoj',E.doj);setT('pLoc',E.workLocation);setT('pMgr',E.manager);
-    setT('pGender',E.gender);setT('pBlood',E.blood);setT('pDob',E.dob);setT('pMarital',E.marital);setT('pMob',E.mobile);setT('pNat',E.nationality);setT('pShift',E.shift);setT('pWoff',E.weekoff);setT('pOt',E.otEligible);setT('pPf',E.pf);
-    document.getElementById('pNotice').textContent=E.noticePeriod?E.noticePeriod+' DAYS':'N/A';
-    setT('pConf',E.confirmDate);
-    setT('pAadhar',E.aadhar);setT('pPan',E.pan);setT('pUan',E.uan);setT('pEsic',E.esicNo);setT('pPass',E.passport);setT('pPassExp',E.passportExpiry);
-    setT('pBank',E.bankName);setT('pAcc',E.bankAcc);setT('pIfsc',E.ifsc);setT('pAccT',E.accType);setT('pBranch',E.bankBranch);
-    setT('pFather',E.fatherName);setT('pMother',E.motherName);setT('pSpouse',E.spouseName);setT('pEmName',E.emergName);setT('pEmMob',E.emergMobile);setT('pEmRel',E.emergRelation);
-
-    // Education
-    const eduList=E.eduList||[];
-    const eduBody=document.getElementById('pEduBody');
-    if(eduList.length){
-      eduBody.innerHTML=eduList.map((r,i)=>`<div style="display:grid;grid-template-columns:2fr 2fr 1fr 1fr;border-top:${i>0?'1px solid #f0f9ff':'none'};padding:10px 14px;background:${i%2===0?'#fff':'#f8fbff'};align-items:center;">
-        <div><div style="font-size:11px;font-weight:800;color:#1e293b;text-transform:uppercase;">${r.degree||'—'}</div>${r.spec?`<div style="font-size:9px;color:#0891b2;font-weight:700;text-transform:uppercase;margin-top:2px;">${r.spec}</div>`:''}</div>
-        <div style="font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;">${r.university||'—'}</div>
-        <div style="font-size:11px;font-weight:700;color:#475569;">${r.year||'—'}</div>
-        <div><span style="background:#f0fdf4;color:#16a34a;font-size:10px;padding:3px 9px;border-radius:99px;font-weight:800;">${r.grade||'—'}</span></div>
-      </div>`).join('');
-    } else {
-      eduBody.innerHTML='<div style="padding:20px;text-align:center;color:#94a3b8;font-size:11px;font-weight:700;text-transform:uppercase;">No education records</div>';
-    }
-
-    // Experience
-    const expList=E.expList||[];
-    const expBody=document.getElementById('pExpBody');
-    if(expList.length){
-      expBody.innerHTML=expList.map((r,i)=>`<div style="display:grid;grid-template-columns:2fr 1.5fr 1fr 1fr 1.5fr;border-top:${i>0?'1px solid #f0f9ff':'none'};padding:10px 14px;background:${i%2===0?'#fff':'#f8fbff'};align-items:center;">
-        <div style="font-size:11px;font-weight:800;color:#1e293b;text-transform:uppercase;">${r.company||'—'}</div>
-        <div style="font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;">${r.designation||'—'}</div>
-        <div style="font-size:10px;font-weight:700;color:#64748b;">${r.from&&r.to?r.from+'–'+r.to:r.from||r.to||'—'}</div>
-        <div style="font-size:11px;font-weight:800;color:#2563eb;">${r.ctc?'₹'+parseFloat(r.ctc).toLocaleString('en-IN'):'—'}</div>
-        <div style="font-size:10px;color:#94a3b8;text-transform:uppercase;">${r.reason||'—'}</div>
-      </div>`).join('');
-    } else {
-      expBody.innerHTML='<div style="padding:20px;text-align:center;color:#94a3b8;font-size:11px;font-weight:700;text-transform:uppercase;">No experience records</div>';
-    }
-
-    const ba=(a,c,s,p,co)=>[a,c,s,p,co].filter(x=>x&&x.trim()).join(', ').toUpperCase()||'N/A';
-    document.getElementById('pCurrAddr').textContent=ba(E.currAddr,E.currCity,E.currState,E.currPin,E.currCountry);
-    document.getElementById('pPermAddr').textContent=ba(E.permAddr,E.permCity,E.permState,E.permPin,E.permCountry);
-
-    // Salary
-    document.getElementById('pEffDate').textContent=v(E.sal_effective_date||E.doj);
-    const basic=n(E.sal_basic),wash=n(E.sal_wash),gross=n(E.sal_gross);
-    setAmt('eBasic',basic);setAmt('eHra',E.sal_hra);setAmt('eConv',E.sal_conv);setAmt('eAtt',E.sal_att);setAmt('eWash',wash);
-    showIfNonZero('eEdu','rowEdu',E.sal_edu);showIfNonZero('eSpec','rowSpec',E.sal_spec);showIfNonZero('eFlexi','rowFlexi',E.sal_flexi);
-    document.getElementById('eGross').textContent=fmt(gross);
-    const pfApp=(E.pf||'').toUpperCase()==='YES';
-    const pfEmp=pfApp?Math.round(basic*.12):0,pfEr=pfApp?Math.round(basic*.12):0;
-    const esicOk=gross<21000,esicB=gross-wash;
-    const esicEmp=esicOk?Math.round(esicB*.0075):0,esicEr=esicOk?Math.round(esicB*.0375):0;
-    const grat=Math.round(basic*.0481),pt=n(E.ded_pt),perf=n(E.sal_perf),ret=n(E.sal_ret);
-    const totDed=pfEmp+esicEmp+pt,totEr=pfEr+esicEr+grat,take=gross-totDed,ctc=n(E.sal_ctc);
-    C={basic,wash,gross,pfApp,pfEmp,pfEr,esicOk,esicB,esicEmp,esicEr,grat,pt,perf,ret,totDed,totEr,take,ctc};
-    setAmtCol('aPfEmp',pfEmp,'#ef4444');setAmtCol('aEsicEmp',esicEmp,'#ef4444');
-    document.getElementById('aPt').textContent=fmt(pt);
-    document.getElementById('aTotDed').textContent=fmt(totDed);
-    document.getElementById('aTakeHome').textContent=fmt(take);
-    setAmtCol('aPfEr',pfEr,'#f97316');setAmtCol('aEsicEr',esicEr,'#f97316');
-    document.getElementById('aGrat').textContent=fmt(grat);
-    if(perf>0){document.getElementById('aPerf').textContent=fmt(perf);document.getElementById('drPerf').style.display='flex';}
-    if(ret>0){document.getElementById('aRet').textContent=fmt(ret);document.getElementById('drRet').style.display='flex';}
-    document.getElementById('aTotEr').textContent=fmt(totEr);
-    document.getElementById('aCtc').textContent=fmt(ctc);
-    const eb=document.getElementById('esicBadgeEmp'),er=document.getElementById('esicBadgeEr');
-    if(esicOk){eb.textContent='✓ ESIC';eb.className='esic-badge esic-ok';er.textContent='✓ ESIC';er.className='esic-badge esic-ok';}
-    else{document.getElementById('esicEmpSub').textContent='Gross ≥ ₹21,000 — N/A';document.getElementById('esicErSub').textContent='Gross ≥ ₹21,000 — N/A';}
-    let rows=(E.history||[]).map(h=>`<tr><td>${h.date}</td><td style="font-weight:900;">${fmt(h.amount)}</td><td>${h.role||E.job}</td><td style="text-align:right;"><span class="badge-r">REVISED</span></td></tr>`).join('');
-    rows+=`<tr class="row-active"><td>${E.sal_effective_date||E.doj}</td><td style="font-size:13px;">${fmt(gross)}</td><td>${E.job}</td><td style="text-align:right;"><span class="badge-a">ACTIVE</span></td></tr>`;
-    document.getElementById('histBody').innerHTML=rows;
+  // Experience
+  const expList=E.expList||[];
+  const expBody=document.getElementById('pExpBody');
+  if(expList.length){
+    expBody.innerHTML=expList.map((r,i)=>`<div style="display:grid;grid-template-columns:2fr 1.5fr 1fr 1fr 1.5fr;border-top:${i>0?'1px solid #f0f9ff':'none'};padding:10px 14px;background:${i%2===0?'#fff':'#f8fbff'};align-items:center;">
+      <div style="font-size:11px;font-weight:800;color:#0f172a;text-transform:uppercase;">${r.company||'—'}</div>
+      <div style="font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;">${r.designation||'—'}</div>
+      <div style="font-size:10px;font-weight:700;color:#64748b;font-family:'JetBrains Mono',monospace;">${r.from&&r.to?r.from+'–'+r.to:r.from||r.to||'—'}</div>
+      <div style="font-size:11px;font-weight:800;color:#2563eb;font-family:'JetBrains Mono',monospace;">${r.ctc?'₹'+parseFloat(r.ctc).toLocaleString('en-IN'):'—'}</div>
+      <div style="font-size:10px;color:#94a3b8;text-transform:uppercase;">${r.reason||'—'}</div>
+    </div>`).join('');
+  } else {
+    expBody.innerHTML='<div style="padding:20px;text-align:center;color:#94a3b8;font-size:11px;font-weight:700;text-transform:uppercase;">No experience records</div>';
   }
 
-  function setT(id,val){const el=document.getElementById(id);if(el)el.textContent=v(val);}
-  function setAmt(id,val){const el=document.getElementById(id);if(el)el.textContent=fmt(val);}
-  function setAmtCol(id,val,col){const el=document.getElementById(id);if(!el)return;el.textContent=fmt(val);el.style.color=val>0?col:'#e2e8f0';}
-  function showIfNonZero(valId,rowId,val){if(n(val)>0){document.getElementById(valId).textContent=fmt(val);document.getElementById(rowId).style.display='flex';}}
+  const ba=(a,c,s,p,co)=>[a,c,s,p,co].filter(x=>x&&x.trim()).join(', ').toUpperCase()||'N/A';
+  document.getElementById('pCurrAddr').textContent=ba(E.currAddr,E.currCity,E.currState,E.currPin,E.currCountry);
+  document.getElementById('pPermAddr').textContent=ba(E.permAddr,E.permCity,E.permState,E.permPin,E.permCountry);
 
-  function togglePrintMenu(e){const m=document.getElementById('printMenu');m.style.display=m.style.display==='none'?'block':'none';e.stopPropagation();}
-  document.addEventListener('click',()=>{const m=document.getElementById('printMenu');if(m)m.style.display='none';});
+  // Salary calcs
+  document.getElementById('pEffDate').textContent=v(E.sal_effective_date||E.doj);
+  const basic=n(E.sal_basic),wash=n(E.sal_wash),gross=n(E.sal_gross);
+  setAmt('eBasic',basic);setAmt('eHra',E.sal_hra);setAmt('eConv',E.sal_conv);setAmt('eAtt',E.sal_att);setAmt('eWash',wash);
+  showIfNonZero('eEdu','rowEdu',E.sal_edu);showIfNonZero('eSpec','rowSpec',E.sal_spec);showIfNonZero('eFlexi','rowFlexi',E.sal_flexi);
+  document.getElementById('eGross').textContent=fmt(gross);
 
-  const PRINT_TITLES={complete:'COMPLETE EMPLOYEE REPORT',full:'FULL EMPLOYEE DETAILS',profile:'PROFILE CARD',accounts:'ACCOUNTS / FINANCE RECORD',hr:'HR RECORD',ctc:'CTC BREAKUP STATEMENT',idcard:'EMPLOYEE ID CARD'};
-  let currentPrintType='full';
-  function openPrint(type){
-    currentPrintType=type;
-    document.getElementById('printMenu').style.display='none';
-    document.getElementById('modalTitle').textContent=PRINT_TITLES[type]||'PRINT PREVIEW';
-    const html=type==='ctc'?buildCTCHTML():type==='idcard'?buildIDCard():type==='complete'?buildCompleteHTML():buildPrintHTML(type);
-    document.getElementById('modalBody').innerHTML=html;
-    document.getElementById('modal').classList.add('open');
-    closeSidebar();
-  }
-  function closeModal(){document.getElementById('modal').classList.remove('open');}
-  function doPrint(){const pa=document.getElementById('printArea');pa.innerHTML=document.getElementById('modalBody').innerHTML;pa.style.display='block';window.print();pa.style.display='none';pa.innerHTML='';}
+  const pfApp=(E.pf||'').toUpperCase()==='YES';
+  const pfEmp=pfApp?Math.round(basic*.12):0,pfEr=pfApp?Math.round(basic*.12):0;
+  const esicOk=gross<21000,esicB=gross-wash;
+  const esicEmp=esicOk?Math.round(esicB*.0075):0,esicEr=esicOk?Math.round(esicB*.0375):0;
+  const grat=Math.round(basic*.0481),pt=n(E.ded_pt),perf=n(E.sal_perf),ret=n(E.sal_ret);
+  const totDed=pfEmp+esicEmp+pt,totEr=pfEr+esicEr+grat,take=gross-totDed,ctc=n(E.sal_ctc);
+  C={basic,wash,gross,pfApp,pfEmp,pfEr,esicOk,esicB,esicEmp,esicEr,grat,pt,perf,ret,totDed,totEr,take,ctc};
 
-  function buildPrintHTML(type){
-    const e=E,c=C;
-    const today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
-    const vv=s=>(s&&String(s).trim()&&String(s).trim()!='N/A'&&String(s).trim()!='--'&&String(s).trim()!='')?String(s).toUpperCase():'—';
-    const ba=(a,ci,s,p,co)=>[a,ci,s,p,co].filter(x=>x&&x.trim()).join(', ').toUpperCase()||'—';
-    const eduList=e.eduList||[];
-    const expList=e.expList||[];
-    if(type==='full')return buildFullDesign(e,c,today,vv,ba,eduList,expList);
-    if(type==='profile')return buildProfileDesign(e,c,today,vv,ba);
-    if(type==='accounts')return buildAccountsDesign(e,c,today,vv,ba);
-    if(type==='hr')return buildHRDesign(e,c,today,vv,ba,eduList,expList);
-    return buildFullDesign(e,c,today,vv,ba,eduList,expList);
-  }
+  setAmtCol('aPfEmp',pfEmp,'#ef4444');setAmtCol('aEsicEmp',esicEmp,'#ef4444');
+  document.getElementById('aPt').textContent=fmt(pt);
+  document.getElementById('aTotDed').textContent=fmt(totDed);
+  document.getElementById('aTakeHome').textContent=fmt(take);
+  setAmtCol('aPfEr',pfEr,'#f97316');setAmtCol('aEsicEr',esicEr,'#f97316');
+  document.getElementById('aGrat').textContent=fmt(grat);
+  if(perf>0){document.getElementById('aPerf').textContent=fmt(perf);document.getElementById('drPerf').style.display='flex';}
+  if(ret>0){document.getElementById('aRet').textContent=fmt(ret);document.getElementById('drRet').style.display='flex';}
+  document.getElementById('aTotEr').textContent=fmt(totEr);
+  document.getElementById('aCtc').textContent=fmt(ctc);
 
-  // ─── PRINT BUILDERS (kept exactly from original) ───
-  function buildFullDesign(e,c,today,vv,ba,eduList,expList){
-    const fmt=v=>v&&parseFloat(v)>0?'₹'+parseFloat(v).toLocaleString('en-IN'):'—';
-    const row=(l,val)=>`<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid #f1f5f9;"><span style="font-size:8.5px;color:#94a3b8;font-weight:800;text-transform:uppercase;letter-spacing:.06em;min-width:120px;flex-shrink:0;">${l}</span><span style="font-size:11px;font-weight:800;color:#0f172a;text-transform:uppercase;text-align:right;">${vv(val)}</span></div>`;
-    const secBox=(icon,title,grad,content2)=>`<div style="border-radius:12px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.07);"><div style="background:${grad};padding:9px 16px;display:flex;align-items:center;gap:8px;"><span class="material-icons-round" style="font-size:15px;color:#fff;">${icon}</span><span style="font-size:10px;font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:.08em;">${title}</span></div><div style="background:#fff;padding:10px 16px;">${content2}</div></div>`;
-    const eduRows=eduList.length?eduList.map((r,i)=>`<tr style="background:${i%2===0?'#fff':'#f8faff'};"><td style="padding:9px 12px;font-size:10px;font-weight:800;color:#0f172a;text-transform:uppercase;">${r.degree||'—'}</td><td style="padding:9px 12px;font-size:10px;color:#475569;font-weight:700;text-transform:uppercase;">${r.university||'—'}</td><td style="padding:9px 12px;font-size:10px;color:#475569;">${r.year||'—'}</td><td style="padding:9px 12px;"><span style="background:#dcfce7;color:#16a34a;padding:2px 8px;border-radius:99px;font-size:9px;font-weight:800;">${r.grade||'—'}</span></td><td style="padding:9px 12px;font-size:10px;color:#0891b2;font-weight:700;">${r.spec||'—'}</td></tr>`).join(''):`<tr><td colspan="5" style="padding:16px;text-align:center;color:#cbd5e1;font-size:11px;font-weight:700;text-transform:uppercase;">No education records</td></tr>`;
-    const expRows=expList.length?expList.map((r,i)=>`<tr style="background:${i%2===0?'#fff':'#f8faff'};"><td style="padding:9px 12px;font-size:10px;font-weight:800;color:#0f172a;text-transform:uppercase;">${r.company||'—'}</td><td style="padding:9px 12px;font-size:10px;color:#475569;font-weight:700;text-transform:uppercase;">${r.designation||'—'}</td><td style="padding:9px 12px;"><span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:99px;font-size:9px;font-weight:800;white-space:nowrap;">${r.from||'?'} – ${r.to||'Present'}</span></td><td style="padding:9px 12px;font-size:11px;font-weight:900;color:#16a34a;">${r.ctc?'₹'+parseFloat(r.ctc).toLocaleString('en-IN'):'—'}</td><td style="padding:9px 12px;font-size:9px;color:#94a3b8;text-transform:uppercase;">${r.reason||'—'}</td></tr>`).join(''):`<tr><td colspan="5" style="padding:16px;text-align:center;color:#cbd5e1;font-size:11px;font-weight:700;text-transform:uppercase;">No experience records</td></tr>`;
-    return `<div style="font-family:'Plus Jakarta Sans',sans-serif;color:#0f172a;line-height:1.5;background:#f1f5f9;padding:0;margin:-20px;"><div style="background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 60%,#1d4ed8 100%);padding:22px 28px;position:relative;overflow:hidden;"><div style="display:flex;justify-content:space-between;align-items:flex-start;position:relative;"><div><div style="font-size:24px;font-weight:900;color:#fff;letter-spacing:.05em;">KIDV <span style="color:#60a5fa;">TECH</span></div><div style="font-size:7px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.22em;margin-top:3px;">Full Employee Details Report</div></div><div style="text-align:right;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:8px 14px;"><div style="font-size:7px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.1em;">Confidential</div><div style="font-size:10px;font-weight:800;color:#fff;margin-top:1px;">${today}</div></div></div><div style="display:flex;align-items:center;gap:16px;margin-top:18px;position:relative;"><div style="width:60px;height:60px;background:linear-gradient(135deg,#3b82f6,#7c3aed);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#fff;border:2px solid rgba(255,255,255,.2);flex-shrink:0;">${(e.fName[0]||'?')+(e.lName[0]||'?')}</div><div><div style="font-size:22px;font-weight:900;color:#fff;text-transform:uppercase;line-height:1.1;">${vv(e.fName)} ${vv(e.lName)}</div><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;"><span style="background:rgba(255,255,255,.15);color:#fff;padding:3px 12px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;">${vv(e.job)}</span><span style="background:rgba(96,165,250,.25);color:#93c5fd;padding:3px 12px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;">${vv(e.dept)}</span></div></div><div style="margin-left:auto;text-align:right;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 16px;"><div style="font-size:7px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;">Employee ID</div><div style="font-size:20px;font-weight:900;color:#60a5fa;font-style:italic;">${vv(e.id)}</div></div></div></div><div style="padding:18px 22px;">${secBox('work','Work Information','linear-gradient(135deg,#1d4ed8,#2563eb)',row('Joining Date',e.doj)+row('Department',e.dept)+row('Location',e.workLocation)+row('Emp. Type',e.empType)+row('Manager',e.manager)+row('Shift',e.shift)+row('Week Off',e.weekoff)+row('OT Eligible',e.otEligible)+row('Notice Period',e.noticePeriod?e.noticePeriod+' Days':'—')+row('PF',e.pf))}${secBox('fingerprint','Legal & Statutory IDs','linear-gradient(135deg,#5b21b6,#7c3aed)',row('Aadhar Number',e.aadhar)+row('PAN Number',e.pan)+row('UAN (PF)',e.uan)+row('ESIC Number',e.esicNo)+row('Passport',e.passport))}${secBox('account_balance','Bank Details','linear-gradient(135deg,#065f46,#16a34a)',row('Bank Name',e.bankName)+row('Account Number',e.bankAcc)+row('IFSC Code',e.ifsc)+row('Account Type',e.accType)+row('Branch',e.bankBranch))}<div style="border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:14px;"><div style="background:linear-gradient(135deg,#0369a1,#0891b2);padding:10px 16px;"><span style="font-size:10px;font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:.08em;">Education Qualifications</span></div><table style="width:100%;border-collapse:collapse;background:#fff;"><thead><tr style="background:#ecfeff;border-bottom:2px solid #cffafe;"><th style="padding:8px 12px;text-align:left;font-size:8px;color:#0369a1;font-weight:800;text-transform:uppercase;">Degree</th><th style="padding:8px 12px;text-align:left;font-size:8px;color:#0369a1;font-weight:800;text-transform:uppercase;">University</th><th style="padding:8px 12px;text-align:left;font-size:8px;color:#0369a1;font-weight:800;text-transform:uppercase;">Year</th><th style="padding:8px 12px;text-align:left;font-size:8px;color:#0369a1;font-weight:800;text-transform:uppercase;">Grade</th><th style="padding:8px 12px;text-align:left;font-size:8px;color:#0369a1;font-weight:800;text-transform:uppercase;">Specialization</th></tr></thead><tbody>${eduRows}</tbody></table></div><div style="border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:14px;"><div style="background:linear-gradient(135deg,#1e3a5f,#2563eb);padding:10px 16px;"><span style="font-size:10px;font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:.08em;">Work Experience History</span></div><table style="width:100%;border-collapse:collapse;background:#fff;"><thead><tr style="background:#eff6ff;border-bottom:2px solid #dbeafe;"><th style="padding:8px 12px;text-align:left;font-size:8px;color:#1d4ed8;font-weight:800;text-transform:uppercase;">Company</th><th style="padding:8px 12px;text-align:left;font-size:8px;color:#1d4ed8;font-weight:800;text-transform:uppercase;">Designation</th><th style="padding:8px 12px;text-align:left;font-size:8px;color:#1d4ed8;font-weight:800;text-transform:uppercase;">Period</th><th style="padding:8px 12px;text-align:left;font-size:8px;color:#1d4ed8;font-weight:800;text-transform:uppercase;">CTC</th><th style="padding:8px 12px;text-align:left;font-size:8px;color:#1d4ed8;font-weight:800;text-transform:uppercase;">Reason</th></tr></thead><tbody>${expRows}</tbody></table></div><div style="display:flex;justify-content:space-between;padding:10px 4px;border-top:1px dashed #e2e8f0;"><span style="font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;">KIDV Tech — Strictly Confidential</span><span style="font-size:8px;color:#94a3b8;font-weight:700;">${today}</span></div></div></div>`;
-  }
-  function buildProfileDesign(e,c,today,vv,ba){
-    const chip=(l,v2,bg='#f1f5f9',tc='#1e293b')=>v2&&vv(v2)!='—'?`<div style="background:${bg};border-radius:8px;padding:8px 10px;"><span style="font-size:7px;color:#94a3b8;display:block;text-transform:uppercase;font-weight:700;margin-bottom:2px;">${l}</span><span style="font-size:11px;font-weight:800;text-transform:uppercase;color:${tc};">${vv(v2)}</span></div>`:'';
-    return `<div style="font-family:'Plus Jakarta Sans',sans-serif;color:#1e293b;"><div style="background:linear-gradient(135deg,#7c3aed,#2563eb,#0891b2);border-radius:14px;padding:22px;margin-bottom:16px;color:#fff;text-align:center;"><div style="width:68px;height:68px;background:rgba(255,255,255,.2);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;margin:0 auto 12px;border:3px solid rgba(255,255,255,.3);">${(e.fName[0]||'?')+(e.lName[0]||'?')}</div><div style="font-size:20px;font-weight:900;letter-spacing:.03em;">${vv(e.fName)} ${vv(e.lName)}</div><div style="font-size:11px;color:rgba(255,255,255,.75);margin-top:5px;font-weight:700;text-transform:uppercase;">${vv(e.job)}</div><div style="display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap;"><span style="background:rgba(255,255,255,.2);padding:4px 12px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;">${vv(e.dept)}</span><span style="background:rgba(255,255,255,.3);padding:4px 12px;border-radius:99px;font-size:9px;font-weight:900;text-transform:uppercase;">${vv(e.id)}</span></div></div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;"><div><div style="font-size:15px;font-weight:900;text-transform:uppercase;">KIDV <span style="color:#7c3aed;">TECH</span></div><div style="font-size:8px;color:#94a3b8;text-transform:uppercase;letter-spacing:.1em;">Employee Profile Card</div></div><div style="font-size:9px;color:#94a3b8;">${today}</div></div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;">${chip('Joining Date',e.doj,'#eff6ff','#1d4ed8')}${chip('Location',e.workLocation,'#eff6ff','#1d4ed8')}${chip('Manager',e.manager,'#f5f3ff','#6d28d9')}${chip('Notice Period',e.noticePeriod?e.noticePeriod+' Days':'N/A','#f5f3ff','#6d28d9')}${chip('Shift',e.shift,'#f1f5f9')}${chip('Week Off',e.weekoff,'#f1f5f9')}${chip('OT Eligible',e.otEligible,'#f1f5f9')}${chip('Confirmation',e.confirmDate,'#f1f5f9')}</div><div style="border-top:1px dashed #e2e8f0;padding-top:8px;display:flex;justify-content:space-between;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;"><span>KIDV Tech — Confidential Employee Profile</span><span>${today}</span></div></div>`;
-  }
-  function buildAccountsDesign(e,c,today,vv,ba){
-    const fmt2=v=>v&&parseFloat(v)>0?'₹'+parseFloat(v).toLocaleString('en-IN'):'—';
-    const n2=s=>parseFloat(s||0);
-    const earns=[[' Basic Pay',c.basic],['HRA',n2(e.sal_hra)],['Conveyance',n2(e.sal_conv)],['Attendance Allw.',n2(e.sal_att)],['Washing Allw.',c.wash]].filter(r=>r[1]>0);
-    const dedRows=[];
-    if(c.pfEmp>0)dedRows.push(['PF Employee (12%)',c.pfEmp]);
-    if(c.esicEmp>0)dedRows.push(['ESIC Employee (0.75%)',c.esicEmp]);
-    if(c.pt>0)dedRows.push(['Professional Tax',c.pt]);
-    return `<div style="font-family:'Plus Jakarta Sans',sans-serif;color:#1e293b;"><div style="background:linear-gradient(135deg,#064e3b,#065f46);border-radius:12px;padding:16px 22px;margin-bottom:16px;color:#fff;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:20px;font-weight:900;letter-spacing:.04em;">KIDV <span style="color:#6ee7b7;">TECH</span></div><div style="font-size:8px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.15em;margin-top:2px;">Accounts & Finance Record</div></div><div style="text-align:right;"><div style="font-size:10px;color:rgba(255,255,255,.5);">Date: ${today}</div><div style="background:#6ee7b7;color:#064e3b;padding:4px 12px;border-radius:99px;font-size:10px;font-weight:900;margin-top:6px;text-transform:uppercase;">Finance Use Only</div></div></div><div style="background:#f0fdf4;border:2px solid #bbf7d0;border-radius:12px;padding:14px 18px;margin-bottom:14px;"><div style="font-size:16px;font-weight:900;text-transform:uppercase;">${vv(e.fName)} ${vv(e.lName)}</div><div style="font-size:10px;color:#16a34a;text-transform:uppercase;font-weight:700;margin-top:2px;">${vv(e.job)} | ${vv(e.dept)} | ID: ${vv(e.id)}</div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;"><div style="border:1.5px solid #bbf7d0;border-radius:12px;overflow:hidden;"><div style="background:#065f46;padding:9px 14px;"><span style="font-size:10px;font-weight:900;color:#fff;text-transform:uppercase;">🏦 Bank Details</span></div><div style="padding:12px 14px;">${[['Bank Name',e.bankName],['Account No.',e.bankAcc],['IFSC Code',e.ifsc],['Account Type',e.accType],['Branch',e.bankBranch]].map(([l,v2])=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed #d1fae5;"><span style="font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;">${l}</span><span style="font-size:11px;font-weight:800;color:#065f46;text-transform:uppercase;">${vv(v2)}</span></div>`).join('')}</div></div><div style="border:1.5px solid #bbf7d0;border-radius:12px;overflow:hidden;"><div style="background:#065f46;padding:9px 14px;"><span style="font-size:10px;font-weight:900;color:#fff;text-transform:uppercase;">🔖 Legal IDs</span></div><div style="padding:12px 14px;">${[['Aadhar No.',e.aadhar],['PAN No.',e.pan],['UAN (PF)',e.uan],['ESIC No.',e.esicNo],['Passport',e.passport]].map(([l,v2])=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed #d1fae5;"><span style="font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;">${l}</span><span style="font-size:11px;font-weight:800;color:#065f46;text-transform:uppercase;">${vv(v2)}</span></div>`).join('')}</div></div></div><div style="background:#f0fdf4;border-radius:10px;padding:14px;border:1.5px solid #bbf7d0;text-align:center;"><div style="font-size:9px;color:#16a34a;text-transform:uppercase;font-weight:700;">Monthly CTC</div><div style="font-size:28px;font-weight:900;color:#065f46;">${fmt2(c.ctc)}</div><div style="font-size:9px;color:#94a3b8;">Net Take Home: ${fmt2(c.take)}</div></div><div style="border-top:1px dashed #d1fae5;padding-top:8px;margin-top:14px;display:flex;justify-content:space-between;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;"><span>KIDV Tech — Finance Record | Strictly Confidential</span><span>${today}</span></div></div>`;
-  }
-  function buildHRDesign(e,c,today,vv,ba,eduList,expList){
-    const kv=(l,v2)=>`<div style="display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px dashed #ede9fe;"><span style="font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;">${l}</span><span style="font-size:11px;font-weight:800;color:#3b0764;text-transform:uppercase;">${vv(v2)}</span></div>`;
-    return `<div style="font-family:'Plus Jakarta Sans',sans-serif;color:#1e293b;"><div style="background:linear-gradient(135deg,#4c1d95,#7c3aed);border-radius:12px;padding:18px 22px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;color:#fff;"><div><div style="font-size:20px;font-weight:900;letter-spacing:.04em;">KIDV <span style="color:#c4b5fd;">TECH</span></div><div style="font-size:8px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.2em;margin-top:2px;">HR Record — Confidential</div></div><div style="text-align:right;background:rgba(255,255,255,.15);border-radius:10px;padding:10px 16px;"><div style="font-size:8px;color:rgba(255,255,255,.5);text-transform:uppercase;">Generated</div><div style="font-size:12px;font-weight:900;">${today}</div></div></div><div style="background:#f5f3ff;border:2px solid #ddd6fe;border-radius:12px;padding:14px 18px;margin-bottom:14px;"><div style="font-size:16px;font-weight:900;text-transform:uppercase;color:#3b0764;">${vv(e.fName)} ${vv(e.lName)}</div><div style="font-size:10px;color:#7c3aed;font-weight:700;text-transform:uppercase;margin-top:3px;">${vv(e.job)} | ${vv(e.dept)} | ${vv(e.id)}</div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;"><div style="border:1.5px solid #ddd6fe;border-radius:12px;overflow:hidden;"><div style="background:#4c1d95;padding:8px 14px;"><span style="font-size:10px;font-weight:900;color:#fff;text-transform:uppercase;">Work Details</span></div><div style="padding:12px 14px;">${kv('Joining Date',e.doj)}${kv('Location',e.workLocation)}${kv('Department',e.dept)}${kv('Manager',e.manager)}${kv('Shift',e.shift)}${kv('Week Off',e.weekoff)}${kv('Notice Period',e.noticePeriod?e.noticePeriod+' Days':'N/A')}${kv('Confirmation',e.confirmDate)}${kv('PF',e.pf)}${kv('OT Eligible',e.otEligible)}</div></div><div><div style="border:1.5px solid #ddd6fe;border-radius:12px;overflow:hidden;margin-bottom:12px;"><div style="background:#4c1d95;padding:8px 14px;"><span style="font-size:10px;font-weight:900;color:#fff;text-transform:uppercase;">Personal Details</span></div><div style="padding:12px 14px;">${kv('Date of Birth',e.dob)}${kv('Gender',e.gender)}${kv('Blood Group',e.blood)}${kv('Marital Status',e.marital)}${kv('Mobile',e.mobile)}${kv('Nationality',e.nationality)}</div></div><div style="border:1.5px solid #fce7f3;border-radius:12px;overflow:hidden;"><div style="background:#9d174d;padding:8px 14px;"><span style="font-size:10px;font-weight:900;color:#fff;text-transform:uppercase;">Family & Emergency</span></div><div style="padding:12px 14px;">${kv('Father',e.fatherName)}${kv('Mother',e.motherName)}${kv('Spouse',e.spouseName)}${kv('Em. Contact',e.emergName)}${kv('Em. Mobile',e.emergMobile)}${kv('Relation',e.emergRelation)}</div></div></div></div><div style="border-top:1px dashed #ddd6fe;padding-top:8px;display:flex;justify-content:space-between;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;"><span>KIDV Tech — HR Department Record</span><span>${today}</span></div></div>`;
-  }
+  const eb=document.getElementById('esicBadgeEmp'),er=document.getElementById('esicBadgeEr');
+  if(esicOk){eb.textContent='✓ ESIC';eb.className='esic-badge esic-ok';er.textContent='✓ ESIC';er.className='esic-badge esic-ok';}
+  else{document.getElementById('esicEmpSub').textContent='Gross ≥ ₹21,000 — N/A';document.getElementById('esicErSub').textContent='Gross ≥ ₹21,000 — N/A';}
 
-  function buildCompleteHTML(){
-    const e=E,c=C,today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
-    const vv=s=>(s&&String(s).trim()&&String(s).trim()!='N/A'&&String(s).trim()!='--'&&String(s).trim()!='')?String(s).toUpperCase():'—';
-    const fmtv=v=>v&&parseFloat(v)>0?'₹'+parseFloat(v).toLocaleString('en-IN'):'—';
-    const n2=s=>parseFloat(s||0);
-    const eduList=e.eduList||[],expList=e.expList||[];
-    const earns=[['Basic Pay',c.basic],['HRA',n2(e.sal_hra)],['Conveyance',n2(e.sal_conv)],['Attendance Allw.',n2(e.sal_att)],['Washing Allw.',c.wash],['Education Allw.',n2(e.sal_edu)],['Special Allw.',n2(e.sal_spec)],['Flexi Pay',n2(e.sal_flexi)]].filter(r=>r[1]>0);
-    const dedRows=[];if(c.pfEmp>0)dedRows.push(['PF Employee (12%)',c.pfEmp]);if(c.esicEmp>0)dedRows.push(['ESIC Emp (0.75%)',c.esicEmp]);if(c.pt>0)dedRows.push(['Professional Tax',c.pt]);
-    const erRows=[['Gratuity (4.81%)',c.grat]];if(c.pfEr>0)erRows.unshift(['PF Employer (12%)',c.pfEr]);if(c.esicEr>0)erRows.splice(1,0,['ESIC ER (3.75%)',c.esicEr]);
-    return `<div style="font-family:'Plus Jakarta Sans',sans-serif;padding:0;margin:-20px;background:#f0f4f8;"><div style="background:linear-gradient(135deg,#0f172a,#1e3a5f,#1d4ed8);padding:24px 28px;color:#fff;"><div style="font-size:22px;font-weight:900;margin-bottom:4px;">KIDV <span style="color:#60a5fa;">TECH</span></div><div style="font-size:7px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.2em;">Complete Employee Report — ${today}</div><div style="margin-top:16px;background:rgba(255,255,255,.08);border-radius:10px;padding:12px 18px;"><div style="font-size:18px;font-weight:900;text-transform:uppercase;">${vv(e.fName)} ${vv(e.lName)}</div><div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:3px;">${vv(e.job)} · ${vv(e.dept)} · ID: ${vv(e.id)} · Joined: ${vv(e.doj)}</div></div></div><div style="padding:16px 22px;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;"><div style="background:#fff;border-radius:10px;padding:14px;"><div style="font-size:9px;color:#2563eb;font-weight:900;text-transform:uppercase;margin-bottom:8px;border-bottom:1px solid #dbeafe;padding-bottom:5px;">Work Details</div>${[['Dept',e.dept],['Location',e.workLocation],['Manager',e.manager],['Shift',e.shift],['Week Off',e.weekoff],['Notice',e.noticePeriod?e.noticePeriod+' Days':'—']].map(([l,v2])=>`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed #f1f5f9;"><span style="font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;">${l}</span><span style="font-size:10px;font-weight:800;color:#1e293b;text-transform:uppercase;">${vv(v2)}</span></div>`).join('')}</div><div style="background:#fff;border-radius:10px;padding:14px;"><div style="font-size:9px;color:#7c3aed;font-weight:900;text-transform:uppercase;margin-bottom:8px;border-bottom:1px solid #ede9fe;padding-bottom:5px;">Legal & Bank</div>${[['Aadhar',e.aadhar],['PAN',e.pan],['UAN',e.uan],['Bank',e.bankName],['Acc No.',e.bankAcc],['IFSC',e.ifsc]].map(([l,v2])=>`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed #f1f5f9;"><span style="font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;">${l}</span><span style="font-size:10px;font-weight:800;color:#1e293b;text-transform:uppercase;">${vv(v2)}</span></div>`).join('')}</div></div><div style="background:#fff;border-radius:10px;padding:14px;margin-bottom:12px;"><div style="font-size:9px;color:#1d4ed8;font-weight:900;text-transform:uppercase;margin-bottom:8px;border-bottom:1px solid #dbeafe;padding-bottom:5px;">Salary Architecture — Effective: ${vv(e.sal_effective_date||e.doj)}</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">${[['Earnings',earns.map(([l,v2])=>`<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:10px;border-bottom:1px dashed #f1f5f9;"><span style="color:#64748b;font-weight:700;text-transform:uppercase;">${l}</span><span style="font-weight:800;">${fmtv(v2)}</span></div>`).join('')+'<div style="display:flex;justify-content:space-between;padding:5px 0;border-top:2px solid #2563eb;margin-top:4px;font-weight:900;color:#2563eb;font-size:11px;"><span>GROSS</span><span>${fmtv(c.gross)}</span></div>','#2563eb'],['Deductions',dedRows.length?dedRows.map(([l,v2])=>`<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:10px;border-bottom:1px dashed #fee2e2;"><span style="color:#64748b;font-weight:700;text-transform:uppercase;">${l}</span><span style="font-weight:800;color:#ef4444;">${fmtv(v2)}</span></div>`).join('')+'<div style="display:flex;justify-content:space-between;padding:5px 0;border-top:2px solid #ef4444;margin-top:4px;font-weight:900;color:#ef4444;font-size:11px;"><span>TOTAL DED</span><span>${fmtv(c.totDed)}</span></div><div style="display:flex;justify-content:space-between;padding:4px 0;font-weight:900;color:#16a34a;font-size:12px;"><span>NET PAY</span><span>${fmtv(c.take)}</span></div>':'<div style="font-size:10px;color:#94a3b8;padding:6px 0;">No deductions</div>','#ef4444'],['ER & CTC',erRows.map(([l,v2])=>`<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:10px;border-bottom:1px dashed #fed7aa;"><span style="color:#64748b;font-weight:700;text-transform:uppercase;">${l}</span><span style="font-weight:800;color:#f97316;">${fmtv(v2)}</span></div>`).join('')+'<div style="background:#064e3b;border-radius:8px;padding:10px;margin-top:8px;text-align:center;"><div style="font-size:7px;color:rgba(255,255,255,.5);text-transform:uppercase;">Monthly CTC</div><div style="font-size:18px;font-weight:900;color:#6ee7b7;">${fmtv(c.ctc)}</div></div>','#f97316']].map(([title,content,color])=>`<div><div style="font-size:8px;color:${color};font-weight:900;text-transform:uppercase;margin-bottom:8px;">${title}</div>${content}</div>`).join('')}</div></div>${eduList.length?`<div style="background:#fff;border-radius:10px;padding:14px;margin-bottom:12px;overflow-x:auto;"><div style="font-size:9px;color:#0891b2;font-weight:900;text-transform:uppercase;margin-bottom:8px;">Education Qualifications</div><table style="width:100%;border-collapse:collapse;font-size:10px;"><thead><tr style="background:#ecfeff;"><th style="padding:6px 10px;text-align:left;font-size:8px;color:#0369a1;font-weight:800;text-transform:uppercase;">Degree</th><th style="padding:6px 10px;text-align:left;font-size:8px;color:#0369a1;font-weight:800;text-transform:uppercase;">University</th><th style="padding:6px 10px;text-align:left;font-size:8px;color:#0369a1;font-weight:800;text-transform:uppercase;">Year</th><th style="padding:6px 10px;text-align:left;font-size:8px;color:#0369a1;font-weight:800;text-transform:uppercase;">Grade</th></tr></thead><tbody>${eduList.map((r,i)=>`<tr style="background:${i%2?'#f0fdfe':'#fff'};"><td style="padding:7px 10px;font-weight:800;text-transform:uppercase;">${r.degree||'—'}</td><td style="padding:7px 10px;color:#64748b;">${r.university||'—'}</td><td style="padding:7px 10px;color:#64748b;">${r.year||'—'}</td><td style="padding:7px 10px;"><span style="background:#dcfce7;color:#16a34a;padding:2px 8px;border-radius:99px;font-size:9px;font-weight:800;">${r.grade||'—'}</span></td></tr>`).join('')}</tbody></table></div>`:''}<div style="display:flex;justify-content:space-between;font-size:8px;color:#94a3b8;text-transform:uppercase;border-top:1px dashed #e2e8f0;padding-top:8px;"><span>KIDV Tech — Strictly Confidential HR Document</span><span>${today}</span></div></div></div>`;
-  }
+  let rows=(E.history||[]).map(h=>`<tr><td>${h.date}</td><td class="num-cell" style="font-weight:900;">${fmt(h.amount)}</td><td>${h.role||E.job}</td><td style="text-align:right;"><span class="badge-r">REVISED</span></td></tr>`).join('');
+  rows+=`<tr class="row-active"><td>${E.sal_effective_date||E.doj}</td><td class="num-cell" style="font-size:13px;">${fmt(gross)}</td><td>${E.job}</td><td style="text-align:right;"><span class="badge-a">ACTIVE</span></td></tr>`;
+  document.getElementById('histBody').innerHTML=rows;
+}
 
-  function buildIDCard(){
-    const e=E,today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
-    const vv=s=>(s&&String(s).trim()&&String(s).trim()!='N/A'&&String(s).trim()!='--'&&String(s).trim()!='')?String(s).toUpperCase():'—';
-    return `<div style="font-family:'Plus Jakarta Sans',sans-serif;"><div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:10px;padding:10px 16px;margin-bottom:20px;display:flex;align-items:center;gap:8px;"><span class="material-icons-round" style="font-size:16px;color:#2563eb;">info</span><span style="font-size:11px;color:#1d4ed8;font-weight:700;">Print at CR80 size (85.6mm × 54mm) — Standard ID Card. Laminate for best results.</span></div><div style="display:flex;justify-content:center;"><div style="width:360px;height:226px;border-radius:18px;overflow:hidden;position:relative;font-family:'Plus Jakarta Sans',sans-serif;box-shadow:0 16px 48px rgba(0,0,0,.35);"><div style="position:absolute;left:0;top:0;width:110px;height:100%;background:linear-gradient(180deg,#0f172a 0%,#1e3a5f 100%);display:flex;flex-direction:column;align-items:center;padding:16px 8px;"><div style="text-align:center;margin-bottom:14px;"><div style="font-size:13px;font-weight:900;color:#fff;line-height:1.1;">KIDV</div><div style="font-size:13px;font-weight:900;color:#60a5fa;">TECH</div><div style="font-size:5.5px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.18em;line-height:1.4;margin-top:4px;">Employee<br>Identity Card</div></div><div style="width:62px;height:62px;background:linear-gradient(135deg,#3b82f6,#7c3aed);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#fff;border:2.5px solid rgba(255,255,255,.2);">${(e.fName[0]||'?')+(e.lName[0]||'?')}</div><div style="margin-top:10px;text-align:center;"><div style="font-size:5.5px;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:2px;">Blood</div><div style="font-size:14px;font-weight:900;color:#f87171;line-height:1;">${vv(e.blood)}</div></div><div style="margin-top:auto;background:rgba(255,255,255,.1);border-radius:6px;padding:5px 8px;text-align:center;width:100%;"><div style="font-size:5px;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:1px;">Device Code</div><div style="font-size:10px;font-weight:900;color:#60a5fa;">${vv(e.deviceCode)}</div></div></div><div style="position:absolute;left:110px;top:0;right:0;height:100%;background:linear-gradient(135deg,#f8fafc 0%,#eff6ff 100%);padding:14px 14px 10px;"><div style="position:absolute;top:12px;right:12px;background:#1e293b;border-radius:8px;padding:4px 10px;"><div style="font-size:5.5px;color:rgba(255,255,255,.4);text-transform:uppercase;">ID</div><div style="font-size:10px;font-weight:900;color:#60a5fa;">${vv(e.id)}</div></div><div style="margin-bottom:10px;padding-right:70px;"><div style="font-size:15px;font-weight:900;color:#0f172a;text-transform:uppercase;line-height:1.2;">${vv(e.fName)} ${vv(e.lName)}</div><div style="font-size:9px;color:#2563eb;font-weight:800;text-transform:uppercase;margin-top:3px;">${vv(e.job)}</div><div style="display:flex;gap:5px;margin-top:5px;"><span style="background:#eff6ff;color:#1d4ed8;padding:2px 7px;border-radius:99px;font-size:7px;font-weight:800;text-transform:uppercase;border:1px solid #bfdbfe;">${vv(e.dept)}</span></div></div><div style="height:1px;background:linear-gradient(90deg,#3b82f6,#7c3aed,transparent);margin-bottom:9px;"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;margin-bottom:9px;">${[['Joining Date',e.doj],['Mobile',e.mobile],['Shift',e.shift],['Week Off',e.weekoff]].map(([l,v2])=>`<div><div style="font-size:6px;color:#94a3b8;font-weight:700;text-transform:uppercase;margin-bottom:1px;">${l}</div><div style="font-size:9px;font-weight:800;color:#1e293b;text-transform:uppercase;">${vv(v2)}</div></div>`).join('')}</div><div style="background:linear-gradient(135deg,#fef2f2,#ffe4e6);border-radius:8px;padding:6px 10px;border:1px solid #fecaca;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:5.5px;color:#dc2626;font-weight:800;text-transform:uppercase;margin-bottom:2px;">☎ Emergency</div><div style="font-size:9px;font-weight:800;color:#1e293b;text-transform:uppercase;">${vv(e.emergName)} · ${vv(e.emergRelation)}</div></div><div style="font-size:9px;font-weight:900;color:#dc2626;">${vv(e.emergMobile)}</div></div><div style="position:absolute;bottom:7px;right:12px;font-size:6px;color:#94a3b8;font-weight:700;">${today}</div></div><div style="position:absolute;top:0;left:110px;right:0;height:3px;background:linear-gradient(90deg,#3b82f6,#7c3aed,#0891b2);"></div></div></div></div>`;
-  }
+function setT(id,val){const el=document.getElementById(id);if(el)el.textContent=v(val);}
+function setAmt(id,val){const el=document.getElementById(id);if(el)el.textContent=fmt(val);}
+function setAmtCol(id,val,col){const el=document.getElementById(id);if(!el)return;el.textContent=fmt(val);el.style.color=val>0?col:'#e2e8f0';}
+function showIfNonZero(valId,rowId,val){if(n(val)>0){document.getElementById(valId).textContent=fmt(val);document.getElementById(rowId).style.display='flex';}}
 
-  function buildCTCHTML(){
-    const e=E,c=C,today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
-    const fv=v=>v&&parseFloat(v)>0?'₹'+parseFloat(v).toLocaleString('en-IN'):'—';
-    const n2=s=>parseFloat(s||0);
-    const earns=[['Basic Pay',c.basic],['HRA',n2(e.sal_hra)],['Conveyance Allw.',n2(e.sal_conv)],['Attendance Allw.',n2(e.sal_att)],['Washing Allw.',c.wash],['Education Allw.',n2(e.sal_edu)],['Special Allw.',n2(e.sal_spec)],['Flexi Pay',n2(e.sal_flexi)]].filter(r=>r[1]>0);
-    const erRows=[];if(c.pfEr>0)erRows.push(['PF — Employer',c.pfEr]);if(c.esicEr>0)erRows.push(['ESIC — Employer',c.esicEr]);erRows.push(['Gratuity (4.81%)',c.grat]);
-    const dedRows=[];if(c.pfEmp>0)dedRows.push(['PF — Employee',c.pfEmp]);if(c.esicEmp>0)dedRows.push(['ESIC — Employee',c.esicEmp]);if(c.pt>0)dedRows.push(['Professional Tax',c.pt]);
-    const trow=(l,m)=>`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed #e2e8f0;"><span style="font-size:10px;color:#64748b;font-weight:700;text-transform:uppercase;">${l}</span><div style="display:flex;gap:20px;"><span style="font-size:11px;font-weight:800;min-width:80px;text-align:right;">${fv(m)}</span><span style="font-size:10px;color:#94a3b8;min-width:90px;text-align:right;">${m&&m>0?'₹'+parseFloat(m*12).toLocaleString('en-IN'):'—'}</span></div></div>`;
-    return `<div style="font-family:'Plus Jakarta Sans',sans-serif;background:#f0f4f8;margin:-20px;padding:0;"><div style="background:linear-gradient(135deg,#0f172a,#1e3a5f,#4c1d95);padding:20px 28px;color:#fff;"><div style="font-size:22px;font-weight:900;margin-bottom:4px;">KIDV <span style="color:#a78bfa;">TECH</span></div><div style="font-size:7px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.2em;">CTC Breakup Statement — ${today}</div><div style="margin-top:14px;background:rgba(255,255,255,.08);border-radius:10px;padding:12px 18px;display:flex;justify-content:space-between;"><div><div style="font-size:16px;font-weight:900;text-transform:uppercase;">${e.fName} ${e.lName}</div><div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:3px;">${v(e.job)} · ${v(e.dept)} · ${v(e.id)}</div></div><div style="text-align:right;"><div style="font-size:7px;color:rgba(255,255,255,.35);">Effective From</div><div style="font-size:14px;font-weight:900;color:#a78bfa;">${v(e.sal_effective_date||e.doj)}</div></div></div></div><div style="padding:16px 22px;"><div style="background:#fff;border-radius:12px;padding:14px 18px;margin-bottom:12px;"><div style="font-size:9px;color:#2563eb;font-weight:900;text-transform:uppercase;margin-bottom:10px;border-bottom:2px solid #dbeafe;padding-bottom:7px;display:flex;justify-content:space-between;align-items:center;"><span>A. Earnings</span><div style="display:flex;gap:20px;"><span style="min-width:80px;text-align:right;color:#94a3b8;">Monthly</span><span style="min-width:90px;text-align:right;color:#94a3b8;">Annual</span></div></div>${earns.map(([l,m])=>trow(l,m)).join('')}<div style="display:flex;justify-content:space-between;padding:8px 0;border-top:2px solid #2563eb;margin-top:4px;"><span style="font-size:11px;font-weight:900;color:#2563eb;text-transform:uppercase;">Gross Monthly</span><div style="display:flex;gap:20px;"><span style="font-size:13px;font-weight:900;color:#2563eb;min-width:80px;text-align:right;">${fv(c.gross)}</span><span style="font-size:11px;font-weight:800;color:#2563eb;min-width:90px;text-align:right;">${fv(c.gross*12)}</span></div></div></div><div style="background:#fff;border-radius:12px;padding:14px 18px;margin-bottom:12px;"><div style="font-size:9px;color:#f97316;font-weight:900;text-transform:uppercase;margin-bottom:10px;border-bottom:2px solid #fed7aa;padding-bottom:7px;">B. Employer Contributions</div>${erRows.map(([l,m])=>trow(l,m)).join('')}<div style="background:#0f172a;border-radius:10px;padding:12px 16px;margin-top:8px;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;">Monthly CTC</div><div style="font-size:18px;font-weight:900;color:#60a5fa;">${fv(c.ctc)}</div></div><div style="text-align:right;"><div style="font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;">Annual CTC</div><div style="font-size:22px;font-weight:900;color:#a78bfa;">${fv(c.ctc*12)}</div></div></div></div><div style="background:#fff;border-radius:12px;padding:14px 18px;margin-bottom:12px;"><div style="font-size:9px;color:#ef4444;font-weight:900;text-transform:uppercase;margin-bottom:10px;border-bottom:2px solid #fecaca;padding-bottom:7px;">C. Employee Deductions</div>${dedRows.length?dedRows.map(([l,m])=>trow(l,m)).join(''):'<div style="font-size:10px;color:#94a3b8;padding:6px 0;text-align:center;">No Deductions</div>'}<div style="background:linear-gradient(135deg,#065f46,#16a34a);border-radius:10px;padding:12px 16px;margin-top:8px;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:8px;color:rgba(255,255,255,.5);text-transform:uppercase;">Net Take Home (Monthly)</div><div style="font-size:22px;font-weight:900;color:#fff;">${fv(c.take)}</div></div><div style="text-align:right;"><div style="font-size:8px;color:rgba(255,255,255,.5);text-transform:uppercase;">Annual Take Home</div><div style="font-size:18px;font-weight:900;color:#6ee7b7;">${fv(c.take*12)}</div></div></div></div><div style="display:flex;justify-content:space-between;font-size:8px;color:#94a3b8;text-transform:uppercase;padding-top:8px;border-top:1px dashed #e2e8f0;"><span>KIDV Tech — Confidential CTC Statement</span><span>${today}</span></div></div></div>`;
-  }
-  </script>
-  </body>
-  </html>
+/* ── PRINT MENU ── */
+function togglePrintMenu(e){const m=document.getElementById('printMenu');m.style.display=m.style.display==='none'?'block':'none';e.stopPropagation();}
+document.addEventListener('click',()=>{const m=document.getElementById('printMenu');if(m)m.style.display='none';});
+
+const PRINT_TITLES={complete:'COMPLETE EMPLOYEE REPORT',full:'FULL EMPLOYEE DETAILS',profile:'PROFILE CARD',accounts:'ACCOUNTS / FINANCE RECORD',hr:'HR RECORD',ctc:'CTC BREAKUP STATEMENT',idcard:'EMPLOYEE ID CARD'};
+function openPrint(type){
+  document.getElementById('printMenu').style.display='none';
+  document.getElementById('modalTitle').textContent=PRINT_TITLES[type]||'PRINT PREVIEW';
+  const html=type==='ctc'?buildCTCHTML():type==='idcard'?buildIDCard():type==='complete'?buildCompleteHTML():buildPrintHTML(type);
+  document.getElementById('modalBody').innerHTML=html;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+function doPrint(){const pa=document.getElementById('printArea');pa.innerHTML=document.getElementById('modalBody').innerHTML;pa.style.display='block';window.print();pa.style.display='none';pa.innerHTML='';}
+
+/* ── PRINT BUILDERS (kept exactly from original) ── */
+function buildPrintHTML(type){
+  const e=E,c=C;
+  const today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+  const vv=s=>(s&&String(s).trim()&&String(s).trim()!='N/A'&&String(s).trim()!='--'&&String(s).trim()!='')?String(s).toUpperCase():'—';
+  const ba=(a,ci,s,p,co)=>[a,ci,s,p,co].filter(x=>x&&x.trim()).join(', ').toUpperCase()||'—';
+  const eduList=e.eduList||[];
+  const expList=e.expList||[];
+  if(type==='full')return buildFullDesign(e,c,today,vv,ba,eduList,expList);
+  if(type==='profile')return buildProfileDesign(e,c,today,vv,ba);
+  if(type==='accounts')return buildAccountsDesign(e,c,today,vv,ba);
+  if(type==='hr')return buildHRDesign(e,c,today,vv,ba,eduList,expList);
+  return buildFullDesign(e,c,today,vv,ba,eduList,expList);
+}
+
+function buildFullDesign(e,c,today,vv,ba,eduList,expList){
+  const fmt=v=>v&&parseFloat(v)>0?'₹'+parseFloat(v).toLocaleString('en-IN'):'—';
+  const row=(l,val)=>`<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid #f1f5f9;"><span style="font-size:8.5px;color:#94a3b8;font-weight:800;text-transform:uppercase;letter-spacing:.06em;min-width:120px;flex-shrink:0;">${l}</span><span style="font-size:11px;font-weight:800;color:#0f172a;text-transform:uppercase;text-align:right;">${vv(val)}</span></div>`;
+  const secBox=(icon,title,grad,content2)=>`<div style="border-radius:12px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.07);"><div style="background:${grad};padding:9px 16px;display:flex;align-items:center;gap:8px;"><span class="material-icons-round" style="font-size:15px;color:#fff;">${icon}</span><span style="font-size:10px;font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:.08em;">${title}</span></div><div style="background:#fff;padding:10px 16px;">${content2}</div></div>`;
+  const eduRows=eduList.length?eduList.map((r,i)=>`<tr style="background:${i%2===0?'#fff':'#f8faff'};"><td style="padding:9px 12px;font-size:10px;font-weight:800;color:#0f172a;text-transform:uppercase;">${r.degree||'—'}</td><td style="padding:9px 12px;font-size:10px;color:#475569;font-weight:700;text-transform:uppercase;">${r.university||'—'}</td><td style="padding:9px 12px;font-size:10px;color:#475569;">${r.year||'—'}</td><td style="padding:9px 12px;"><span style="background:#dcfce7;color:#16a34a;padding:2px 8px;border-radius:99px;font-size:9px;font-weight:800;">${r.grade||'—'}</span></td><td style="padding:9px 12px;font-size:10px;color:#0891b2;font-weight:700;">${r.spec||'—'}</td></tr>`).join(''):`<tr><td colspan="5" style="padding:16px;text-align:center;color:#cbd5e1;font-size:11px;font-weight:700;text-transform:uppercase;">No education records</td></tr>`;
+  const expRows=expList.length?expList.map((r,i)=>`<tr style="background:${i%2===0?'#fff':'#f8faff'};"><td style="padding:9px 12px;font-size:10px;font-weight:800;color:#0f172a;text-transform:uppercase;">${r.company||'—'}</td><td style="padding:9px 12px;font-size:10px;color:#475569;font-weight:700;text-transform:uppercase;">${r.designation||'—'}</td><td style="padding:9px 12px;"><span style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:99px;font-size:9px;font-weight:800;white-space:nowrap;">${r.from||'?'} – ${r.to||'Present'}</span></td><td style="padding:9px 12px;font-size:11px;font-weight:900;color:#16a34a;">${r.ctc?'₹'+parseFloat(r.ctc).toLocaleString('en-IN'):'—'}</td><td style="padding:9px 12px;font-size:9px;color:#94a3b8;text-transform:uppercase;">${r.reason||'—'}</td></tr>`).join(''):`<tr><td colspan="5" style="padding:16px;text-align:center;color:#cbd5e1;font-size:11px;font-weight:700;text-transform:uppercase;">No experience records</td></tr>`;
+  return `<div style="font-family:'Outfit',sans-serif;color:#0f172a;line-height:1.5;background:#f1f5f9;padding:0;margin:-20px;"><div style="background:linear-gradient(135deg,#07101f 0%,#1e3a5f 60%,#1d4ed8 100%);padding:22px 28px;position:relative;overflow:hidden;"><div style="display:flex;justify-content:space-between;align-items:flex-start;position:relative;"><div><div style="font-size:24px;font-weight:900;color:#fff;letter-spacing:.05em;">KIDV <span style="color:#60a5fa;">TECH</span></div><div style="font-size:7px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.22em;margin-top:3px;">Full Employee Details Report</div></div><div style="text-align:right;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:8px 14px;"><div style="font-size:7px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.1em;">Confidential</div><div style="font-size:10px;font-weight:800;color:#fff;margin-top:1px;">${today}</div></div></div><div style="display:flex;align-items:center;gap:16px;margin-top:18px;position:relative;"><div style="width:60px;height:60px;background:linear-gradient(135deg,#3b82f6,#7c3aed);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#fff;border:2px solid rgba(255,255,255,.2);flex-shrink:0;">${(e.fName[0]||'?')+(e.lName[0]||'?')}</div><div><div style="font-size:22px;font-weight:900;color:#fff;text-transform:uppercase;line-height:1.1;">${vv(e.fName)} ${vv(e.lName)}</div><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;"><span style="background:rgba(255,255,255,.15);color:#fff;padding:3px 12px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;">${vv(e.job)}</span><span style="background:rgba(96,165,250,.25);color:#93c5fd;padding:3px 12px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;">${vv(e.dept)}</span></div></div><div style="margin-left:auto;text-align:right;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 16px;"><div style="font-size:7px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;">Employee ID</div><div style="font-size:20px;font-weight:900;color:#60a5fa;font-style:italic;">${vv(e.id)}</div></div></div></div><div style="padding:18px 22px;">${secBox('work','Work Information','linear-gradient(135deg,#1d4ed8,#2563eb)',row('Joining Date',e.doj)+row('Department',e.dept)+row('Location',e.workLocation)+row('Emp. Type',e.empType)+row('Manager',e.manager)+row('Shift',e.shift)+row('Week Off',e.weekoff)+row('OT Eligible',e.otEligible)+row('Notice Period',e.noticePeriod?e.noticePeriod+' Days':'—')+row('PF',e.pf))}${secBox('fingerprint','Legal & Statutory IDs','linear-gradient(135deg,#5b21b6,#7c3aed)',row('Aadhar Number',e.aadhar)+row('PAN Number',e.pan)+row('UAN (PF)',e.uan)+row('ESIC Number',e.esicNo)+row('Passport',e.passport))}${secBox('account_balance','Bank Details','linear-gradient(135deg,#065f46,#16a34a)',row('Bank Name',e.bankName)+row('Account Number',e.bankAcc)+row('IFSC Code',e.ifsc)+row('Account Type',e.accType)+row('Branch',e.bankBranch))}<div style="border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:14px;"><div style="background:linear-gradient(135deg,#0369a1,#0891b2);padding:10px 16px;"><span style="font-size:10px;font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:.08em;">Education Qualifications</span></div><table style="width:100%;border-collapse:collapse;background:#fff;"><thead><tr style="background:#ecfeff;border-bottom:2px solid #cffafe;"><th style="padding:8px 12px;text-align:left;font-size:8px;color:#0369a1;font-weight:800;text-transform:uppercase;">Degree</th><th style="padding:8px 12px;text-align:left;font-size:8px;color:#0369a1;font-weight:800;text-transform:uppercase;">University</th><th style="padding:8px 12px;text-align:left;font-size:8px;color:#0369a1;font-weight:800;text-transform:uppercase;">Year</th><th style="padding:8px 12px;text-align:left;font-size:8px;color:#0369a1;font-weight:800;text-transform:uppercase;">Grade</th><th style="padding:8px 12px;text-align:left;font-size:8px;color:#0369a1;font-weight:800;text-transform:uppercase;">Specialization</th></tr></thead><tbody>${eduRows}</tbody></table></div><div style="border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:14px;"><div style="background:linear-gradient(135deg,#07101f,#2563eb);padding:10px 16px;"><span style="font-size:10px;font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:.08em;">Work Experience History</span></div><table style="width:100%;border-collapse:collapse;background:#fff;"><thead><tr style="background:#eff6ff;border-bottom:2px solid #dbeafe;"><th style="padding:8px 12px;text-align:left;font-size:8px;color:#1d4ed8;font-weight:800;text-transform:uppercase;">Company</th><th style="padding:8px 12px;text-align:left;font-size:8px;color:#1d4ed8;font-weight:800;text-transform:uppercase;">Designation</th><th style="padding:8px 12px;text-align:left;font-size:8px;color:#1d4ed8;font-weight:800;text-transform:uppercase;">Period</th><th style="padding:8px 12px;text-align:left;font-size:8px;color:#1d4ed8;font-weight:800;text-transform:uppercase;">CTC</th><th style="padding:8px 12px;text-align:left;font-size:8px;color:#1d4ed8;font-weight:800;text-transform:uppercase;">Reason</th></tr></thead><tbody>${expRows}</tbody></table></div><div style="display:flex;justify-content:space-between;padding:10px 4px;border-top:1px dashed #e2e8f0;"><span style="font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;">KIDV Tech — Strictly Confidential</span><span style="font-size:8px;color:#94a3b8;font-weight:700;">${today}</span></div></div></div>`;
+}
+
+function buildProfileDesign(e,c,today,vv,ba){
+  const chip=(l,v2,bg='#f1f5f9',tc='#1e293b')=>v2&&vv(v2)!='—'?`<div style="background:${bg};border-radius:8px;padding:8px 10px;"><span style="font-size:7px;color:#94a3b8;display:block;text-transform:uppercase;font-weight:700;margin-bottom:2px;">${l}</span><span style="font-size:11px;font-weight:800;text-transform:uppercase;color:${tc};">${vv(v2)}</span></div>`:'';
+  return `<div style="font-family:'Outfit',sans-serif;color:#1e293b;"><div style="background:linear-gradient(135deg,#7c3aed,#2563eb,#0891b2);border-radius:14px;padding:22px;margin-bottom:16px;color:#fff;text-align:center;"><div style="width:68px;height:68px;background:rgba(255,255,255,.2);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;margin:0 auto 12px;border:3px solid rgba(255,255,255,.3);">${(e.fName[0]||'?')+(e.lName[0]||'?')}</div><div style="font-size:20px;font-weight:900;letter-spacing:.03em;">${vv(e.fName)} ${vv(e.lName)}</div><div style="font-size:11px;color:rgba(255,255,255,.75);margin-top:5px;font-weight:700;text-transform:uppercase;">${vv(e.job)}</div><div style="display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap;"><span style="background:rgba(255,255,255,.2);padding:4px 12px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;">${vv(e.dept)}</span><span style="background:rgba(255,255,255,.3);padding:4px 12px;border-radius:99px;font-size:9px;font-weight:900;text-transform:uppercase;">${vv(e.id)}</span></div></div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;"><div><div style="font-size:15px;font-weight:900;text-transform:uppercase;">KIDV <span style="color:#7c3aed;">TECH</span></div><div style="font-size:8px;color:#94a3b8;text-transform:uppercase;letter-spacing:.1em;">Employee Profile Card</div></div><div style="font-size:9px;color:#94a3b8;">${today}</div></div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;">${chip('Joining Date',e.doj,'#eff6ff','#1d4ed8')}${chip('Location',e.workLocation,'#eff6ff','#1d4ed8')}${chip('Manager',e.manager,'#f5f3ff','#6d28d9')}${chip('Notice Period',e.noticePeriod?e.noticePeriod+' Days':'N/A','#f5f3ff','#6d28d9')}${chip('Shift',e.shift,'#f1f5f9')}${chip('Week Off',e.weekoff,'#f1f5f9')}${chip('OT Eligible',e.otEligible,'#f1f5f9')}${chip('Confirmation',e.confirmDate,'#f1f5f9')}</div><div style="border-top:1px dashed #e2e8f0;padding-top:8px;display:flex;justify-content:space-between;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;"><span>KIDV Tech — Confidential Employee Profile</span><span>${today}</span></div></div>`;
+}
+
+function buildAccountsDesign(e,c,today,vv,ba){
+  const fmt2=v=>v&&parseFloat(v)>0?'₹'+parseFloat(v).toLocaleString('en-IN'):'—';
+  const n2=s=>parseFloat(s||0);
+  return `<div style="font-family:'Outfit',sans-serif;color:#1e293b;"><div style="background:linear-gradient(135deg,#064e3b,#065f46);border-radius:12px;padding:16px 22px;margin-bottom:16px;color:#fff;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:20px;font-weight:900;letter-spacing:.04em;">KIDV <span style="color:#6ee7b7;">TECH</span></div><div style="font-size:8px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.15em;margin-top:2px;">Accounts & Finance Record</div></div><div style="text-align:right;"><div style="font-size:10px;color:rgba(255,255,255,.5);">Date: ${today}</div><div style="background:#6ee7b7;color:#064e3b;padding:4px 12px;border-radius:99px;font-size:10px;font-weight:900;margin-top:6px;text-transform:uppercase;">Finance Use Only</div></div></div><div style="background:#f0fdf4;border:2px solid #bbf7d0;border-radius:12px;padding:14px 18px;margin-bottom:14px;"><div style="font-size:16px;font-weight:900;text-transform:uppercase;">${vv(e.fName)} ${vv(e.lName)}</div><div style="font-size:10px;color:#16a34a;text-transform:uppercase;font-weight:700;margin-top:2px;">${vv(e.job)} | ${vv(e.dept)} | ID: ${vv(e.id)}</div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;"><div style="border:1.5px solid #bbf7d0;border-radius:12px;overflow:hidden;"><div style="background:#065f46;padding:9px 14px;"><span style="font-size:10px;font-weight:900;color:#fff;text-transform:uppercase;">🏦 Bank Details</span></div><div style="padding:12px 14px;">${[['Bank Name',e.bankName],['Account No.',e.bankAcc],['IFSC Code',e.ifsc],['Account Type',e.accType],['Branch',e.bankBranch]].map(([l,v2])=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed #d1fae5;"><span style="font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;">${l}</span><span style="font-size:11px;font-weight:800;color:#065f46;text-transform:uppercase;">${vv(v2)}</span></div>`).join('')}</div></div><div style="border:1.5px solid #bbf7d0;border-radius:12px;overflow:hidden;"><div style="background:#065f46;padding:9px 14px;"><span style="font-size:10px;font-weight:900;color:#fff;text-transform:uppercase;">🔖 Legal IDs</span></div><div style="padding:12px 14px;">${[['Aadhar No.',e.aadhar],['PAN No.',e.pan],['UAN (PF)',e.uan],['ESIC No.',e.esicNo],['Passport',e.passport]].map(([l,v2])=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed #d1fae5;"><span style="font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;">${l}</span><span style="font-size:11px;font-weight:800;color:#065f46;text-transform:uppercase;">${vv(v2)}</span></div>`).join('')}</div></div></div><div style="background:#f0fdf4;border-radius:10px;padding:14px;border:1.5px solid #bbf7d0;text-align:center;"><div style="font-size:9px;color:#16a34a;text-transform:uppercase;font-weight:700;">Monthly CTC</div><div style="font-size:28px;font-weight:900;color:#065f46;">${fmt2(c.ctc)}</div><div style="font-size:9px;color:#94a3b8;">Net Take Home: ${fmt2(c.take)}</div></div><div style="border-top:1px dashed #d1fae5;padding-top:8px;margin-top:14px;display:flex;justify-content:space-between;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;"><span>KIDV Tech — Finance Record | Strictly Confidential</span><span>${today}</span></div></div>`;
+}
+
+function buildHRDesign(e,c,today,vv,ba,eduList,expList){
+  const kv=(l,v2)=>`<div style="display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px dashed #ede9fe;"><span style="font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;">${l}</span><span style="font-size:11px;font-weight:800;color:#3b0764;text-transform:uppercase;">${vv(v2)}</span></div>`;
+  return `<div style="font-family:'Outfit',sans-serif;color:#1e293b;"><div style="background:linear-gradient(135deg,#4c1d95,#7c3aed);border-radius:12px;padding:18px 22px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;color:#fff;"><div><div style="font-size:20px;font-weight:900;letter-spacing:.04em;">KIDV <span style="color:#c4b5fd;">TECH</span></div><div style="font-size:8px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.2em;margin-top:2px;">HR Record — Confidential</div></div><div style="text-align:right;background:rgba(255,255,255,.15);border-radius:10px;padding:10px 16px;"><div style="font-size:8px;color:rgba(255,255,255,.5);text-transform:uppercase;">Generated</div><div style="font-size:12px;font-weight:900;">${today}</div></div></div><div style="background:#f5f3ff;border:2px solid #ddd6fe;border-radius:12px;padding:14px 18px;margin-bottom:14px;"><div style="font-size:16px;font-weight:900;text-transform:uppercase;color:#3b0764;">${vv(e.fName)} ${vv(e.lName)}</div><div style="font-size:10px;color:#7c3aed;font-weight:700;text-transform:uppercase;margin-top:3px;">${vv(e.job)} | ${vv(e.dept)} | ${vv(e.id)}</div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;"><div style="border:1.5px solid #ddd6fe;border-radius:12px;overflow:hidden;"><div style="background:#4c1d95;padding:8px 14px;"><span style="font-size:10px;font-weight:900;color:#fff;text-transform:uppercase;">Work Details</span></div><div style="padding:12px 14px;">${kv('Joining Date',e.doj)}${kv('Location',e.workLocation)}${kv('Department',e.dept)}${kv('Manager',e.manager)}${kv('Shift',e.shift)}${kv('Week Off',e.weekoff)}${kv('Notice Period',e.noticePeriod?e.noticePeriod+' Days':'N/A')}${kv('Confirmation',e.confirmDate)}${kv('PF',e.pf)}${kv('OT Eligible',e.otEligible)}</div></div><div><div style="border:1.5px solid #ddd6fe;border-radius:12px;overflow:hidden;margin-bottom:12px;"><div style="background:#4c1d95;padding:8px 14px;"><span style="font-size:10px;font-weight:900;color:#fff;text-transform:uppercase;">Personal Details</span></div><div style="padding:12px 14px;">${kv('Date of Birth',e.dob)}${kv('Gender',e.gender)}${kv('Blood Group',e.blood)}${kv('Marital Status',e.marital)}${kv('Mobile',e.mobile)}${kv('Nationality',e.nationality)}</div></div><div style="border:1.5px solid #fce7f3;border-radius:12px;overflow:hidden;"><div style="background:#9d174d;padding:8px 14px;"><span style="font-size:10px;font-weight:900;color:#fff;text-transform:uppercase;">Family & Emergency</span></div><div style="padding:12px 14px;">${kv('Father',e.fatherName)}${kv('Mother',e.motherName)}${kv('Spouse',e.spouseName)}${kv('Em. Contact',e.emergName)}${kv('Em. Mobile',e.emergMobile)}${kv('Relation',e.emergRelation)}</div></div></div></div><div style="border-top:1px dashed #ddd6fe;padding-top:8px;display:flex;justify-content:space-between;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;"><span>KIDV Tech — HR Department Record</span><span>${today}</span></div></div>`;
+}
+
+function buildCompleteHTML(){
+  const e=E,c=C,today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+  const vv=s=>(s&&String(s).trim()&&String(s).trim()!='N/A'&&String(s).trim()!='--'&&String(s).trim()!='')?String(s).toUpperCase():'—';
+  const fmtv=v=>v&&parseFloat(v)>0?'₹'+parseFloat(v).toLocaleString('en-IN'):'—';
+  const n2=s=>parseFloat(s||0);
+  const eduList=e.eduList||[],expList=e.expList||[];
+  const earns=[['Basic Pay',c.basic],['HRA',n2(e.sal_hra)],['Conveyance',n2(e.sal_conv)],['Attendance Allw.',n2(e.sal_att)],['Washing Allw.',c.wash],['Education Allw.',n2(e.sal_edu)],['Special Allw.',n2(e.sal_spec)],['Flexi Pay',n2(e.sal_flexi)]].filter(r=>r[1]>0);
+  const dedRows=[];if(c.pfEmp>0)dedRows.push(['PF Employee (12%)',c.pfEmp]);if(c.esicEmp>0)dedRows.push(['ESIC Emp (0.75%)',c.esicEmp]);if(c.pt>0)dedRows.push(['Professional Tax',c.pt]);
+  const erRows=[['Gratuity (4.81%)',c.grat]];if(c.pfEr>0)erRows.unshift(['PF Employer (12%)',c.pfEr]);if(c.esicEr>0)erRows.splice(1,0,['ESIC ER (3.75%)',c.esicEr]);
+  return `<div style="font-family:'Outfit',sans-serif;padding:0;margin:-20px;background:#f0f4f8;"><div style="background:linear-gradient(135deg,#07101f,#1e3a5f,#1d4ed8);padding:24px 28px;color:#fff;"><div style="font-size:22px;font-weight:900;margin-bottom:4px;">KIDV <span style="color:#60a5fa;">TECH</span></div><div style="font-size:7px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.2em;">Complete Employee Report — ${today}</div><div style="margin-top:16px;background:rgba(255,255,255,.08);border-radius:10px;padding:12px 18px;"><div style="font-size:18px;font-weight:900;text-transform:uppercase;">${vv(e.fName)} ${vv(e.lName)}</div><div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:3px;">${vv(e.job)} · ${vv(e.dept)} · ID: ${vv(e.id)} · Joined: ${vv(e.doj)}</div></div></div><div style="padding:16px 22px;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;"><div style="background:#fff;border-radius:10px;padding:14px;"><div style="font-size:9px;color:#2563eb;font-weight:900;text-transform:uppercase;margin-bottom:8px;border-bottom:1px solid #dbeafe;padding-bottom:5px;">Work Details</div>${[['Dept',e.dept],['Location',e.workLocation],['Manager',e.manager],['Shift',e.shift],['Week Off',e.weekoff],['Notice',e.noticePeriod?e.noticePeriod+' Days':'—']].map(([l,v2])=>`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed #f1f5f9;"><span style="font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;">${l}</span><span style="font-size:10px;font-weight:800;color:#1e293b;text-transform:uppercase;">${vv(v2)}</span></div>`).join('')}</div><div style="background:#fff;border-radius:10px;padding:14px;"><div style="font-size:9px;color:#7c3aed;font-weight:900;text-transform:uppercase;margin-bottom:8px;border-bottom:1px solid #ede9fe;padding-bottom:5px;">Legal & Bank</div>${[['Aadhar',e.aadhar],['PAN',e.pan],['UAN',e.uan],['Bank',e.bankName],['Acc No.',e.bankAcc],['IFSC',e.ifsc]].map(([l,v2])=>`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed #f1f5f9;"><span style="font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;">${l}</span><span style="font-size:10px;font-weight:800;color:#1e293b;text-transform:uppercase;">${vv(v2)}</span></div>`).join('')}</div></div><div style="background:#fff;border-radius:10px;padding:14px;margin-bottom:12px;"><div style="font-size:9px;color:#1d4ed8;font-weight:900;text-transform:uppercase;margin-bottom:8px;border-bottom:1px solid #dbeafe;padding-bottom:5px;">Salary Architecture — Effective: ${vv(e.sal_effective_date||e.doj)}</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">${[['Earnings',earns.map(([l,v2])=>`<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:10px;border-bottom:1px dashed #f1f5f9;"><span style="color:#64748b;font-weight:700;text-transform:uppercase;">${l}</span><span style="font-weight:800;">${fmtv(v2)}</span></div>`).join('')+'<div style="display:flex;justify-content:space-between;padding:5px 0;border-top:2px solid #2563eb;margin-top:4px;font-weight:900;color:#2563eb;font-size:11px;"><span>GROSS</span><span>${fmtv(c.gross)}</span></div>','#2563eb'],['Deductions',dedRows.length?dedRows.map(([l,v2])=>`<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:10px;border-bottom:1px dashed #fee2e2;"><span style="color:#64748b;font-weight:700;text-transform:uppercase;">${l}</span><span style="font-weight:800;color:#ef4444;">${fmtv(v2)}</span></div>`).join('')+'<div style="display:flex;justify-content:space-between;padding:5px 0;border-top:2px solid #ef4444;margin-top:4px;font-weight:900;color:#ef4444;font-size:11px;"><span>TOTAL DED</span><span>${fmtv(c.totDed)}</span></div><div style="display:flex;justify-content:space-between;padding:4px 0;font-weight:900;color:#16a34a;font-size:12px;"><span>NET PAY</span><span>${fmtv(c.take)}</span></div>':'<div style="font-size:10px;color:#94a3b8;padding:6px 0;">No deductions</div>','#ef4444'],['ER & CTC',erRows.map(([l,v2])=>`<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:10px;border-bottom:1px dashed #fed7aa;"><span style="color:#64748b;font-weight:700;text-transform:uppercase;">${l}</span><span style="font-weight:800;color:#f97316;">${fmtv(v2)}</span></div>`).join('')+'<div style="background:#07101f;border-radius:8px;padding:10px;margin-top:8px;text-align:center;"><div style="font-size:7px;color:rgba(255,255,255,.5);text-transform:uppercase;">Monthly CTC</div><div style="font-size:18px;font-weight:900;color:#6ee7b7;">${fmtv(c.ctc)}</div></div>','#f97316']].map(([title,content,color])=>`<div><div style="font-size:8px;color:${color};font-weight:900;text-transform:uppercase;margin-bottom:8px;">${title}</div>${content}</div>`).join('')}</div></div>${eduList.length?`<div style="background:#fff;border-radius:10px;padding:14px;margin-bottom:12px;overflow-x:auto;"><div style="font-size:9px;color:#0891b2;font-weight:900;text-transform:uppercase;margin-bottom:8px;">Education Qualifications</div><table style="width:100%;border-collapse:collapse;font-size:10px;"><thead><tr style="background:#ecfeff;"><th style="padding:6px 10px;text-align:left;font-size:8px;color:#0369a1;font-weight:800;text-transform:uppercase;">Degree</th><th style="padding:6px 10px;text-align:left;font-size:8px;color:#0369a1;font-weight:800;text-transform:uppercase;">University</th><th style="padding:6px 10px;text-align:left;font-size:8px;color:#0369a1;font-weight:800;text-transform:uppercase;">Year</th><th style="padding:6px 10px;text-align:left;font-size:8px;color:#0369a1;font-weight:800;text-transform:uppercase;">Grade</th></tr></thead><tbody>${eduList.map((r,i)=>`<tr style="background:${i%2?'#f0fdfe':'#fff'};"><td style="padding:7px 10px;font-weight:800;text-transform:uppercase;">${r.degree||'—'}</td><td style="padding:7px 10px;color:#64748b;">${r.university||'—'}</td><td style="padding:7px 10px;color:#64748b;">${r.year||'—'}</td><td style="padding:7px 10px;"><span style="background:#dcfce7;color:#16a34a;padding:2px 8px;border-radius:99px;font-size:9px;font-weight:800;">${r.grade||'—'}</span></td></tr>`).join('')}</tbody></table></div>`:''}<div style="display:flex;justify-content:space-between;font-size:8px;color:#94a3b8;text-transform:uppercase;border-top:1px dashed #e2e8f0;padding-top:8px;"><span>KIDV Tech — Strictly Confidential HR Document</span><span>${today}</span></div></div></div>`;
+}
+
+function buildIDCard(){
+  const e=E,today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+  const vv=s=>(s&&String(s).trim()&&String(s).trim()!='N/A'&&String(s).trim()!='--'&&String(s).trim()!='')?String(s).toUpperCase():'—';
+  return `<div style="font-family:'Outfit',sans-serif;"><div style="background:#eff6ff;border:1px solid #dbeafe;border-radius:10px;padding:10px 16px;margin-bottom:20px;display:flex;align-items:center;gap:8px;"><span class="material-icons-round" style="font-size:16px;color:#2563eb;">info</span><span style="font-size:11px;color:#1d4ed8;font-weight:700;">Print at CR80 size (85.6mm × 54mm) — Standard ID Card. Laminate for best results.</span></div><div style="display:flex;justify-content:center;"><div style="width:360px;height:226px;border-radius:18px;overflow:hidden;position:relative;font-family:'Outfit',sans-serif;box-shadow:0 16px 48px rgba(0,0,0,.35);"><div style="position:absolute;left:0;top:0;width:110px;height:100%;background:linear-gradient(180deg,#07101f 0%,#1e3a5f 100%);display:flex;flex-direction:column;align-items:center;padding:16px 8px;"><div style="text-align:center;margin-bottom:14px;"><div style="font-size:13px;font-weight:900;color:#fff;line-height:1.1;">KIDV</div><div style="font-size:13px;font-weight:900;color:#60a5fa;">TECH</div><div style="font-size:5.5px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.18em;line-height:1.4;margin-top:4px;">Employee<br>Identity Card</div></div><div style="width:62px;height:62px;background:linear-gradient(135deg,#3b82f6,#7c3aed);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#fff;border:2.5px solid rgba(255,255,255,.2);">${(e.fName[0]||'?')+(e.lName[0]||'?')}</div><div style="margin-top:10px;text-align:center;"><div style="font-size:5.5px;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:2px;">Blood</div><div style="font-size:14px;font-weight:900;color:#f87171;line-height:1;">${vv(e.blood)}</div></div><div style="margin-top:auto;background:rgba(255,255,255,.1);border-radius:6px;padding:5px 8px;text-align:center;width:100%;"><div style="font-size:5px;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:1px;">Device Code</div><div style="font-size:10px;font-weight:900;color:#60a5fa;">${vv(e.deviceCode)}</div></div></div><div style="position:absolute;left:110px;top:0;right:0;height:100%;background:linear-gradient(135deg,#f8fafc 0%,#eff6ff 100%);padding:14px 14px 10px;"><div style="position:absolute;top:12px;right:12px;background:#07101f;border-radius:8px;padding:4px 10px;"><div style="font-size:5.5px;color:rgba(255,255,255,.4);text-transform:uppercase;">ID</div><div style="font-size:10px;font-weight:900;color:#60a5fa;">${vv(e.id)}</div></div><div style="margin-bottom:10px;padding-right:70px;"><div style="font-size:15px;font-weight:900;color:#0f172a;text-transform:uppercase;line-height:1.2;">${vv(e.fName)} ${vv(e.lName)}</div><div style="font-size:9px;color:#2563eb;font-weight:800;text-transform:uppercase;margin-top:3px;">${vv(e.job)}</div><div style="display:flex;gap:5px;margin-top:5px;"><span style="background:#eff6ff;color:#1d4ed8;padding:2px 7px;border-radius:99px;font-size:7px;font-weight:800;text-transform:uppercase;border:1px solid #bfdbfe;">${vv(e.dept)}</span></div></div><div style="height:1px;background:linear-gradient(90deg,#3b82f6,#7c3aed,transparent);margin-bottom:9px;"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;margin-bottom:9px;">${[['Joining Date',e.doj],['Mobile',e.mobile],['Shift',e.shift],['Week Off',e.weekoff]].map(([l,v2])=>`<div><div style="font-size:6px;color:#94a3b8;font-weight:700;text-transform:uppercase;margin-bottom:1px;">${l}</div><div style="font-size:9px;font-weight:800;color:#1e293b;text-transform:uppercase;">${vv(v2)}</div></div>`).join('')}</div><div style="background:linear-gradient(135deg,#fef2f2,#ffe4e6);border-radius:8px;padding:6px 10px;border:1px solid #fecaca;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:5.5px;color:#dc2626;font-weight:800;text-transform:uppercase;margin-bottom:2px;">☎ Emergency</div><div style="font-size:9px;font-weight:800;color:#1e293b;text-transform:uppercase;">${vv(e.emergName)} · ${vv(e.emergRelation)}</div></div><div style="font-size:9px;font-weight:900;color:#dc2626;">${vv(e.emergMobile)}</div></div><div style="position:absolute;bottom:7px;right:12px;font-size:6px;color:#94a3b8;font-weight:700;">${today}</div></div><div style="position:absolute;top:0;left:110px;right:0;height:3px;background:linear-gradient(90deg,#3b82f6,#7c3aed,#0891b2);"></div></div></div></div>`;
+}
+
+function buildCTCHTML(){
+  const e=E,c=C,today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+  const fv=v=>v&&parseFloat(v)>0?'₹'+parseFloat(v).toLocaleString('en-IN'):'—';
+  const n2=s=>parseFloat(s||0);
+  const earns=[['Basic Pay',c.basic],['HRA',n2(e.sal_hra)],['Conveyance Allw.',n2(e.sal_conv)],['Attendance Allw.',n2(e.sal_att)],['Washing Allw.',c.wash],['Education Allw.',n2(e.sal_edu)],['Special Allw.',n2(e.sal_spec)],['Flexi Pay',n2(e.sal_flexi)]].filter(r=>r[1]>0);
+  const erRows=[];if(c.pfEr>0)erRows.push(['PF — Employer',c.pfEr]);if(c.esicEr>0)erRows.push(['ESIC — Employer',c.esicEr]);erRows.push(['Gratuity (4.81%)',c.grat]);
+  const dedRows=[];if(c.pfEmp>0)dedRows.push(['PF — Employee',c.pfEmp]);if(c.esicEmp>0)dedRows.push(['ESIC — Employee',c.esicEmp]);if(c.pt>0)dedRows.push(['Professional Tax',c.pt]);
+  const trow=(l,m)=>`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed #e2e8f0;"><span style="font-size:10px;color:#64748b;font-weight:700;text-transform:uppercase;">${l}</span><div style="display:flex;gap:20px;"><span style="font-size:11px;font-weight:800;min-width:80px;text-align:right;">${fv(m)}</span><span style="font-size:10px;color:#94a3b8;min-width:90px;text-align:right;">${m&&m>0?'₹'+parseFloat(m*12).toLocaleString('en-IN'):'—'}</span></div></div>`;
+  return `<div style="font-family:'Outfit',sans-serif;background:#f0f4f8;margin:-20px;padding:0;"><div style="background:linear-gradient(135deg,#07101f,#1e3a5f,#4c1d95);padding:20px 28px;color:#fff;"><div style="font-size:22px;font-weight:900;margin-bottom:4px;">KIDV <span style="color:#a78bfa;">TECH</span></div><div style="font-size:7px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.2em;">CTC Breakup Statement — ${today}</div><div style="margin-top:14px;background:rgba(255,255,255,.08);border-radius:10px;padding:12px 18px;display:flex;justify-content:space-between;"><div><div style="font-size:16px;font-weight:900;text-transform:uppercase;">${e.fName} ${e.lName}</div><div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:3px;">${v(e.job)} · ${v(e.dept)} · ${v(e.id)}</div></div><div style="text-align:right;"><div style="font-size:7px;color:rgba(255,255,255,.35);">Effective From</div><div style="font-size:14px;font-weight:900;color:#a78bfa;">${v(e.sal_effective_date||e.doj)}</div></div></div></div><div style="padding:16px 22px;"><div style="background:#fff;border-radius:12px;padding:14px 18px;margin-bottom:12px;"><div style="font-size:9px;color:#2563eb;font-weight:900;text-transform:uppercase;margin-bottom:10px;border-bottom:2px solid #dbeafe;padding-bottom:7px;display:flex;justify-content:space-between;align-items:center;"><span>A. Earnings</span><div style="display:flex;gap:20px;"><span style="min-width:80px;text-align:right;color:#94a3b8;">Monthly</span><span style="min-width:90px;text-align:right;color:#94a3b8;">Annual</span></div></div>${earns.map(([l,m])=>trow(l,m)).join('')}<div style="display:flex;justify-content:space-between;padding:8px 0;border-top:2px solid #2563eb;margin-top:4px;"><span style="font-size:11px;font-weight:900;color:#2563eb;text-transform:uppercase;">Gross Monthly</span><div style="display:flex;gap:20px;"><span style="font-size:13px;font-weight:900;color:#2563eb;min-width:80px;text-align:right;">${fv(c.gross)}</span><span style="font-size:11px;font-weight:800;color:#2563eb;min-width:90px;text-align:right;">${fv(c.gross*12)}</span></div></div></div><div style="background:#fff;border-radius:12px;padding:14px 18px;margin-bottom:12px;"><div style="font-size:9px;color:#f97316;font-weight:900;text-transform:uppercase;margin-bottom:10px;border-bottom:2px solid #fed7aa;padding-bottom:7px;">B. Employer Contributions</div>${erRows.map(([l,m])=>trow(l,m)).join('')}<div style="background:#07101f;border-radius:10px;padding:12px 16px;margin-top:8px;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;">Monthly CTC</div><div style="font-size:18px;font-weight:900;color:#60a5fa;">${fv(c.ctc)}</div></div><div style="text-align:right;"><div style="font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;">Annual CTC</div><div style="font-size:22px;font-weight:900;color:#a78bfa;">${fv(c.ctc*12)}</div></div></div></div><div style="background:#fff;border-radius:12px;padding:14px 18px;margin-bottom:12px;"><div style="font-size:9px;color:#ef4444;font-weight:900;text-transform:uppercase;margin-bottom:10px;border-bottom:2px solid #fecaca;padding-bottom:7px;">C. Employee Deductions</div>${dedRows.length?dedRows.map(([l,m])=>trow(l,m)).join(''):'<div style="font-size:10px;color:#94a3b8;padding:6px 0;text-align:center;">No Deductions</div>'}<div style="background:linear-gradient(135deg,#065f46,#16a34a);border-radius:10px;padding:12px 16px;margin-top:8px;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:8px;color:rgba(255,255,255,.5);text-transform:uppercase;">Net Take Home (Monthly)</div><div style="font-size:22px;font-weight:900;color:#fff;">${fv(c.take)}</div></div><div style="text-align:right;"><div style="font-size:8px;color:rgba(255,255,255,.5);text-transform:uppercase;">Annual Take Home</div><div style="font-size:18px;font-weight:900;color:#6ee7b7;">${fv(c.take*12)}</div></div></div></div><div style="display:flex;justify-content:space-between;font-size:8px;color:#94a3b8;text-transform:uppercase;padding-top:8px;border-top:1px dashed #e2e8f0;"><span>KIDV Tech — Confidential CTC Statement</span><span>${today}</span></div></div></div>`;
+}
+</script>
+</body>
+</html>
