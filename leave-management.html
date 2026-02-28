@@ -13,19 +13,19 @@
   --blue:#2563eb;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--purple:#8b5cf6;--amber:#f59e0b;
   --text-m:rgba(148,163,184,.65);--text-d:rgba(148,163,184,.32);
   --border:rgba(255,255,255,.06);--border-b:rgba(255,255,255,.11);
-  --glass:rgba(255,255,255,.04);--glass-h:rgba(255,255,255,.08);
+  --glass:rgba(255,255,255,.04);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflow:hidden;}
 .app{display:flex;height:100vh;}
 
-/* ═══ SIDEBAR ═══ */
+/* SIDEBAR */
 .sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden;border-right:1px solid rgba(255,255,255,.05);box-shadow:8px 0 40px rgba(0,0,0,.35);}
 .sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 65%);pointer-events:none;z-index:0;}
 .sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09) 0%,transparent 65%);pointer-events:none;z-index:0;}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:199;backdrop-filter:blur(6px);}
 .logo-area{position:relative;z-index:1;flex-shrink:0;overflow:hidden;background:#fff;border-bottom:1px solid rgba(255,255,255,.06);}
-.logo-area img{width:100%;height:auto;object-fit:cover;display:block;}
+.logo-area img{width:100%;height:auto;display:block;}
 .nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 10px 4px;position:relative;z-index:1;}
 .nav::-webkit-scrollbar{width:3px;}.nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:99px;}
 .nav-sec{font-size:8.5px;color:var(--text-d);font-weight:700;text-transform:uppercase;letter-spacing:.2em;padding:0 8px;margin:16px 0 5px;display:flex;align-items:center;gap:8px;}
@@ -43,7 +43,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .ic-adm{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
 .nav a.active .ic{transform:scale(1.08);box-shadow:0 0 14px rgba(37,99,235,.4);}
 .nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
-.user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--glass);margin-bottom:8px;border:1px solid var(--border-b);transition:background .18s;}
+.user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--glass);margin-bottom:8px;border:1px solid var(--border-b);}
 .user-av{width:33px;height:33px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
 .user-name{font-size:10.5px;font-weight:700;color:#fff;text-transform:uppercase;}
 .user-role{font-size:8px;color:var(--text-d);font-weight:500;text-transform:uppercase;margin-top:1px;}
@@ -51,7 +51,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;}
 .logout-btn .material-icons-round{font-size:14px;}
 
-/* ═══ MAIN ═══ */
+/* MAIN */
 .main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:var(--sidebar-w);}
 .topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:13px 26px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:14px;box-shadow:0 1px 4px rgba(0,0,0,.05);}
 .topbar-left{display:flex;align-items:center;gap:13px;}
@@ -73,6 +73,8 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .btn-green{background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 4px 14px rgba(16,185,129,.3);}
 .btn-green:hover{transform:translateY(-1px);}
 .btn-amber{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;box-shadow:0 4px 14px rgba(245,158,11,.3);}
+.btn-red{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;box-shadow:0 4px 14px rgba(239,68,68,.3);}
+.btn-red:hover{transform:translateY(-1px);}
 .btn-ghost{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}
 .btn-ghost:hover{background:#e2e8f0;}
 .btn .material-icons-round{font-size:14px;}
@@ -81,9 +83,10 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
 
 /* TAB PANELS */
-.tab-panel{display:none;}.tab-panel.active{display:block;}
+.tab-panel{display:none;animation:fadeIn .25s ease;}.tab-panel.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
 
-/* ═══ SUMMARY CARDS ═══ */
+/* SUMMARY CARDS */
 .summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px;}
 .sum-card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:17px 19px;position:relative;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:all .2s;}
 .sum-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.09);}
@@ -110,12 +113,12 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .sum-lwp .sum-bar-fill{background:linear-gradient(90deg,#ef4444,#f87171);}
 .sum-remain{font-size:9px;font-weight:700;margin-top:6px;}
 
-/* ═══ CARD ═══ */
+/* CARD */
 .card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
 .card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
 .card-title{font-size:12px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.08em;}
 
-/* ═══ MAIN GRID ═══ */
+/* MAIN GRID */
 .main-grid{display:grid;grid-template-columns:1fr 360px;gap:16px;align-items:start;}
 
 /* FILTER ROW */
@@ -126,11 +129,10 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .search-box:focus-within{border-color:#2563eb;background:#fff;}
 .search-box .material-icons-round{font-size:16px;color:#94a3b8;flex-shrink:0;}
 .search-box input{border:none;background:transparent;font-family:'Outfit',sans-serif;font-size:11.5px;font-weight:500;color:#1e293b;outline:none;width:100%;}
-.search-box input::placeholder{color:#94a3b8;}
 
 /* TABLE */
 .tbl-wrap{border-radius:12px;overflow:hidden;border:1px solid #f1f5f9;overflow-x:auto;}
-table{width:100%;border-collapse:collapse;font-size:11.5px;min-width:640px;}
+table{width:100%;border-collapse:collapse;font-size:11.5px;min-width:700px;}
 thead th{background:#f8fafc;padding:10px 14px;font-size:8.5px;color:#94a3b8;text-transform:uppercase;font-weight:700;text-align:left;white-space:nowrap;letter-spacing:.06em;}
 tbody tr{border-top:1px solid #f8fafc;transition:background .12s;}
 tbody tr:hover{background:#fafafa;}
@@ -145,7 +147,7 @@ tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercas
 .badge-pending{background:#fef3c7;color:#d97706;}
 .badge-approved{background:#dcfce7;color:#16a34a;}
 .badge-rejected{background:#fee2e2;color:#ef4444;}
-.badge-cancelled{background:#f1f5f9;color:#94a3b8;}
+.badge-cancelled{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0;}
 .ltype{display:inline-flex;padding:3px 9px;border-radius:7px;font-size:9px;font-weight:700;text-transform:uppercase;}
 .ltype-cl{background:#eff6ff;color:#2563eb;}
 .ltype-sl{background:#f0fdf4;color:#10b981;}
@@ -158,6 +160,7 @@ tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercas
 .act-btn{width:29px;height:29px;border-radius:8px;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .15s;}
 .act-approve{background:#f0fdf4;color:#10b981;}.act-approve:hover{background:#10b981;color:#fff;}
 .act-reject{background:#fef2f2;color:#ef4444;}.act-reject:hover{background:#ef4444;color:#fff;}
+.act-cancel{background:#fef3c7;color:#d97706;}.act-cancel:hover{background:#f59e0b;color:#fff;}
 .act-view{background:#eff6ff;color:#2563eb;}.act-view:hover{background:#2563eb;color:#fff;}
 .act-btn .material-icons-round{font-size:14px;}
 
@@ -169,7 +172,7 @@ tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercas
 .pg-btn.active{background:#2563eb;color:#fff;border-color:#2563eb;}
 .pg-btn:hover:not(.active){background:#f1f5f9;}
 
-/* ═══ APPLY LEAVE FORM ═══ */
+/* APPLY LEAVE FORM */
 .form-group{margin-bottom:13px;}
 .form-label{font-size:8.5px;font-weight:700;text-transform:uppercase;color:#64748b;letter-spacing:.08em;margin-bottom:5px;display:block;}
 .form-inp,.form-sel,.form-textarea{width:100%;padding:9px 12px;border-radius:9px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:11.5px;font-weight:600;color:#1e293b;background:#f8fafc;transition:all .15s;}
@@ -179,11 +182,18 @@ tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercas
 .date-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .days-pill{display:inline-flex;align-items:center;gap:5px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:99px;padding:4px 12px;font-size:11px;font-weight:800;color:#2563eb;margin-top:8px;}
 
-/* BALANCE INDICATOR (shown on form when emp+type selected) */
+/* BALANCE INDICATOR */
 .balance-info{border-radius:10px;padding:10px 13px;font-size:11px;font-weight:700;margin-bottom:10px;display:none;align-items:center;gap:8px;}
 .balance-ok{background:#f0fdf4;border:1px solid #bbf7d0;color:#10b981;}
 .balance-warn{background:#fef2f2;border:1px solid #fecaca;color:#ef4444;}
 .balance-info .material-icons-round{font-size:16px;}
+
+/* ── CANCEL CONFIRMATION BANNER ── */
+.cancel-banner{background:#fff7ed;border:1.5px solid #fed7aa;border-radius:12px;padding:14px 16px;margin-bottom:14px;display:none;}
+.cancel-banner.show{display:flex;align-items:flex-start;gap:12px;}
+.cancel-banner .material-icons-round{font-size:22px;color:#f59e0b;flex-shrink:0;margin-top:1px;}
+.cancel-banner-title{font-size:12px;font-weight:800;text-transform:uppercase;color:#92400e;margin-bottom:4px;}
+.cancel-banner-sub{font-size:10px;color:#b45309;font-weight:600;}
 
 /* CALENDAR */
 .cal-wrap{background:#f8fafc;border-radius:11px;padding:12px;}
@@ -199,6 +209,7 @@ tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercas
 .cal-day.today{background:#2563eb;color:#fff;font-weight:900;}
 .cal-day.leave{background:#fee2e2;color:#ef4444;}
 .cal-day.holiday{background:#fef3c7;color:#d97706;}
+.cal-day.cancelled{background:#f1f5f9;color:#94a3b8;text-decoration:line-through;}
 .cal-day.empty{color:transparent;cursor:default;}
 .cal-legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:9px;}
 .cal-leg-item{display:flex;align-items:center;gap:4px;font-size:7.5px;font-weight:700;color:#64748b;text-transform:uppercase;}
@@ -207,12 +218,8 @@ tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercas
 /* HOLIDAY LIST */
 .hol-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed #f1f5f9;}
 .hol-item:last-child{border-bottom:none;}
-.hol-dd{font-size:19px;font-weight:900;color:#2563eb;line-height:1;}
-.hol-mm{font-size:7.5px;font-weight:700;color:#94a3b8;text-transform:uppercase;}
-.hol-nm{font-size:11px;font-weight:700;text-transform:uppercase;color:#0f172a;}
-.hol-tp{font-size:8px;font-weight:600;color:#94a3b8;text-transform:uppercase;}
 
-/* ═══ LEAVE REPORT TAB ═══ */
+/* LEAVE REPORT */
 .report-filters{display:flex;gap:10px;align-items:center;margin-bottom:18px;flex-wrap:wrap;}
 .rpt-tbl-wrap{border-radius:12px;overflow:hidden;border:1px solid #ecf0f6;overflow-x:auto;}
 .rpt-tbl{width:100%;border-collapse:collapse;font-size:11px;min-width:800px;}
@@ -228,7 +235,7 @@ tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercas
 .rpt-cell-lwp{color:#ef4444;}
 .rpt-summary-row td{background:#f0fdf4;font-weight:800;color:#0f172a;}
 
-/* ═══ BALANCE MANAGEMENT TAB ═══ */
+/* BALANCE TAB */
 .bal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px;}
 .bal-card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:all .2s;}
 .bal-card:hover{box-shadow:0 6px 20px rgba(0,0,0,.09);transform:translateY(-1px);}
@@ -243,10 +250,10 @@ tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercas
 .bal-type-inp:focus{outline:none;border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
 .bal-used{font-size:9px;font-weight:600;color:#94a3b8;margin-top:4px;display:block;}
 
-/* ═══ MODAL ═══ */
+/* MODAL */
 .mo{position:fixed;inset:0;background:rgba(7,16,31,.65);backdrop-filter:blur(6px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}
 .mo.open{opacity:1;pointer-events:all;}
-.mb{background:#fff;border-radius:20px;width:90%;max-width:500px;max-height:90vh;overflow-y:auto;box-shadow:0 30px 70px rgba(0,0,0,.22);transform:translateY(20px);transition:transform .25s;}
+.mb{background:#fff;border-radius:20px;width:90%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 30px 70px rgba(0,0,0,.22);transform:translateY(20px);transition:transform .25s;}
 .mb::-webkit-scrollbar{width:4px;}.mb::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
 .mo.open .mb{transform:translateY(0);}
 .mh{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #f1f5f9;position:sticky;top:0;background:#fff;z-index:1;border-radius:20px 20px 0 0;}
@@ -259,28 +266,43 @@ tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercas
 .detail-lbl{font-size:9px;font-weight:700;text-transform:uppercase;color:#94a3b8;}
 .detail-val{font-size:11.5px;font-weight:700;text-transform:uppercase;color:#0f172a;}
 
+/* CANCEL MODAL */
+.cancel-mo{position:fixed;inset:0;background:rgba(7,16,31,.72);backdrop-filter:blur(8px);z-index:600;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .22s;}
+.cancel-mo.open{opacity:1;pointer-events:all;}
+.cancel-mb{background:#fff;border-radius:20px;width:90%;max-width:440px;box-shadow:0 30px 70px rgba(0,0,0,.28);transform:scale(.94);transition:transform .22s;}
+.cancel-mo.open .cancel-mb{transform:scale(1);}
+.cancel-header{padding:20px 22px 16px;text-align:center;border-bottom:1px solid #f1f5f9;}
+.cancel-icon{width:56px;height:56px;background:#fff7ed;border-radius:16px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;}
+.cancel-icon .material-icons-round{font-size:28px;color:#f59e0b;}
+.cancel-title{font-size:14px;font-weight:900;text-transform:uppercase;color:#0f172a;letter-spacing:.05em;}
+.cancel-sub{font-size:11px;color:#64748b;margin-top:4px;font-weight:500;}
+.cancel-body{padding:18px 22px;}
+.cancel-detail-card{background:#f8fafc;border-radius:12px;border:1px solid #ecf0f6;padding:14px;}
+.cancel-detail-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed #f1f5f9;}
+.cancel-detail-row:last-child{border-bottom:none;}
+.cancel-dlbl{font-size:9px;font-weight:700;text-transform:uppercase;color:#94a3b8;}
+.cancel-dval{font-size:11px;font-weight:800;text-transform:uppercase;color:#1e293b;}
+.cancel-reason-inp{width:100%;padding:10px 13px;border-radius:9px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;color:#1e293b;background:#f8fafc;resize:none;height:72px;margin-top:12px;transition:all .15s;}
+.cancel-reason-inp:focus{outline:none;border-color:#f59e0b;background:#fff;box-shadow:0 0 0 3px rgba(245,158,11,.08);}
+.cancel-footer{display:flex;gap:10px;padding:0 22px 20px;}
+.balance-restore-tag{display:inline-flex;align-items:center;gap:5px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:99px;padding:4px 12px;font-size:9px;font-weight:800;color:#10b981;text-transform:uppercase;margin-top:8px;}
+
 /* TOAST */
-.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;max-width:320px;box-shadow:0 8px 24px rgba(0,0,0,.2);}
+.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;max-width:340px;box-shadow:0 8px 24px rgba(0,0,0,.2);}
 .toast.show{transform:translateY(0);opacity:1;}
 .toast.success{background:#065f46;border-left:4px solid #6ee7b7;}
 .toast.error{background:#7f1d1d;border-left:4px solid #fca5a5;}
 .toast.warn{background:#78350f;border-left:4px solid #fcd34d;}
+.toast.cancel-t{background:#1c1917;border-left:4px solid #f59e0b;}
 .toast .material-icons-round{font-size:16px;flex-shrink:0;}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 
 @media(max-width:1200px){.main-grid{grid-template-columns:1fr;}}
 @media(max-width:1100px){.summary-grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:768px){
-  .sidebar{transform:translateX(-100%);}
-  .sidebar.open{transform:translateX(0);}
-  .sidebar-overlay.open{display:block;}
-  .main{margin-left:0!important;}
-  .menu-btn{display:flex!important;}
-  .topbar,.scroll{padding:11px 14px;}
-  .summary-grid{grid-template-columns:repeat(2,1fr);}
-  .tab-bar{overflow-x:auto;}
-  .bal-types{grid-template-columns:1fr 1fr 1fr;}
+  .sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}
+  .sidebar-overlay.open{display:block;}.main{margin-left:0!important;}
+  .menu-btn{display:flex!important;}.topbar,.scroll{padding:11px 14px;}
+  .summary-grid{grid-template-columns:repeat(2,1fr);}.tab-bar{overflow-x:auto;}
 }
 </style>
 </head>
@@ -288,7 +310,7 @@ tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercas
 <div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
 <div class="app">
 
-<!-- ═══ SIDEBAR ═══ -->
+<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
   <div class="logo-area"><img src="logo.png" alt="KIDV Tech"></div>
   <nav class="nav">
@@ -312,15 +334,14 @@ tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercas
     <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">shield</span></span>Roles &amp; Perms</a>
   </nav>
   <div class="nav-bottom">
-    <div class="user-info">
-      <div class="user-av" id="sideAvatar">SA</div>
+    <div class="user-info"><div class="user-av" id="sideAvatar">SA</div>
       <div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Administrator</div></div>
     </div>
     <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
   </div>
 </aside>
 
-<!-- ═══ MAIN ═══ -->
+<!-- MAIN -->
 <div class="main">
   <div class="topbar">
     <div class="topbar-left">
@@ -332,70 +353,33 @@ tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercas
     </div>
     <div class="topbar-actions">
       <div class="tab-bar">
-        <button class="tab-btn active" onclick="switchTab('applications')">
-          <span class="material-icons-round">list_alt</span>Applications
-        </button>
-        <button class="tab-btn" onclick="switchTab('balance')">
-          <span class="material-icons-round">account_balance_wallet</span>Balance
-        </button>
-        <button class="tab-btn" onclick="switchTab('report')">
-          <span class="material-icons-round">bar_chart</span>Report
-        </button>
+        <button class="tab-btn active" id="tab-btn-applications" onclick="switchTab('applications',this)"><span class="material-icons-round">list_alt</span>Applications</button>
+        <button class="tab-btn" id="tab-btn-balance" onclick="switchTab('balance',this)"><span class="material-icons-round">account_balance_wallet</span>Balance</button>
+        <button class="tab-btn" id="tab-btn-report" onclick="switchTab('report',this)"><span class="material-icons-round">bar_chart</span>Report</button>
       </div>
-      <button class="btn btn-blue" onclick="exportLeaves()">
-        <span class="material-icons-round">download</span>Export
-      </button>
+      <button class="btn btn-blue" onclick="exportLeaves()"><span class="material-icons-round">download</span>Export</button>
     </div>
   </div>
 
   <div class="scroll">
-
-    <!-- ═══ TAB: APPLICATIONS ═══ -->
+    <!-- TAB: APPLICATIONS -->
     <div id="tab-applications" class="tab-panel active">
-      <!-- Summary Cards -->
       <div class="summary-grid">
-        <div class="sum-card sum-cl">
-          <div class="sum-icon"><span class="material-icons-round">beach_access</span></div>
-          <div class="sum-label">Casual Leave (CL)</div>
-          <div class="sum-counts"><span class="sum-used" id="cl-used">0</span><span class="sum-total">/ <span id="cl-total">12</span> Days</span></div>
-          <div class="sum-bar"><div class="sum-bar-fill" id="cl-bar" style="width:0%"></div></div>
-          <div class="sum-remain" id="cl-remain" style="color:#10b981;"></div>
-        </div>
-        <div class="sum-card sum-sl">
-          <div class="sum-icon"><span class="material-icons-round">medical_services</span></div>
-          <div class="sum-label">Sick Leave (SL)</div>
-          <div class="sum-counts"><span class="sum-used" id="sl-used">0</span><span class="sum-total">/ <span id="sl-total">7</span> Days</span></div>
-          <div class="sum-bar"><div class="sum-bar-fill" id="sl-bar" style="width:0%"></div></div>
-          <div class="sum-remain" id="sl-remain" style="color:#10b981;"></div>
-        </div>
-        <div class="sum-card sum-pl">
-          <div class="sum-icon"><span class="material-icons-round">flight_takeoff</span></div>
-          <div class="sum-label">Privilege Leave (PL)</div>
-          <div class="sum-counts"><span class="sum-used" id="pl-used">0</span><span class="sum-total">/ <span id="pl-total">15</span> Days</span></div>
-          <div class="sum-bar"><div class="sum-bar-fill" id="pl-bar" style="width:0%"></div></div>
-          <div class="sum-remain" id="pl-remain" style="color:#10b981;"></div>
-        </div>
-        <div class="sum-card sum-lwp">
-          <div class="sum-icon"><span class="material-icons-round">money_off</span></div>
-          <div class="sum-label">Loss of Pay (LWP)</div>
-          <div class="sum-counts"><span class="sum-used" id="lwp-used">0</span><span class="sum-total">Days</span></div>
-          <div class="sum-bar"><div class="sum-bar-fill" id="lwp-bar" style="width:0%"></div></div>
-          <div class="sum-remain" id="lwp-remain"></div>
-        </div>
+        <div class="sum-card sum-cl"><div class="sum-icon"><span class="material-icons-round">beach_access</span></div><div class="sum-label">Casual Leave (CL)</div><div class="sum-counts"><span class="sum-used" id="cl-used">0</span><span class="sum-total">/ <span id="cl-total">12</span> Days</span></div><div class="sum-bar"><div class="sum-bar-fill" id="cl-bar" style="width:0%"></div></div><div class="sum-remain" id="cl-remain" style="color:#10b981;"></div></div>
+        <div class="sum-card sum-sl"><div class="sum-icon"><span class="material-icons-round">medical_services</span></div><div class="sum-label">Sick Leave (SL)</div><div class="sum-counts"><span class="sum-used" id="sl-used">0</span><span class="sum-total">/ <span id="sl-total">7</span> Days</span></div><div class="sum-bar"><div class="sum-bar-fill" id="sl-bar" style="width:0%"></div></div><div class="sum-remain" id="sl-remain" style="color:#10b981;"></div></div>
+        <div class="sum-card sum-pl"><div class="sum-icon"><span class="material-icons-round">flight_takeoff</span></div><div class="sum-label">Privilege Leave (PL)</div><div class="sum-counts"><span class="sum-used" id="pl-used">0</span><span class="sum-total">/ <span id="pl-total">15</span> Days</span></div><div class="sum-bar"><div class="sum-bar-fill" id="pl-bar" style="width:0%"></div></div><div class="sum-remain" id="pl-remain" style="color:#10b981;"></div></div>
+        <div class="sum-card sum-lwp"><div class="sum-icon"><span class="material-icons-round">money_off</span></div><div class="sum-label">Loss of Pay (LWP)</div><div class="sum-counts"><span class="sum-used" id="lwp-used">0</span><span class="sum-total">Days</span></div><div class="sum-bar"><div class="sum-bar-fill" id="lwp-bar" style="width:0%"></div></div><div class="sum-remain" id="lwp-remain"></div></div>
       </div>
 
       <div class="main-grid">
-        <!-- LEFT: Applications Table -->
+        <!-- LEFT: Table -->
         <div class="card">
           <div class="card-hd">
             <div class="card-title">Leave Applications</div>
             <span id="totalCount" style="font-size:9.5px;font-weight:600;color:#94a3b8;text-transform:uppercase;"></span>
           </div>
           <div class="filter-row">
-            <div class="search-box">
-              <span class="material-icons-round">search</span>
-              <input type="text" id="searchInp" placeholder="Search employee..." oninput="filterLeaves()">
-            </div>
+            <div class="search-box"><span class="material-icons-round">search</span><input type="text" id="searchInp" placeholder="Search employee..." oninput="filterLeaves()"></div>
             <select class="filter-sel" id="filterStatus" onchange="filterLeaves()">
               <option value="">All Status</option>
               <option value="pending">Pending</option>
@@ -405,12 +389,9 @@ tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercas
             </select>
             <select class="filter-sel" id="filterType" onchange="filterLeaves()">
               <option value="">All Types</option>
-              <option value="CL">Casual Leave</option>
-              <option value="SL">Sick Leave</option>
-              <option value="PL">Privilege Leave</option>
-              <option value="LWP">Loss of Pay</option>
-              <option value="OD">On Duty</option>
-              <option value="COMP">Comp Off</option>
+              <option value="CL">Casual Leave</option><option value="SL">Sick Leave</option>
+              <option value="PL">Privilege Leave</option><option value="LWP">Loss of Pay</option>
+              <option value="OD">On Duty</option><option value="COMP">Comp Off</option>
             </select>
             <select class="filter-sel" id="filterMonth" onchange="filterLeaves()">
               <option value="">All Months</option>
@@ -422,10 +403,7 @@ tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercas
           </div>
           <div class="tbl-wrap">
             <table>
-              <thead><tr>
-                <th>Employee</th><th>Leave Type</th><th>From</th><th>To</th>
-                <th>Days</th><th>Status</th><th>Applied On</th><th>Actions</th>
-              </tr></thead>
+              <thead><tr><th>Employee</th><th>Leave Type</th><th>From</th><th>To</th><th>Days</th><th>Status</th><th>Applied On</th><th>Actions</th></tr></thead>
               <tbody id="leaveTable"></tbody>
             </table>
           </div>
@@ -435,70 +413,35 @@ tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercas
           </div>
         </div>
 
-        <!-- RIGHT: Apply + Calendar + Holidays -->
+        <!-- RIGHT -->
         <div style="display:flex;flex-direction:column;gap:14px;">
-
           <!-- Apply Leave Form -->
           <div class="card">
-            <div class="card-hd">
-              <div class="card-title" style="color:#10b981;">Apply Leave</div>
-              <span class="material-icons-round" style="color:#10b981;font-size:18px;">add_circle</span>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Employee</label>
-              <select class="form-sel" id="frm_emp" onchange="onEmpChange()">
-                <option value="">-- Select Employee --</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Leave Type</label>
+            <div class="card-hd"><div class="card-title" style="color:#10b981;">Apply Leave</div><span class="material-icons-round" style="color:#10b981;font-size:18px;">add_circle</span></div>
+            <div class="form-group"><label class="form-label">Employee</label><select class="form-sel" id="frm_emp" onchange="onEmpChange()"><option value="">-- Select Employee --</option></select></div>
+            <div class="form-group"><label class="form-label">Leave Type</label>
               <select class="form-sel" id="frm_type" onchange="onTypeChange()">
-                <option value="CL">Casual Leave (CL)</option>
-                <option value="SL">Sick Leave (SL)</option>
-                <option value="PL">Privilege Leave (PL)</option>
-                <option value="LWP">Loss of Pay (LWP)</option>
-                <option value="OD">On Duty (OD)</option>
-                <option value="COMP">Comp Off</option>
+                <option value="CL">Casual Leave (CL)</option><option value="SL">Sick Leave (SL)</option>
+                <option value="PL">Privilege Leave (PL)</option><option value="LWP">Loss of Pay (LWP)</option>
+                <option value="OD">On Duty (OD)</option><option value="COMP">Comp Off</option>
               </select>
             </div>
-
-            <!-- Balance Indicator -->
-            <div class="balance-info" id="balanceInfo">
-              <span class="material-icons-round">info</span>
-              <span id="balanceText"></span>
-            </div>
-
+            <div class="balance-info" id="balanceInfo"><span class="material-icons-round">info</span><span id="balanceText"></span></div>
             <div class="date-row">
-              <div class="form-group">
-                <label class="form-label">From Date</label>
-                <input type="date" class="form-inp" id="frm_from" onchange="calcDays()">
-              </div>
-              <div class="form-group">
-                <label class="form-label">To Date</label>
-                <input type="date" class="form-inp" id="frm_to" onchange="calcDays()">
-              </div>
+              <div class="form-group"><label class="form-label">From Date</label><input type="date" class="form-inp" id="frm_from" onchange="calcDays()"></div>
+              <div class="form-group"><label class="form-label">To Date</label><input type="date" class="form-inp" id="frm_to" onchange="calcDays()"></div>
             </div>
-            <div id="daysIndicator" style="display:none;margin-bottom:12px;">
-              <div class="days-pill"><span class="material-icons-round" style="font-size:14px;">calendar_today</span><span id="daysCount">0 Days</span></div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Half Day?</label>
+            <div id="daysIndicator" style="display:none;margin-bottom:12px;"><div class="days-pill"><span class="material-icons-round" style="font-size:14px;">calendar_today</span><span id="daysCount">0 Days</span></div></div>
+            <div class="form-group"><label class="form-label">Half Day?</label>
               <select class="form-sel" id="frm_half" onchange="calcDays()">
-                <option value="no">Full Day</option>
-                <option value="first">First Half</option>
-                <option value="second">Second Half</option>
+                <option value="no">Full Day</option><option value="first">First Half</option><option value="second">Second Half</option>
               </select>
             </div>
-            <div class="form-group">
-              <label class="form-label">Reason</label>
-              <textarea class="form-textarea" id="frm_reason" placeholder="Reason for leave..."></textarea>
-            </div>
-            <button class="btn btn-green" style="width:100%;justify-content:center;" onclick="submitLeave()">
-              <span class="material-icons-round">send</span>Submit Application
-            </button>
+            <div class="form-group"><label class="form-label">Reason</label><textarea class="form-textarea" id="frm_reason" placeholder="Reason for leave..."></textarea></div>
+            <button class="btn btn-green" style="width:100%;justify-content:center;" onclick="submitLeave()"><span class="material-icons-round">send</span>Submit Application</button>
           </div>
 
-          <!-- Mini Calendar -->
+          <!-- Calendar -->
           <div class="card">
             <div class="card-hd"><div class="card-title">Leave Calendar</div></div>
             <div class="cal-wrap">
@@ -516,11 +459,12 @@ tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercas
                 <div class="cal-leg-item"><div class="cal-leg-dot" style="background:#2563eb;"></div>Today</div>
                 <div class="cal-leg-item"><div class="cal-leg-dot" style="background:#fecaca;"></div>Leave</div>
                 <div class="cal-leg-item"><div class="cal-leg-dot" style="background:#fde68a;"></div>Holiday</div>
+                <div class="cal-leg-item"><div class="cal-leg-dot" style="background:#e2e8f0;"></div>Cancelled</div>
               </div>
             </div>
           </div>
 
-          <!-- Upcoming Holidays -->
+          <!-- Holidays -->
           <div class="card">
             <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#f59e0b;padding-left:9px;border-left:3px solid #f59e0b;margin-bottom:13px;">Upcoming Holidays</div>
             <div id="holidayList"><div style="padding:10px 0;color:#94a3b8;font-size:11px;font-weight:600;text-transform:uppercase;text-align:center;">No upcoming holidays</div></div>
@@ -529,7 +473,7 @@ tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercas
       </div>
     </div><!-- /tab-applications -->
 
-    <!-- ═══ TAB: BALANCE ═══ -->
+    <!-- TAB: BALANCE -->
     <div id="tab-balance" class="tab-panel">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px;">
         <div>
@@ -537,57 +481,28 @@ tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercas
           <div style="font-size:10px;color:#94a3b8;font-weight:600;margin-top:3px;text-transform:uppercase;">Set available leave days per employee per year</div>
         </div>
         <div style="display:flex;gap:8px;">
-          <button class="btn btn-amber" onclick="resetAllBalances()">
-            <span class="material-icons-round">restart_alt</span>Reset Year
-          </button>
-          <button class="btn btn-green" onclick="saveAllBalances()">
-            <span class="material-icons-round">save</span>Save All
-          </button>
+          <button class="btn btn-amber" onclick="resetAllBalances()"><span class="material-icons-round">restart_alt</span>Reset Year</button>
+          <button class="btn btn-green" onclick="saveAllBalances()"><span class="material-icons-round">save</span>Save All</button>
         </div>
       </div>
-
-      <!-- Default policy row -->
-      <div class="card" style="margin-bottom:16px;background:linear-gradient(135deg,#0f172a,#1e293b);border-color:rgba(255,255,255,.08);">
+      <div class="card" style="margin-bottom:16px;background:linear-gradient(135deg,#07101f,#1e293b);border-color:rgba(255,255,255,.08);">
         <div class="card-hd" style="margin-bottom:14px;">
           <div style="font-size:11px;font-weight:800;color:#60a5fa;text-transform:uppercase;letter-spacing:.08em;">Default Policy (Auto-apply to new employees)</div>
-          <button class="btn" style="background:rgba(37,99,235,.3);color:#93c5fd;font-size:10px;padding:6px 14px;" onclick="applyDefaultToAll()">
-            <span class="material-icons-round">auto_fix_high</span>Apply to All
-          </button>
+          <button class="btn" style="background:rgba(37,99,235,.3);color:#93c5fd;font-size:10px;padding:6px 14px;" onclick="applyDefaultToAll()"><span class="material-icons-round">auto_fix_high</span>Apply to All</button>
         </div>
         <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:12px;">
-          <div style="text-align:center;">
-            <div style="font-size:8px;color:#64748b;text-transform:uppercase;font-weight:700;margin-bottom:6px;">CL Days</div>
-            <input type="number" id="def_cl" value="12" min="0" style="width:100%;padding:8px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.1);color:#fff;font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;text-align:center;outline:none;">
-          </div>
-          <div style="text-align:center;">
-            <div style="font-size:8px;color:#64748b;text-transform:uppercase;font-weight:700;margin-bottom:6px;">SL Days</div>
-            <input type="number" id="def_sl" value="7" min="0" style="width:100%;padding:8px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.1);color:#fff;font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;text-align:center;outline:none;">
-          </div>
-          <div style="text-align:center;">
-            <div style="font-size:8px;color:#64748b;text-transform:uppercase;font-weight:700;margin-bottom:6px;">PL Days</div>
-            <input type="number" id="def_pl" value="15" min="0" style="width:100%;padding:8px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.1);color:#fff;font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;text-align:center;outline:none;">
-          </div>
-          <div style="text-align:center;">
-            <div style="font-size:8px;color:#64748b;text-transform:uppercase;font-weight:700;margin-bottom:6px;">OD Days</div>
-            <input type="number" id="def_od" value="999" min="0" style="width:100%;padding:8px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.1);color:#fff;font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;text-align:center;outline:none;">
-          </div>
-          <div style="text-align:center;">
-            <div style="font-size:8px;color:#64748b;text-transform:uppercase;font-weight:700;margin-bottom:6px;">COMP Days</div>
-            <input type="number" id="def_comp" value="0" min="0" style="width:100%;padding:8px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.1);color:#fff;font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;text-align:center;outline:none;">
-          </div>
-          <div style="text-align:center;">
-            <div style="font-size:8px;color:#64748b;text-transform:uppercase;font-weight:700;margin-bottom:6px;">Year</div>
-            <input type="number" id="def_year" style="width:100%;padding:8px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.1);color:#fff;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;text-align:center;outline:none;">
-          </div>
+          <div style="text-align:center;"><div style="font-size:8px;color:#64748b;text-transform:uppercase;font-weight:700;margin-bottom:6px;">CL Days</div><input type="number" id="def_cl" value="12" min="0" style="width:100%;padding:8px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.1);color:#fff;font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;text-align:center;outline:none;"></div>
+          <div style="text-align:center;"><div style="font-size:8px;color:#64748b;text-transform:uppercase;font-weight:700;margin-bottom:6px;">SL Days</div><input type="number" id="def_sl" value="7" min="0" style="width:100%;padding:8px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.1);color:#fff;font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;text-align:center;outline:none;"></div>
+          <div style="text-align:center;"><div style="font-size:8px;color:#64748b;text-transform:uppercase;font-weight:700;margin-bottom:6px;">PL Days</div><input type="number" id="def_pl" value="15" min="0" style="width:100%;padding:8px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.1);color:#fff;font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;text-align:center;outline:none;"></div>
+          <div style="text-align:center;"><div style="font-size:8px;color:#64748b;text-transform:uppercase;font-weight:700;margin-bottom:6px;">OD Days</div><input type="number" id="def_od" value="999" min="0" style="width:100%;padding:8px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.1);color:#fff;font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;text-align:center;outline:none;"></div>
+          <div style="text-align:center;"><div style="font-size:8px;color:#64748b;text-transform:uppercase;font-weight:700;margin-bottom:6px;">COMP Days</div><input type="number" id="def_comp" value="0" min="0" style="width:100%;padding:8px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.1);color:#fff;font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;text-align:center;outline:none;"></div>
+          <div style="text-align:center;"><div style="font-size:8px;color:#64748b;text-transform:uppercase;font-weight:700;margin-bottom:6px;">Year</div><input type="number" id="def_year" style="width:100%;padding:8px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.1);color:#fff;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;text-align:center;outline:none;"></div>
         </div>
       </div>
-
-      <div class="bal-grid" id="balGrid">
-        <div style="grid-column:1/-1;text-align:center;padding:40px;color:#94a3b8;font-size:12px;font-weight:600;text-transform:uppercase;">No employees found</div>
-      </div>
+      <div class="bal-grid" id="balGrid"><div style="grid-column:1/-1;text-align:center;padding:40px;color:#94a3b8;font-size:12px;font-weight:600;text-transform:uppercase;">No employees found</div></div>
     </div><!-- /tab-balance -->
 
-    <!-- ═══ TAB: REPORT ═══ -->
+    <!-- TAB: REPORT -->
     <div id="tab-report" class="tab-panel">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px;">
         <div>
@@ -596,22 +511,16 @@ tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercas
         </div>
         <div style="display:flex;gap:8px;align-items:center;">
           <select class="filter-sel" id="rpt_year" onchange="renderReport()" style="font-size:12px;font-weight:700;"></select>
-          <select class="filter-sel" id="rpt_dept" onchange="renderReport()" style="font-size:12px;font-weight:700;">
-            <option value="">All Departments</option>
-          </select>
-          <button class="btn btn-blue" onclick="exportReport()">
-            <span class="material-icons-round">download</span>Export Report
-          </button>
+          <select class="filter-sel" id="rpt_dept" onchange="renderReport()" style="font-size:12px;font-weight:700;"><option value="">All Departments</option></select>
+          <button class="btn btn-blue" onclick="exportReport()"><span class="material-icons-round">download</span>Export Report</button>
         </div>
       </div>
-
       <div class="card" style="padding:0;overflow:hidden;">
         <div class="rpt-tbl-wrap">
           <table class="rpt-tbl">
             <thead>
               <tr>
-                <th rowspan="2" style="min-width:180px;">Employee</th>
-                <th rowspan="2">Dept</th>
+                <th rowspan="2" style="min-width:180px;">Employee</th><th rowspan="2">Dept</th>
                 <th colspan="3" class="type-col" style="background:#1e3a5f;color:#93c5fd;">Casual Leave (CL)</th>
                 <th colspan="3" class="type-col" style="background:#14532d;color:#86efac;">Sick Leave (SL)</th>
                 <th colspan="3" class="type-col" style="background:#2e1065;color:#c4b5fd;">Privilege Leave (PL)</th>
@@ -620,15 +529,9 @@ tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercas
                 <th rowspan="2" style="background:#0f172a;">Total Used</th>
               </tr>
               <tr>
-                <th class="type-col" style="background:#1e3a5f;color:#60a5fa;">Allot</th>
-                <th class="type-col" style="background:#1e3a5f;color:#60a5fa;">Used</th>
-                <th class="type-col" style="background:#1e3a5f;color:#34d399;">Bal</th>
-                <th class="type-col" style="background:#14532d;color:#86efac;">Allot</th>
-                <th class="type-col" style="background:#14532d;color:#86efac;">Used</th>
-                <th class="type-col" style="background:#14532d;color:#34d399;">Bal</th>
-                <th class="type-col" style="background:#2e1065;color:#c4b5fd;">Allot</th>
-                <th class="type-col" style="background:#2e1065;color:#c4b5fd;">Used</th>
-                <th class="type-col" style="background:#2e1065;color:#a78bfa;">Bal</th>
+                <th class="type-col" style="background:#1e3a5f;color:#60a5fa;">Allot</th><th class="type-col" style="background:#1e3a5f;color:#60a5fa;">Used</th><th class="type-col" style="background:#1e3a5f;color:#34d399;">Bal</th>
+                <th class="type-col" style="background:#14532d;color:#86efac;">Allot</th><th class="type-col" style="background:#14532d;color:#86efac;">Used</th><th class="type-col" style="background:#14532d;color:#34d399;">Bal</th>
+                <th class="type-col" style="background:#2e1065;color:#c4b5fd;">Allot</th><th class="type-col" style="background:#2e1065;color:#c4b5fd;">Used</th><th class="type-col" style="background:#2e1065;color:#a78bfa;">Bal</th>
                 <th class="type-col" style="background:#450a0a;color:#f87171;">Days</th>
               </tr>
             </thead>
@@ -637,12 +540,11 @@ tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercas
         </div>
       </div>
     </div><!-- /tab-report -->
+  </div>
+</div>
+</div>
 
-  </div><!-- /scroll -->
-</div><!-- /main -->
-</div><!-- /app -->
-
-<!-- Detail Modal -->
+<!-- DETAIL MODAL -->
 <div id="detailModal" class="mo" onclick="if(event.target===this)closeDetail()">
   <div class="mb">
     <div class="mh">
@@ -654,82 +556,75 @@ tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercas
   </div>
 </div>
 
-<div class="toast" id="toast">
-  <span class="material-icons-round" id="toastIcon">check_circle</span>
-  <span id="toastMsg">Success</span>
+<!-- ═══ CANCEL CONFIRMATION MODAL ═══ -->
+<div id="cancelModal" class="cancel-mo" onclick="if(event.target===this)closeCancelModal()">
+  <div class="cancel-mb">
+    <div class="cancel-header">
+      <div class="cancel-icon"><span class="material-icons-round">cancel</span></div>
+      <div class="cancel-title">Cancel Approved Leave?</div>
+      <div class="cancel-sub">This will restore the leave balance to the employee.</div>
+    </div>
+    <div class="cancel-body">
+      <div class="cancel-detail-card" id="cancelDetailCard"></div>
+      <div id="balanceRestoreInfo"></div>
+      <textarea class="cancel-reason-inp" id="cancelReason" placeholder="Reason for cancellation (optional)..."></textarea>
+    </div>
+    <div class="cancel-footer">
+      <button class="btn btn-ghost" style="flex:1;justify-content:center;" onclick="closeCancelModal()">
+        <span class="material-icons-round">arrow_back</span>Go Back
+      </button>
+      <button class="btn btn-red" style="flex:1;justify-content:center;" onclick="confirmCancel()">
+        <span class="material-icons-round">cancel</span>Yes, Cancel Leave
+      </button>
+    </div>
+  </div>
 </div>
+
+<div class="toast" id="toast"><span class="material-icons-round" id="toastIcon">check_circle</span><span id="toastMsg">Success</span></div>
 
 <script>
 // ─── CONFIG ───
-const LEAVE_TYPES = {
-  CL:{label:'Casual Leave',max:12,color:'#2563eb'},
-  SL:{label:'Sick Leave',max:7,color:'#10b981'},
-  PL:{label:'Privilege Leave',max:15,color:'#8b5cf6'},
-  LWP:{label:'Loss of Pay',max:999,color:'#ef4444'},
-  OD:{label:'On Duty',max:999,color:'#ea580c'},
-  COMP:{label:'Comp Off',max:0,color:'#0891b2'}
-};
-const TYPE_COLORS = {CL:'ltype-cl',SL:'ltype-sl',PL:'ltype-pl',LWP:'ltype-lwp',OD:'ltype-od',COMP:'ltype-comp'};
-const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-const SHORT_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const AV_COLORS = ['linear-gradient(135deg,#2563eb,#06b6d4)','linear-gradient(135deg,#8b5cf6,#ec4899)','linear-gradient(135deg,#10b981,#06b6d4)','linear-gradient(135deg,#f59e0b,#ef4444)','linear-gradient(135deg,#6366f1,#8b5cf6)','linear-gradient(135deg,#0891b2,#10b981)'];
+const LEAVE_TYPES={CL:{label:'Casual Leave',max:12,color:'#2563eb'},SL:{label:'Sick Leave',max:7,color:'#10b981'},PL:{label:'Privilege Leave',max:15,color:'#8b5cf6'},LWP:{label:'Loss of Pay',max:999,color:'#ef4444'},OD:{label:'On Duty',max:999,color:'#ea580c'},COMP:{label:'Comp Off',max:0,color:'#0891b2'}};
+const TYPE_COLORS={CL:'ltype-cl',SL:'ltype-sl',PL:'ltype-pl',LWP:'ltype-lwp',OD:'ltype-od',COMP:'ltype-comp'};
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const SHORT_MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const AV_COLORS=['linear-gradient(135deg,#2563eb,#06b6d4)','linear-gradient(135deg,#8b5cf6,#ec4899)','linear-gradient(135deg,#10b981,#06b6d4)','linear-gradient(135deg,#f59e0b,#ef4444)','linear-gradient(135deg,#6366f1,#8b5cf6)','linear-gradient(135deg,#0891b2,#10b981)'];
 
-let allLeaves=[], filteredLeaves=[], employees=[], currentPage=1, perPage=10;
-let calYear, calMonth;
+let allLeaves=[],filteredLeaves=[],employees=[],currentPage=1,perPage=10;
+let calYear,calMonth;
+let cancelTargetId=null;
 
 // ─── INIT ───
 function init(){
   loadUserInfo();
   loadEmployeesData();
-  allLeaves = JSON.parse(localStorage.getItem('kidv_leaves')||'[]');
-  if(allLeaves.length===0 && employees.length>0){allLeaves=generateDemo();saveLeaves();}
-  filterLeaves();
-  updateSummary();
-  initCalendar();
-  renderHolidays();
-  setDefaultDates();
-  renderBalanceTab();
-  populateReportFilters();
-  document.getElementById('def_year').value = new Date().getFullYear();
+  allLeaves=JSON.parse(localStorage.getItem('kidv_leaves')||'[]');
+  if(allLeaves.length===0&&employees.length>0){allLeaves=generateDemo();saveLeaves();}
+  filterLeaves();updateSummary();initCalendar();renderHolidays();setDefaultDates();renderBalanceTab();populateReportFilters();
+  document.getElementById('def_year').value=new Date().getFullYear();
 }
-
 function loadUserInfo(){
   const user=JSON.parse(localStorage.getItem('kidv_user')||'{}');
-  if(user.name){
-    const p=user.name.trim().split(' ');
-    document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();
-    document.getElementById('sideName').textContent=user.name;
-    document.getElementById('sideRole').textContent=user.role||'Staff';
-  }
+  if(user.name){const p=user.name.trim().split(' ');document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();document.getElementById('sideName').textContent=user.name;document.getElementById('sideRole').textContent=user.role||'Staff';}
   const role=(user.role||'').toLowerCase();
-  if(role==='super admin'||role==='admin'){
-    document.getElementById('adminNav').style.display='';
-    document.getElementById('usersLink').style.display='';
-    document.getElementById('rolesLink').style.display='';
-  }
+  if(role==='super admin'||role==='admin'){document.getElementById('adminNav').style.display='';document.getElementById('usersLink').style.display='';document.getElementById('rolesLink').style.display='';}
 }
 function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
 function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');document.body.style.overflow='hidden';}
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');document.body.style.overflow='';}
-
 function loadEmployeesData(){
   employees=JSON.parse(localStorage.getItem('employees')||'[]');
   const sel=document.getElementById('frm_emp');
   sel.innerHTML='<option value="">-- Select Employee --</option>';
-  employees.forEach((e,i)=>{
-    const name=`${e.fName||''} ${e.lName||''}`.trim();
-    const opt=document.createElement('option');
-    opt.value=i;opt.textContent=`${e.id||''} - ${name}`.trim();
-    sel.appendChild(opt);
-  });
+  employees.forEach((e,i)=>{const name=`${e.fName||''} ${e.lName||''}`.trim();const opt=document.createElement('option');opt.value=i;opt.textContent=`${e.id||''} - ${name}`.trim();sel.appendChild(opt);});
 }
 
 // ─── TAB ───
-function switchTab(name){
+function switchTab(name,btn){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+name).classList.add('active');
-  event.currentTarget.classList.add('active');
+  btn.classList.add('active');
   if(name==='balance') renderBalanceTab();
   if(name==='report') renderReport();
 }
@@ -740,66 +635,37 @@ function getLeaveBalance(empIdx){
   const key=`kidv_bal_${year}_${empIdx}`;
   const stored=JSON.parse(localStorage.getItem(key)||'null');
   if(stored) return stored;
-  // Default
-  return {CL:parseInt(document.getElementById('def_cl')?.value||12),SL:parseInt(document.getElementById('def_sl')?.value||7),PL:parseInt(document.getElementById('def_pl')?.value||15),OD:999,COMP:parseInt(document.getElementById('def_comp')?.value||0)};
+  return{CL:parseInt(document.getElementById('def_cl')?.value||12),SL:parseInt(document.getElementById('def_sl')?.value||7),PL:parseInt(document.getElementById('def_pl')?.value||15),OD:999,COMP:parseInt(document.getElementById('def_comp')?.value||0)};
 }
-
-function getLeaveUsed(empIdx, type, year){
-  yr=year||new Date().getFullYear();
+function getLeaveUsed(empIdx,type,year){
+  const yr=year||new Date().getFullYear();
   return allLeaves.filter(l=>l.empIndex===parseInt(empIdx)&&l.type===type&&l.status==='approved'&&l.from.startsWith(yr)).reduce((s,l)=>s+parseFloat(l.days||1),0);
 }
-
-function getLeaveRemaining(empIdx, type){
-  const bal=getLeaveBalance(empIdx);
-  const maxDays=bal[type]??LEAVE_TYPES[type]?.max??0;
+function getLeaveRemaining(empIdx,type){
+  const bal=getLeaveBalance(empIdx);const maxDays=bal[type]??LEAVE_TYPES[type]?.max??0;
   if(maxDays>=999) return 999;
-  const used=getLeaveUsed(empIdx,type);
-  return Math.max(0, maxDays-used);
+  return Math.max(0,maxDays-getLeaveUsed(empIdx,type));
 }
 
-// ─── FORM HANDLERS ───
-function setDefaultDates(){
-  const t=new Date();
-  const fmt=d=>d.toISOString().split('T')[0];
-  document.getElementById('frm_from').value=fmt(t);
-  document.getElementById('frm_to').value=fmt(t);
-}
-
+// ─── FORM ───
+function setDefaultDates(){const t=new Date();const fmt=d=>d.toISOString().split('T')[0];document.getElementById('frm_from').value=fmt(t);document.getElementById('frm_to').value=fmt(t);}
 function onEmpChange(){onTypeChange();}
 function onTypeChange(){
-  const empIdx=document.getElementById('frm_emp').value;
-  const type=document.getElementById('frm_type').value;
-  const infoEl=document.getElementById('balanceInfo');
-  const textEl=document.getElementById('balanceText');
+  const empIdx=document.getElementById('frm_emp').value,type=document.getElementById('frm_type').value;
+  const infoEl=document.getElementById('balanceInfo'),textEl=document.getElementById('balanceText');
   if(!empIdx||['LWP','OD','COMP'].includes(type)){infoEl.style.display='none';return;}
-  const bal=getLeaveBalance(empIdx);
-  const maxDays=bal[type]??LEAVE_TYPES[type]?.max??0;
-  const used=getLeaveUsed(empIdx,type);
-  const remaining=Math.max(0,maxDays-used);
+  const bal=getLeaveBalance(empIdx),maxDays=bal[type]??LEAVE_TYPES[type]?.max??0;
+  const used=getLeaveUsed(empIdx,type),remaining=Math.max(0,maxDays-used);
   infoEl.style.display='flex';
-  if(remaining<=0){
-    infoEl.className='balance-info balance-warn';
-    textEl.textContent=`No ${type} balance! Used: ${used}/${maxDays} days. Cannot apply.`;
-  } else {
-    infoEl.className='balance-info balance-ok';
-    textEl.textContent=`Balance Available: ${remaining} ${type} day(s) remaining (${used}/${maxDays} used)`;
-  }
+  if(remaining<=0){infoEl.className='balance-info balance-warn';textEl.textContent=`No ${type} balance! Used: ${used}/${maxDays} days. Cannot apply.`;}
+  else{infoEl.className='balance-info balance-ok';textEl.textContent=`Balance Available: ${remaining} ${type} day(s) remaining (${used}/${maxDays} used)`;}
   calcDays();
 }
-
 function calcDays(){
-  const from=document.getElementById('frm_from').value;
-  const to=document.getElementById('frm_to').value;
-  const half=document.getElementById('frm_half').value;
-  if(from&&to){
-    const days=calcDaysBetween(from,to,half);
-    document.getElementById('daysIndicator').style.display='block';
-    document.getElementById('daysCount').textContent=days+(days===1?' Working Day':' Working Days');
-  } else {
-    document.getElementById('daysIndicator').style.display='none';
-  }
+  const from=document.getElementById('frm_from').value,to=document.getElementById('frm_to').value,half=document.getElementById('frm_half').value;
+  if(from&&to){const days=calcDaysBetween(from,to,half);document.getElementById('daysIndicator').style.display='block';document.getElementById('daysCount').textContent=days+(days===1?' Working Day':' Working Days');}
+  else{document.getElementById('daysIndicator').style.display='none';}
 }
-
 function calcDaysBetween(from,to,half){
   if(!from||!to) return 0;
   let days=0,cur=new Date(from),end=new Date(to);
@@ -808,59 +674,29 @@ function calcDaysBetween(from,to,half){
   return days;
 }
 
-// ─── SUBMIT LEAVE ───
+// ─── SUBMIT ───
 function submitLeave(){
-  const empIdx=document.getElementById('frm_emp').value;
-  const type=document.getElementById('frm_type').value;
-  const from=document.getElementById('frm_from').value;
-  const to=document.getElementById('frm_to').value;
-  const half=document.getElementById('frm_half').value;
+  const empIdx=document.getElementById('frm_emp').value,type=document.getElementById('frm_type').value;
+  const from=document.getElementById('frm_from').value,to=document.getElementById('frm_to').value,half=document.getElementById('frm_half').value;
   const reason=document.getElementById('frm_reason').value.trim();
-
   if(!empIdx){showToast('Please select an employee','error');return;}
   if(!from||!to){showToast('Please select dates','error');return;}
   if(new Date(from)>new Date(to)){showToast('From date cannot be after To date','error');return;}
-
   const days=calcDaysBetween(from,to,half);
   if(days<=0){showToast('No working days in selected range','error');return;}
-
-  // ── BALANCE CHECK ──
   if(!['LWP','OD','COMP'].includes(type)){
     const remaining=getLeaveRemaining(empIdx,type);
-    if(remaining<=0){
-      showToast(`Insufficient ${type} balance! No days remaining.`,'error');
-      return;
-    }
-    if(days>remaining){
-      showToast(`Insufficient balance! Requested: ${days} days, Available: ${remaining} days`,'warn');
-      return;
-    }
+    if(remaining<=0){showToast(`Insufficient ${type} balance! No days remaining.`,'error');return;}
+    if(days>remaining){showToast(`Insufficient balance! Requested: ${days} days, Available: ${remaining} days`,'warn');return;}
   }
-
   const emp=employees[parseInt(empIdx)];
-  const leave={
-    id:Date.now(),
-    empIndex:parseInt(empIdx),
-    empName:`${emp.fName||''} ${emp.lName||''}`.trim(),
-    empId:emp.id||'',dept:emp.dept||'',
-    type,from,to,days,half,reason,
-    status:'pending',
-    appliedOn:new Date().toISOString().split('T')[0],
-    approvedBy:'',remark:''
-  };
-  allLeaves.unshift(leave);
-  saveLeaves();
-  filterLeaves();
-  updateSummary();
-  renderCalendar();
-  document.getElementById('frm_emp').value='';
-  document.getElementById('frm_reason').value='';
-  document.getElementById('daysIndicator').style.display='none';
-  document.getElementById('balanceInfo').style.display='none';
+  const leave={id:Date.now(),empIndex:parseInt(empIdx),empName:`${emp.fName||''} ${emp.lName||''}`.trim(),empId:emp.id||'',dept:emp.dept||'',type,from,to,days,half,reason,status:'pending',appliedOn:new Date().toISOString().split('T')[0],approvedBy:'',remark:'',cancelReason:''};
+  allLeaves.unshift(leave);saveLeaves();filterLeaves();updateSummary();renderCalendar();
+  document.getElementById('frm_emp').value='';document.getElementById('frm_reason').value='';
+  document.getElementById('daysIndicator').style.display='none';document.getElementById('balanceInfo').style.display='none';
   showToast(`Leave applied for ${leave.empName} — ${days} day(s)`,'success');
 }
 
-// ─── SAVE / LOAD ───
 function saveLeaves(){localStorage.setItem('kidv_leaves',JSON.stringify(allLeaves));}
 
 function generateDemo(){
@@ -871,9 +707,8 @@ function generateDemo(){
   employees.slice(0,Math.min(employees.length,6)).forEach((e,ei)=>{
     for(let i=0;i<3;i++){
       const d=new Date(now);d.setDate(d.getDate()-(ei*5+i*7));
-      const from=d.toISOString().split('T')[0];
-      const idx=(ei+i)%8;
-      demos.push({id:Date.now()+ei*100+i,empIndex:ei,empName:`${e.fName||''} ${e.lName||''}`.trim(),empId:e.id||'',dept:e.dept||'',type:types[idx],from,to:from,days:1,half:'no',reason:reasons[idx],status:statuses[idx],appliedOn:new Date(d.getTime()-86400000).toISOString().split('T')[0],approvedBy:statuses[idx]==='approved'?'HR Admin':'',remark:''});
+      const from=d.toISOString().split('T')[0];const idx=(ei+i)%8;
+      demos.push({id:Date.now()+ei*100+i,empIndex:ei,empName:`${e.fName||''} ${e.lName||''}`.trim(),empId:e.id||'',dept:e.dept||'',type:types[idx],from,to:from,days:1,half:'no',reason:reasons[idx],status:statuses[idx],appliedOn:new Date(d.getTime()-86400000).toISOString().split('T')[0],approvedBy:statuses[idx]==='approved'?'HR Admin':'',remark:'',cancelReason:''});
     }
   });
   return demos;
@@ -885,8 +720,7 @@ function updateSummary(){
   const approved=allLeaves.filter(l=>l.status==='approved'&&l.from.startsWith(year));
   [['cl','CL',12],['sl','SL',7],['pl','PL',15],['lwp','LWP',30]].forEach(([t,T,def])=>{
     const used=approved.filter(l=>l.type===T).reduce((s,l)=>s+parseFloat(l.days||1),0);
-    const max=T==='LWP'?30:def;
-    const pct=Math.min(100,(used/max)*100);
+    const max=T==='LWP'?30:def;const pct=Math.min(100,(used/max)*100);
     document.getElementById(`${t}-used`).textContent=used;
     const bar=document.getElementById(`${t}-bar`);if(bar)bar.style.width=pct+'%';
     const rem=document.getElementById(`${t}-remain`);
@@ -912,31 +746,29 @@ function filterLeaves(){
 
 // ─── TABLE ───
 function renderTable(){
-  const start=(currentPage-1)*perPage;
-  const pageData=filteredLeaves.slice(start,start+perPage);
+  const start=(currentPage-1)*perPage,pageData=filteredLeaves.slice(start,start+perPage);
   const tbody=document.getElementById('leaveTable');
   document.getElementById('totalCount').textContent=`${filteredLeaves.length} Records`;
-  if(!pageData.length){
-    tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:32px;color:#94a3b8;font-size:12px;font-weight:600;text-transform:uppercase;">No leave records found</td></tr>`;
-  } else {
+  if(!pageData.length){tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:32px;color:#94a3b8;font-size:12px;font-weight:600;text-transform:uppercase;">No leave records found</td></tr>`;}
+  else{
     tbody.innerHTML=pageData.map(l=>{
       const initials=l.empName.split(' ').map(w=>w[0]||'').slice(0,2).join('').toUpperCase()||'?';
       const col=AV_COLORS[l.empName.charCodeAt(0)%AV_COLORS.length];
+      // Show cancel button for approved leaves
+      const actionBtns=`
+        <button class="act-btn act-view" onclick="viewLeave(${l.id})" title="View Details"><span class="material-icons-round">visibility</span></button>
+        ${l.status==='pending'?`<button class="act-btn act-approve" onclick="changeStatus(${l.id},'approved')" title="Approve"><span class="material-icons-round">check</span></button><button class="act-btn act-reject" onclick="changeStatus(${l.id},'rejected')" title="Reject"><span class="material-icons-round">close</span></button>`:''}
+        ${l.status==='approved'?`<button class="act-btn act-cancel" onclick="openCancelModal(${l.id})" title="Cancel Leave"><span class="material-icons-round">cancel</span></button>`:''}
+      `;
       return `<tr>
-        <td><div class="emp-cell">
-          <div class="emp-av" style="background:${col}">${initials}</div>
-          <div><div class="emp-nm">${l.empName||'—'}</div><div class="emp-dept">${l.empId||''}${l.dept?' · '+l.dept:''}</div></div>
-        </div></td>
+        <td><div class="emp-cell"><div class="emp-av" style="background:${col}">${initials}</div><div><div class="emp-nm">${l.empName||'—'}</div><div class="emp-dept">${l.empId||''}${l.dept?' · '+l.dept:''}</div></div></div></td>
         <td><span class="ltype ${TYPE_COLORS[l.type]||'ltype-cl'}">${l.type}</span></td>
-        <td style="color:#0f172a;font-weight:700;">${fmtDate(l.from)}</td>
-        <td style="color:#0f172a;font-weight:700;">${fmtDate(l.to)}</td>
+        <td style="color:#0f172a;font-weight:700;font-family:'JetBrains Mono',monospace;">${fmtDate(l.from)}</td>
+        <td style="color:#0f172a;font-weight:700;font-family:'JetBrains Mono',monospace;">${fmtDate(l.to)}</td>
         <td style="color:#2563eb;font-weight:800;font-family:'JetBrains Mono',monospace;">${l.days}${l.half!=='no'?'½':''}</td>
-        <td><span class="badge badge-${l.status}">${l.status}</span></td>
-        <td style="color:#94a3b8;font-size:10px;">${fmtDate(l.appliedOn)}</td>
-        <td><div style="display:flex;gap:4px;">
-          <button class="act-btn act-view" onclick="viewLeave(${l.id})"><span class="material-icons-round">visibility</span></button>
-          ${l.status==='pending'?`<button class="act-btn act-approve" onclick="changeStatus(${l.id},'approved')"><span class="material-icons-round">check</span></button><button class="act-btn act-reject" onclick="changeStatus(${l.id},'rejected')"><span class="material-icons-round">close</span></button>`:''}
-        </div></td>
+        <td><span class="badge badge-${l.status}">${l.status}</span>${l.status==='cancelled'&&l.cancelReason?`<div style="font-size:8px;color:#94a3b8;margin-top:2px;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${l.cancelReason}</div>`:''}</td>
+        <td style="color:#94a3b8;font-size:10px;font-family:'JetBrains Mono',monospace;">${fmtDate(l.appliedOn)}</td>
+        <td><div style="display:flex;gap:4px;">${actionBtns}</div></td>
       </tr>`;
     }).join('');
   }
@@ -951,7 +783,6 @@ function renderPagination(){
   for(let i=1;i<=Math.min(pages,7);i++) btns.innerHTML+=`<button class="pg-btn${i===currentPage?' active':''}" onclick="goPage(${i})">${i}</button>`;
 }
 function goPage(p){currentPage=p;renderTable();}
-
 function fmtDate(s){if(!s)return'—';const d=new Date(s);return`${d.getDate()} ${SHORT_MONTHS[d.getMonth()]} ${d.getFullYear()}`;}
 
 // ─── STATUS CHANGE ───
@@ -964,20 +795,74 @@ function changeStatus(id,newStatus){
   showToast(`Leave ${newStatus} successfully`,newStatus==='approved'?'success':'error');
 }
 
+// ═══ CANCEL LEAVE FLOW ═══
+function openCancelModal(id){
+  const l=allLeaves.find(x=>x.id===id);if(!l)return;
+  cancelTargetId=id;
+  closeDetail();// Close detail if open
+
+  // Build detail card
+  const balRestoreInfo=!['LWP','OD','COMP'].includes(l.type)?
+    `<div class="balance-restore-tag" style="margin-top:8px;"><span class="material-icons-round" style="font-size:13px;">restore</span>Balance will be restored: +${l.days} ${l.type} day${l.days>1?'s':''}</div>`:'';
+
+  document.getElementById('cancelDetailCard').innerHTML=`
+    <div class="cancel-detail-row"><span class="cancel-dlbl">Employee</span><span class="cancel-dval">${l.empName}</span></div>
+    <div class="cancel-detail-row"><span class="cancel-dlbl">Leave Type</span><span class="cancel-dval"><span class="ltype ${TYPE_COLORS[l.type]||'ltype-cl'}">${l.type} — ${LEAVE_TYPES[l.type]?.label||l.type}</span></span></div>
+    <div class="cancel-detail-row"><span class="cancel-dlbl">Duration</span><span class="cancel-dval">${fmtDate(l.from)} → ${fmtDate(l.to)}</span></div>
+    <div class="cancel-detail-row"><span class="cancel-dlbl">Days</span><span class="cancel-dval" style="color:#2563eb;font-family:'JetBrains Mono',monospace;">${l.days}${l.half!=='no'?' ('+l.half+' half)':''} Working Day(s)</span></div>
+    <div class="cancel-detail-row"><span class="cancel-dlbl">Approved By</span><span class="cancel-dval">${l.approvedBy||'Admin'}</span></div>
+    ${balRestoreInfo}
+  `;
+  document.getElementById('cancelReason').value='';
+  document.getElementById('cancelModal').classList.add('open');
+}
+
+function closeCancelModal(){
+  document.getElementById('cancelModal').classList.remove('open');
+  cancelTargetId=null;
+}
+
+function confirmCancel(){
+  if(!cancelTargetId) return;
+  const idx=allLeaves.findIndex(l=>l.id===cancelTargetId);if(idx<0)return;
+  const l=allLeaves[idx];
+  const reason=document.getElementById('cancelReason').value.trim();
+  const user=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+
+  // ── This is the key: changing status to 'cancelled'
+  // ── getLeaveUsed() only counts 'approved' → so balance auto-restores
+  allLeaves[idx].status='cancelled';
+  allLeaves[idx].cancelReason=reason||'Cancelled by admin';
+  allLeaves[idx].cancelledBy=user.name||'Admin';
+  allLeaves[idx].cancelledOn=new Date().toISOString().split('T')[0];
+
+  saveLeaves();filterLeaves();updateSummary();renderCalendar();
+  closeCancelModal();
+
+  const restoreMsg=!['LWP','OD','COMP'].includes(l.type)?` · ${l.days} ${l.type} day(s) restored`:'';
+  showToast(`Leave cancelled for ${l.empName}${restoreMsg}`,'cancel-t');
+}
+
 // ─── VIEW DETAIL ───
 function viewLeave(id){
   const l=allLeaves.find(x=>x.id===id);if(!l)return;
-  // Show remaining balance
   let balInfo='';
-  if(!['LWP','OD','COMP'].includes(l.type)){
+  if(!['LWP','OD','COMP'].includes(l.type)&&l.status==='approved'){
     const rem=getLeaveRemaining(l.empIndex,l.type);
-    balInfo=`<div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:10px 12px;margin-top:12px;font-size:11px;font-weight:700;color:#10b981;">Balance remaining after this: ${rem} days</div>`;
+    balInfo=`<div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:10px 12px;margin-top:12px;font-size:11px;font-weight:700;color:#10b981;"><span class="material-icons-round" style="font-size:14px;vertical-align:middle;margin-right:4px;">info</span>Remaining balance: ${rem} ${l.type} day(s)</div>`;
+  }
+  if(l.status==='cancelled'){
+    balInfo=`<div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:10px 12px;margin-top:12px;font-size:11px;font-weight:700;color:#d97706;"><span class="material-icons-round" style="font-size:14px;vertical-align:middle;margin-right:4px;">cancel</span>Cancelled on ${fmtDate(l.cancelledOn)||'—'} by ${l.cancelledBy||'Admin'}${l.cancelReason?' · Reason: '+l.cancelReason:''}</div>`;
   }
   document.getElementById('detailTitle').textContent=`Leave Details — ${l.empName}`;
   const rows=[['Employee',l.empName],['Emp ID',l.empId],['Department',l.dept],['Leave Type',`<span class="ltype ${TYPE_COLORS[l.type]||'ltype-cl'}">${l.type} — ${LEAVE_TYPES[l.type]?.label||l.type}</span>`],['From Date',fmtDate(l.from)],['To Date',fmtDate(l.to)],['Duration',`${l.days}${l.half!=='no'?' ('+l.half+' half)':''} Working Day(s)`],['Applied On',fmtDate(l.appliedOn)],['Status',`<span class="badge badge-${l.status}">${l.status}</span>`],['Approved By',l.approvedBy||'—'],['Reason',l.reason||'—']];
   document.getElementById('detailBody').innerHTML=rows.map(([lbl,val])=>`<div class="detail-row"><span class="detail-lbl">${lbl}</span><span class="detail-val">${val}</span></div>`).join('')+balInfo;
   const acts=document.getElementById('detailActions');
-  acts.innerHTML=l.status==='pending'?`<button class="btn btn-green" onclick="changeStatus(${l.id},'approved')" style="font-size:10px;padding:7px 14px;"><span class="material-icons-round">check</span>Approve</button><button class="btn" style="background:#fef2f2;color:#ef4444;font-size:10px;padding:7px 14px;" onclick="changeStatus(${l.id},'rejected')"><span class="material-icons-round">close</span>Reject</button>`:'';
+  acts.innerHTML=l.status==='pending'?
+    `<button class="btn btn-green" onclick="changeStatus(${l.id},'approved')" style="font-size:10px;padding:7px 14px;"><span class="material-icons-round">check</span>Approve</button>
+     <button class="btn" style="background:#fef2f2;color:#ef4444;font-size:10px;padding:7px 14px;" onclick="changeStatus(${l.id},'rejected')"><span class="material-icons-round">close</span>Reject</button>`:
+    l.status==='approved'?
+    `<button class="btn btn-amber" onclick="openCancelModal(${l.id})" style="font-size:10px;padding:7px 14px;"><span class="material-icons-round">cancel</span>Cancel Leave</button>`:'';
   document.getElementById('detailModal').classList.add('open');
 }
 function closeDetail(){document.getElementById('detailModal').classList.remove('open');}
@@ -992,9 +877,9 @@ function renderCalendar(){
   const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
   const today=new Date();
   const leaveDays=new Set(allLeaves.filter(l=>l.status==='approved').flatMap(l=>{const days=[];let d=new Date(l.from),e=new Date(l.to);while(d<=e){days.push(d.toISOString().split('T')[0]);d.setDate(d.getDate()+1);}return days;}));
+  const cancelledDays=new Set(allLeaves.filter(l=>l.status==='cancelled').flatMap(l=>{const days=[];let d=new Date(l.from),e=new Date(l.to);while(d<=e){days.push(d.toISOString().split('T')[0]);d.setDate(d.getDate()+1);}return days;}));
   const holDates=getHolidayDates();
-  const cont=document.getElementById('calDays');
-  let html='';
+  const cont=document.getElementById('calDays');let html='';
   for(let i=0;i<firstDay;i++) html+=`<div class="cal-day empty">.</div>`;
   for(let d=1;d<=daysInMonth;d++){
     const ds=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
@@ -1002,13 +887,12 @@ function renderCalendar(){
     let cls='cal-day';
     if(isToday) cls+=' today';
     else if(leaveDays.has(ds)) cls+=' leave';
+    else if(cancelledDays.has(ds)) cls+=' cancelled';
     else if(holDates.includes(ds)) cls+=' holiday';
     html+=`<div class="${cls}">${d}</div>`;
   }
   cont.innerHTML=html;
 }
-
-// ─── HOLIDAYS ───
 function getHolidayDates(){return JSON.parse(localStorage.getItem('holidays')||'[]').map(h=>h.date||h.holidayDate||'').filter(Boolean);}
 function renderHolidays(){
   const stored=JSON.parse(localStorage.getItem('holidays')||'[]');
@@ -1016,190 +900,105 @@ function renderHolidays(){
   const upcoming=stored.map(h=>({...h,dateObj:new Date(h.date||h.holidayDate)})).filter(h=>h.dateObj>=today).sort((a,b)=>a.dateObj-b.dateObj).slice(0,5);
   const list=document.getElementById('holidayList');
   if(!upcoming.length){list.innerHTML='<div style="text-align:center;padding:14px;color:#94a3b8;font-size:11px;font-weight:600;text-transform:uppercase;">No upcoming holidays</div>';return;}
-  list.innerHTML=upcoming.map(h=>`<div class="hol-item"><div style="text-align:center;min-width:38px;"><div class="hol-dd">${h.dateObj.getDate()}</div><div class="hol-mm">${SHORT_MONTHS[h.dateObj.getMonth()]}</div></div><div><div class="hol-nm">${(h.name||h.holidayName||'Holiday').toUpperCase()}</div><div class="hol-tp">${(h.type||'National Holiday').toUpperCase()}</div></div></div>`).join('');
+  list.innerHTML=upcoming.map(h=>`<div class="hol-item" style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed #f1f5f9;"><div style="text-align:center;min-width:38px;"><div style="font-size:19px;font-weight:900;color:#2563eb;line-height:1;">${h.dateObj.getDate()}</div><div style="font-size:7.5px;font-weight:700;color:#94a3b8;text-transform:uppercase;">${SHORT_MONTHS[h.dateObj.getMonth()]}</div></div><div><div style="font-size:11px;font-weight:700;text-transform:uppercase;color:#0f172a;">${(h.name||h.holidayName||'Holiday').toUpperCase()}</div><div style="font-size:8px;font-weight:600;color:#94a3b8;text-transform:uppercase;">${(h.type||'National Holiday').toUpperCase()}</div></div></div>`).join('');
 }
 
 // ─── BALANCE TAB ───
 function renderBalanceTab(){
-  if(!employees.length){return;}
+  if(!employees.length) return;
   const year=parseInt(document.getElementById('def_year')?.value||new Date().getFullYear());
   const grid=document.getElementById('balGrid');
   grid.innerHTML=employees.map((e,i)=>{
     const name=`${e.fName||''} ${e.lName||''}`.trim();
-    const grad=AV_COLORS[i%AV_COLORS.length];
-    const bal=getLeaveBalance(i);
-    const types=['CL','SL','PL','COMP'];
-    const typeLabels={CL:'Casual',SL:'Sick',PL:'Privilege',COMP:'Comp Off'};
-    const typeColors={CL:'#2563eb',SL:'#10b981',PL:'#8b5cf6',COMP:'#0891b2'};
+    const grad=AV_COLORS[i%AV_COLORS.length];const bal=getLeaveBalance(i);
+    const types=['CL','SL','PL','COMP'],typeLabels={CL:'Casual',SL:'Sick',PL:'Privilege',COMP:'Comp Off'},typeColors={CL:'#2563eb',SL:'#10b981',PL:'#8b5cf6',COMP:'#0891b2'};
     const typesHtml=types.map(t=>{
-      const used=getLeaveUsed(i,t,year);
-      const allotted=bal[t]??0;
-      return `<div class="bal-type-box">
-        <div class="bal-type-lbl" style="color:${typeColors[t]}">${typeLabels[t]}</div>
-        <input type="number" class="bal-type-inp" id="bal_${i}_${t}" value="${allotted}" min="0" onchange="markUnsaved(${i})" style="border-color:${typeColors[t]}33;">
-        <span class="bal-used">${used} used</span>
-      </div>`;
+      const used=getLeaveUsed(i,t,year),allotted=bal[t]??0;
+      return `<div class="bal-type-box"><div class="bal-type-lbl" style="color:${typeColors[t]}">${typeLabels[t]}</div><input type="number" class="bal-type-inp" id="bal_${i}_${t}" value="${allotted}" min="0" onchange="markUnsaved(${i})" style="border-color:${typeColors[t]}33;"><span class="bal-used">${used} used</span></div>`;
     }).join('');
-    return `<div class="bal-card" id="balcard_${i}">
-      <div class="bal-emp-hd">
-        <div class="bal-av" style="background:${grad};">${(name.split(' ')[0][0]||'')+(name.split(' ')[1]?.[0]||'')}</div>
-        <div>
-          <div class="bal-emp-name">${name}</div>
-          <div class="bal-emp-id">${e.id||''} · ${e.dept||'—'}</div>
-        </div>
-        <button onclick="saveEmpBalance(${i})" style="margin-left:auto;display:flex;align-items:center;gap:5px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:6px 12px;font-size:10px;font-weight:700;color:#10b981;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .15s;" id="savebtn_${i}">
-          <span class="material-icons-round" style="font-size:14px;">save</span>Save
-        </button>
-      </div>
-      <div class="bal-types">${typesHtml}</div>
-    </div>`;
+    return `<div class="bal-card" id="balcard_${i}"><div class="bal-emp-hd"><div class="bal-av" style="background:${grad};">${(name.split(' ')[0][0]||'')+(name.split(' ')[1]?.[0]||'')}</div><div><div class="bal-emp-name">${name}</div><div class="bal-emp-id">${e.id||''} · ${e.dept||'—'}</div></div><button onclick="saveEmpBalance(${i})" style="margin-left:auto;display:flex;align-items:center;gap:5px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:6px 12px;font-size:10px;font-weight:700;color:#10b981;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .15s;" id="savebtn_${i}"><span class="material-icons-round" style="font-size:14px;">save</span>Save</button></div><div class="bal-types">${typesHtml}</div></div>`;
   }).join('');
 }
-
-function markUnsaved(i){
-  const btn=document.getElementById(`savebtn_${i}`);
-  if(btn){btn.style.background='#fffbeb';btn.style.borderColor='#fcd34d';btn.style.color='#d97706';btn.textContent='⚠ Save';}
-}
-
+function markUnsaved(i){const btn=document.getElementById(`savebtn_${i}`);if(btn){btn.style.background='#fffbeb';btn.style.borderColor='#fcd34d';btn.style.color='#d97706';btn.innerHTML='<span class="material-icons-round" style="font-size:14px;">warning</span> Save';}}
 function saveEmpBalance(i){
   const year=parseInt(document.getElementById('def_year')?.value||new Date().getFullYear());
-  const key=`kidv_bal_${year}_${i}`;
-  const bal={};
+  const key=`kidv_bal_${year}_${i}`,bal={};
   ['CL','SL','PL','COMP'].forEach(t=>{bal[t]=parseInt(document.getElementById(`bal_${i}_${t}`)?.value||0);});
-  bal.OD=999;
-  localStorage.setItem(key,JSON.stringify(bal));
+  bal.OD=999;localStorage.setItem(key,JSON.stringify(bal));
   const btn=document.getElementById(`savebtn_${i}`);
   if(btn){btn.style.background='#f0fdf4';btn.style.borderColor='#bbf7d0';btn.style.color='#10b981';btn.innerHTML='<span class="material-icons-round" style="font-size:14px;">save</span>Save';}
   showToast(`Balance saved for ${employees[i].fName||'Employee'}`,'success');
 }
-
-function saveAllBalances(){
-  employees.forEach((_,i)=>saveEmpBalance(i));
-  showToast('All balances saved!','success');
-}
-
+function saveAllBalances(){employees.forEach((_,i)=>saveEmpBalance(i));showToast('All balances saved!','success');}
 function applyDefaultToAll(){
-  const cl=parseInt(document.getElementById('def_cl').value||12);
-  const sl=parseInt(document.getElementById('def_sl').value||7);
-  const pl=parseInt(document.getElementById('def_pl').value||15);
-  const comp=parseInt(document.getElementById('def_comp').value||0);
+  const cl=parseInt(document.getElementById('def_cl').value||12),sl=parseInt(document.getElementById('def_sl').value||7);
+  const pl=parseInt(document.getElementById('def_pl').value||15),comp=parseInt(document.getElementById('def_comp').value||0);
   employees.forEach((_,i)=>{
-    const clInp=document.getElementById(`bal_${i}_CL`);const slInp=document.getElementById(`bal_${i}_SL`);
-    const plInp=document.getElementById(`bal_${i}_PL`);const compInp=document.getElementById(`bal_${i}_COMP`);
-    if(clInp) clInp.value=cl;if(slInp) slInp.value=sl;if(plInp) plInp.value=pl;if(compInp) compInp.value=comp;
+    const clInp=document.getElementById(`bal_${i}_CL`),slInp=document.getElementById(`bal_${i}_SL`),plInp=document.getElementById(`bal_${i}_PL`),compInp=document.getElementById(`bal_${i}_COMP`);
+    if(clInp)clInp.value=cl;if(slInp)slInp.value=sl;if(plInp)plInp.value=pl;if(compInp)compInp.value=comp;
   });
-  saveAllBalances();
-  showToast('Default policy applied to all employees!','success');
+  saveAllBalances();showToast('Default policy applied to all employees!','success');
 }
-
 function resetAllBalances(){
   if(!confirm('Reset all leave balances to default for the selected year?')) return;
   const year=parseInt(document.getElementById('def_year')?.value||new Date().getFullYear());
   employees.forEach((_,i)=>localStorage.removeItem(`kidv_bal_${year}_${i}`));
-  renderBalanceTab();
-  showToast('All balances reset!','warn');
+  renderBalanceTab();showToast('All balances reset!','warn');
 }
 
-// ─── REPORT TAB ───
+// ─── REPORT ───
 function populateReportFilters(){
-  const yearSel=document.getElementById('rpt_year');
-  const now=new Date().getFullYear();
+  const yearSel=document.getElementById('rpt_year'),now=new Date().getFullYear();
   for(let y=now;y>=now-3;y--) yearSel.innerHTML+=`<option value="${y}"${y===now?' selected':''}>${y}</option>`;
   const deptSel=document.getElementById('rpt_dept');
-  const depts=[...new Set(employees.map(e=>e.dept).filter(Boolean))];
-  depts.forEach(d=>deptSel.innerHTML+=`<option value="${d}">${d}</option>`);
+  [...new Set(employees.map(e=>e.dept).filter(Boolean))].forEach(d=>deptSel.innerHTML+=`<option value="${d}">${d}</option>`);
 }
-
 function renderReport(){
   const year=document.getElementById('rpt_year')?.value||new Date().getFullYear().toString();
   const dept=document.getElementById('rpt_dept')?.value||'';
-  const filtered=employees.filter((_,i)=>!dept||employees[i].dept===dept);
+  const filtered=employees.filter(e=>!dept||e.dept===dept);
   const tbody=document.getElementById('rptBody');
   if(!filtered.length){tbody.innerHTML=`<tr><td colspan="14" style="text-align:center;padding:30px;color:#94a3b8;font-size:12px;font-weight:600;text-transform:uppercase;">No employees found</td></tr>`;return;}
-
   let totCLa=0,totCLu=0,totSLa=0,totSLu=0,totPLa=0,totPLu=0,totLWP=0,totOD=0,totAll=0;
-
-  tbody.innerHTML=filtered.map((e,idx)=>{
-    const i=employees.indexOf(e);
-    const name=`${e.fName||''} ${e.lName||''}`.trim();
-    const bal=getLeaveBalance(i);
-    const clA=bal.CL??12,slA=bal.SL??7,plA=bal.PL??15;
+  tbody.innerHTML=filtered.map((e)=>{
+    const i=employees.indexOf(e),name=`${e.fName||''} ${e.lName||''}`.trim();
+    const bal=getLeaveBalance(i),clA=bal.CL??12,slA=bal.SL??7,plA=bal.PL??15;
     const clU=getLeaveUsed(i,'CL',year),slU=getLeaveUsed(i,'SL',year),plU=getLeaveUsed(i,'PL',year),lwpU=getLeaveUsed(i,'LWP',year),odU=getLeaveUsed(i,'OD',year);
-    const clB=Math.max(0,clA-clU),slB=Math.max(0,slA-slU),plB=Math.max(0,plA-plU);
-    const total=clU+slU+plU+lwpU+odU;
-    const grad=AV_COLORS[i%AV_COLORS.length];
-    const initials=(name.split(' ')[0][0]||'')+(name.split(' ')[1]?.[0]||'');
+    const clB=Math.max(0,clA-clU),slB=Math.max(0,slA-slU),plB=Math.max(0,plA-plU),total=clU+slU+plU+lwpU+odU;
+    const grad=AV_COLORS[i%AV_COLORS.length],initials=(name.split(' ')[0][0]||'')+(name.split(' ')[1]?.[0]||'');
     totCLa+=clA;totCLu+=clU;totSLa+=slA;totSLu+=slU;totPLa+=plA;totPLu+=plU;totLWP+=lwpU;totOD+=odU;totAll+=total;
-
     const negCl=clU>clA,negSl=slU>slA,negPl=plU>plA;
-    return `<tr>
-      <td><div class="emp-cell">
-        <div class="emp-av" style="background:${grad};width:30px;height:30px;border-radius:8px;">${initials}</div>
-        <div><div class="emp-nm" style="font-size:11px;">${name}</div><div class="emp-dept">${e.id||''}</div></div>
-      </div></td>
-      <td style="color:#64748b;font-size:10px;font-weight:600;text-transform:uppercase;">${e.dept||'—'}</td>
-      <td class="rpt-cell-num" style="color:#2563eb;">${clA}</td>
-      <td class="rpt-cell-num rpt-cell-used">${clU}</td>
-      <td class="rpt-cell-num ${negCl?'rpt-cell-neg':'rpt-cell-bal'}">${negCl?'⚠ -'+(clU-clA):clB}</td>
-      <td class="rpt-cell-num" style="color:#10b981;">${slA}</td>
-      <td class="rpt-cell-num rpt-cell-used">${slU}</td>
-      <td class="rpt-cell-num ${negSl?'rpt-cell-neg':'rpt-cell-bal'}">${negSl?'⚠ -'+(slU-slA):slB}</td>
-      <td class="rpt-cell-num" style="color:#8b5cf6;">${plA}</td>
-      <td class="rpt-cell-num rpt-cell-used">${plU}</td>
-      <td class="rpt-cell-num ${negPl?'rpt-cell-neg':'rpt-cell-bal'}">${negPl?'⚠ -'+(plU-plA):plB}</td>
-      <td class="rpt-cell-num rpt-cell-lwp">${lwpU||'—'}</td>
-      <td class="rpt-cell-num" style="color:#ea580c;">${odU||'—'}</td>
-      <td class="rpt-cell-num" style="color:#0f172a;font-weight:900;background:#f8fafc;">${total}</td>
-    </tr>`;
+    return `<tr><td><div class="emp-cell"><div class="emp-av" style="background:${grad};width:30px;height:30px;border-radius:8px;">${initials}</div><div><div class="emp-nm" style="font-size:11px;">${name}</div><div class="emp-dept">${e.id||''}</div></div></div></td><td style="color:#64748b;font-size:10px;font-weight:600;text-transform:uppercase;">${e.dept||'—'}</td><td class="rpt-cell-num" style="color:#2563eb;">${clA}</td><td class="rpt-cell-num rpt-cell-used">${clU}</td><td class="rpt-cell-num ${negCl?'rpt-cell-neg':'rpt-cell-bal'}">${negCl?'⚠ -'+(clU-clA):clB}</td><td class="rpt-cell-num" style="color:#10b981;">${slA}</td><td class="rpt-cell-num rpt-cell-used">${slU}</td><td class="rpt-cell-num ${negSl?'rpt-cell-neg':'rpt-cell-bal'}">${negSl?'⚠ -'+(slU-slA):slB}</td><td class="rpt-cell-num" style="color:#8b5cf6;">${plA}</td><td class="rpt-cell-num rpt-cell-used">${plU}</td><td class="rpt-cell-num ${negPl?'rpt-cell-neg':'rpt-cell-bal'}">${negPl?'⚠ -'+(plU-plA):plB}</td><td class="rpt-cell-num rpt-cell-lwp">${lwpU||'—'}</td><td class="rpt-cell-num" style="color:#ea580c;">${odU||'—'}</td><td class="rpt-cell-num" style="color:#0f172a;font-weight:900;background:#f8fafc;">${total}</td></tr>`;
   }).join('');
-
-  // Summary row
-  tbody.innerHTML+=`<tr class="rpt-summary-row">
-    <td colspan="2" style="font-weight:800;text-transform:uppercase;font-size:11px;letter-spacing:.06em;">TOTAL (${filtered.length} Employees)</td>
-    <td class="rpt-cell-num" style="color:#2563eb;">${totCLa}</td><td class="rpt-cell-num">${totCLu}</td><td class="rpt-cell-num rpt-cell-bal">${totCLa-totCLu}</td>
-    <td class="rpt-cell-num" style="color:#10b981;">${totSLa}</td><td class="rpt-cell-num">${totSLu}</td><td class="rpt-cell-num rpt-cell-bal">${totSLa-totSLu}</td>
-    <td class="rpt-cell-num" style="color:#8b5cf6;">${totPLa}</td><td class="rpt-cell-num">${totPLu}</td><td class="rpt-cell-num rpt-cell-bal">${totPLa-totPLu}</td>
-    <td class="rpt-cell-num rpt-cell-lwp">${totLWP||'—'}</td>
-    <td class="rpt-cell-num" style="color:#ea580c;">${totOD||'—'}</td>
-    <td class="rpt-cell-num" style="color:#0f172a;font-weight:900;">${totAll}</td>
-  </tr>`;
+  tbody.innerHTML+=`<tr class="rpt-summary-row"><td colspan="2" style="font-weight:800;text-transform:uppercase;font-size:11px;letter-spacing:.06em;">TOTAL (${filtered.length} Employees)</td><td class="rpt-cell-num" style="color:#2563eb;">${totCLa}</td><td class="rpt-cell-num">${totCLu}</td><td class="rpt-cell-num rpt-cell-bal">${totCLa-totCLu}</td><td class="rpt-cell-num" style="color:#10b981;">${totSLa}</td><td class="rpt-cell-num">${totSLu}</td><td class="rpt-cell-num rpt-cell-bal">${totSLa-totSLu}</td><td class="rpt-cell-num" style="color:#8b5cf6;">${totPLa}</td><td class="rpt-cell-num">${totPLu}</td><td class="rpt-cell-num rpt-cell-bal">${totPLa-totPLu}</td><td class="rpt-cell-num rpt-cell-lwp">${totLWP||'—'}</td><td class="rpt-cell-num" style="color:#ea580c;">${totOD||'—'}</td><td class="rpt-cell-num" style="color:#0f172a;font-weight:900;">${totAll}</td></tr>`;
 }
-
 function exportReport(){
   const year=document.getElementById('rpt_year')?.value||new Date().getFullYear().toString();
   const rows=[['Employee','Emp ID','Department','CL Allotted','CL Used','CL Balance','SL Allotted','SL Used','SL Balance','PL Allotted','PL Used','PL Balance','LWP','OD','Total Used']];
   employees.forEach((e,i)=>{
-    const name=`${e.fName||''} ${e.lName||''}`.trim();
-    const bal=getLeaveBalance(i);
+    const name=`${e.fName||''} ${e.lName||''}`.trim(),bal=getLeaveBalance(i);
     const clA=bal.CL??12,slA=bal.SL??7,plA=bal.PL??15;
     const clU=getLeaveUsed(i,'CL',year),slU=getLeaveUsed(i,'SL',year),plU=getLeaveUsed(i,'PL',year),lwpU=getLeaveUsed(i,'LWP',year),odU=getLeaveUsed(i,'OD',year);
     rows.push([name,e.id||'',e.dept||'',clA,clU,Math.max(0,clA-clU),slA,slU,Math.max(0,slA-slU),plA,plU,Math.max(0,plA-plU),lwpU,odU,clU+slU+plU+lwpU+odU]);
   });
   const csv=rows.map(r=>r.map(c=>`"${c||''}"`).join(',')).join('\n');
-  const a=document.createElement('a');
-  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
-  a.download=`Leave_Report_${year}.csv`;a.click();
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download=`Leave_Report_${year}.csv`;a.click();
   showToast('Report exported!','success');
 }
-
 function exportLeaves(){
-  const rows=[['Emp ID','Employee','Department','Leave Type','From','To','Days','Status','Applied On','Reason']];
-  filteredLeaves.forEach(l=>rows.push([l.empId,l.empName,l.dept,l.type,l.from,l.to,l.days,l.status,l.appliedOn,l.reason]));
+  const rows=[['Emp ID','Employee','Department','Leave Type','From','To','Days','Status','Applied On','Reason','Cancelled On','Cancel Reason']];
+  filteredLeaves.forEach(l=>rows.push([l.empId,l.empName,l.dept,l.type,l.from,l.to,l.days,l.status,l.appliedOn,l.reason,l.cancelledOn||'',l.cancelReason||'']));
   const csv=rows.map(r=>r.map(c=>`"${c||''}"`).join(',')).join('\n');
-  const a=document.createElement('a');
-  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
-  a.download=`Leave_Applications_${new Date().toLocaleDateString('en-IN').replace(/\//g,'-')}.csv`;a.click();
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download=`Leave_Applications_${new Date().toLocaleDateString('en-IN').replace(/\//g,'-')}.csv`;a.click();
   showToast('Exported!','success');
 }
 
 function showToast(msg,type='success'){
-  const t=document.getElementById('toast');
-  const icons={success:'check_circle',error:'error',warn:'warning'};
+  const t=document.getElementById('toast'),icons={success:'check_circle',error:'error',warn:'warning','cancel-t':'cancel'};
   t.className='toast '+type;
   document.getElementById('toastIcon').textContent=icons[type]||'info';
   document.getElementById('toastMsg').textContent=msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3800);
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3800);
 }
 </script>
 </body>
