@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>KIDV Tech | HR Letters</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<script>if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}</script>
+<style>
+:root{--navy:#07101f;--blue:#2563eb;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--amber:#f59e0b;--orange:#f97316;--purple:#8b5cf6;--text-m:rgba(148,163,184,.65);--text-d:rgba(148,163,184,.32);--border-b:rgba(255,255,255,.11);--glass:rgba(255,255,255,.04);--sw:260px;
+--letter-navy:#0a1628;--letter-gold:#b8973a;--letter-gold-light:#e8c96a;--letter-accent:#1a3a6b;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflow:hidden;}
+.app{display:flex;height:100vh;}
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sw);min-width:var(--sw);background:var(--navy);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:200;overflow:hidden;border-right:1px solid rgba(255,255,255,.05);box-shadow:8px 0 40px rgba(0,0,0,.35);}
+.sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:199;backdrop-filter:blur(6px);}
+.logo-area{position:relative;z-index:1;flex-shrink:0;background:#fff;border-bottom:1px solid rgba(255,255,255,.06);}
+.logo-area img{width:100%;height:auto;display:block;}
+.nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 10px 4px;position:relative;z-index:1;}
+.nav::-webkit-scrollbar{width:3px;}.nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);}
+.nav-sec{font-size:8.5px;color:var(--text-d);font-weight:700;text-transform:uppercase;letter-spacing:.2em;padding:0 8px;margin:16px 0 5px;display:flex;align-items:center;gap:8px;}
+.nav-sec::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07);}
+.nav a{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:11px;font-size:11px;font-weight:600;color:var(--text-m);text-decoration:none;margin-bottom:1px;text-transform:uppercase;letter-spacing:.055em;transition:all .18s;position:relative;}
+.nav a:hover{color:rgba(241,245,249,.9);background:rgba(255,255,255,.07);transform:translateX(2px);}
+.nav a.active{color:#fff;background:linear-gradient(120deg,rgba(37,99,235,.32),rgba(6,182,212,.18));border:1px solid rgba(59,130,246,.28);box-shadow:0 4px 20px rgba(37,99,235,.22);}
+.nav a.active::after{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:55%;background:linear-gradient(180deg,#93c5fd,#22d3ee);border-radius:0 3px 3px 0;}
+.ic{width:29px;height:29px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ic .material-icons-round{font-size:15px;}
+.ic-m{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
+.ic-h{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-o{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-i{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.ic-a{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
+.nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
+.user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--glass);margin-bottom:8px;border:1px solid var(--border-b);}
+.user-av{width:33px;height:33px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.user-name{font-size:10.5px;font-weight:700;color:#fff;text-transform:uppercase;}
+.user-role{font-size:8px;color:var(--text-d);font-weight:500;text-transform:uppercase;margin-top:1px;}
+.logout-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:10px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);color:rgba(252,165,165,.8);font-size:10px;font-weight:700;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;}
+.logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;}
+.logout-btn .material-icons-round{font-size:14px;}
+/* ── MAIN ── */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:var(--sw);}
+.topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:11px 22px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.topbar-left{display:flex;align-items:center;gap:10px;}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;}
+.menu-btn .material-icons-round{font-size:22px;}
+.page-title{font-size:15px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
+.page-sub{font-size:9px;color:#94a3b8;font-weight:500;margin-top:2px;letter-spacing:.05em;text-transform:uppercase;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 15px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.05em;font-family:'Outfit',sans-serif;white-space:nowrap;}
+.btn-blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.3);}
+.btn-blue:hover{transform:translateY(-1px);}
+.btn-dark{background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;}
+.btn-dark:hover{transform:translateY(-1px);}
+.btn-ghost{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}
+.btn-ghost:hover{background:#e2e8f0;}
+.btn-sm{padding:6px 11px;font-size:10px;border-radius:8px;}
+.btn .material-icons-round{font-size:14px;}
+.scroll{flex:1;overflow-y:auto;padding:18px 22px;}
+.scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+/* ── LETTER TYPE CARDS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.letter-types{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
+.lt-card{background:#fff;border-radius:14px;border:1.5px solid #e8edf5;padding:18px 18px 16px;cursor:pointer;transition:all .22s;position:relative;overflow:hidden;animation:fadeUp .22s ease both;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.lt-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.12);border-color:transparent;}
+.lt-card.selected{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.14),0 8px 24px rgba(37,99,235,.18);}
+.lt-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:14px 14px 0 0;}
+.lt-offer::before{background:linear-gradient(90deg,#10b981,#06b6d4);}
+.lt-appointment::before{background:linear-gradient(90deg,#2563eb,#0891b2);}
+.lt-increment::before{background:linear-gradient(90deg,#8b5cf6,#ec4899);}
+.lt-experience::before{background:linear-gradient(90deg,#f59e0b,#f97316);}
+.lt-relieving::before{background:linear-gradient(90deg,#ef4444,#f97316);}
+.lt-warning::before{background:linear-gradient(90deg,#f97316,#dc2626);}
+.lt-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
+.lt-icon .material-icons-round{font-size:20px;}
+.lt-name{font-size:12px;font-weight:800;text-transform:uppercase;color:#0f172a;margin-bottom:3px;letter-spacing:.04em;}
+.lt-desc{font-size:10px;color:#94a3b8;font-weight:500;line-height:1.5;}
+/* ── FORM LAYOUT ── */
+.form-cols{display:grid;grid-template-columns:420px 1fr;gap:18px;align-items:start;}
+.letter-form-wrap{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,.04);position:sticky;top:0;}
+.fg{margin-bottom:11px;}
+.fl{font-size:8px;font-weight:800;text-transform:uppercase;color:#64748b;letter-spacing:.1em;margin-bottom:4px;display:block;}
+.fi,.fs{width:100%;padding:8px 11px;border-radius:8px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;color:#1e293b;background:#f8fafc;transition:all .15s;outline:none;}
+.fi:focus,.fs:focus{border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
+.fta{width:100%;padding:8px 11px;border-radius:8px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;color:#1e293b;background:#f8fafc;resize:vertical;min-height:70px;outline:none;}
+.fta:focus{border-color:#2563eb;background:#fff;}
+.fr2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.sec-hd{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;padding-bottom:6px;margin:14px 0 10px;border-bottom:2px solid;display:flex;align-items:center;gap:6px;}
+.sh-blue{color:#2563eb;border-color:#bfdbfe;}
+.sh-blue .material-icons-round{font-size:14px;}
+/* ── LETTER PREVIEW SHELL ── */
+.letter-preview-shell{background:#e8edf5;border-radius:14px;padding:14px;box-shadow:inset 0 2px 8px rgba(0,0,0,.06);}
+.lp-toolbar{background:#0f172a;padding:9px 14px;border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px;}
+.lp-title-bar{font-size:9.5px;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.12em;display:flex;align-items:center;gap:6px;}
+.lp-title-bar .material-icons-round{font-size:13px;color:var(--letter-gold-light);}
+.lp-dots{display:flex;gap:5px;margin-right:8px;}
+.lp-dot{width:9px;height:9px;border-radius:50%;}
+/* ── THE LETTER PAPER ── */
+.letter-paper{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.14),0 1px 4px rgba(0,0,0,.08);}
+/* ── PROFESSIONAL LETTER CONTENT ── */
+#letterContent{font-family:'Source Serif 4',Georgia,serif;font-size:13.5px;line-height:1.85;color:#1a2332;background:#fff;position:relative;}
+
+/* Letter Header Band */
+.ltr-header-band{background:var(--letter-navy);padding:22px 32px 0;position:relative;overflow:hidden;}
+.ltr-header-band::before{content:'';position:absolute;top:0;right:0;width:200px;height:100%;background:linear-gradient(135deg,transparent 0%,rgba(184,151,58,.18) 100%);}
+.ltr-header-band::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--letter-gold) 0%,var(--letter-gold-light) 40%,var(--letter-gold) 100%);}
+.ltr-brand-row{display:flex;align-items:flex-start;justify-content:space-between;padding-bottom:18px;}
+.ltr-company-block{display:flex;align-items:center;gap:14px;}
+.ltr-logo-box{width:46px;height:46px;background:linear-gradient(135deg,var(--letter-gold),var(--letter-gold-light));border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--letter-navy);letter-spacing:-.5px;}
+.ltr-company-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#fff;letter-spacing:.06em;line-height:1;}
+.ltr-company-tagline{font-size:9px;color:rgba(184,151,58,.75);text-transform:uppercase;letter-spacing:.18em;margin-top:3px;font-family:'Outfit',sans-serif;}
+.ltr-meta{text-align:right;}
+.ltr-meta-ref{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--letter-gold-light);letter-spacing:.05em;margin-bottom:4px;}
+.ltr-meta-date{font-size:11px;color:rgba(255,255,255,.6);font-family:'Outfit',sans-serif;}
+.ltr-contact-strip{display:flex;align-items:center;gap:18px;padding:9px 0;border-top:1px solid rgba(255,255,255,.08);}
+.ltr-contact-item{display:flex;align-items:center;gap:5px;font-size:9.5px;color:rgba(255,255,255,.4);font-family:'Outfit',sans-serif;}
+.ltr-contact-item .material-icons-round{font-size:11px;color:var(--letter-gold);opacity:.8;}
+
+/* Letter Type Badge Bar */
+.ltr-type-bar{background:linear-gradient(90deg,var(--letter-accent) 0%,#162d5a 100%);padding:8px 32px;display:flex;align-items:center;gap:10px;}
+.ltr-type-badge{font-family:'Outfit',sans-serif;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:var(--letter-gold-light);display:flex;align-items:center;gap:6px;}
+.ltr-type-badge .material-icons-round{font-size:13px;}
+.ltr-type-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(184,151,58,.3),transparent);}
+
+/* Letter Body */
+.ltr-body{padding:28px 36px 32px;}
+.ltr-addressee{margin-bottom:20px;}
+.ltr-to-label{font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:#94a3b8;font-family:'Outfit',sans-serif;margin-bottom:4px;}
+.ltr-dear{font-size:14px;color:#1a2332;margin-bottom:2px;}
+.ltr-dear strong{color:var(--letter-navy);font-weight:700;}
+
+/* Subject line - BEAUTIFUL */
+.ltr-subject{margin:18px 0 16px;padding:12px 16px;background:linear-gradient(135deg,#f0f4ff,#e8f4ff);border-left:3px solid var(--letter-accent);border-radius:0 8px 8px 0;position:relative;}
+.ltr-subject-label{font-size:7.5px;font-weight:800;text-transform:uppercase;letter-spacing:.18em;color:var(--letter-accent);font-family:'Outfit',sans-serif;margin-bottom:3px;}
+.ltr-subject-text{font-family:'Playfair Display',serif;font-size:14.5px;font-weight:600;color:var(--letter-navy);font-style:italic;}
+
+/* Body paragraphs */
+.ltr-p{margin-bottom:13px;text-align:justify;color:#2c3e50;font-size:13px;}
+.ltr-p strong{color:var(--letter-navy);font-weight:600;}
+
+/* PREMIUM TERMS TABLE */
+.ltr-terms-wrap{margin:16px 0;border-radius:10px;overflow:hidden;border:1px solid #dde4ef;box-shadow:0 2px 8px rgba(26,42,107,.07);}
+.ltr-terms-header{background:var(--letter-navy);padding:9px 16px;font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:var(--letter-gold-light);font-family:'Outfit',sans-serif;display:flex;align-items:center;gap:6px;}
+.ltr-terms-header .material-icons-round{font-size:13px;color:var(--letter-gold);}
+table.ltr-terms{width:100%;border-collapse:collapse;font-size:12.5px;}
+table.ltr-terms tr:nth-child(odd){background:#f8fafd;}
+table.ltr-terms tr:nth-child(even){background:#fff;}
+table.ltr-terms tr:hover{background:#eff4ff;}
+table.ltr-terms td{padding:9px 16px;border-bottom:1px solid #eef1f8;vertical-align:middle;}
+table.ltr-terms td:first-child{font-family:'Outfit',sans-serif;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#64748b;width:38%;}
+table.ltr-terms td:last-child{font-weight:600;color:var(--letter-navy);}
+table.ltr-terms td:last-child strong{color:var(--letter-accent);font-weight:700;}
+table.ltr-terms tr:last-child td{border-bottom:none;}
+
+/* Incident block for warning */
+.ltr-incident-block{margin:14px 0;padding:14px 18px;background:linear-gradient(135deg,#fff7ed,#fef3e2);border:1px solid #fed7aa;border-radius:10px;border-left:4px solid #f97316;position:relative;}
+.ltr-incident-label{font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:#c2410c;font-family:'Outfit',sans-serif;margin-bottom:6px;display:flex;align-items:center;gap:5px;}
+.ltr-incident-label .material-icons-round{font-size:12px;}
+.ltr-incident-text{font-style:italic;color:#7c2d12;font-size:12.5px;line-height:1.7;}
+
+/* Signature area */
+.ltr-sig-section{margin-top:32px;padding-top:20px;border-top:1px solid #eef1f8;display:flex;justify-content:space-between;align-items:flex-end;}
+.ltr-sig-left{font-size:12.5px;color:#475569;}
+.ltr-sig-block{text-align:right;}
+.ltr-sig-space{height:44px;margin-bottom:6px;position:relative;}
+.ltr-sig-space::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:120px;height:2px;background:linear-gradient(90deg,transparent,var(--letter-navy),transparent);}
+.ltr-sig-name{font-family:'Playfair Display',serif;font-size:14px;font-weight:600;color:var(--letter-navy);}
+.ltr-sig-title{font-size:10px;font-family:'Outfit',sans-serif;color:#94a3b8;text-transform:uppercase;letter-spacing:.1em;margin-top:2px;}
+.ltr-sig-company{font-size:10px;font-family:'Outfit',sans-serif;color:var(--letter-accent);font-weight:700;text-transform:uppercase;letter-spacing:.08em;}
+
+/* Footer */
+.ltr-footer{background:var(--letter-navy);padding:10px 32px;display:flex;align-items:center;justify-content:space-between;}
+.ltr-footer-text{font-size:8.5px;color:rgba(255,255,255,.3);font-family:'Outfit',sans-serif;letter-spacing:.06em;}
+.ltr-footer-badge{font-size:8px;font-family:'Outfit',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:var(--letter-gold);opacity:.6;}
+
+/* Watermark */
+.ltr-watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-30deg);font-family:'Playfair Display',serif;font-size:72px;font-weight:700;color:rgba(26,58,107,.04);pointer-events:none;white-space:nowrap;z-index:0;letter-spacing:.1em;}
+.ltr-body{position:relative;z-index:1;}
+
+/* ── HISTORY TABLE ── */
+.tw{border-radius:12px;overflow:hidden;border:1px solid #ecf0f6;overflow-x:auto;}
+table.dt{width:100%;border-collapse:collapse;font-size:11px;min-width:500px;}
+table.dt thead th{background:#0f172a;color:#fff;padding:10px 14px;font-size:8.5px;text-transform:uppercase;font-weight:700;text-align:left;white-space:nowrap;}
+table.dt tbody tr{border-bottom:1px solid #f8fafc;transition:background .12s;}
+table.dt tbody tr:hover{background:#fafbfc;}
+table.dt tbody tr:last-child{border-bottom:none;}
+table.dt tbody td{padding:10px 14px;font-weight:600;color:#475569;vertical-align:middle;}
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;}
+.bg-green{background:#dcfce7;color:#15803d;}
+.bg-blue{background:#eff6ff;color:#2563eb;}
+.bg-amber{background:#fef9c3;color:#a16207;}
+.bg-red{background:#fee2e2;color:#dc2626;}
+.bg-gray{background:#f1f5f9;color:#64748b;}
+.bg-purple{background:#ede9fe;color:#6d28d9;}
+.bg-orange{background:#fff7ed;color:#c2410c;}
+.act-btn{width:28px;height:28px;border-radius:7px;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .12s;}
+.av{background:#eff6ff;color:#2563eb;}.av:hover{background:#2563eb;color:#fff;}
+.ad{background:#fef2f2;color:#ef4444;}.ad:hover{background:#ef4444;color:#fff;}
+.act-btn .material-icons-round{font-size:14px;}
+/* ── TOAST ── */
+.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.2);}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{background:#065f46;border-left:4px solid #6ee7b7;}
+.toast.error{background:#7f1d1d;border-left:4px solid #fca5a5;}
+.toast .material-icons-round{font-size:16px;}
+
+/* ── PRINT ── */
+@media print{
+  body *{visibility:hidden!important;}
+  #printZone,#printZone *{visibility:visible!important;}
+  #printZone{position:fixed!important;inset:0!important;background:white!important;z-index:9999!important;overflow:auto!important;}
+  #printZone .letter-paper{box-shadow:none!important;border-radius:0!important;}
+}
+@media(max-width:1300px){.form-cols{grid-template-columns:360px 1fr;}}
+@media(max-width:1100px){.letter-types{grid-template-columns:repeat(2,1fr);}.form-cols{grid-template-columns:1fr;}}
+@media(max-width:768px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.sidebar-overlay.open{display:block;}.main{margin-left:0!important;}.menu-btn{display:flex!important;}.letter-types{grid-template-columns:1fr 1fr;}.fr2,.fr3{grid-template-columns:1fr;}.ltr-body{padding:20px 18px;}.ltr-header-band{padding:16px 18px 0;}.ltr-footer{padding:8px 18px;}.ltr-sig-section{flex-direction:column;gap:16px;align-items:flex-start;}.ltr-sig-block{text-align:left;}}
+</style>
+</head>
+<body onload="init()">
+<div id="printZone" style="display:none;position:fixed;inset:0;background:white;z-index:9999;overflow:auto;"></div>
+<div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="logo-area"><img src="logo.png" alt="KIDV Tech"></div>
+  <nav class="nav">
+    <div class="nav-sec">Main</div>
+    <a href="index.html"><span class="ic ic-main"><span class="material-icons-round">dashboard</span></span>Dashboard</a>
+    <a href="employees.html"><span class="ic ic-main"><span class="material-icons-round">badge</span></span>Employees</a>
+    <div class="nav-sec">HR</div>
+    <a href="leave-management.html"><span class="ic ic-hr"><span class="material-icons-round">event_available</span></span>Leave</a>
+    <a href="shifts.html"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
+    <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
+    <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
+    <div class="nav-sec">Operations</div>
+    <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
+    <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
+    <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
+    <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
+    <div class="nav-sec">Recruitment</div>
+    <a href="job-openings.html" class="active"><span class="ic ic-rec"><span class="material-icons-round">work</span></span>Job Openings</a>
+    <a href="hr-letters.html"><span class="ic ic-hr"><span class="material-icons-round">mail</span></span>HR Letters</a>
+    <div class="nav-sec">Integration</div>
+    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">device_hub</span></span>Device Manager</a>
+    <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
+    <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
+    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">shield</span></span>Roles &amp; Perms</a>
+  </nav>
+  <div class="nav-bottom">
+    <div class="user-info"><div class="user-av" id="sideAvatar">SA</div><div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Administrator</div></div></div>
+    <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="menu-btn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
+      <div><div class="page-title">HR Letters</div><div class="page-sub">Offer · Appointment · Increment · Experience · Relieving · Warning</div></div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-ghost" id="historyBtn" onclick="toggleHistory()"><span class="material-icons-round">history</span>Letter History</button>
+    </div>
+  </div>
+
+  <div class="scroll" id="mainScroll">
+    <div id="generatorView">
+      <div style="font-size:10px;font-weight:800;text-transform:uppercase;color:#94a3b8;letter-spacing:.14em;margin-bottom:12px;">Select Letter Type</div>
+      <div class="letter-types">
+        <div class="lt-card lt-offer" onclick="selectType('offer')" id="lt-offer" style="animation-delay:.00s"><div class="lt-icon" style="background:rgba(16,185,129,.1);"><span class="material-icons-round" style="color:#10b981;">local_offer</span></div><div class="lt-name">Offer Letter</div><div class="lt-desc">Formal job offer with CTC, designation and joining date</div></div>
+        <div class="lt-card lt-appointment" onclick="selectType('appointment')" id="lt-appointment" style="animation-delay:.05s"><div class="lt-icon" style="background:rgba(37,99,235,.1);"><span class="material-icons-round" style="color:#2563eb;">how_to_reg</span></div><div class="lt-name">Appointment Letter</div><div class="lt-desc">Confirms employment with terms, probation and policies</div></div>
+        <div class="lt-card lt-increment" onclick="selectType('increment')" id="lt-increment" style="animation-delay:.10s"><div class="lt-icon" style="background:rgba(139,92,246,.1);"><span class="material-icons-round" style="color:#8b5cf6;">trending_up</span></div><div class="lt-name">Increment / Revision</div><div class="lt-desc">Salary revision or increment acknowledgement letter</div></div>
+        <div class="lt-card lt-experience" onclick="selectType('experience')" id="lt-experience" style="animation-delay:.15s"><div class="lt-icon" style="background:rgba(245,158,11,.1);"><span class="material-icons-round" style="color:#f59e0b;">workspace_premium</span></div><div class="lt-name">Experience Certificate</div><div class="lt-desc">Certifies tenure, role and character for relieved employees</div></div>
+        <div class="lt-card lt-relieving" onclick="selectType('relieving')" id="lt-relieving" style="animation-delay:.20s"><div class="lt-icon" style="background:rgba(239,68,68,.1);"><span class="material-icons-round" style="color:#ef4444;">logout</span></div><div class="lt-name">Relieving Letter</div><div class="lt-desc">Official acceptance of resignation and F&F clearance</div></div>
+        <div class="lt-card lt-warning" onclick="selectType('warning')" id="lt-warning" style="animation-delay:.25s"><div class="lt-icon" style="background:rgba(249,115,22,.1);"><span class="material-icons-round" style="color:#f97316;">warning</span></div><div class="lt-name">Show Cause / Warning</div><div class="lt-desc">Disciplinary notice with explanation requirement</div></div>
+      </div>
+
+      <div id="formPreviewSection" style="display:none;">
+        <div class="form-cols">
+          <!-- LEFT FORM -->
+          <div>
+            <div class="letter-form-wrap">
+              <div class="sec-hd sh-blue"><span class="material-icons-round">person</span>Employee Details</div>
+              <div class="fg"><label class="fl">Select Employee</label><select class="fs" id="ltr_emp" onchange="autoFillEmp()"><option value="">-- Select Employee --</option></select></div>
+              <div class="fr2">
+                <div class="fg"><label class="fl">Employee Name</label><input class="fi" id="ltr_name" placeholder="Full Name" oninput="generatePreview()"></div>
+                <div class="fg"><label class="fl">Designation</label><input class="fi" id="ltr_designation" placeholder="Job Title" oninput="generatePreview()"></div>
+              </div>
+              <div class="fr2">
+                <div class="fg"><label class="fl">Department</label><input class="fi" id="ltr_dept" placeholder="Department" oninput="generatePreview()"></div>
+                <div class="fg"><label class="fl">Employee ID</label><input class="fi" id="ltr_empid" placeholder="EMP001" oninput="generatePreview()"></div>
+              </div>
+              <div id="extraFields"></div>
+              <div class="fg"><label class="fl">Letter Date</label><input class="fi" type="date" id="ltr_date" oninput="generatePreview()"></div>
+              <div style="display:flex;gap:8px;margin-top:6px;">
+                <button class="btn btn-ghost btn-sm" style="flex:1;" onclick="printLetter()"><span class="material-icons-round">print</span>Print</button>
+                <button class="btn btn-blue btn-sm" style="flex:1;" onclick="saveLetter()"><span class="material-icons-round">save</span>Save</button>
+              </div>
+            </div>
+          </div>
+          <!-- RIGHT PREVIEW -->
+          <div>
+            <div class="letter-preview-shell">
+              <div class="lp-toolbar">
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div class="lp-dots"><div class="lp-dot" style="background:#ef4444;"></div><div class="lp-dot" style="background:#f59e0b;"></div><div class="lp-dot" style="background:#10b981;"></div></div>
+                  <span class="lp-title-bar"><span class="material-icons-round">description</span><span id="previewTitle">Letter Preview</span></span>
+                </div>
+                <div style="font-size:8.5px;color:rgba(255,255,255,.2);font-family:'JetBrains Mono',monospace;" id="previewRef">KIDV/—/2026</div>
+              </div>
+              <div class="letter-paper">
+                <div id="letterContent">
+                  <div style="text-align:center;padding:80px 20px;color:#94a3b8;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;">Select a letter type above<br><span style="font-size:10px;font-weight:500;margin-top:8px;display:block;opacity:.6;">then fill in the details to generate a professional preview</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HISTORY VIEW -->
+    <div id="historyView" style="display:none;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+        <div style="font-size:12px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;">Letter History</div>
+        <button class="btn btn-ghost btn-sm" onclick="toggleHistory()"><span class="material-icons-round">arrow_back</span>Back</button>
+      </div>
+      <div style="background:#fff;border-radius:14px;border:1px solid #ecf0f6;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04);">
+        <div class="tw"><table class="dt"><thead><tr><th>Employee</th><th>Letter Type</th><th>Date</th><th>Ref No.</th><th>Actions</th></tr></thead><tbody id="historyBody"></tbody></table></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="toast" id="toast"><span class="material-icons-round" id="toastIcon">check_circle</span><span id="toastMsg"></span></div>
+
+<script>
+const LETTER_META={
+  offer:{name:'Offer Letter',color:'#10b981',badge:'bg-green',icon:'local_offer',typeLabel:'OFFER OF EMPLOYMENT'},
+  appointment:{name:'Appointment Letter',color:'#2563eb',badge:'bg-blue',icon:'how_to_reg',typeLabel:'APPOINTMENT LETTER'},
+  increment:{name:'Increment Letter',color:'#8b5cf6',badge:'bg-purple',icon:'trending_up',typeLabel:'SALARY REVISION / INCREMENT'},
+  experience:{name:'Experience Certificate',color:'#f59e0b',badge:'bg-amber',icon:'workspace_premium',typeLabel:'EXPERIENCE CERTIFICATE'},
+  relieving:{name:'Relieving Letter',color:'#ef4444',badge:'bg-red',icon:'logout',typeLabel:'RELIEVING LETTER'},
+  warning:{name:'Show Cause / Warning',color:'#f97316',badge:'bg-orange',icon:'warning',typeLabel:'SHOW CAUSE NOTICE'}
+};
+
+let employees=[], selectedType='', letterHistory=[], empIdx=-1;
+
+function init(){
+  loadUser();
+  employees=JSON.parse(localStorage.getItem('employees')||'[]');
+  letterHistory=JSON.parse(localStorage.getItem('kidv_letter_history')||'[]');
+  const empSel=document.getElementById('ltr_emp');
+  employees.forEach((e,i)=>{const o=document.createElement('option');o.value=i;o.textContent=`${e.id||''} — ${e.fName||''} ${e.lName||''}`;empSel.appendChild(o);});
+  document.getElementById('ltr_date').value=new Date().toISOString().split('T')[0];
+}
+
+function selectType(type){
+  selectedType=type;
+  document.querySelectorAll('.lt-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('lt-'+type).classList.add('selected');
+  document.getElementById('formPreviewSection').style.display='';
+  document.getElementById('previewTitle').textContent=LETTER_META[type].name+' — Preview';
+  buildExtraFields(type);generatePreview();
+  document.getElementById('formPreviewSection').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function autoFillEmp(){
+  const idx=parseInt(document.getElementById('ltr_emp').value);
+  if(isNaN(idx))return;empIdx=idx;
+  const e=employees[idx];
+  document.getElementById('ltr_name').value=`${e.fName||''} ${e.lName||''}`.trim();
+  document.getElementById('ltr_designation').value=e.job||'';
+  document.getElementById('ltr_dept').value=e.dept||'';
+  document.getElementById('ltr_empid').value=e.id||'';
+  const dojF=document.getElementById('xf_doj');if(dojF)dojF.value=e.doj||'';
+  const sF=document.getElementById('xf_salary');if(sF&&e.sal_gross)sF.value=Math.round(parseFloat(e.sal_gross)*12)||'';
+  const bF=document.getElementById('xf_basic');if(bF&&e.sal_basic)bF.value=e.sal_basic;
+  generatePreview();
+}
+
+function buildExtraFields(type){
+  const c=document.getElementById('extraFields');c.innerHTML='';
+  const fi=(id,lbl,t='text',ph='')=>`<div class="fg"><label class="fl">${lbl}</label><input class="fi" type="${t}" id="${id}" placeholder="${ph}" oninput="generatePreview()"></div>`;
+  const fs=(id,lbl,opts)=>`<div class="fg"><label class="fl">${lbl}</label><select class="fs" id="${id}" onchange="generatePreview()">${opts.map(o=>`<option>${o}</option>`).join('')}</select></div>`;
+  const fta=(id,lbl,ph)=>`<div class="fg"><label class="fl">${lbl}</label><textarea class="fta" id="${id}" placeholder="${ph}" oninput="generatePreview()" style="min-height:60px;"></textarea></div>`;
+  let html='<div class="sec-hd sh-blue"><span class="material-icons-round" style="font-size:14px;">edit_note</span>Letter Details</div>';
+  if(type==='offer')html+=`<div class="fr2">${fi('xf_doj','Date of Joining','date','')}${fi('xf_salary','Annual CTC (Rs)','number','e.g. 600000')}</div><div class="fr2">${fi('xf_probation','Probation Period','text','e.g. 6 months')}${fi('xf_loc','Work Location','text','e.g. Ahmedabad')}</div>${fi('xf_deadline','Acceptance Deadline','date','')}`;
+  else if(type==='appointment')html+=`<div class="fr2">${fi('xf_doj','Date of Joining','date','')}${fi('xf_salary','Annual CTC (Rs)','number','e.g. 600000')}</div><div class="fr2">${fi('xf_basic','Monthly Basic (Rs)','number','e.g. 20000')}${fi('xf_probation','Probation Period','text','e.g. 6 months')}</div><div class="fr2">${fi('xf_workh','Working Hours','text','e.g. 9 AM – 6 PM')}${fi('xf_loc','Work Location','text','e.g. Ahmedabad')}</div>`;
+  else if(type==='increment')html+=`<div class="fr2">${fi('xf_effective','Effective Date','date','')}${fi('xf_oldsal','Previous CTC (Rs)','number','')}</div><div class="fr2">${fi('xf_newsal','Revised CTC (Rs)','number','')}${fi('xf_incrpct','Increment %','number','')}</div>${fta('xf_reason','Reason / Achievement','e.g. Outstanding performance in FY 2025-26...')}`;
+  else if(type==='experience')html+=`<div class="fr2">${fi('xf_doj','Date of Joining','date','')}${fi('xf_lwd','Last Working Day','date','')}</div>${fs('xf_conduct','Conduct During Employment',['Excellent','Good','Satisfactory'])}${fta('xf_roles','Key Responsibilities (Optional)','Describe key roles...')}`;
+  else if(type==='relieving')html+=`<div class="fr2">${fi('xf_resign_date','Resignation Date','date','')}${fi('xf_lwd','Last Working Day','date','')}</div>${fi('xf_notice_period','Notice Period Served','text','e.g. 30 days / Waived')}`;
+  else if(type==='warning')html+=`${fi('xf_incident_date','Incident Date','date','')}${fta('xf_incident','Incident / Allegation','Describe the misconduct in detail...')}${fi('xf_response_days','Days to Respond','number','e.g. 3')}${fs('xf_severity','Severity Level',['Minor Warning','Serious Warning','Show Cause Notice','Final Warning'])}`;
+  c.innerHTML=html;
+  if(empIdx>=0){const e=employees[empIdx];const d=document.getElementById('xf_doj');if(d)d.value=e.doj||'';const s=document.getElementById('xf_salary');if(s&&e.sal_gross)s.value=Math.round(parseFloat(e.sal_gross)*12)||'';const b=document.getElementById('xf_basic');if(b&&e.sal_basic)b.value=e.sal_basic;}
+}
+
+const gv=id=>{const el=document.getElementById(id);return el?el.value.trim():'';};
+const fmtD=d=>{if(!d)return'___________';try{return new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});}catch{return d;}};
+const fmtRs=v=>{const n=parseFloat(v)||0;return n>0?'Rs.'+n.toLocaleString('en-IN',{maximumFractionDigits:0}):'___________';};
+
+function generatePreview(){
+  if(!selectedType)return;
+  const name=gv('ltr_name')||'[Employee Name]';
+  const desig=gv('ltr_designation')||'[Designation]';
+  const dept=gv('ltr_dept')||'[Department]';
+  const empid=gv('ltr_empid')||'[EMP ID]';
+  const date=fmtD(gv('ltr_date'));
+  const meta=LETTER_META[selectedType];
+  const refNo=`KIDV/${selectedType.slice(0,3).toUpperCase()}/${new Date().getFullYear()}/${String(letterHistory.length+1).padStart(3,'0')}`;
+  document.getElementById('previewRef').textContent=refNo;
+
+  // ─ HEADER BAND ─
+  const header=`
+    <div class="ltr-header-band">
+      <div class="ltr-brand-row">
+        <div class="ltr-company-block">
+          <div class="ltr-logo-box">KT</div>
+          <div>
+            <div class="ltr-company-name">KIDV Tech</div>
+            <div class="ltr-company-tagline">Smart Business &amp; Automation</div>
+          </div>
+        </div>
+        <div class="ltr-meta">
+          <div class="ltr-meta-ref">Ref: ${refNo}</div>
+          <div class="ltr-meta-date">Date: ${date}</div>
+        </div>
+      </div>
+      <div class="ltr-contact-strip">
+        <span class="ltr-contact-item"><span class="material-icons-round">location_on</span>Ahmedabad, Gujarat — 380001</span>
+        <span class="ltr-contact-item"><span class="material-icons-round">email</span>hr@kidvtech.com</span>
+        <span class="ltr-contact-item"><span class="material-icons-round">phone</span>+91 79 0000 0000</span>
+        <span class="ltr-contact-item"><span class="material-icons-round">language</span>www.kidvtech.com</span>
+      </div>
+    </div>
+    <div class="ltr-type-bar">
+      <div class="ltr-type-badge"><span class="material-icons-round">${meta.icon}</span>${meta.typeLabel}</div>
+      <div class="ltr-type-line"></div>
+    </div>`;
+
+  // ─ SIGNATURE ─
+  const sig=`
+    <div class="ltr-sig-section">
+      <div class="ltr-sig-left" style="font-size:12px;color:#64748b;">For acknowledgement,<br><br><br><div style="width:120px;border-top:1px solid #cbd5e1;padding-top:5px;font-size:10px;color:#94a3b8;font-family:'Outfit',sans-serif;text-transform:uppercase;letter-spacing:.06em;">Employee Signature</div></div>
+      <div class="ltr-sig-block">
+        <div class="ltr-sig-space"></div>
+        <div class="ltr-sig-name">Authorized Signatory</div>
+        <div class="ltr-sig-title">Human Resources Department</div>
+        <div class="ltr-sig-company">KIDV Tech</div>
+      </div>
+    </div>`;
+
+  // ─ FOOTER ─
+  const footer=`
+    <div class="ltr-footer">
+      <div class="ltr-footer-text">This is a computer-generated document. No signature required if digitally authenticated.</div>
+      <div class="ltr-footer-badge">KIDV Tech · Confidential</div>
+    </div>`;
+
+  // ─ WATERMARK ─
+  const wm=`<div class="ltr-watermark">KIDV TECH</div>`;
+
+  // ─ LETTER BODY based on type ─
+  let body='';
+
+  if(selectedType==='offer'){
+    const doj=fmtD(gv('xf_doj')),ctc=fmtRs(gv('xf_salary')),prob=gv('xf_probation')||'6 Months',loc=gv('xf_loc')||'Ahmedabad',deadline=fmtD(gv('xf_deadline'));
+    body=`
+      <div class="ltr-addressee">
+        <div class="ltr-to-label">Addressed To</div>
+        <div class="ltr-dear">Dear <strong>${name}</strong>,</div>
+      </div>
+      <div class="ltr-subject">
+        <div class="ltr-subject-label">Subject</div>
+        <div class="ltr-subject-text">Offer of Employment — ${desig}, ${dept} Department</div>
+      </div>
+      <p class="ltr-p">We are delighted to extend this offer of employment to you for the position of <strong>${desig}</strong> in the <strong>${dept}</strong> department at <strong>KIDV Tech</strong>. This offer is based on the discussions held during your interview process and is subject to the terms and conditions outlined herein.</p>
+      <div class="ltr-terms-wrap">
+        <div class="ltr-terms-header"><span class="material-icons-round">table_chart</span>Terms of Employment</div>
+        <table class="ltr-terms"><tr><td>Position / Designation</td><td><strong>${desig}</strong></td></tr><tr><td>Department</td><td>${dept}</td></tr><tr><td>Work Location</td><td>${loc}</td></tr><tr><td>Date of Joining</td><td>${doj}</td></tr><tr><td>Annual CTC (Cost to Company)</td><td><strong>${ctc}</strong></td></tr><tr><td>Probation Period</td><td>${prob}</td></tr></table>
+      </div>
+      <p class="ltr-p">This offer is contingent upon satisfactory verification of your educational qualifications, employment records, and background checks as deemed necessary by the Company. The detailed salary breakup and allowance structure will be provided in the Appointment Letter upon joining.</p>
+      <p class="ltr-p">Kindly confirm your acceptance of this offer by signing and returning a copy of this letter on or before <strong>${deadline}</strong>. If we do not receive your confirmation by the stipulated date, this offer shall stand withdrawn.</p>
+      <p class="ltr-p">We look forward to welcoming you to the KIDV Tech family and are confident that your expertise and skills will be a valuable addition to our team.</p>`;
+  }
+  else if(selectedType==='appointment'){
+    const doj=fmtD(gv('xf_doj')),ctc=fmtRs(gv('xf_salary')),basic=fmtRs(gv('xf_basic')),prob=gv('xf_probation')||'6 Months',hours=gv('xf_workh')||'9:00 AM – 6:00 PM',loc=gv('xf_loc')||'Ahmedabad';
+    body=`
+      <div class="ltr-addressee"><div class="ltr-to-label">Addressed To</div><div class="ltr-dear">Dear <strong>${name}</strong>,</div></div>
+      <div class="ltr-subject"><div class="ltr-subject-label">Subject</div><div class="ltr-subject-text">Appointment Letter — ${desig} | Employee ID: ${empid}</div></div>
+      <p class="ltr-p">With reference to our discussions and the Offer Letter previously issued, we are pleased to confirm your appointment as <strong>${desig}</strong> in the <strong>${dept}</strong> department of <strong>KIDV Tech</strong>, with effect from <strong>${doj}</strong>.</p>
+      <div class="ltr-terms-wrap">
+        <div class="ltr-terms-header"><span class="material-icons-round">assignment_ind</span>Appointment Terms</div>
+        <table class="ltr-terms"><tr><td>Employee ID</td><td><strong>${empid}</strong></td></tr><tr><td>Designation</td><td><strong>${desig}</strong></td></tr><tr><td>Department</td><td>${dept}</td></tr><tr><td>Work Location</td><td>${loc}</td></tr><tr><td>Date of Joining</td><td>${doj}</td></tr><tr><td>Annual CTC</td><td><strong>${ctc}</strong></td></tr><tr><td>Monthly Basic Salary</td><td>${basic}</td></tr><tr><td>Probation Period</td><td>${prob}</td></tr><tr><td>Working Hours</td><td>${hours}</td></tr></table>
+      </div>
+      <p class="ltr-p">During the probation period, either party may terminate the employment with one (1) week's written notice. Upon successful confirmation, the applicable notice period shall be as stipulated in the Company's HR Policy.</p>
+      <p class="ltr-p">You are required to maintain strict confidentiality of all proprietary, business, and customer information. Compliance with all KIDV Tech policies, including the Code of Conduct, IT Policy, and Leave Policy, is mandatory.</p>
+      <p class="ltr-p">We are confident in your abilities and extend a warm welcome to you. We trust this will be the beginning of a long and mutually rewarding association.</p>`;
+  }
+  else if(selectedType==='increment'){
+    const eff=fmtD(gv('xf_effective')),old=fmtRs(gv('xf_oldsal')),nw=fmtRs(gv('xf_newsal')),pct=gv('xf_incrpct'),reason=gv('xf_reason')||'your exceptional performance, dedication, and valuable contributions to the organization';
+    body=`
+      <div class="ltr-addressee"><div class="ltr-to-label">Addressed To</div><div class="ltr-dear">Dear <strong>${name}</strong>,</div></div>
+      <div class="ltr-subject"><div class="ltr-subject-label">Subject</div><div class="ltr-subject-text">Salary Revision / Increment — ${empid} | Effective ${eff}</div></div>
+      <p class="ltr-p">On behalf of the Management and the Human Resources department, we are pleased to inform you that in recognition of <em>${reason}</em>, the Company has decided to revise your compensation package effective <strong>${eff}</strong>.</p>
+      <div class="ltr-terms-wrap">
+        <div class="ltr-terms-header"><span class="material-icons-round">trending_up</span>Revised Compensation Details</div>
+        <table class="ltr-terms"><tr><td>Employee ID</td><td><strong>${empid}</strong></td></tr><tr><td>Designation</td><td>${desig}</td></tr><tr><td>Department</td><td>${dept}</td></tr><tr><td>Previous Annual CTC</td><td>${old}</td></tr><tr><td>Revised Annual CTC</td><td><strong>${nw}</strong></td></tr>${pct?`<tr><td>Increment Percentage</td><td><strong style="color:#10b981;">▲ ${pct}%</strong></td></tr>`:''}<tr><td>Effective From</td><td><strong>${eff}</strong></td></tr></table>
+      </div>
+      <p class="ltr-p">The detailed revised salary breakup will be reflected in your payslip from the effective month. We deeply appreciate your commitment, and this revision is a testament to the value you bring to our organization.</p>
+      <p class="ltr-p">We look forward to your continued excellence and wish you continued success in your career at KIDV Tech.</p>`;
+  }
+  else if(selectedType==='experience'){
+    const doj=fmtD(gv('xf_doj')),lwd=fmtD(gv('xf_lwd')),conduct=gv('xf_conduct')||'Good',roles=gv('xf_roles');
+    const fn=name.split(' ')[0]||name;
+    body=`
+      <div class="ltr-addressee"><div class="ltr-to-label">To Whomsoever It May Concern</div></div>
+      <div class="ltr-subject"><div class="ltr-subject-label">Subject</div><div class="ltr-subject-text">Experience Certificate — ${name} (${empid})</div></div>
+      <p class="ltr-p">This is to certify that <strong>${name}</strong> (Employee ID: <strong>${empid}</strong>) was employed with <strong>KIDV Tech</strong>, Ahmedabad, as <strong>${desig}</strong> in the <strong>${dept}</strong> department from <strong>${doj}</strong> to <strong>${lwd}</strong>.</p>
+      ${roles?`<p class="ltr-p">During the tenure, ${fn}'s key responsibilities included: <em>${roles}</em></p>`:''}
+      <p class="ltr-p">Throughout the period of employment, ${fn}'s overall conduct, behaviour, and work performance has been assessed as <strong>${conduct}</strong>. ${fn} demonstrated professionalism, integrity, and a strong work ethic consistently.</p>
+      <p class="ltr-p">This certificate is issued in good faith, based on our records, and at the request of the employee for the purpose of future employment. We wish <strong>${fn}</strong> all the very best in their future endeavours.</p>`;
+  }
+  else if(selectedType==='relieving'){
+    const resign=fmtD(gv('xf_resign_date')),lwd=fmtD(gv('xf_lwd')),notice=gv('xf_notice_period')||'as per Company policy';
+    body=`
+      <div class="ltr-addressee"><div class="ltr-to-label">Addressed To</div><div class="ltr-dear">Dear <strong>${name}</strong>,</div></div>
+      <div class="ltr-subject"><div class="ltr-subject-label">Subject</div><div class="ltr-subject-text">Relieving Letter — ${empid} | Last Working Day: ${lwd}</div></div>
+      <p class="ltr-p">This is to acknowledge and confirm receipt of your resignation letter dated <strong>${resign}</strong>. The Management has accepted your resignation, and we hereby confirm that you stand relieved from the services of <strong>KIDV Tech</strong> with effect from the close of business on <strong>${lwd}</strong>.</p>
+      <div class="ltr-terms-wrap">
+        <div class="ltr-terms-header"><span class="material-icons-round">logout</span>Exit Details</div>
+        <table class="ltr-terms"><tr><td>Employee ID</td><td><strong>${empid}</strong></td></tr><tr><td>Designation</td><td>${desig}</td></tr><tr><td>Department</td><td>${dept}</td></tr><tr><td>Resignation Date</td><td>${resign}</td></tr><tr><td>Last Working Day</td><td><strong>${lwd}</strong></td></tr><tr><td>Notice Period Served</td><td>${notice}</td></tr></table>
+      </div>
+      <p class="ltr-p">Your Full and Final Settlement will be processed in accordance with Company policy. You are requested to complete all exit formalities, including the handover of company assets, access credentials, ID cards, and any pending documentation, prior to your last day.</p>
+      <p class="ltr-p">We sincerely appreciate your contributions to KIDV Tech during your tenure. We wish you the very best in your future professional endeavours.</p>`;
+  }
+  else if(selectedType==='warning'){
+    const incDate=fmtD(gv('xf_incident_date')),incident=gv('xf_incident')||'[Describe the alleged misconduct or violation in detail]',days=gv('xf_response_days')||'3',severity=gv('xf_severity')||'Show Cause Notice';
+    body=`
+      <div class="ltr-addressee"><div class="ltr-to-label">Addressed To</div><div class="ltr-dear">Dear <strong>${name}</strong>,</div></div>
+      <div class="ltr-subject"><div class="ltr-subject-label">Subject</div><div class="ltr-subject-text">${severity} — Employee ID: ${empid}</div></div>
+      <p class="ltr-p">It has come to the attention of the Management that on <strong>${incDate}</strong>, the following act of misconduct / violation of company policy was observed / reported:</p>
+      <div class="ltr-incident-block">
+        <div class="ltr-incident-label"><span class="material-icons-round">report_problem</span>Alleged Incident / Misconduct</div>
+        <div class="ltr-incident-text">${incident}</div>
+      </div>
+      <p class="ltr-p">The above-mentioned conduct is in serious violation of <strong>KIDV Tech's</strong> Code of Conduct, Employee Handbook, and applicable company policies. This letter constitutes a formal <strong>${severity}</strong> and shall be placed on record in your personnel file.</p>
+      <p class="ltr-p">You are hereby directed to submit your written explanation / show cause response within <strong>${days} working day(s)</strong> from the date of receipt of this notice, clearly stating why appropriate disciplinary action should not be initiated against you.</p>
+      <p class="ltr-p">Failure to respond within the stipulated time or submission of an unsatisfactory explanation may result in further disciplinary proceedings, which could include suspension or termination of employment, at the sole discretion of the Management.</p>
+      <p class="ltr-p" style="font-size:11.5px;color:#7c2d12;font-style:italic;">This notice is issued without prejudice to any other rights or remedies available to the Company under applicable law or company policy.</p>`;
+  }
+
+  document.getElementById('letterContent').innerHTML=`${header}<div class="ltr-body">${wm}${body}${sig}</div>${footer}`;
+}
+
+function saveLetter(){
+  const name=gv('ltr_name');if(!name||!selectedType){showToast('Fill in employee details first','error');return;}
+  const meta=LETTER_META[selectedType];
+  const refNo=`KIDV/${selectedType.slice(0,3).toUpperCase()}/${new Date().getFullYear()}/${String(letterHistory.length+1).padStart(3,'0')}`;
+  const rec={type:selectedType,typeName:meta.name,badge:meta.badge,empName:name,empId:gv('ltr_empid'),designation:gv('ltr_designation'),date:gv('ltr_date'),refNo,content:document.getElementById('letterContent').innerHTML,savedAt:new Date().toISOString()};
+  letterHistory.unshift(rec);localStorage.setItem('kidv_letter_history',JSON.stringify(letterHistory));
+  showToast(`${rec.typeName} saved to history!`,'success');renderHistory();
+}
+
+function printLetter(){
+  const content=document.getElementById('letterContent').innerHTML;
+  const pz=document.getElementById('printZone');
+  pz.innerHTML=`<div style="max-width:800px;margin:0 auto;">${content}</div>`;
+  pz.style.display='block';window.print();pz.style.display='none';pz.innerHTML='';
+}
+
+let showingHistory=false;
+function toggleHistory(){
+  showingHistory=!showingHistory;
+  document.getElementById('generatorView').style.display=showingHistory?'none':'';
+  document.getElementById('historyView').style.display=showingHistory?'':'none';
+  document.getElementById('historyBtn').innerHTML=showingHistory?'<span class="material-icons-round">add</span>New Letter':'<span class="material-icons-round">history</span>Letter History';
+  if(showingHistory)renderHistory();
+}
+
+function renderHistory(){
+  const tb=document.getElementById('historyBody');
+  if(!letterHistory.length){tb.innerHTML='<tr><td colspan="5" style="text-align:center;padding:30px;color:#94a3b8;font-weight:700;text-transform:uppercase;font-size:11px;">No letters generated yet</td></tr>';return;}
+  tb.innerHTML=letterHistory.map((r,i)=>{
+    const col=LETTER_META[r.type]?.color||'#64748b';
+    return`<tr>
+      <td><div style="display:flex;align-items:center;gap:9px;"><div style="width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,${col},${col}88);color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${(r.empName||'?')[0]}</div><div><div style="font-size:11px;font-weight:700;color:#0f172a;">${r.empName||'—'}</div><div style="font-size:8.5px;color:#94a3b8;">${r.empId||''} · ${r.designation||''}</div></div></div></td>
+      <td><span class="badge ${r.badge||'bg-gray'}">${r.typeName||'—'}</span></td>
+      <td style="font-size:10.5px;color:#64748b;">${r.date||'—'}</td>
+      <td style="font-size:10.5px;color:#64748b;font-family:'JetBrains Mono',monospace;">${r.refNo||'—'}</td>
+      <td><div style="display:flex;gap:4px;">
+        <button class="act-btn av" title="Preview" onclick="previewSaved(${i})"><span class="material-icons-round">visibility</span></button>
+        <button class="act-btn av" title="Print" onclick="printSaved(${i})"><span class="material-icons-round">print</span></button>
+        <button class="act-btn ad" title="Delete" onclick="delLetter(${i})"><span class="material-icons-round">delete</span></button>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+function previewSaved(i){toggleHistory();document.getElementById('letterContent').innerHTML=letterHistory[i].content;}
+function printSaved(i){const pz=document.getElementById('printZone');pz.innerHTML=`<div style="max-width:800px;margin:0 auto;">${letterHistory[i].content}</div>`;pz.style.display='block';window.print();pz.style.display='none';pz.innerHTML='';}
+function delLetter(i){if(!confirm('Delete this letter from history?'))return;letterHistory.splice(i,1);localStorage.setItem('kidv_letter_history',JSON.stringify(letterHistory));renderHistory();showToast('Deleted','success');}
+
+function loadUser(){const u=JSON.parse(localStorage.getItem('kidv_user')||'{}');if(u.name){const p=u.name.trim().split(' ');document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();document.getElementById('sideName').textContent=u.name;document.getElementById('sideRole').textContent=u.role||'Staff';}const r=(u.role||'').toLowerCase();if(r==='super admin'||r==='admin'){document.getElementById('adminNav').style.display='';document.getElementById('usersLink').style.display='';document.getElementById('rolesLink').style.display='';}}
+function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');}
+function showToast(msg,type='success'){const t=document.getElementById('toast');t.className='toast '+type;document.getElementById('toastIcon').textContent=type==='success'?'check_circle':'error';document.getElementById('toastMsg').textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
+</script>
+</body>
+</html>
