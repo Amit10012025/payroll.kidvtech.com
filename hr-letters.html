@@ -7,12 +7,11 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 <script>if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}</script>
 <style>
-:root{--navy:#07101f;--blue:#2563eb;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--amber:#f59e0b;--orange:#f97316;--purple:#8b5cf6;--text-m:rgba(148,163,184,.65);--text-d:rgba(148,163,184,.32);--border-b:rgba(255,255,255,.11);--glass:rgba(255,255,255,.04);--sw:260px;
---letter-navy:#0a1628;--letter-gold:#b8973a;--letter-gold-light:#e8c96a;--letter-accent:#1a3a6b;}
+:root{--navy:#07101f;--blue:#2563eb;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--amber:#f59e0b;--orange:#f97316;--purple:#8b5cf6;--text-m:rgba(148,163,184,.65);--text-d:rgba(148,163,184,.32);--border-b:rgba(255,255,255,.11);--glass:rgba(255,255,255,.04);--sw:260px;--letter-navy:#0a1628;--letter-gold:#b8973a;--letter-gold-light:#e8c96a;--letter-accent:#1a3a6b;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflow:hidden;}
 .app{display:flex;height:100vh;}
-/* ── SIDEBAR ── */
+/* SIDEBAR */
 .sidebar{width:var(--sw);min-width:var(--sw);background:var(--navy);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:200;overflow:hidden;border-right:1px solid rgba(255,255,255,.05);box-shadow:8px 0 40px rgba(0,0,0,.35);}
 .sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 65%);pointer-events:none;z-index:0;}
 .sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09) 0%,transparent 65%);pointer-events:none;z-index:0;}
@@ -29,11 +28,12 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .nav a.active::after{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:55%;background:linear-gradient(180deg,#93c5fd,#22d3ee);border-radius:0 3px 3px 0;}
 .ic{width:29px;height:29px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .ic .material-icons-round{font-size:15px;}
-.ic-m{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
-.ic-h{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
-.ic-o{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
-.ic-i{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
-.ic-a{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
+.ic-m,.ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
+.ic-h,.ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-o,.ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-i,.ic-int{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.ic-a,.ic-adm{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
+.ic-rec{background:rgba(249,115,22,.18);color:#fdba74;border:1px solid rgba(249,115,22,.18);}
 .nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
 .user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--glass);margin-bottom:8px;border:1px solid var(--border-b);}
 .user-av{width:33px;height:33px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
@@ -42,7 +42,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .logout-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:10px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);color:rgba(252,165,165,.8);font-size:10px;font-weight:700;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;}
 .logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;}
 .logout-btn .material-icons-round{font-size:14px;}
-/* ── MAIN ── */
+/* MAIN */
 .main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:var(--sw);}
 .topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:11px 22px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,.05);}
 .topbar-left{display:flex;align-items:center;gap:10px;}
@@ -53,15 +53,13 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 15px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.05em;font-family:'Outfit',sans-serif;white-space:nowrap;}
 .btn-blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.3);}
 .btn-blue:hover{transform:translateY(-1px);}
-.btn-dark{background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;}
-.btn-dark:hover{transform:translateY(-1px);}
 .btn-ghost{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}
 .btn-ghost:hover{background:#e2e8f0;}
 .btn-sm{padding:6px 11px;font-size:10px;border-radius:8px;}
 .btn .material-icons-round{font-size:14px;}
 .scroll{flex:1;overflow-y:auto;padding:18px 22px;}
 .scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
-/* ── LETTER TYPE CARDS ── */
+/* LETTER TYPE CARDS */
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
 .letter-types{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
 .lt-card{background:#fff;border-radius:14px;border:1.5px solid #e8edf5;padding:18px 18px 16px;cursor:pointer;transition:all .22s;position:relative;overflow:hidden;animation:fadeUp .22s ease both;box-shadow:0 1px 3px rgba(0,0,0,.04);}
@@ -78,33 +76,32 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .lt-icon .material-icons-round{font-size:20px;}
 .lt-name{font-size:12px;font-weight:800;text-transform:uppercase;color:#0f172a;margin-bottom:3px;letter-spacing:.04em;}
 .lt-desc{font-size:10px;color:#94a3b8;font-weight:500;line-height:1.5;}
-/* ── FORM LAYOUT ── */
+/* FORM LAYOUT */
 .form-cols{display:grid;grid-template-columns:420px 1fr;gap:18px;align-items:start;}
-.letter-form-wrap{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,.04);position:sticky;top:0;}
+.letter-form-wrap{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,.04);position:sticky;top:0;max-height:calc(100vh - 140px);overflow-y:auto;}
+.letter-form-wrap::-webkit-scrollbar{width:3px;}.letter-form-wrap::-webkit-scrollbar-thumb{background:#e2e8f0;}
 .fg{margin-bottom:11px;}
 .fl{font-size:8px;font-weight:800;text-transform:uppercase;color:#64748b;letter-spacing:.1em;margin-bottom:4px;display:block;}
 .fi,.fs{width:100%;padding:8px 11px;border-radius:8px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;color:#1e293b;background:#f8fafc;transition:all .15s;outline:none;}
 .fi:focus,.fs:focus{border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
-.fta{width:100%;padding:8px 11px;border-radius:8px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;color:#1e293b;background:#f8fafc;resize:vertical;min-height:70px;outline:none;}
+.fta{width:100%;padding:8px 11px;border-radius:8px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:11px;font-weight:500;color:#1e293b;background:#f8fafc;resize:vertical;min-height:70px;outline:none;line-height:1.6;}
 .fta:focus{border-color:#2563eb;background:#fff;}
 .fr2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
 .sec-hd{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;padding-bottom:6px;margin:14px 0 10px;border-bottom:2px solid;display:flex;align-items:center;gap:6px;}
 .sh-blue{color:#2563eb;border-color:#bfdbfe;}
 .sh-blue .material-icons-round{font-size:14px;}
-/* ── LETTER PREVIEW SHELL ── */
+/* LETTER PREVIEW */
 .letter-preview-shell{background:#e8edf5;border-radius:14px;padding:14px;box-shadow:inset 0 2px 8px rgba(0,0,0,.06);}
 .lp-toolbar{background:#0f172a;padding:9px 14px;border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px;}
 .lp-title-bar{font-size:9.5px;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.12em;display:flex;align-items:center;gap:6px;}
 .lp-title-bar .material-icons-round{font-size:13px;color:var(--letter-gold-light);}
 .lp-dots{display:flex;gap:5px;margin-right:8px;}
 .lp-dot{width:9px;height:9px;border-radius:50%;}
-/* ── THE LETTER PAPER ── */
+/* THE LETTER */
 .letter-paper{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.14),0 1px 4px rgba(0,0,0,.08);}
-/* ── PROFESSIONAL LETTER CONTENT ── */
 #letterContent{font-family:'Source Serif 4',Georgia,serif;font-size:13.5px;line-height:1.85;color:#1a2332;background:#fff;position:relative;}
-
-/* Letter Header Band */
+/* Letter Header */
 .ltr-header-band{background:var(--letter-navy);padding:22px 32px 0;position:relative;overflow:hidden;}
 .ltr-header-band::before{content:'';position:absolute;top:0;right:0;width:200px;height:100%;background:linear-gradient(135deg,transparent 0%,rgba(184,151,58,.18) 100%);}
 .ltr-header-band::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--letter-gold) 0%,var(--letter-gold-light) 40%,var(--letter-gold) 100%);}
@@ -119,30 +116,25 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .ltr-contact-strip{display:flex;align-items:center;gap:18px;padding:9px 0;border-top:1px solid rgba(255,255,255,.08);}
 .ltr-contact-item{display:flex;align-items:center;gap:5px;font-size:9.5px;color:rgba(255,255,255,.4);font-family:'Outfit',sans-serif;}
 .ltr-contact-item .material-icons-round{font-size:11px;color:var(--letter-gold);opacity:.8;}
-
-/* Letter Type Badge Bar */
+/* Type Bar */
 .ltr-type-bar{background:linear-gradient(90deg,var(--letter-accent) 0%,#162d5a 100%);padding:8px 32px;display:flex;align-items:center;gap:10px;}
 .ltr-type-badge{font-family:'Outfit',sans-serif;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:var(--letter-gold-light);display:flex;align-items:center;gap:6px;}
 .ltr-type-badge .material-icons-round{font-size:13px;}
 .ltr-type-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(184,151,58,.3),transparent);}
-
-/* Letter Body */
-.ltr-body{padding:28px 36px 32px;}
+/* Body */
+.ltr-body{padding:28px 36px 32px;position:relative;z-index:1;}
 .ltr-addressee{margin-bottom:20px;}
 .ltr-to-label{font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:#94a3b8;font-family:'Outfit',sans-serif;margin-bottom:4px;}
 .ltr-dear{font-size:14px;color:#1a2332;margin-bottom:2px;}
 .ltr-dear strong{color:var(--letter-navy);font-weight:700;}
-
-/* Subject line - BEAUTIFUL */
-.ltr-subject{margin:18px 0 16px;padding:12px 16px;background:linear-gradient(135deg,#f0f4ff,#e8f4ff);border-left:3px solid var(--letter-accent);border-radius:0 8px 8px 0;position:relative;}
+/* Subject */
+.ltr-subject{margin:18px 0 16px;padding:12px 16px;background:linear-gradient(135deg,#f0f4ff,#e8f4ff);border-left:3px solid var(--letter-accent);border-radius:0 8px 8px 0;}
 .ltr-subject-label{font-size:7.5px;font-weight:800;text-transform:uppercase;letter-spacing:.18em;color:var(--letter-accent);font-family:'Outfit',sans-serif;margin-bottom:3px;}
 .ltr-subject-text{font-family:'Playfair Display',serif;font-size:14.5px;font-weight:600;color:var(--letter-navy);font-style:italic;}
-
-/* Body paragraphs */
-.ltr-p{margin-bottom:13px;text-align:justify;color:#2c3e50;font-size:13px;}
+/* Paragraphs */
+.ltr-p{margin-bottom:13px;text-align:justify;color:#2c3e50;font-size:13px;line-height:1.9;}
 .ltr-p strong{color:var(--letter-navy);font-weight:600;}
-
-/* PREMIUM TERMS TABLE */
+/* Terms Table */
 .ltr-terms-wrap{margin:16px 0;border-radius:10px;overflow:hidden;border:1px solid #dde4ef;box-shadow:0 2px 8px rgba(26,42,107,.07);}
 .ltr-terms-header{background:var(--letter-navy);padding:9px 16px;font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:var(--letter-gold-light);font-family:'Outfit',sans-serif;display:flex;align-items:center;gap:6px;}
 .ltr-terms-header .material-icons-round{font-size:13px;color:var(--letter-gold);}
@@ -151,37 +143,42 @@ table.ltr-terms tr:nth-child(odd){background:#f8fafd;}
 table.ltr-terms tr:nth-child(even){background:#fff;}
 table.ltr-terms tr:hover{background:#eff4ff;}
 table.ltr-terms td{padding:9px 16px;border-bottom:1px solid #eef1f8;vertical-align:middle;}
-table.ltr-terms td:first-child{font-family:'Outfit',sans-serif;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#64748b;width:38%;}
+table.ltr-terms td:first-child{font-family:'Outfit',sans-serif;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#64748b;width:40%;}
 table.ltr-terms td:last-child{font-weight:600;color:var(--letter-navy);}
 table.ltr-terms td:last-child strong{color:var(--letter-accent);font-weight:700;}
 table.ltr-terms tr:last-child td{border-bottom:none;}
-
+/* Bullet List */
+.ltr-list{margin:10px 0 14px 0;padding:0;list-style:none;}
+.ltr-list li{padding:5px 0 5px 20px;position:relative;color:#374151;font-size:12.5px;line-height:1.7;}
+.ltr-list li::before{content:'▸';position:absolute;left:0;color:var(--letter-accent);font-size:12px;}
 /* Incident block for warning */
-.ltr-incident-block{margin:14px 0;padding:14px 18px;background:linear-gradient(135deg,#fff7ed,#fef3e2);border:1px solid #fed7aa;border-radius:10px;border-left:4px solid #f97316;position:relative;}
+.ltr-incident-block{margin:14px 0;padding:14px 18px;background:linear-gradient(135deg,#fff7ed,#fef3e2);border:1px solid #fed7aa;border-radius:10px;border-left:4px solid #f97316;}
 .ltr-incident-label{font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:#c2410c;font-family:'Outfit',sans-serif;margin-bottom:6px;display:flex;align-items:center;gap:5px;}
 .ltr-incident-label .material-icons-round{font-size:12px;}
 .ltr-incident-text{font-style:italic;color:#7c2d12;font-size:12.5px;line-height:1.7;}
-
-/* Signature area */
+/* Consequence block for warning */
+.ltr-consequence{margin:12px 0;padding:12px 16px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;border-left:3px solid #ef4444;}
+.ltr-consequence-label{font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#dc2626;font-family:'Outfit',sans-serif;margin-bottom:5px;}
+.ltr-consequence-text{font-size:12px;color:#7f1d1d;line-height:1.7;}
+/* Appreciation box for experience/increment */
+.ltr-appreciation{margin:12px 0;padding:12px 16px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #bbf7d0;border-radius:8px;border-left:3px solid #10b981;}
+.ltr-appreciation-text{font-size:12.5px;color:#14532d;font-style:italic;line-height:1.7;}
+/* Signature */
 .ltr-sig-section{margin-top:32px;padding-top:20px;border-top:1px solid #eef1f8;display:flex;justify-content:space-between;align-items:flex-end;}
-.ltr-sig-left{font-size:12.5px;color:#475569;}
+.ltr-sig-left{font-size:12px;color:#475569;font-family:'Source Serif 4',serif;}
 .ltr-sig-block{text-align:right;}
 .ltr-sig-space{height:44px;margin-bottom:6px;position:relative;}
 .ltr-sig-space::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:120px;height:2px;background:linear-gradient(90deg,transparent,var(--letter-navy),transparent);}
 .ltr-sig-name{font-family:'Playfair Display',serif;font-size:14px;font-weight:600;color:var(--letter-navy);}
 .ltr-sig-title{font-size:10px;font-family:'Outfit',sans-serif;color:#94a3b8;text-transform:uppercase;letter-spacing:.1em;margin-top:2px;}
 .ltr-sig-company{font-size:10px;font-family:'Outfit',sans-serif;color:var(--letter-accent);font-weight:700;text-transform:uppercase;letter-spacing:.08em;}
-
 /* Footer */
 .ltr-footer{background:var(--letter-navy);padding:10px 32px;display:flex;align-items:center;justify-content:space-between;}
 .ltr-footer-text{font-size:8.5px;color:rgba(255,255,255,.3);font-family:'Outfit',sans-serif;letter-spacing:.06em;}
 .ltr-footer-badge{font-size:8px;font-family:'Outfit',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:var(--letter-gold);opacity:.6;}
-
 /* Watermark */
-.ltr-watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-30deg);font-family:'Playfair Display',serif;font-size:72px;font-weight:700;color:rgba(26,58,107,.04);pointer-events:none;white-space:nowrap;z-index:0;letter-spacing:.1em;}
-.ltr-body{position:relative;z-index:1;}
-
-/* ── HISTORY TABLE ── */
+.ltr-watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-30deg);font-family:'Playfair Display',serif;font-size:72px;font-weight:700;color:rgba(26,58,107,.035);pointer-events:none;white-space:nowrap;z-index:0;letter-spacing:.1em;}
+/* HISTORY TABLE */
 .tw{border-radius:12px;overflow:hidden;border:1px solid #ecf0f6;overflow-x:auto;}
 table.dt{width:100%;border-collapse:collapse;font-size:11px;min-width:500px;}
 table.dt thead th{background:#0f172a;color:#fff;padding:10px 14px;font-size:8.5px;text-transform:uppercase;font-weight:700;text-align:left;white-space:nowrap;}
@@ -201,14 +198,13 @@ table.dt tbody td{padding:10px 14px;font-weight:600;color:#475569;vertical-align
 .av{background:#eff6ff;color:#2563eb;}.av:hover{background:#2563eb;color:#fff;}
 .ad{background:#fef2f2;color:#ef4444;}.ad:hover{background:#ef4444;color:#fff;}
 .act-btn .material-icons-round{font-size:14px;}
-/* ── TOAST ── */
+/* TOAST */
 .toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.2);}
 .toast.show{transform:translateY(0);opacity:1;}
 .toast.success{background:#065f46;border-left:4px solid #6ee7b7;}
 .toast.error{background:#7f1d1d;border-left:4px solid #fca5a5;}
 .toast .material-icons-round{font-size:16px;}
-
-/* ── PRINT ── */
+/* PRINT */
 @media print{
   body *{visibility:hidden!important;}
   #printZone,#printZone *{visibility:visible!important;}
@@ -241,8 +237,8 @@ table.dt tbody td{padding:10px 14px;font-weight:600;color:#475569;vertical-align
     <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
     <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
     <div class="nav-sec">Recruitment</div>
-    <a href="job-openings.html" class="active"><span class="ic ic-rec"><span class="material-icons-round">work</span></span>Job Openings</a>
-    <a href="hr-letters.html"><span class="ic ic-hr"><span class="material-icons-round">mail</span></span>HR Letters</a>
+    <a href="job-openings.html"><span class="ic ic-rec"><span class="material-icons-round">work</span></span>Job Openings</a>
+    <a href="hr-letters.html" class="active"><span class="ic ic-hr"><span class="material-icons-round">mail</span></span>HR Letters</a>
     <div class="nav-sec">Integration</div>
     <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">device_hub</span></span>Device Manager</a>
     <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
@@ -259,7 +255,7 @@ table.dt tbody td{padding:10px 14px;font-weight:600;color:#475569;vertical-align
   <div class="topbar">
     <div class="topbar-left">
       <button class="menu-btn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
-      <div><div class="page-title">HR Letters</div><div class="page-sub">Offer · Appointment · Increment · Experience · Relieving · Warning</div></div>
+      <div><div class="page-title">HR Letters</div><div class="page-sub">Offer · Appointment · Increment · Experience · Relieving · Show Cause / Warning</div></div>
     </div>
     <div style="display:flex;gap:8px;">
       <button class="btn btn-ghost" id="historyBtn" onclick="toggleHistory()"><span class="material-icons-round">history</span>Letter History</button>
@@ -270,50 +266,78 @@ table.dt tbody td{padding:10px 14px;font-weight:600;color:#475569;vertical-align
     <div id="generatorView">
       <div style="font-size:10px;font-weight:800;text-transform:uppercase;color:#94a3b8;letter-spacing:.14em;margin-bottom:12px;">Select Letter Type</div>
       <div class="letter-types">
-        <div class="lt-card lt-offer" onclick="selectType('offer')" id="lt-offer" style="animation-delay:.00s"><div class="lt-icon" style="background:rgba(16,185,129,.1);"><span class="material-icons-round" style="color:#10b981;">local_offer</span></div><div class="lt-name">Offer Letter</div><div class="lt-desc">Formal job offer with CTC, designation and joining date</div></div>
-        <div class="lt-card lt-appointment" onclick="selectType('appointment')" id="lt-appointment" style="animation-delay:.05s"><div class="lt-icon" style="background:rgba(37,99,235,.1);"><span class="material-icons-round" style="color:#2563eb;">how_to_reg</span></div><div class="lt-name">Appointment Letter</div><div class="lt-desc">Confirms employment with terms, probation and policies</div></div>
-        <div class="lt-card lt-increment" onclick="selectType('increment')" id="lt-increment" style="animation-delay:.10s"><div class="lt-icon" style="background:rgba(139,92,246,.1);"><span class="material-icons-round" style="color:#8b5cf6;">trending_up</span></div><div class="lt-name">Increment / Revision</div><div class="lt-desc">Salary revision or increment acknowledgement letter</div></div>
-        <div class="lt-card lt-experience" onclick="selectType('experience')" id="lt-experience" style="animation-delay:.15s"><div class="lt-icon" style="background:rgba(245,158,11,.1);"><span class="material-icons-round" style="color:#f59e0b;">workspace_premium</span></div><div class="lt-name">Experience Certificate</div><div class="lt-desc">Certifies tenure, role and character for relieved employees</div></div>
-        <div class="lt-card lt-relieving" onclick="selectType('relieving')" id="lt-relieving" style="animation-delay:.20s"><div class="lt-icon" style="background:rgba(239,68,68,.1);"><span class="material-icons-round" style="color:#ef4444;">logout</span></div><div class="lt-name">Relieving Letter</div><div class="lt-desc">Official acceptance of resignation and F&F clearance</div></div>
-        <div class="lt-card lt-warning" onclick="selectType('warning')" id="lt-warning" style="animation-delay:.25s"><div class="lt-icon" style="background:rgba(249,115,22,.1);"><span class="material-icons-round" style="color:#f97316;">warning</span></div><div class="lt-name">Show Cause / Warning</div><div class="lt-desc">Disciplinary notice with explanation requirement</div></div>
+        <div class="lt-card lt-offer" onclick="selectType('offer')" id="lt-offer" style="animation-delay:.00s">
+          <div class="lt-icon" style="background:rgba(16,185,129,.1);"><span class="material-icons-round" style="color:#10b981;">local_offer</span></div>
+          <div class="lt-name">Offer Letter</div><div class="lt-desc">Formal job offer with CTC, designation and joining date</div>
+        </div>
+        <div class="lt-card lt-appointment" onclick="selectType('appointment')" id="lt-appointment" style="animation-delay:.05s">
+          <div class="lt-icon" style="background:rgba(37,99,235,.1);"><span class="material-icons-round" style="color:#2563eb;">how_to_reg</span></div>
+          <div class="lt-name">Appointment Letter</div><div class="lt-desc">Confirms employment with terms, probation and policies</div>
+        </div>
+        <div class="lt-card lt-increment" onclick="selectType('increment')" id="lt-increment" style="animation-delay:.10s">
+          <div class="lt-icon" style="background:rgba(139,92,246,.1);"><span class="material-icons-round" style="color:#8b5cf6;">trending_up</span></div>
+          <div class="lt-name">Increment / Revision</div><div class="lt-desc">Salary revision or increment acknowledgement letter</div>
+        </div>
+        <div class="lt-card lt-experience" onclick="selectType('experience')" id="lt-experience" style="animation-delay:.15s">
+          <div class="lt-icon" style="background:rgba(245,158,11,.1);"><span class="material-icons-round" style="color:#f59e0b;">workspace_premium</span></div>
+          <div class="lt-name">Experience Certificate</div><div class="lt-desc">Certifies tenure, role and conduct for ex-employees</div>
+        </div>
+        <div class="lt-card lt-relieving" onclick="selectType('relieving')" id="lt-relieving" style="animation-delay:.20s">
+          <div class="lt-icon" style="background:rgba(239,68,68,.1);"><span class="material-icons-round" style="color:#ef4444;">logout</span></div>
+          <div class="lt-name">Relieving Letter</div><div class="lt-desc">Official acceptance of resignation and F&amp;F clearance</div>
+        </div>
+        <div class="lt-card lt-warning" onclick="selectType('warning')" id="lt-warning" style="animation-delay:.25s">
+          <div class="lt-icon" style="background:rgba(249,115,22,.1);"><span class="material-icons-round" style="color:#f97316;">warning</span></div>
+          <div class="lt-name">Show Cause / Warning</div><div class="lt-desc">Disciplinary notice with written explanation requirement</div>
+        </div>
       </div>
 
       <div id="formPreviewSection" style="display:none;">
         <div class="form-cols">
-          <!-- LEFT FORM -->
+          <!-- LEFT: FORM -->
           <div>
             <div class="letter-form-wrap">
               <div class="sec-hd sh-blue"><span class="material-icons-round">person</span>Employee Details</div>
-              <div class="fg"><label class="fl">Select Employee</label><select class="fs" id="ltr_emp" onchange="autoFillEmp()"><option value="">-- Select Employee --</option></select></div>
+              <div class="fg">
+                <label class="fl">Select Employee</label>
+                <select class="fs" id="ltr_emp" onchange="autoFillEmp()"><option value="">-- Select Employee --</option></select>
+              </div>
               <div class="fr2">
-                <div class="fg"><label class="fl">Employee Name</label><input class="fi" id="ltr_name" placeholder="Full Name" oninput="generatePreview()"></div>
-                <div class="fg"><label class="fl">Designation</label><input class="fi" id="ltr_designation" placeholder="Job Title" oninput="generatePreview()"></div>
+                <div class="fg"><label class="fl">Employee Name *</label><input class="fi" id="ltr_name" placeholder="Full Name" oninput="generatePreview()"></div>
+                <div class="fg"><label class="fl">Designation *</label><input class="fi" id="ltr_designation" placeholder="Job Title" oninput="generatePreview()"></div>
               </div>
               <div class="fr2">
                 <div class="fg"><label class="fl">Department</label><input class="fi" id="ltr_dept" placeholder="Department" oninput="generatePreview()"></div>
-                <div class="fg"><label class="fl">Employee ID</label><input class="fi" id="ltr_empid" placeholder="EMP001" oninput="generatePreview()"></div>
+                <div class="fg"><label class="fl">Employee ID</label><input class="fi" id="ltr_empid" placeholder="EMP-001" oninput="generatePreview()"></div>
               </div>
               <div id="extraFields"></div>
-              <div class="fg"><label class="fl">Letter Date</label><input class="fi" type="date" id="ltr_date" oninput="generatePreview()"></div>
-              <div style="display:flex;gap:8px;margin-top:6px;">
+              <div class="fg"><label class="fl">Letter Date *</label><input class="fi" type="date" id="ltr_date" oninput="generatePreview()"></div>
+              <div style="display:flex;gap:8px;margin-top:8px;">
                 <button class="btn btn-ghost btn-sm" style="flex:1;" onclick="printLetter()"><span class="material-icons-round">print</span>Print</button>
-                <button class="btn btn-blue btn-sm" style="flex:1;" onclick="saveLetter()"><span class="material-icons-round">save</span>Save</button>
+                <button class="btn btn-blue btn-sm" style="flex:1;" onclick="saveLetter()"><span class="material-icons-round">save</span>Save to History</button>
               </div>
             </div>
           </div>
-          <!-- RIGHT PREVIEW -->
+          <!-- RIGHT: PREVIEW -->
           <div>
             <div class="letter-preview-shell">
               <div class="lp-toolbar">
                 <div style="display:flex;align-items:center;gap:8px;">
-                  <div class="lp-dots"><div class="lp-dot" style="background:#ef4444;"></div><div class="lp-dot" style="background:#f59e0b;"></div><div class="lp-dot" style="background:#10b981;"></div></div>
+                  <div class="lp-dots">
+                    <div class="lp-dot" style="background:#ef4444;"></div>
+                    <div class="lp-dot" style="background:#f59e0b;"></div>
+                    <div class="lp-dot" style="background:#10b981;"></div>
+                  </div>
                   <span class="lp-title-bar"><span class="material-icons-round">description</span><span id="previewTitle">Letter Preview</span></span>
                 </div>
                 <div style="font-size:8.5px;color:rgba(255,255,255,.2);font-family:'JetBrains Mono',monospace;" id="previewRef">KIDV/—/2026</div>
               </div>
               <div class="letter-paper">
                 <div id="letterContent">
-                  <div style="text-align:center;padding:80px 20px;color:#94a3b8;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;">Select a letter type above<br><span style="font-size:10px;font-weight:500;margin-top:8px;display:block;opacity:.6;">then fill in the details to generate a professional preview</span></div>
+                  <div style="text-align:center;padding:80px 20px;color:#94a3b8;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;">
+                    Select a letter type above<br>
+                    <span style="font-size:10px;font-weight:500;margin-top:8px;display:block;opacity:.6;">Fill in the details to generate a professional letter preview</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -326,10 +350,15 @@ table.dt tbody td{padding:10px 14px;font-weight:600;color:#475569;vertical-align
     <div id="historyView" style="display:none;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
         <div style="font-size:12px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;">Letter History</div>
-        <button class="btn btn-ghost btn-sm" onclick="toggleHistory()"><span class="material-icons-round">arrow_back</span>Back</button>
+        <button class="btn btn-ghost btn-sm" onclick="toggleHistory()"><span class="material-icons-round">arrow_back</span>Back to Generator</button>
       </div>
       <div style="background:#fff;border-radius:14px;border:1px solid #ecf0f6;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04);">
-        <div class="tw"><table class="dt"><thead><tr><th>Employee</th><th>Letter Type</th><th>Date</th><th>Ref No.</th><th>Actions</th></tr></thead><tbody id="historyBody"></tbody></table></div>
+        <div class="tw">
+          <table class="dt">
+            <thead><tr><th>Employee</th><th>Letter Type</th><th>Date</th><th>Ref No.</th><th>Actions</th></tr></thead>
+            <tbody id="historyBody"></tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -339,12 +368,12 @@ table.dt tbody td{padding:10px 14px;font-weight:600;color:#475569;vertical-align
 
 <script>
 const LETTER_META={
-  offer:{name:'Offer Letter',color:'#10b981',badge:'bg-green',icon:'local_offer',typeLabel:'OFFER OF EMPLOYMENT'},
-  appointment:{name:'Appointment Letter',color:'#2563eb',badge:'bg-blue',icon:'how_to_reg',typeLabel:'APPOINTMENT LETTER'},
-  increment:{name:'Increment Letter',color:'#8b5cf6',badge:'bg-purple',icon:'trending_up',typeLabel:'SALARY REVISION / INCREMENT'},
-  experience:{name:'Experience Certificate',color:'#f59e0b',badge:'bg-amber',icon:'workspace_premium',typeLabel:'EXPERIENCE CERTIFICATE'},
-  relieving:{name:'Relieving Letter',color:'#ef4444',badge:'bg-red',icon:'logout',typeLabel:'RELIEVING LETTER'},
-  warning:{name:'Show Cause / Warning',color:'#f97316',badge:'bg-orange',icon:'warning',typeLabel:'SHOW CAUSE NOTICE'}
+  offer:    {name:'Offer Letter',            color:'#10b981',badge:'bg-green', icon:'local_offer',    typeLabel:'OFFER OF EMPLOYMENT'},
+  appointment:{name:'Appointment Letter',    color:'#2563eb',badge:'bg-blue',  icon:'how_to_reg',     typeLabel:'APPOINTMENT LETTER'},
+  increment:{name:'Increment / Revision',    color:'#8b5cf6',badge:'bg-purple',icon:'trending_up',    typeLabel:'SALARY REVISION / INCREMENT'},
+  experience:{name:'Experience Certificate', color:'#f59e0b',badge:'bg-amber', icon:'workspace_premium',typeLabel:'EXPERIENCE CERTIFICATE'},
+  relieving:{name:'Relieving Letter',        color:'#ef4444',badge:'bg-red',   icon:'logout',         typeLabel:'RELIEVING LETTER'},
+  warning:  {name:'Show Cause / Warning',    color:'#f97316',badge:'bg-orange',icon:'warning',        typeLabel:'SHOW CAUSE NOTICE'}
 };
 
 let employees=[], selectedType='', letterHistory=[], empIdx=-1;
@@ -354,7 +383,12 @@ function init(){
   employees=JSON.parse(localStorage.getItem('employees')||'[]');
   letterHistory=JSON.parse(localStorage.getItem('kidv_letter_history')||'[]');
   const empSel=document.getElementById('ltr_emp');
-  employees.forEach((e,i)=>{const o=document.createElement('option');o.value=i;o.textContent=`${e.id||''} — ${e.fName||''} ${e.lName||''}`;empSel.appendChild(o);});
+  employees.forEach((e,i)=>{
+    const o=document.createElement('option');
+    o.value=i;
+    o.textContent=`${e.id?e.id+' — ':''}${e.fName||''} ${e.lName||''}`.trim();
+    empSel.appendChild(o);
+  });
   document.getElementById('ltr_date').value=new Date().toISOString().split('T')[0];
 }
 
@@ -364,43 +398,92 @@ function selectType(type){
   document.getElementById('lt-'+type).classList.add('selected');
   document.getElementById('formPreviewSection').style.display='';
   document.getElementById('previewTitle').textContent=LETTER_META[type].name+' — Preview';
-  buildExtraFields(type);generatePreview();
-  document.getElementById('formPreviewSection').scrollIntoView({behavior:'smooth',block:'start'});
+  buildExtraFields(type);
+  generatePreview();
+  setTimeout(()=>document.getElementById('formPreviewSection').scrollIntoView({behavior:'smooth',block:'start'}),100);
 }
 
 function autoFillEmp(){
   const idx=parseInt(document.getElementById('ltr_emp').value);
-  if(isNaN(idx))return;empIdx=idx;
+  if(isNaN(idx)||idx<0)return;
+  empIdx=idx;
   const e=employees[idx];
-  document.getElementById('ltr_name').value=`${e.fName||''} ${e.lName||''}`.trim();
+  document.getElementById('ltr_name').value=(e.fName||'')+' '+(e.lName||'');
   document.getElementById('ltr_designation').value=e.job||'';
   document.getElementById('ltr_dept').value=e.dept||'';
   document.getElementById('ltr_empid').value=e.id||'';
-  const dojF=document.getElementById('xf_doj');if(dojF)dojF.value=e.doj||'';
-  const sF=document.getElementById('xf_salary');if(sF&&e.sal_gross)sF.value=Math.round(parseFloat(e.sal_gross)*12)||'';
-  const bF=document.getElementById('xf_basic');if(bF&&e.sal_basic)bF.value=e.sal_basic;
+  // Auto-fill extra fields if present
+  const doj=document.getElementById('xf_doj');if(doj)doj.value=e.doj||'';
+  const sal=document.getElementById('xf_salary');if(sal&&e.sal_gross)sal.value=Math.round(parseFloat(e.sal_gross)*12)||'';
+  const basic=document.getElementById('xf_basic');if(basic&&e.sal_basic)basic.value=e.sal_basic||'';
   generatePreview();
 }
 
 function buildExtraFields(type){
   const c=document.getElementById('extraFields');c.innerHTML='';
-  const fi=(id,lbl,t='text',ph='')=>`<div class="fg"><label class="fl">${lbl}</label><input class="fi" type="${t}" id="${id}" placeholder="${ph}" oninput="generatePreview()"></div>`;
+  const fi=(id,lbl,t='text',ph='',extra='')=>`<div class="fg"><label class="fl">${lbl}</label><input class="fi" type="${t}" id="${id}" placeholder="${ph}" oninput="generatePreview()" ${extra}></div>`;
   const fs=(id,lbl,opts)=>`<div class="fg"><label class="fl">${lbl}</label><select class="fs" id="${id}" onchange="generatePreview()">${opts.map(o=>`<option>${o}</option>`).join('')}</select></div>`;
-  const fta=(id,lbl,ph)=>`<div class="fg"><label class="fl">${lbl}</label><textarea class="fta" id="${id}" placeholder="${ph}" oninput="generatePreview()" style="min-height:60px;"></textarea></div>`;
-  let html='<div class="sec-hd sh-blue"><span class="material-icons-round" style="font-size:14px;">edit_note</span>Letter Details</div>';
-  if(type==='offer')html+=`<div class="fr2">${fi('xf_doj','Date of Joining','date','')}${fi('xf_salary','Annual CTC (Rs)','number','e.g. 600000')}</div><div class="fr2">${fi('xf_probation','Probation Period','text','e.g. 6 months')}${fi('xf_loc','Work Location','text','e.g. Ahmedabad')}</div>${fi('xf_deadline','Acceptance Deadline','date','')}`;
-  else if(type==='appointment')html+=`<div class="fr2">${fi('xf_doj','Date of Joining','date','')}${fi('xf_salary','Annual CTC (Rs)','number','e.g. 600000')}</div><div class="fr2">${fi('xf_basic','Monthly Basic (Rs)','number','e.g. 20000')}${fi('xf_probation','Probation Period','text','e.g. 6 months')}</div><div class="fr2">${fi('xf_workh','Working Hours','text','e.g. 9 AM – 6 PM')}${fi('xf_loc','Work Location','text','e.g. Ahmedabad')}</div>`;
-  else if(type==='increment')html+=`<div class="fr2">${fi('xf_effective','Effective Date','date','')}${fi('xf_oldsal','Previous CTC (Rs)','number','')}</div><div class="fr2">${fi('xf_newsal','Revised CTC (Rs)','number','')}${fi('xf_incrpct','Increment %','number','')}</div>${fta('xf_reason','Reason / Achievement','e.g. Outstanding performance in FY 2025-26...')}`;
-  else if(type==='experience')html+=`<div class="fr2">${fi('xf_doj','Date of Joining','date','')}${fi('xf_lwd','Last Working Day','date','')}</div>${fs('xf_conduct','Conduct During Employment',['Excellent','Good','Satisfactory'])}${fta('xf_roles','Key Responsibilities (Optional)','Describe key roles...')}`;
-  else if(type==='relieving')html+=`<div class="fr2">${fi('xf_resign_date','Resignation Date','date','')}${fi('xf_lwd','Last Working Day','date','')}</div>${fi('xf_notice_period','Notice Period Served','text','e.g. 30 days / Waived')}`;
-  else if(type==='warning')html+=`${fi('xf_incident_date','Incident Date','date','')}${fta('xf_incident','Incident / Allegation','Describe the misconduct in detail...')}${fi('xf_response_days','Days to Respond','number','e.g. 3')}${fs('xf_severity','Severity Level',['Minor Warning','Serious Warning','Show Cause Notice','Final Warning'])}`;
+  const fta=(id,lbl,ph,h=70)=>`<div class="fg"><label class="fl">${lbl}</label><textarea class="fta" id="${id}" placeholder="${ph}" oninput="generatePreview()" style="min-height:${h}px;"></textarea></div>`;
+  let html=`<div class="sec-hd sh-blue"><span class="material-icons-round" style="font-size:14px;">edit_note</span>Letter Specific Details</div>`;
+
+  if(type==='offer'){
+    html+=`
+      <div class="fr2">${fi('xf_doj','Date of Joining *','date','')}${fi('xf_salary','Annual CTC (₹) *','number','e.g. 600000')}</div>
+      <div class="fr2">${fi('xf_probation','Probation Period','text','e.g. 6 Months')}${fi('xf_loc','Work Location','text','e.g. Ahmedabad')}</div>
+      <div class="fr2">${fi('xf_workh','Working Hours','text','9:00 AM – 6:00 PM')}${fi('xf_report','Reporting To','text','e.g. Mr. Rajesh Kumar')}</div>
+      ${fi('xf_deadline','Offer Acceptance Deadline','date','')}`;
+  }
+  else if(type==='appointment'){
+    html+=`
+      <div class="fr2">${fi('xf_doj','Date of Joining *','date','')}${fi('xf_salary','Annual CTC (₹) *','number','e.g. 600000')}</div>
+      <div class="fr2">${fi('xf_basic','Monthly Basic (₹)','number','e.g. 20000')}${fi('xf_probation','Probation Period','text','e.g. 6 Months')}</div>
+      <div class="fr2">${fi('xf_workh','Working Hours','text','9:00 AM – 6:00 PM')}${fi('xf_loc','Work Location','text','e.g. Ahmedabad')}</div>
+      <div class="fr2">${fi('xf_notice','Notice Period','text','e.g. 30 Days')}${fi('xf_report','Reporting To','text','e.g. Mr. Rajesh Kumar')}</div>
+      ${fs('xf_pf','PF Applicable?',['Yes — Applicable','No — Not Applicable'])}`;
+  }
+  else if(type==='increment'){
+    html+=`
+      <div class="fr2">${fi('xf_effective','Effective Date *','date','')}${fi('xf_incrpct','Increment %','number','e.g. 15')}</div>
+      <div class="fr2">${fi('xf_oldsal','Previous Annual CTC (₹) *','number','')}${fi('xf_newsal','Revised Annual CTC (₹) *','number','')}</div>
+      <div class="fr2">${fi('xf_oldbasic','Previous Basic (₹/Month)','number','')}${fi('xf_newbasic','Revised Basic (₹/Month)','number','')}</div>
+      ${fta('xf_reason','Reason / Achievement (Optional)','e.g. Exceptional performance in Q3 FY 2025-26, completion of key projects...',60)}`;
+  }
+  else if(type==='experience'){
+    html+=`
+      <div class="fr2">${fi('xf_doj','Date of Joining *','date','')}${fi('xf_lwd','Last Working Day *','date','')}</div>
+      ${fs('xf_conduct','Conduct During Employment',['Excellent','Good','Satisfactory'])}
+      ${fta('xf_roles','Key Responsibilities (Optional)','Describe the employee\'s primary roles and responsibilities during tenure...',60)}`;
+  }
+  else if(type==='relieving'){
+    html+=`
+      <div class="fr2">${fi('xf_resign_date','Resignation Date *','date','')}${fi('xf_lwd','Last Working Day *','date','')}</div>
+      ${fi('xf_notice_period','Notice Period / Served','text','e.g. 30 Days / Waived by Management')}
+      ${fi('xf_ff_status','Full & Final Status','text','e.g. Cleared / Under Process')}
+      ${fta('xf_reason','Reason for Leaving (Optional)','e.g. Personal reasons / Better opportunity',50)}`;
+  }
+  else if(type==='warning'){
+    html+=`
+      <div class="fr2">${fi('xf_incident_date','Incident Date *','date','')}${fi('xf_response_days','Days to Respond','number','e.g. 3')}</div>
+      ${fs('xf_severity','Notice Type',['Minor Warning','Serious Warning','Show Cause Notice','Final Warning','Suspension Notice'])}
+      ${fta('xf_incident','Incident / Alleged Misconduct *','Describe in detail the alleged misconduct, violation of company policy, or act of indiscipline observed...',90)}
+      ${fta('xf_policy','Policy / Rule Violated','e.g. Code of Conduct Clause 4.2, IT Security Policy, Attendance Policy...',50)}`;
+  }
+
   c.innerHTML=html;
-  if(empIdx>=0){const e=employees[empIdx];const d=document.getElementById('xf_doj');if(d)d.value=e.doj||'';const s=document.getElementById('xf_salary');if(s&&e.sal_gross)s.value=Math.round(parseFloat(e.sal_gross)*12)||'';const b=document.getElementById('xf_basic');if(b&&e.sal_basic)b.value=e.sal_basic;}
+  // Re-fill employee data for new fields
+  if(empIdx>=0){
+    const e=employees[empIdx];
+    const dojF=document.getElementById('xf_doj');if(dojF&&!dojF.value)dojF.value=e.doj||'';
+    const sF=document.getElementById('xf_salary');if(sF&&!sF.value&&e.sal_gross)sF.value=Math.round(parseFloat(e.sal_gross)*12)||'';
+    const bF=document.getElementById('xf_basic');if(bF&&!bF.value&&e.sal_basic)bF.value=e.sal_basic||'';
+  }
 }
 
+// Helpers
 const gv=id=>{const el=document.getElementById(id);return el?el.value.trim():'';};
-const fmtD=d=>{if(!d)return'___________';try{return new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});}catch{return d;}};
-const fmtRs=v=>{const n=parseFloat(v)||0;return n>0?'Rs.'+n.toLocaleString('en-IN',{maximumFractionDigits:0}):'___________';};
+const fmtD=d=>{if(!d)return'___________';try{return new Date(d+' 00:00').toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});}catch{return d;}};
+const fmtRs=v=>{const n=parseFloat(v)||0;if(!n)return'___________';return'₹'+n.toLocaleString('en-IN',{maximumFractionDigits:0});};
+const fmtRsMo=v=>{const n=parseFloat(v)||0;if(!n)return'___________';return'₹'+n.toLocaleString('en-IN',{maximumFractionDigits:0})+' / Month';};
 
 function generatePreview(){
   if(!selectedType)return;
@@ -412,8 +495,8 @@ function generatePreview(){
   const meta=LETTER_META[selectedType];
   const refNo=`KIDV/${selectedType.slice(0,3).toUpperCase()}/${new Date().getFullYear()}/${String(letterHistory.length+1).padStart(3,'0')}`;
   document.getElementById('previewRef').textContent=refNo;
+  const fn=name.split(' ')[0]||name;
 
-  // ─ HEADER BAND ─
   const header=`
     <div class="ltr-header-band">
       <div class="ltr-brand-row">
@@ -421,7 +504,7 @@ function generatePreview(){
           <div class="ltr-logo-box">KT</div>
           <div>
             <div class="ltr-company-name">KIDV Tech</div>
-            <div class="ltr-company-tagline">Smart Business &amp; Automation</div>
+            <div class="ltr-company-tagline">Smart Business &amp; Automation Solutions</div>
           </div>
         </div>
         <div class="ltr-meta">
@@ -441,33 +524,35 @@ function generatePreview(){
       <div class="ltr-type-line"></div>
     </div>`;
 
-  // ─ SIGNATURE ─
   const sig=`
     <div class="ltr-sig-section">
-      <div class="ltr-sig-left" style="font-size:12px;color:#64748b;">For acknowledgement,<br><br><br><div style="width:120px;border-top:1px solid #cbd5e1;padding-top:5px;font-size:10px;color:#94a3b8;font-family:'Outfit',sans-serif;text-transform:uppercase;letter-spacing:.06em;">Employee Signature</div></div>
+      <div class="ltr-sig-left">
+        I, the undersigned, hereby acknowledge receipt of this letter and confirm my understanding of its contents.<br><br>
+        <div style="width:140px;border-top:1px solid #cbd5e1;padding-top:6px;margin-top:6px;font-size:10px;color:#94a3b8;font-family:'Outfit',sans-serif;text-transform:uppercase;letter-spacing:.06em;">Employee Signature &amp; Date</div>
+      </div>
       <div class="ltr-sig-block">
         <div class="ltr-sig-space"></div>
         <div class="ltr-sig-name">Authorized Signatory</div>
         <div class="ltr-sig-title">Human Resources Department</div>
-        <div class="ltr-sig-company">KIDV Tech</div>
+        <div class="ltr-sig-company">KIDV Tech Pvt. Ltd.</div>
       </div>
     </div>`;
 
-  // ─ FOOTER ─
   const footer=`
     <div class="ltr-footer">
-      <div class="ltr-footer-text">This is a computer-generated document. No signature required if digitally authenticated.</div>
+      <div class="ltr-footer-text">This is a computer-generated document. Valid without physical signature if digitally authenticated.</div>
       <div class="ltr-footer-badge">KIDV Tech · Confidential</div>
     </div>`;
 
-  // ─ WATERMARK ─
   const wm=`<div class="ltr-watermark">KIDV TECH</div>`;
 
-  // ─ LETTER BODY based on type ─
   let body='';
 
+  /* ═══════════════════════ OFFER LETTER ═══════════════════════ */
   if(selectedType==='offer'){
-    const doj=fmtD(gv('xf_doj')),ctc=fmtRs(gv('xf_salary')),prob=gv('xf_probation')||'6 Months',loc=gv('xf_loc')||'Ahmedabad',deadline=fmtD(gv('xf_deadline'));
+    const doj=fmtD(gv('xf_doj')),ctcAnn=fmtRs(gv('xf_salary')),prob=gv('xf_probation')||'Six (6) Months';
+    const loc=gv('xf_loc')||'Ahmedabad, Gujarat',hours=gv('xf_workh')||'9:00 AM – 6:00 PM',report=gv('xf_report')||'Respective Manager';
+    const deadline=fmtD(gv('xf_deadline')),ctcMo=gv('xf_salary')?fmtRs(Math.round(parseFloat(gv('xf_salary'))/12)):'___________';
     body=`
       <div class="ltr-addressee">
         <div class="ltr-to-label">Addressed To</div>
@@ -477,99 +562,241 @@ function generatePreview(){
         <div class="ltr-subject-label">Subject</div>
         <div class="ltr-subject-text">Offer of Employment — ${desig}, ${dept} Department</div>
       </div>
-      <p class="ltr-p">We are delighted to extend this offer of employment to you for the position of <strong>${desig}</strong> in the <strong>${dept}</strong> department at <strong>KIDV Tech</strong>. This offer is based on the discussions held during your interview process and is subject to the terms and conditions outlined herein.</p>
+      <p class="ltr-p">We are delighted to extend this formal offer of employment to you for the position of <strong>${desig}</strong> in the <strong>${dept}</strong> department at <strong>KIDV Tech Pvt. Ltd.</strong>, Ahmedabad. This offer follows the successful completion of our selection and interview process, and we are truly excited to have you join our growing team.</p>
       <div class="ltr-terms-wrap">
         <div class="ltr-terms-header"><span class="material-icons-round">table_chart</span>Terms of Employment</div>
-        <table class="ltr-terms"><tr><td>Position / Designation</td><td><strong>${desig}</strong></td></tr><tr><td>Department</td><td>${dept}</td></tr><tr><td>Work Location</td><td>${loc}</td></tr><tr><td>Date of Joining</td><td>${doj}</td></tr><tr><td>Annual CTC (Cost to Company)</td><td><strong>${ctc}</strong></td></tr><tr><td>Probation Period</td><td>${prob}</td></tr></table>
+        <table class="ltr-terms">
+          <tr><td>Position / Designation</td><td><strong>${desig}</strong></td></tr>
+          <tr><td>Department</td><td>${dept}</td></tr>
+          <tr><td>Reporting To</td><td>${report}</td></tr>
+          <tr><td>Place of Posting</td><td>${loc}</td></tr>
+          <tr><td>Date of Joining</td><td><strong>${doj}</strong></td></tr>
+          <tr><td>Working Hours</td><td>${hours}</td></tr>
+          <tr><td>Annual CTC (Cost to Company)</td><td><strong>${ctcAnn}</strong></td></tr>
+          <tr><td>Monthly Gross (Approx.)</td><td>${ctcMo}</td></tr>
+          <tr><td>Probation Period</td><td>${prob}</td></tr>
+        </table>
       </div>
-      <p class="ltr-p">This offer is contingent upon satisfactory verification of your educational qualifications, employment records, and background checks as deemed necessary by the Company. The detailed salary breakup and allowance structure will be provided in the Appointment Letter upon joining.</p>
-      <p class="ltr-p">Kindly confirm your acceptance of this offer by signing and returning a copy of this letter on or before <strong>${deadline}</strong>. If we do not receive your confirmation by the stipulated date, this offer shall stand withdrawn.</p>
-      <p class="ltr-p">We look forward to welcoming you to the KIDV Tech family and are confident that your expertise and skills will be a valuable addition to our team.</p>`;
+      <p class="ltr-p">The detailed salary breakup, including HRA, TA, Special Allowance, PF, and other statutory components, will be provided to you in the Appointment Letter issued upon successful completion of joining formalities.</p>
+      <p class="ltr-p">This offer is subject to satisfactory verification of your educational qualifications, previous employment records, and any background checks deemed necessary by the Company. The Company reserves the right to withdraw this offer at any stage prior to joining if any material misrepresentation is discovered.</p>
+      <p class="ltr-p">You are requested to confirm your acceptance of this offer by signing and returning a copy of this letter <strong>on or before ${deadline}</strong>. Failure to respond by the stipulated date will result in the automatic lapse of this offer. Kindly also carry the following documents at the time of joining: all original academic certificates, previous experience letters, last salary slips (3 months), and a valid photo ID proof.</p>
+      <div class="ltr-appreciation">
+        <div class="ltr-appreciation-text">We look forward to welcoming you to the KIDV Tech family. We are confident that your skills and enthusiasm will make a significant and positive contribution to our team and the organization.</div>
+      </div>`;
   }
+
+  /* ═══════════════════════ APPOINTMENT LETTER ═══════════════════════ */
   else if(selectedType==='appointment'){
-    const doj=fmtD(gv('xf_doj')),ctc=fmtRs(gv('xf_salary')),basic=fmtRs(gv('xf_basic')),prob=gv('xf_probation')||'6 Months',hours=gv('xf_workh')||'9:00 AM – 6:00 PM',loc=gv('xf_loc')||'Ahmedabad';
+    const doj=fmtD(gv('xf_doj')),ctc=fmtRs(gv('xf_salary')),basic=fmtRsMo(gv('xf_basic'));
+    const prob=gv('xf_probation')||'Six (6) Months',hours=gv('xf_workh')||'9:00 AM – 6:00 PM';
+    const loc=gv('xf_loc')||'Ahmedabad, Gujarat',notice=gv('xf_notice')||'30 Days',report=gv('xf_report')||'Respective Department Head';
+    const pfApplicable=gv('xf_pf')||'Yes — Applicable';
     body=`
-      <div class="ltr-addressee"><div class="ltr-to-label">Addressed To</div><div class="ltr-dear">Dear <strong>${name}</strong>,</div></div>
-      <div class="ltr-subject"><div class="ltr-subject-label">Subject</div><div class="ltr-subject-text">Appointment Letter — ${desig} | Employee ID: ${empid}</div></div>
-      <p class="ltr-p">With reference to our discussions and the Offer Letter previously issued, we are pleased to confirm your appointment as <strong>${desig}</strong> in the <strong>${dept}</strong> department of <strong>KIDV Tech</strong>, with effect from <strong>${doj}</strong>.</p>
-      <div class="ltr-terms-wrap">
-        <div class="ltr-terms-header"><span class="material-icons-round">assignment_ind</span>Appointment Terms</div>
-        <table class="ltr-terms"><tr><td>Employee ID</td><td><strong>${empid}</strong></td></tr><tr><td>Designation</td><td><strong>${desig}</strong></td></tr><tr><td>Department</td><td>${dept}</td></tr><tr><td>Work Location</td><td>${loc}</td></tr><tr><td>Date of Joining</td><td>${doj}</td></tr><tr><td>Annual CTC</td><td><strong>${ctc}</strong></td></tr><tr><td>Monthly Basic Salary</td><td>${basic}</td></tr><tr><td>Probation Period</td><td>${prob}</td></tr><tr><td>Working Hours</td><td>${hours}</td></tr></table>
+      <div class="ltr-addressee">
+        <div class="ltr-to-label">Addressed To</div>
+        <div class="ltr-dear">Dear <strong>${name}</strong>,</div>
       </div>
-      <p class="ltr-p">During the probation period, either party may terminate the employment with one (1) week's written notice. Upon successful confirmation, the applicable notice period shall be as stipulated in the Company's HR Policy.</p>
-      <p class="ltr-p">You are required to maintain strict confidentiality of all proprietary, business, and customer information. Compliance with all KIDV Tech policies, including the Code of Conduct, IT Policy, and Leave Policy, is mandatory.</p>
-      <p class="ltr-p">We are confident in your abilities and extend a warm welcome to you. We trust this will be the beginning of a long and mutually rewarding association.</p>`;
+      <div class="ltr-subject">
+        <div class="ltr-subject-label">Subject</div>
+        <div class="ltr-subject-text">Appointment as ${desig} — Employee ID: ${empid}</div>
+      </div>
+      <p class="ltr-p">With reference to our previous correspondence and the Offer Letter extended to you, we are pleased to formally confirm your appointment as <strong>${desig}</strong> in the <strong>${dept}</strong> department of <strong>KIDV Tech Pvt. Ltd.</strong>, with effect from <strong>${doj}</strong>. You are requested to report to <strong>${report}</strong> on your date of joining.</p>
+      <div class="ltr-terms-wrap">
+        <div class="ltr-terms-header"><span class="material-icons-round">assignment_ind</span>Terms &amp; Conditions of Appointment</div>
+        <table class="ltr-terms">
+          <tr><td>Employee ID</td><td><strong>${empid}</strong></td></tr>
+          <tr><td>Designation</td><td><strong>${desig}</strong></td></tr>
+          <tr><td>Department</td><td>${dept}</td></tr>
+          <tr><td>Place of Posting</td><td>${loc}</td></tr>
+          <tr><td>Date of Joining</td><td><strong>${doj}</strong></td></tr>
+          <tr><td>Reporting To</td><td>${report}</td></tr>
+          <tr><td>Annual CTC</td><td><strong>${ctc}</strong></td></tr>
+          <tr><td>Monthly Basic Salary</td><td>${basic}</td></tr>
+          <tr><td>Working Hours</td><td>${hours}</td></tr>
+          <tr><td>Probation Period</td><td>${prob}</td></tr>
+          <tr><td>Notice Period (Post-Confirmation)</td><td>${notice}</td></tr>
+          <tr><td>Provident Fund (PF)</td><td>${pfApplicable}</td></tr>
+        </table>
+      </div>
+      <p class="ltr-p">During the probation period, either party may terminate this employment with one (1) week's written notice. Upon successful confirmation, the notice period shall be as specified above. Performance will be reviewed at the end of the probation period and a confirmation or extension of probation will be communicated accordingly.</p>
+      <p class="ltr-p">You are required to maintain strict confidentiality of all business, proprietary, financial, and customer information at all times, both during and after your employment with the Company. Any breach of confidentiality will be treated as a serious misconduct and may result in disciplinary action, including termination.</p>
+      <p class="ltr-p">You are expected to adhere to all Company policies, procedures, and the Code of Conduct as amended from time to time. This includes, but is not limited to, the Leave Policy, IT Security Policy, Anti-Harassment Policy, and Attendance Policy.</p>
+      <div class="ltr-appreciation">
+        <div class="ltr-appreciation-text">We warmly welcome you to the KIDV Tech family and trust this will mark the beginning of a long, productive, and mutually rewarding professional relationship.</div>
+      </div>`;
   }
+
+  /* ═══════════════════════ INCREMENT LETTER ═══════════════════════ */
   else if(selectedType==='increment'){
-    const eff=fmtD(gv('xf_effective')),old=fmtRs(gv('xf_oldsal')),nw=fmtRs(gv('xf_newsal')),pct=gv('xf_incrpct'),reason=gv('xf_reason')||'your exceptional performance, dedication, and valuable contributions to the organization';
+    const eff=fmtD(gv('xf_effective')),old=fmtRs(gv('xf_oldsal')),nw=fmtRs(gv('xf_newsal'));
+    const pct=gv('xf_incrpct'),reason=gv('xf_reason')||'exceptional performance, consistent dedication, and valuable contributions to the organization and its clients';
+    const oldB=fmtRsMo(gv('xf_oldbasic')),newB=fmtRsMo(gv('xf_newbasic'));
+    const effMonth=gv('xf_effective')?new Date(gv('xf_effective')+' 00:00').toLocaleDateString('en-IN',{month:'long',year:'numeric'}):'the effective month';
     body=`
-      <div class="ltr-addressee"><div class="ltr-to-label">Addressed To</div><div class="ltr-dear">Dear <strong>${name}</strong>,</div></div>
-      <div class="ltr-subject"><div class="ltr-subject-label">Subject</div><div class="ltr-subject-text">Salary Revision / Increment — ${empid} | Effective ${eff}</div></div>
-      <p class="ltr-p">On behalf of the Management and the Human Resources department, we are pleased to inform you that in recognition of <em>${reason}</em>, the Company has decided to revise your compensation package effective <strong>${eff}</strong>.</p>
+      <div class="ltr-addressee">
+        <div class="ltr-to-label">Addressed To</div>
+        <div class="ltr-dear">Dear <strong>${name}</strong>,</div>
+      </div>
+      <div class="ltr-subject">
+        <div class="ltr-subject-label">Subject</div>
+        <div class="ltr-subject-text">Salary Revision / Increment Letter — Effective ${fmtD(gv('xf_effective'))}</div>
+      </div>
+      <p class="ltr-p">On behalf of the Management and the Human Resources team, we are delighted to inform you that your compensation package has been reviewed and revised, effective <strong>${eff}</strong>. This revision is in recognition of <em>${reason}</em>.</p>
+      <p class="ltr-p">We sincerely appreciate your hard work, positive attitude, and the results you have consistently delivered. This increment is a reflection of the high regard in which the Management holds your contribution to KIDV Tech.</p>
       <div class="ltr-terms-wrap">
         <div class="ltr-terms-header"><span class="material-icons-round">trending_up</span>Revised Compensation Details</div>
-        <table class="ltr-terms"><tr><td>Employee ID</td><td><strong>${empid}</strong></td></tr><tr><td>Designation</td><td>${desig}</td></tr><tr><td>Department</td><td>${dept}</td></tr><tr><td>Previous Annual CTC</td><td>${old}</td></tr><tr><td>Revised Annual CTC</td><td><strong>${nw}</strong></td></tr>${pct?`<tr><td>Increment Percentage</td><td><strong style="color:#10b981;">▲ ${pct}%</strong></td></tr>`:''}<tr><td>Effective From</td><td><strong>${eff}</strong></td></tr></table>
+        <table class="ltr-terms">
+          <tr><td>Employee ID</td><td><strong>${empid}</strong></td></tr>
+          <tr><td>Name</td><td>${name}</td></tr>
+          <tr><td>Designation</td><td>${desig}</td></tr>
+          <tr><td>Department</td><td>${dept}</td></tr>
+          <tr><td>Previous Annual CTC</td><td>${old}</td></tr>
+          <tr><td>Revised Annual CTC</td><td><strong>${nw}</strong></td></tr>
+          ${gv('xf_oldbasic')?`<tr><td>Previous Monthly Basic</td><td>${oldB}</td></tr>`:''}
+          ${gv('xf_newbasic')?`<tr><td>Revised Monthly Basic</td><td><strong>${newB}</strong></td></tr>`:''}
+          ${pct?`<tr><td>Increment Percentage</td><td><strong style="color:#10b981;">▲ ${pct}%</strong></td></tr>`:''}
+          <tr><td>Effective From</td><td><strong>${eff}</strong></td></tr>
+        </table>
       </div>
-      <p class="ltr-p">The detailed revised salary breakup will be reflected in your payslip from the effective month. We deeply appreciate your commitment, and this revision is a testament to the value you bring to our organization.</p>
-      <p class="ltr-p">We look forward to your continued excellence and wish you continued success in your career at KIDV Tech.</p>`;
+      <p class="ltr-p">The revised salary components will be reflected in your payslip for <strong>${effMonth}</strong>. All other terms and conditions of your employment remain unchanged. The detailed revised salary breakup will be separately provided by the HR department.</p>
+      <div class="ltr-appreciation">
+        <div class="ltr-appreciation-text">We look forward to your continued growth, excellence, and leadership at KIDV Tech. We hope this revision reinforces our commitment to recognizing and rewarding talent. Congratulations!</div>
+      </div>`;
   }
+
+  /* ═══════════════════════ EXPERIENCE CERTIFICATE ═══════════════════════ */
   else if(selectedType==='experience'){
     const doj=fmtD(gv('xf_doj')),lwd=fmtD(gv('xf_lwd')),conduct=gv('xf_conduct')||'Good',roles=gv('xf_roles');
-    const fn=name.split(' ')[0]||name;
+    // Calculate tenure
+    let tenureStr='';
+    if(gv('xf_doj')&&gv('xf_lwd')){
+      const d1=new Date(gv('xf_doj')),d2=new Date(gv('xf_lwd'));
+      const months=(d2.getFullYear()-d1.getFullYear())*12+(d2.getMonth()-d1.getMonth());
+      const yrs=Math.floor(months/12),mos=months%12;
+      tenureStr=yrs>0?(yrs+' Year'+(yrs>1?'s':'')+(mos>0?' and '+mos+' Month'+(mos>1?'s':''):'')):mos+' Month'+(mos>1?'s':'');
+    }
+    const conductAdj={Excellent:'outstanding',Good:'commendable',Satisfactory:'satisfactory'}[conduct]||'good';
     body=`
-      <div class="ltr-addressee"><div class="ltr-to-label">To Whomsoever It May Concern</div></div>
-      <div class="ltr-subject"><div class="ltr-subject-label">Subject</div><div class="ltr-subject-text">Experience Certificate — ${name} (${empid})</div></div>
-      <p class="ltr-p">This is to certify that <strong>${name}</strong> (Employee ID: <strong>${empid}</strong>) was employed with <strong>KIDV Tech</strong>, Ahmedabad, as <strong>${desig}</strong> in the <strong>${dept}</strong> department from <strong>${doj}</strong> to <strong>${lwd}</strong>.</p>
-      ${roles?`<p class="ltr-p">During the tenure, ${fn}'s key responsibilities included: <em>${roles}</em></p>`:''}
-      <p class="ltr-p">Throughout the period of employment, ${fn}'s overall conduct, behaviour, and work performance has been assessed as <strong>${conduct}</strong>. ${fn} demonstrated professionalism, integrity, and a strong work ethic consistently.</p>
-      <p class="ltr-p">This certificate is issued in good faith, based on our records, and at the request of the employee for the purpose of future employment. We wish <strong>${fn}</strong> all the very best in their future endeavours.</p>`;
-  }
-  else if(selectedType==='relieving'){
-    const resign=fmtD(gv('xf_resign_date')),lwd=fmtD(gv('xf_lwd')),notice=gv('xf_notice_period')||'as per Company policy';
-    body=`
-      <div class="ltr-addressee"><div class="ltr-to-label">Addressed To</div><div class="ltr-dear">Dear <strong>${name}</strong>,</div></div>
-      <div class="ltr-subject"><div class="ltr-subject-label">Subject</div><div class="ltr-subject-text">Relieving Letter — ${empid} | Last Working Day: ${lwd}</div></div>
-      <p class="ltr-p">This is to acknowledge and confirm receipt of your resignation letter dated <strong>${resign}</strong>. The Management has accepted your resignation, and we hereby confirm that you stand relieved from the services of <strong>KIDV Tech</strong> with effect from the close of business on <strong>${lwd}</strong>.</p>
-      <div class="ltr-terms-wrap">
-        <div class="ltr-terms-header"><span class="material-icons-round">logout</span>Exit Details</div>
-        <table class="ltr-terms"><tr><td>Employee ID</td><td><strong>${empid}</strong></td></tr><tr><td>Designation</td><td>${desig}</td></tr><tr><td>Department</td><td>${dept}</td></tr><tr><td>Resignation Date</td><td>${resign}</td></tr><tr><td>Last Working Day</td><td><strong>${lwd}</strong></td></tr><tr><td>Notice Period Served</td><td>${notice}</td></tr></table>
+      <div class="ltr-addressee">
+        <div class="ltr-to-label">To Whomsoever It May Concern</div>
       </div>
-      <p class="ltr-p">Your Full and Final Settlement will be processed in accordance with Company policy. You are requested to complete all exit formalities, including the handover of company assets, access credentials, ID cards, and any pending documentation, prior to your last day.</p>
-      <p class="ltr-p">We sincerely appreciate your contributions to KIDV Tech during your tenure. We wish you the very best in your future professional endeavours.</p>`;
+      <div class="ltr-subject">
+        <div class="ltr-subject-label">Subject</div>
+        <div class="ltr-subject-text">Experience Certificate — ${name} (${empid})</div>
+      </div>
+      <p class="ltr-p">This is to certify that <strong>${name}</strong> (Employee ID: <strong>${empid}</strong>) was employed with <strong>KIDV Tech Pvt. Ltd.</strong>, Ahmedabad, in the capacity of <strong>${desig}</strong> in the <strong>${dept}</strong> department from <strong>${doj}</strong> to <strong>${lwd}</strong>${tenureStr?' — a total tenure of approximately <strong>'+tenureStr+'</strong>':''}.
+      </p>
+      <div class="ltr-terms-wrap">
+        <div class="ltr-terms-header"><span class="material-icons-round">workspace_premium</span>Employment Record</div>
+        <table class="ltr-terms">
+          <tr><td>Employee ID</td><td><strong>${empid}</strong></td></tr>
+          <tr><td>Full Name</td><td>${name}</td></tr>
+          <tr><td>Designation</td><td><strong>${desig}</strong></td></tr>
+          <tr><td>Department</td><td>${dept}</td></tr>
+          <tr><td>Date of Joining</td><td>${doj}</td></tr>
+          <tr><td>Last Working Day</td><td>${lwd}</td></tr>
+          ${tenureStr?`<tr><td>Total Tenure</td><td><strong>${tenureStr}</strong></td></tr>`:''}
+          <tr><td>Conduct &amp; Performance</td><td><strong>${conduct}</strong></td></tr>
+        </table>
+      </div>
+      ${roles?`<p class="ltr-p">During the course of employment, <strong>${fn}</strong>'s primary responsibilities included: <em>${roles}</em></p>`:''}
+      <p class="ltr-p">Throughout the period of association with KIDV Tech, <strong>${fn}</strong> demonstrated a <strong>${conductAdj}</strong> standard of conduct, work ethics, and professional behaviour. ${fn} was found to be diligent, disciplined, and a reliable member of the team.</p>
+      <p class="ltr-p">This certificate is issued in good faith, based on company records, and solely at the request of the employee for the purpose of future employment or reference. KIDV Tech wishes <strong>${fn}</strong> all the very best in all future professional endeavours.</p>`;
   }
-  else if(selectedType==='warning'){
-    const incDate=fmtD(gv('xf_incident_date')),incident=gv('xf_incident')||'[Describe the alleged misconduct or violation in detail]',days=gv('xf_response_days')||'3',severity=gv('xf_severity')||'Show Cause Notice';
+
+  /* ═══════════════════════ RELIEVING LETTER ═══════════════════════ */
+  else if(selectedType==='relieving'){
+    const resign=fmtD(gv('xf_resign_date')),lwd=fmtD(gv('xf_lwd'));
+    const notice=gv('xf_notice_period')||'As per Company Policy',ff=gv('xf_ff_status')||'Under Process',reason=gv('xf_reason');
     body=`
-      <div class="ltr-addressee"><div class="ltr-to-label">Addressed To</div><div class="ltr-dear">Dear <strong>${name}</strong>,</div></div>
-      <div class="ltr-subject"><div class="ltr-subject-label">Subject</div><div class="ltr-subject-text">${severity} — Employee ID: ${empid}</div></div>
-      <p class="ltr-p">It has come to the attention of the Management that on <strong>${incDate}</strong>, the following act of misconduct / violation of company policy was observed / reported:</p>
+      <div class="ltr-addressee">
+        <div class="ltr-to-label">Addressed To</div>
+        <div class="ltr-dear">Dear <strong>${name}</strong>,</div>
+      </div>
+      <div class="ltr-subject">
+        <div class="ltr-subject-label">Subject</div>
+        <div class="ltr-subject-text">Relieving Letter — ${empid} | Last Working Day: ${lwd}</div>
+      </div>
+      <p class="ltr-p">This is to acknowledge and confirm receipt of your resignation letter dated <strong>${resign}</strong>. After due consideration, the Management has formally accepted your resignation, and we hereby confirm that you stand relieved from the services of <strong>KIDV Tech Pvt. Ltd.</strong> with effect from the close of business hours on <strong>${lwd}</strong>.</p>
+      <div class="ltr-terms-wrap">
+        <div class="ltr-terms-header"><span class="material-icons-round">logout</span>Exit Summary</div>
+        <table class="ltr-terms">
+          <tr><td>Employee ID</td><td><strong>${empid}</strong></td></tr>
+          <tr><td>Name</td><td>${name}</td></tr>
+          <tr><td>Designation</td><td>${desig}</td></tr>
+          <tr><td>Department</td><td>${dept}</td></tr>
+          <tr><td>Resignation Date</td><td>${resign}</td></tr>
+          <tr><td>Last Working Day</td><td><strong>${lwd}</strong></td></tr>
+          <tr><td>Notice Period</td><td>${notice}</td></tr>
+          <tr><td>Full &amp; Final Settlement</td><td>${ff}</td></tr>
+        </table>
+      </div>
+      ${reason?`<p class="ltr-p">We note that your reason for leaving is: <em>${reason}</em>. We respect your decision and wish you well in your next chapter.</p>`:''}
+      <p class="ltr-p">You are requested to complete all pending exit formalities including handover of company-issued assets (laptop, ID card, access cards, data, documentation), clearing all dues, and completing the No-Objection clearance from respective departments prior to your last day. The Full and Final Settlement amount, if any, will be processed within <strong>45 working days</strong> of your last day in accordance with Company policy.</p>
+      <p class="ltr-p">During your tenure at KIDV Tech, your contributions to the <strong>${dept}</strong> team have been valued and appreciated. We sincerely wish you the very best in your future professional endeavours and personal pursuits.</p>
+      <div class="ltr-appreciation">
+        <div class="ltr-appreciation-text">You leave with our warmest regards and best wishes. KIDV Tech will always welcome you back should an opportunity arise in the future.</div>
+      </div>`;
+  }
+
+  /* ═══════════════════════ WARNING / SHOW CAUSE ═══════════════════════ */
+  else if(selectedType==='warning'){
+    const incDate=fmtD(gv('xf_incident_date')),incident=gv('xf_incident')||'[Describe the alleged misconduct or policy violation in detail]';
+    const days=gv('xf_response_days')||'3',severity=gv('xf_severity')||'Show Cause Notice';
+    const policy=gv('xf_policy')||'KIDV Tech Code of Conduct and Employee Handbook';
+    const isFinal=severity.toLowerCase().includes('final')||severity.toLowerCase().includes('suspension');
+    body=`
+      <div class="ltr-addressee">
+        <div class="ltr-to-label">Addressed To</div>
+        <div class="ltr-dear">Dear <strong>${name}</strong>,</div>
+      </div>
+      <div class="ltr-subject">
+        <div class="ltr-subject-label">Subject</div>
+        <div class="ltr-subject-text">${severity} — Employee ID: ${empid} | Ref: ${date}</div>
+      </div>
+      <p class="ltr-p">It has come to the attention of the Management that on <strong>${incDate}</strong>, the following act of misconduct / violation of company policy was observed and/or reported by the concerned department head:</p>
       <div class="ltr-incident-block">
-        <div class="ltr-incident-label"><span class="material-icons-round">report_problem</span>Alleged Incident / Misconduct</div>
+        <div class="ltr-incident-label"><span class="material-icons-round">report_problem</span>Alleged Incident / Nature of Misconduct</div>
         <div class="ltr-incident-text">${incident}</div>
       </div>
-      <p class="ltr-p">The above-mentioned conduct is in serious violation of <strong>KIDV Tech's</strong> Code of Conduct, Employee Handbook, and applicable company policies. This letter constitutes a formal <strong>${severity}</strong> and shall be placed on record in your personnel file.</p>
-      <p class="ltr-p">You are hereby directed to submit your written explanation / show cause response within <strong>${days} working day(s)</strong> from the date of receipt of this notice, clearly stating why appropriate disciplinary action should not be initiated against you.</p>
-      <p class="ltr-p">Failure to respond within the stipulated time or submission of an unsatisfactory explanation may result in further disciplinary proceedings, which could include suspension or termination of employment, at the sole discretion of the Management.</p>
-      <p class="ltr-p" style="font-size:11.5px;color:#7c2d12;font-style:italic;">This notice is issued without prejudice to any other rights or remedies available to the Company under applicable law or company policy.</p>`;
+      <p class="ltr-p">The above-mentioned conduct is in direct violation of <strong>${policy}</strong>. Such behaviour is unacceptable within the work environment of KIDV Tech and is prejudicial to the interests of the Company, its clients, and fellow employees.</p>
+      <p class="ltr-p">This letter constitutes a formal <strong>${severity}</strong> issued to you and shall be placed on permanent record in your personnel file. You are hereby required to submit your written explanation / show cause response within <strong>${days} working day(s)</strong> from the date of receipt of this notice, clearly explaining why appropriate disciplinary action should not be initiated against you.</p>
+      ${isFinal?`<div class="ltr-consequence">
+        <div class="ltr-consequence-label">⚠️ Consequence of Non-Compliance</div>
+        <div class="ltr-consequence-text">This is your <strong>Final Warning</strong>. Any further violation, or failure to submit a satisfactory written explanation within the stipulated period, will result in immediate suspension or termination of employment without further notice, at the sole discretion of the Management and in accordance with applicable laws.</div>
+      </div>`:''}
+      <p class="ltr-p">Your written explanation should be submitted to the HR department or your immediate supervisor via email or in person. Please note that failure to respond within the stipulated timeframe, or submission of an explanation that the Management deems unsatisfactory, may result in further disciplinary proceedings, including but not limited to suspension, demotion, or termination of employment.</p>
+      <p class="ltr-p" style="font-size:11.5px;color:#7c2d12;font-style:italic;">This notice is issued strictly without prejudice to any other rights, remedies, or actions available to the Company under applicable law, applicable HR policy, or the terms of your employment contract.</p>`;
   }
 
   document.getElementById('letterContent').innerHTML=`${header}<div class="ltr-body">${wm}${body}${sig}</div>${footer}`;
 }
 
 function saveLetter(){
-  const name=gv('ltr_name');if(!name||!selectedType){showToast('Fill in employee details first','error');return;}
+  const name=gv('ltr_name');
+  if(!name||!selectedType){showToast('Please fill employee details first!','error');return;}
   const meta=LETTER_META[selectedType];
   const refNo=`KIDV/${selectedType.slice(0,3).toUpperCase()}/${new Date().getFullYear()}/${String(letterHistory.length+1).padStart(3,'0')}`;
-  const rec={type:selectedType,typeName:meta.name,badge:meta.badge,empName:name,empId:gv('ltr_empid'),designation:gv('ltr_designation'),date:gv('ltr_date'),refNo,content:document.getElementById('letterContent').innerHTML,savedAt:new Date().toISOString()};
-  letterHistory.unshift(rec);localStorage.setItem('kidv_letter_history',JSON.stringify(letterHistory));
-  showToast(`${rec.typeName} saved to history!`,'success');renderHistory();
+  const rec={
+    type:selectedType,typeName:meta.name,badge:meta.badge,
+    empName:name,empId:gv('ltr_empid'),designation:gv('ltr_designation'),
+    date:gv('ltr_date'),refNo,
+    content:document.getElementById('letterContent').innerHTML,
+    savedAt:new Date().toISOString()
+  };
+  letterHistory.unshift(rec);
+  localStorage.setItem('kidv_letter_history',JSON.stringify(letterHistory));
+  showToast(`${meta.name} saved to history!`,'success');
 }
 
 function printLetter(){
   const content=document.getElementById('letterContent').innerHTML;
+  if(!content||content.includes('Select a letter type')){showToast('Generate a letter first!','error');return;}
   const pz=document.getElementById('printZone');
-  pz.innerHTML=`<div style="max-width:800px;margin:0 auto;">${content}</div>`;
-  pz.style.display='block';window.print();pz.style.display='none';pz.innerHTML='';
+  pz.innerHTML=`<div style="max-width:820px;margin:0 auto;">${content}</div>`;
+  pz.style.display='block';
+  window.print();
+  setTimeout(()=>{pz.style.display='none';pz.innerHTML='';},1000);
 }
 
 let showingHistory=false;
@@ -577,33 +804,68 @@ function toggleHistory(){
   showingHistory=!showingHistory;
   document.getElementById('generatorView').style.display=showingHistory?'none':'';
   document.getElementById('historyView').style.display=showingHistory?'':'none';
-  document.getElementById('historyBtn').innerHTML=showingHistory?'<span class="material-icons-round">add</span>New Letter':'<span class="material-icons-round">history</span>Letter History';
+  document.getElementById('historyBtn').innerHTML=showingHistory?
+    '<span class="material-icons-round">add</span>New Letter':
+    '<span class="material-icons-round">history</span>Letter History';
   if(showingHistory)renderHistory();
 }
 
 function renderHistory(){
   const tb=document.getElementById('historyBody');
-  if(!letterHistory.length){tb.innerHTML='<tr><td colspan="5" style="text-align:center;padding:30px;color:#94a3b8;font-weight:700;text-transform:uppercase;font-size:11px;">No letters generated yet</td></tr>';return;}
+  if(!letterHistory.length){
+    tb.innerHTML='<tr><td colspan="5" style="text-align:center;padding:32px;color:#94a3b8;font-weight:700;text-transform:uppercase;font-size:11px;">No letters saved yet</td></tr>';
+    return;
+  }
   tb.innerHTML=letterHistory.map((r,i)=>{
     const col=LETTER_META[r.type]?.color||'#64748b';
     return`<tr>
-      <td><div style="display:flex;align-items:center;gap:9px;"><div style="width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,${col},${col}88);color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${(r.empName||'?')[0]}</div><div><div style="font-size:11px;font-weight:700;color:#0f172a;">${r.empName||'—'}</div><div style="font-size:8.5px;color:#94a3b8;">${r.empId||''} · ${r.designation||''}</div></div></div></td>
+      <td><div style="display:flex;align-items:center;gap:9px;">
+        <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,${col},${col}88);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${(r.empName||'?')[0].toUpperCase()}</div>
+        <div><div style="font-size:11.5px;font-weight:700;color:#0f172a;">${r.empName||'—'}</div><div style="font-size:8.5px;color:#94a3b8;text-transform:uppercase;">${r.empId||''} · ${r.designation||''}</div></div>
+      </div></td>
       <td><span class="badge ${r.badge||'bg-gray'}">${r.typeName||'—'}</span></td>
-      <td style="font-size:10.5px;color:#64748b;">${r.date||'—'}</td>
+      <td style="font-size:10.5px;color:#64748b;">${r.date?new Date(r.date+' 00:00').toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'—'}</td>
       <td style="font-size:10.5px;color:#64748b;font-family:'JetBrains Mono',monospace;">${r.refNo||'—'}</td>
       <td><div style="display:flex;gap:4px;">
-        <button class="act-btn av" title="Preview" onclick="previewSaved(${i})"><span class="material-icons-round">visibility</span></button>
+        <button class="act-btn av" title="View &amp; Preview" onclick="previewSaved(${i})"><span class="material-icons-round">visibility</span></button>
         <button class="act-btn av" title="Print" onclick="printSaved(${i})"><span class="material-icons-round">print</span></button>
         <button class="act-btn ad" title="Delete" onclick="delLetter(${i})"><span class="material-icons-round">delete</span></button>
       </div></td>
     </tr>`;
   }).join('');
 }
-function previewSaved(i){toggleHistory();document.getElementById('letterContent').innerHTML=letterHistory[i].content;}
-function printSaved(i){const pz=document.getElementById('printZone');pz.innerHTML=`<div style="max-width:800px;margin:0 auto;">${letterHistory[i].content}</div>`;pz.style.display='block';window.print();pz.style.display='none';pz.innerHTML='';}
-function delLetter(i){if(!confirm('Delete this letter from history?'))return;letterHistory.splice(i,1);localStorage.setItem('kidv_letter_history',JSON.stringify(letterHistory));renderHistory();showToast('Deleted','success');}
 
-function loadUser(){const u=JSON.parse(localStorage.getItem('kidv_user')||'{}');if(u.name){const p=u.name.trim().split(' ');document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();document.getElementById('sideName').textContent=u.name;document.getElementById('sideRole').textContent=u.role||'Staff';}const r=(u.role||'').toLowerCase();if(r==='super admin'||r==='admin'){document.getElementById('adminNav').style.display='';document.getElementById('usersLink').style.display='';document.getElementById('rolesLink').style.display='';}}
+function previewSaved(i){
+  toggleHistory();
+  if(letterHistory[i]){
+    document.getElementById('letterContent').innerHTML=letterHistory[i].content;
+    selectedType=letterHistory[i].type;
+    document.getElementById('formPreviewSection').style.display='';
+    document.getElementById('lt-'+selectedType)?.classList.add('selected');
+    setTimeout(()=>document.getElementById('formPreviewSection').scrollIntoView({behavior:'smooth',block:'start'}),100);
+  }
+}
+function printSaved(i){
+  const pz=document.getElementById('printZone');
+  pz.innerHTML=`<div style="max-width:820px;margin:0 auto;">${letterHistory[i].content}</div>`;
+  pz.style.display='block';
+  window.print();
+  setTimeout(()=>{pz.style.display='none';pz.innerHTML='';},1000);
+}
+function delLetter(i){
+  if(!confirm('Delete this letter from history?'))return;
+  letterHistory.splice(i,1);
+  localStorage.setItem('kidv_letter_history',JSON.stringify(letterHistory));
+  renderHistory();
+  showToast('Letter deleted from history','error');
+}
+
+function loadUser(){
+  const u=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+  if(u.name){const p=u.name.trim().split(' ');document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();document.getElementById('sideName').textContent=u.name;document.getElementById('sideRole').textContent=u.role||'Staff';}
+  const r=(u.role||'').toLowerCase();
+  if(r==='super admin'||r==='admin'){document.getElementById('adminNav').style.display='';document.getElementById('usersLink').style.display='';document.getElementById('rolesLink').style.display='';}
+}
 function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
 function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');}
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');}
