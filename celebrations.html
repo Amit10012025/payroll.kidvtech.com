@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>KIDV Tech | Celebrations</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<script>if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}</script>
+<style>
+:root{
+  --sidebar-w:260px;--navy:#07101f;
+  --blue:#2563eb;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--purple:#8b5cf6;--amber:#f59e0b;--pink:#ec4899;
+  --text-m:rgba(148,163,184,.65);--text-d:rgba(148,163,184,.32);
+  --border:rgba(255,255,255,.06);--glass:rgba(255,255,255,.04);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:'Outfit',sans-serif;background:#f0f4f9;overflow:hidden;}
+.app{display:flex;height:100vh;}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:200;overflow:hidden;border-right:1px solid rgba(255,255,255,.05);box-shadow:8px 0 40px rgba(0,0,0,.35);}
+.sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16),transparent 65%);pointer-events:none;z-index:0;}
+.sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09),transparent 65%);pointer-events:none;z-index:0;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:199;backdrop-filter:blur(6px);}
+.logo-area{position:relative;z-index:1;flex-shrink:0;overflow:hidden;background:#fff;border-bottom:1px solid rgba(255,255,255,.06);}
+.logo-area img{width:100%;height:auto;display:block;}
+.nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 10px 4px;position:relative;z-index:1;}
+.nav::-webkit-scrollbar{width:3px;}.nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:99px;}
+.nav-sec{font-size:8.5px;color:var(--text-d);font-weight:700;text-transform:uppercase;letter-spacing:.2em;padding:0 8px;margin:16px 0 5px;display:flex;align-items:center;gap:8px;}
+.nav-sec::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07);}
+.nav a{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:11px;font-size:11px;font-weight:600;color:var(--text-m);text-decoration:none;margin-bottom:1px;text-transform:uppercase;letter-spacing:.055em;transition:color .18s,background .18s,transform .18s;position:relative;}
+.nav a:hover{color:rgba(241,245,249,.9);background:rgba(255,255,255,.07);transform:translateX(2px);}
+.nav a.active{color:#fff;background:linear-gradient(120deg,rgba(37,99,235,.32),rgba(6,182,212,.18));border:1px solid rgba(59,130,246,.28);box-shadow:0 4px 20px rgba(37,99,235,.22),inset 0 1px 0 rgba(255,255,255,.09);}
+.nav a.active::after{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:55%;background:linear-gradient(180deg,#93c5fd,#22d3ee);border-radius:0 3px 3px 0;box-shadow:0 0 10px rgba(96,165,250,.8);}
+.ic{width:29px;height:29px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ic .material-icons-round{font-size:15px;}
+.ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
+.ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-int{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.ic-doc{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-trn{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.ic-adm{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
+.ic-fin{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-cel{background:rgba(236,72,153,.18);color:#f9a8d4;border:1px solid rgba(236,72,153,.18);}
+.nav a.active .ic{transform:scale(1.08);}
+.nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
+.user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--glass);margin-bottom:8px;border:1px solid rgba(255,255,255,.11);}
+.user-av{width:33px;height:33px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.user-name{font-size:10.5px;font-weight:700;color:#fff;text-transform:uppercase;}
+.user-role{font-size:8px;color:var(--text-d);font-weight:500;text-transform:uppercase;margin-top:1px;}
+.logout-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:10px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);color:rgba(252,165,165,.8);font-size:10px;font-weight:700;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;}
+.logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;}
+.logout-btn .material-icons-round{font-size:14px;}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;margin-left:var(--sidebar-w);overflow:hidden;}
+.topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:13px 26px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:14px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
+.topbar-left{display:flex;align-items:center;gap:13px;}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;}
+.menu-btn .material-icons-round{font-size:22px;}
+.page-title{font-size:15px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
+.page-sub{font-size:9.5px;color:#94a3b8;font-weight:500;margin-top:2px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.06em;font-family:'Outfit',sans-serif;white-space:nowrap;}
+.btn-ghost{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}.btn-ghost:hover{background:#e2e8f0;}
+.btn .material-icons-round{font-size:14px;}
+.tab-bar{display:flex;gap:4px;background:#f8fafc;border:1px solid #e8edf5;border-radius:12px;padding:4px;}
+.tab-btn{display:flex;align-items:center;gap:6px;padding:7px 16px;border-radius:9px;border:none;cursor:pointer;font-family:'Outfit',sans-serif;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#64748b;background:transparent;transition:all .18s;white-space:nowrap;}
+.tab-btn.active{background:#fff;color:#0f172a;box-shadow:0 1px 6px rgba(0,0,0,.1);}
+.tab-btn .material-icons-round{font-size:14px;}
+.scroll{flex:1;overflow-y:auto;padding:22px 26px;}
+.scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+.tab-panel{display:none;animation:fadeUp .25s ease both;}.tab-panel.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── TODAY HERO ── */
+.today-hero{
+  background:linear-gradient(135deg,#07101f 0%,#1a0a2e 50%,#07101f 100%);
+  border-radius:20px;padding:28px;margin-bottom:22px;
+  position:relative;overflow:hidden;
+}
+.today-hero::before{content:'';position:absolute;top:-60px;right:-40px;width:260px;height:260px;background:radial-gradient(circle,rgba(236,72,153,.22),transparent 65%);pointer-events:none;}
+.today-hero::after{content:'';position:absolute;bottom:-40px;left:60px;width:200px;height:200px;background:radial-gradient(circle,rgba(37,99,235,.2),transparent 65%);pointer-events:none;}
+.confetti-strip{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#ec4899,#f59e0b,#10b981,#2563eb,#8b5cf6,#ec4899);background-size:200% 100%;animation:gradientMove 3s linear infinite;}
+@keyframes gradientMove{0%{background-position:0% 50%;}100%{background-position:200% 50%;}}
+.today-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;position:relative;z-index:1;}
+.today-section-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.15em;margin-bottom:14px;display:flex;align-items:center;gap:7px;}
+.ts-bday{color:rgba(249,168,212,.8);}
+.ts-anniv{color:rgba(167,243,208,.7);}
+.today-cards{display:flex;flex-direction:column;gap:8px;}
+.today-card{
+  display:flex;align-items:center;gap:12px;
+  background:rgba(255,255,255,.08);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.12);border-radius:14px;
+  padding:12px 14px;
+  animation:popIn .4s cubic-bezier(.4,0,.2,1) both;
+}
+@keyframes popIn{from{opacity:0;transform:scale(.95);}to{opacity:1;transform:scale(1);}}
+.tc-av{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0;position:relative;}
+.tc-av-bday{box-shadow:0 0 20px rgba(236,72,153,.5);}
+.tc-av-anniv{box-shadow:0 0 20px rgba(16,185,129,.4);}
+.tc-emoji{position:absolute;top:-6px;right:-6px;font-size:16px;animation:bounce 1s ease-in-out infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+.tc-name{font-family:'Playfair Display',serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:.01em;}
+.tc-meta{font-size:9px;font-weight:600;color:rgba(148,163,184,.7);text-transform:uppercase;letter-spacing:.05em;margin-top:2px;}
+.tc-badge{font-size:8px;font-weight:800;text-transform:uppercase;padding:2px 8px;border-radius:99px;margin-top:4px;width:fit-content;}
+.tcb-bday{background:rgba(236,72,153,.25);color:#f9a8d4;border:1px solid rgba(236,72,153,.3);}
+.tcb-anniv{background:rgba(16,185,129,.2);color:#6ee7b7;border:1px solid rgba(16,185,129,.25);}
+.today-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;color:rgba(148,163,184,.4);text-align:center;}
+.today-empty .emoji{font-size:28px;margin-bottom:6px;}
+.today-empty div{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;}
+
+/* ── STATS ROW ── */
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:22px;}
+.sr{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:14px 16px;position:relative;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:all .2s;}
+.sr:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08);}
+.sr::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.sr-bday::before{background:linear-gradient(90deg,#ec4899,#f9a8d4);}
+.sr-anniv::before{background:linear-gradient(90deg,#10b981,#34d399);}
+.sr-upcoming::before{background:linear-gradient(90deg,#2563eb,#60a5fa);}
+.sr-week::before{background:linear-gradient(90deg,#f59e0b,#fcd34d);}
+.sr-month::before{background:linear-gradient(90deg,#8b5cf6,#c084fc);}
+.sr-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:9px;font-size:18px;}
+.sr-label{font-size:7.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;margin-bottom:3px;}
+.sr-val{font-size:20px;font-weight:900;color:#0f172a;font-family:'JetBrains Mono',monospace;}
+.sr-sub{font-size:8.5px;color:#94a3b8;font-weight:600;margin-top:2px;}
+
+/* ── UPCOMING LIST ── */
+.upcoming-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.ucard{background:#fff;border-radius:16px;border:1px solid #ecf0f6;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04);}
+.uc-head{padding:14px 18px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:10px;}
+.uc-head-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.uc-head-title{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#0f172a;}
+.uc-head-count{margin-left:auto;font-size:9px;font-weight:700;color:#64748b;background:#f1f5f9;padding:2px 9px;border-radius:99px;}
+.uc-list{display:flex;flex-direction:column;}
+.uc-row{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid #f8fafc;transition:background .12s;}
+.uc-row:last-child{border-bottom:none;}
+.uc-row:hover{background:#fafafa;}
+.uc-row.today-row{background:linear-gradient(90deg,rgba(236,72,153,.05),transparent);}
+.uc-av{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0;}
+.uc-info{flex:1;min-width:0;}
+.uc-name{font-size:11.5px;font-weight:800;text-transform:uppercase;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.uc-dept{font-size:8.5px;color:#94a3b8;font-weight:600;text-transform:uppercase;margin-top:1px;}
+.uc-right{text-align:right;flex-shrink:0;}
+.uc-date{font-size:10px;font-weight:800;color:#0f172a;font-family:'JetBrains Mono',monospace;}
+.uc-days{font-size:8.5px;font-weight:700;margin-top:3px;}
+.days-today{color:#ec4899;font-weight:900;}
+.days-soon{color:#f59e0b;}
+.days-week{color:#2563eb;}
+.days-later{color:#94a3b8;}
+
+/* ── MONTH CALENDAR VIEW ── */
+.month-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.month-label{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:#0f172a;}
+.mnav-btn{width:34px;height:34px;border-radius:9px;border:1.5px solid #e2e8f0;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#475569;transition:all .15s;}
+.mnav-btn:hover{background:#eff6ff;border-color:#bfdbfe;color:#2563eb;}
+.mnav-btn .material-icons-round{font-size:18px;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:16px;}
+.cal-day-hd{font-size:8px;font-weight:700;text-transform:uppercase;color:#94a3b8;letter-spacing:.08em;text-align:center;padding:4px 0;}
+.cal-cell{aspect-ratio:1;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#475569;background:#f8fafc;position:relative;cursor:pointer;transition:all .15s;border:1px solid transparent;}
+.cal-cell:hover{background:#eff6ff;border-color:#bfdbfe;color:#2563eb;}
+.cal-cell.today{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.3);}
+.cal-cell.other-month{color:#e2e8f0;background:#fafafa;}
+.cal-cell.has-bday{background:linear-gradient(135deg,#fdf2f8,#fce7f3);border-color:#f9a8d4;color:#9d174d;}
+.cal-cell.has-anniv{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-color:#86efac;color:#14532d;}
+.cal-cell.has-both{background:linear-gradient(135deg,#fdf2f8,#f0fdf4);border-color:#e879f9;color:#4a044e;}
+.cal-cell.today.has-bday,.cal-cell.today.has-anniv,.cal-cell.today.has-both{background:linear-gradient(135deg,#2563eb,#7c3aed);}
+.cal-dots{display:flex;gap:2px;margin-top:2px;}
+.cal-dot{width:4px;height:4px;border-radius:50%;}
+.cd-bday{background:#ec4899;}
+.cd-anniv{background:#10b981;}
+
+/* Cal legend */
+.cal-legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px;}
+.cl-item{display:flex;align-items:center;gap:6px;font-size:9px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.05em;}
+.cl-dot{width:10px;height:10px;border-radius:3px;}
+
+/* Cal event list */
+.cal-events{background:#f8fafc;border-radius:14px;padding:14px;max-height:220px;overflow-y:auto;}
+.cal-events::-webkit-scrollbar{width:3px;}.cal-events::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:99px;}
+.ce-empty{text-align:center;color:#94a3b8;font-size:11px;font-weight:600;padding:20px;}
+.ce-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f1f5f9;}
+.ce-row:last-child{border-bottom:none;}
+.ce-icon{font-size:18px;flex-shrink:0;}
+.ce-info{flex:1;}
+.ce-name{font-size:11px;font-weight:800;text-transform:uppercase;color:#0f172a;}
+.ce-type{font-size:8.5px;color:#94a3b8;font-weight:600;margin-top:1px;text-transform:uppercase;}
+
+/* ── TOAST / POPUP ── */
+.toast{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;flex-direction:column;gap:8px;max-width:340px;pointer-events:none;}
+.toast-item{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 16px;border-radius:16px;
+  font-size:12px;font-weight:700;
+  transform:translateY(80px);opacity:0;
+  transition:all .35s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 8px 30px rgba(0,0,0,.2);
+  pointer-events:all;
+}
+.toast-item.show{transform:translateY(0);opacity:1;}
+.ti-bday{background:linear-gradient(135deg,#831843,#9d174d);border:1px solid rgba(249,168,212,.3);color:#fce7f3;}
+.ti-anniv{background:linear-gradient(135deg,#064e3b,#065f46);border:1px solid rgba(110,231,183,.3);color:#d1fae5;}
+.ti-icon{font-size:22px;flex-shrink:0;}
+.ti-text{}
+.ti-title{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;}
+.ti-sub{font-size:10px;opacity:.8;font-weight:600;}
+.ti-close{margin-left:auto;background:rgba(255,255,255,.15);border:none;border-radius:6px;cursor:pointer;padding:3px 7px;color:inherit;font-size:10px;font-weight:700;font-family:'Outfit',sans-serif;}
+
+@media(max-width:1100px){.upcoming-grid{grid-template-columns:1fr;}.today-grid{grid-template-columns:1fr;}.stats-row{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}
+  .sidebar-overlay.open{display:block;}.main{margin-left:0!important;}
+  .menu-btn{display:flex!important;}.topbar,.scroll{padding:11px 14px;}
+  .stats-row{grid-template-columns:repeat(2,1fr);}
+  .cal-grid{gap:2px;}.cal-cell{font-size:10px;}
+}
+</style>
+</head>
+<body onload="init()">
+<div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="logo-area"><img src="logo.png" alt="KIDV Tech"></div>
+  <nav class="nav">
+    <div class="nav-sec">Main</div>
+    <a href="index.html"><span class="ic ic-main"><span class="material-icons-round">dashboard</span></span>Dashboard</a>
+    <a href="employees.html"><span class="ic ic-main"><span class="material-icons-round">badge</span></span>Employees</a>
+    <div class="nav-sec">HR</div>
+    <a href="leave-management.html"><span class="ic ic-hr"><span class="material-icons-round">event_available</span></span>Leave</a>
+    <a href="shifts.html"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
+    <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
+    <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
+    <a href="hr-letters.html"><span class="ic ic-hr"><span class="material-icons-round">mail</span></span>HR Letters</a>
+    <a href="celebrations.html"><span class="ic ic-cel"><span class="material-icons-round">celebration</span></span>Celebrations</a>
+    <a href="document-expiry.html"><span class="ic ic-doc"><span class="material-icons-round">assignment_late</span></span>Doc Expiry</a>
+    <a href="training-tracker.html"><span class="ic ic-trn"><span class="material-icons-round">school</span></span>Training</a>
+    <div class="nav-sec">Operations</div>
+    <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
+    <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
+    <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
+    <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
+    <a href="analytics.html"><span class="ic ic-ops"><span class="material-icons-round">insights</span></span>Analytics</a>
+    <div class="nav-sec">Finance</div>
+    <a href="loan-management.html"><span class="ic ic-fin"><span class="material-icons-round">account_balance_wallet</span></span>Loans &amp; Advances</a>
+    <div class="nav-sec">Recruitment</div>
+    <a href="job-openings.html"><span class="ic ic-int"><span class="material-icons-round">work</span></span>Job Openings</a>
+    <div class="nav-sec">Self-Service</div>
+    <a href="ess-login.html"><span class="ic ic-int"><span class="material-icons-round">person_pin</span></span>Employee Portal</a>
+    <div class="nav-sec">Integration</div>
+    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">device_hub</span></span>Device Manager</a>
+    <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
+    <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
+    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">shield</span></span>Roles &amp; Perms</a>
+  </nav>
+  <div class="nav-bottom">
+    <div class="user-info"><div class="user-av" id="sideAvatar">SA</div>
+      <div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Administrator</div></div>
+    </div>
+    <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="menu-btn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
+      <div><div class="page-title">🎉 Celebrations</div><div class="page-sub" id="pageSubTxt">Birthdays & Work Anniversaries</div></div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('today',this)"><span class="material-icons-round">today</span>Today</button>
+        <button class="tab-btn" onclick="switchTab('upcoming',this)"><span class="material-icons-round">upcoming</span>Upcoming</button>
+        <button class="tab-btn" onclick="switchTab('calendar',this)"><span class="material-icons-round">calendar_month</span>Calendar</button>
+      </div>
+      <button class="btn btn-ghost" onclick="showAlerts()"><span class="material-icons-round">notifications</span>Test Alerts</button>
+    </div>
+  </div>
+
+  <div class="scroll">
+
+    <!-- TODAY TAB -->
+    <div id="tab-today" class="tab-panel active">
+      <!-- Hero -->
+      <div class="today-hero">
+        <div class="confetti-strip"></div>
+        <div class="today-grid">
+          <div>
+            <div class="today-section-title ts-bday">🎂 <span>Today's Birthdays</span></div>
+            <div class="today-cards" id="todayBdays"></div>
+          </div>
+          <div>
+            <div class="today-section-title ts-anniv">🏆 <span>Work Anniversaries</span></div>
+            <div class="today-cards" id="todayAnnivs"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="sr sr-bday">
+          <div class="sr-icon">🎂</div>
+          <div class="sr-label">Birthdays Today</div>
+          <div class="sr-val" id="st-bday-today">0</div>
+          <div class="sr-sub">Celebrate!</div>
+        </div>
+        <div class="sr sr-anniv">
+          <div class="sr-icon">🏆</div>
+          <div class="sr-label">Anniversaries Today</div>
+          <div class="sr-val" id="st-anniv-today">0</div>
+          <div class="sr-sub">Milestones!</div>
+        </div>
+        <div class="sr sr-upcoming">
+          <div class="sr-icon">📅</div>
+          <div class="sr-label">This Week</div>
+          <div class="sr-val" id="st-this-week">0</div>
+          <div class="sr-sub">Next 7 days</div>
+        </div>
+        <div class="sr sr-week">
+          <div class="sr-icon">🗓️</div>
+          <div class="sr-label">This Month</div>
+          <div class="sr-val" id="st-this-month">0</div>
+          <div class="sr-sub">Total events</div>
+        </div>
+        <div class="sr sr-month">
+          <div class="sr-icon">👥</div>
+          <div class="sr-label">Total Employees</div>
+          <div class="sr-val" id="st-total-emp">0</div>
+          <div class="sr-sub">With DOB on file</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UPCOMING TAB -->
+    <div id="tab-upcoming" class="tab-panel">
+      <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+        <select id="upFilter" onchange="renderUpcoming()" style="padding:8px 12px;border-radius:9px;border:1.5px solid #e8edf5;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;color:#475569;background:#f8fafc;cursor:pointer;outline:none;">
+          <option value="30">Next 30 Days</option>
+          <option value="60">Next 60 Days</option>
+          <option value="90">Next 90 Days</option>
+          <option value="365">Full Year</option>
+        </select>
+        <select id="upType" onchange="renderUpcoming()" style="padding:8px 12px;border-radius:9px;border:1.5px solid #e8edf5;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;color:#475569;background:#f8fafc;cursor:pointer;outline:none;">
+          <option value="all">All Events</option>
+          <option value="birthday">Birthdays Only</option>
+          <option value="anniversary">Anniversaries Only</option>
+        </select>
+      </div>
+      <div class="upcoming-grid">
+        <div class="ucard">
+          <div class="uc-head">
+            <div class="uc-head-icon">🎂</div>
+            <div class="uc-head-title">Upcoming Birthdays</div>
+            <div class="uc-head-count" id="upBdayCount">0</div>
+          </div>
+          <div id="upBdayList"></div>
+        </div>
+        <div class="ucard">
+          <div class="uc-head">
+            <div class="uc-head-icon">🏆</div>
+            <div class="uc-head-title">Work Anniversaries</div>
+            <div class="uc-head-count" id="upAnnivCount">0</div>
+          </div>
+          <div id="upAnnivList"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CALENDAR TAB -->
+    <div id="tab-calendar" class="tab-panel">
+      <div style="display:grid;grid-template-columns:1fr 300px;gap:20px;">
+        <div>
+          <div class="month-nav">
+            <button class="mnav-btn" onclick="changeMonth(-1)"><span class="material-icons-round">chevron_left</span></button>
+            <div class="month-label" id="calMonthLabel">—</div>
+            <button class="mnav-btn" onclick="changeMonth(1)"><span class="material-icons-round">chevron_right</span></button>
+          </div>
+          <div class="cal-legend">
+            <div class="cl-item"><div class="cl-dot" style="background:#ec4899;"></div>Birthday</div>
+            <div class="cl-item"><div class="cl-dot" style="background:#10b981;"></div>Anniversary</div>
+            <div class="cl-item"><div class="cl-dot" style="background:linear-gradient(90deg,#ec4899,#10b981);"></div>Both</div>
+            <div class="cl-item"><div class="cl-dot" style="background:#2563eb;"></div>Today</div>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+        </div>
+        <div>
+          <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#94a3b8;letter-spacing:.1em;margin-bottom:10px;" id="calEventTitle">Select a date to view events</div>
+          <div class="cal-events" id="calEvents"><div class="ce-empty">Click on any date to see celebrations</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- Toast container -->
+<div class="toast" id="toastContainer"></div>
+
+<script>
+const GRADS=['linear-gradient(135deg,#2563eb,#06b6d4)','linear-gradient(135deg,#ec4899,#f59e0b)','linear-gradient(135deg,#10b981,#06b6d4)','linear-gradient(135deg,#8b5cf6,#ec4899)','linear-gradient(135deg,#f59e0b,#ef4444)','linear-gradient(135deg,#6366f1,#8b5cf6)'];
+const MONTHS_FULL=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MONTHS_SHORT=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const MILESTONE_YEARS=[1,2,3,5,10,15,20,25];
+
+let employees=[], calYear, calMonth, today;
+
+function init(){
+  loadUserInfo();
+  employees=JSON.parse(localStorage.getItem('employees')||'[]');
+  today=new Date(); today.setHours(0,0,0,0);
+  calYear=today.getFullYear(); calMonth=today.getMonth();
+  buildToday();
+  buildStats();
+  renderUpcoming();
+  buildCalendar();
+  // Show alerts after short delay
+  setTimeout(showAlerts, 800);
+}
+
+function loadUserInfo(){
+  const u=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+  if(u.name){const p=u.name.trim().split(' ');document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();document.getElementById('sideName').textContent=u.name;document.getElementById('sideRole').textContent=u.role||'Staff';}
+  const r=(u.role||'').toLowerCase();
+  if(r==='super admin'||r==='admin'){document.getElementById('adminNav').style.display='';document.getElementById('usersLink').style.display='';document.getElementById('rolesLink').style.display='';}
+}
+(function(){
+  const page=window.location.pathname.split('/').pop()||'index.html';
+  document.querySelectorAll('.nav a').forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')===page)a.classList.add('active');});
+})();
+function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');}
+
+function fmt(v){return v||'—';}
+function fmtDate(dateStr){if(!dateStr)return'—';const d=new Date(dateStr);return d.toLocaleDateString('en-IN',{day:'2-digit',month:'short'});}
+function getInitials(e){return ((e.fName?.[0]||'')+(e.lName?.[0]||'')).toUpperCase();}
+function getGrad(i){return GRADS[i%GRADS.length];}
+
+// Compare month+day only (ignoring year) to today
+function isSameDayOfYear(dateStr, compareDate){
+  if(!dateStr) return false;
+  const d=new Date(dateStr);
+  return d.getMonth()===compareDate.getMonth() && d.getDate()===compareDate.getDate();
+}
+function daysUntilNextOccurrence(dateStr){
+  if(!dateStr) return 999;
+  const d=new Date(dateStr);
+  const next=new Date(today.getFullYear(), d.getMonth(), d.getDate());
+  if(next < today) next.setFullYear(today.getFullYear()+1);
+  return Math.round((next-today)/(1000*60*60*24));
+}
+function getYearsCompleted(dateStr){
+  if(!dateStr) return 0;
+  const d=new Date(dateStr);
+  let years=today.getFullYear()-d.getFullYear();
+  if(today.getMonth()<d.getMonth()||(today.getMonth()===d.getMonth()&&today.getDate()<d.getDate())) years--;
+  return Math.max(0,years);
+}
+function getMilestoneLabel(years){
+  if(years===1) return '1 Year! 🎖️';
+  if(years===2) return '2 Years! 🥈';
+  if(years===3) return '3 Years! 🥉';
+  if(years===5) return '5 Years! 🌟';
+  if(years===10) return '10 Years! 💎';
+  if(years>=15) return years+' Years! 🏆';
+  return years+' Years';
+}
+
+/* ── TODAY ── */
+function buildToday(){
+  const bdayList=document.getElementById('todayBdays');
+  const annivList=document.getElementById('todayAnnivs');
+  const todayBdays=employees.filter(e=>isSameDayOfYear(e.dob,today));
+  const todayAnnivs=employees.filter(e=>isSameDayOfYear(e.doj,today)&&getYearsCompleted(e.doj)>0);
+
+  if(!todayBdays.length){
+    bdayList.innerHTML=`<div class="today-empty"><div class="emoji">😌</div><div>No birthdays today</div></div>`;
+  } else {
+    bdayList.innerHTML=todayBdays.map((e,i)=>`
+    <div class="today-card" style="animation-delay:${i*0.1}s;">
+      <div class="tc-av tc-av-bday" style="background:${getGrad(employees.indexOf(e))};">
+        ${getInitials(e)}<span class="tc-emoji">🎂</span>
+      </div>
+      <div>
+        <div class="tc-name">${e.fName} ${e.lName}</div>
+        <div class="tc-meta">${e.dept||'—'} · ${e.job||'—'}</div>
+        <div class="tc-badge tcb-bday">🎉 Happy Birthday!</div>
+      </div>
+    </div>`).join('');
+  }
+
+  if(!todayAnnivs.length){
+    annivList.innerHTML=`<div class="today-empty"><div class="emoji">📅</div><div>No anniversaries today</div></div>`;
+  } else {
+    annivList.innerHTML=todayAnnivs.map((e,i)=>{
+      const yrs=getYearsCompleted(e.doj);
+      return `<div class="today-card" style="animation-delay:${i*0.1+0.2}s;">
+        <div class="tc-av tc-av-anniv" style="background:${getGrad(employees.indexOf(e)+2)};">
+          ${getInitials(e)}<span class="tc-emoji">🏆</span>
+        </div>
+        <div>
+          <div class="tc-name">${e.fName} ${e.lName}</div>
+          <div class="tc-meta">${e.dept||'—'} · ${e.job||'—'}</div>
+          <div class="tc-badge tcb-anniv">🎊 ${getMilestoneLabel(yrs)}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+}
+
+/* ── STATS ── */
+function buildStats(){
+  const weekEnd=new Date(today); weekEnd.setDate(today.getDate()+7);
+  const monthEnd=new Date(today.getFullYear(),today.getMonth()+1,0);
+
+  let bdayToday=0, annivToday=0, thisWeek=0, thisMonth=0, withDob=0;
+
+  employees.forEach(e=>{
+    if(e.dob) withDob++;
+    if(isSameDayOfYear(e.dob,today)) bdayToday++;
+    if(isSameDayOfYear(e.doj,today)&&getYearsCompleted(e.doj)>0) annivToday++;
+
+    const bdayDays=daysUntilNextOccurrence(e.dob);
+    const annivDays=daysUntilNextOccurrence(e.doj);
+    if(bdayDays<=7||annivDays<=7) thisWeek++;
+    if(bdayDays<=30||annivDays<=30) thisMonth++;
+  });
+
+  document.getElementById('st-bday-today').textContent=bdayToday;
+  document.getElementById('st-anniv-today').textContent=annivToday;
+  document.getElementById('st-this-week').textContent=thisWeek;
+  document.getElementById('st-this-month').textContent=thisMonth;
+  document.getElementById('st-total-emp').textContent=withDob;
+  document.getElementById('pageSubTxt').textContent=
+    bdayToday+annivToday>0
+      ? `🎉 ${bdayToday+annivToday} celebration${bdayToday+annivToday>1?'s':''} today!`
+      : `Next 7 days: ${thisWeek} events`;
+}
+
+/* ── UPCOMING ── */
+function renderUpcoming(){
+  const days=parseInt(document.getElementById('upFilter').value)||30;
+  const typeFilter=document.getElementById('upType').value;
+
+  const events=[];
+  employees.forEach((e,idx)=>{
+    if(typeFilter!=='anniversary'){
+      const d=daysUntilNextOccurrence(e.dob);
+      if(e.dob&&d<=days) events.push({type:'birthday',emp:e,idx,days:d,dateStr:e.dob});
+    }
+    if(typeFilter!=='birthday'){
+      const d=daysUntilNextOccurrence(e.doj);
+      const yrs=getYearsCompleted(e.doj)+(d===0?0:1);
+      if(e.doj&&d<=days&&yrs>0) events.push({type:'anniversary',emp:e,idx,days:d,dateStr:e.doj,years:yrs});
+    }
+  });
+
+  const bdays=events.filter(e=>e.type==='birthday').sort((a,b)=>a.days-b.days);
+  const annivs=events.filter(e=>e.type==='anniversary').sort((a,b)=>a.days-b.days);
+
+  document.getElementById('upBdayCount').textContent=bdays.length;
+  document.getElementById('upAnnivCount').textContent=annivs.length;
+
+  const renderList=(items, listId, type)=>{
+    const div=document.getElementById(listId);
+    if(!items.length){div.innerHTML=`<div style="text-align:center;padding:24px;color:#94a3b8;font-size:11px;font-weight:600;">No ${type} in this period</div>`;return;}
+    div.innerHTML=items.map(item=>{
+      const daysLabel=item.days===0?'<span class="uc-days days-today">Today! 🎉</span>':item.days===1?'<span class="uc-days days-soon">Tomorrow</span>':item.days<=7?`<span class="uc-days days-week">In ${item.days} days</span>`:`<span class="uc-days days-later">In ${item.days} days</span>`;
+      const d=new Date(item.dateStr);
+      const dateDisp=d.getDate()+' '+MONTHS_SHORT[d.getMonth()];
+      const subLabel=type==='birthdays'?`${item.emp.dept||'—'}`:`${getMilestoneLabel(item.years)} · ${item.emp.dept||'—'}`;
+      return `<div class="uc-row ${item.days===0?'today-row':''}">
+        <div class="uc-av" style="background:${getGrad(item.idx)};">${getInitials(item.emp)}</div>
+        <div class="uc-info">
+          <div class="uc-name">${item.emp.fName} ${item.emp.lName}</div>
+          <div class="uc-dept">${subLabel}</div>
+        </div>
+        <div class="uc-right">
+          <div class="uc-date">${dateDisp}</div>
+          ${daysLabel}
+        </div>
+      </div>`;
+    }).join('');
+  };
+
+  renderList(bdays,'upBdayList','birthdays');
+  renderList(annivs,'upAnnivList','anniversaries');
+}
+
+/* ── CALENDAR ── */
+function buildCalendar(){
+  document.getElementById('calMonthLabel').textContent=MONTHS_FULL[calMonth]+' '+calYear;
+
+  // Build event map: "month-day" => {bdays:[], annivs:[]}
+  const eventMap={};
+  employees.forEach(e=>{
+    if(e.dob){const d=new Date(e.dob);const k=`${calYear}-${d.getMonth()}-${d.getDate()}`;if(!eventMap[k])eventMap[k]={bdays:[],annivs:[]};eventMap[k].bdays.push(e);}
+    if(e.doj){const d=new Date(e.doj);const yrs=calYear-d.getFullYear();if(yrs>0){const k=`${calYear}-${d.getMonth()}-${d.getDate()}`;if(!eventMap[k])eventMap[k]={bdays:[],annivs:[]};eventMap[k].annivs.push({emp:e,years:yrs});}}
+  });
+
+  const firstDay=new Date(calYear,calMonth,1).getDay();
+  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+  const prevDays=new Date(calYear,calMonth,0).getDate();
+
+  let html='';
+  DAYS.forEach(d=>html+=`<div class="cal-day-hd">${d}</div>`);
+
+  // Prev month days
+  for(let i=firstDay-1;i>=0;i--){
+    html+=`<div class="cal-cell other-month">${prevDays-i}</div>`;
+  }
+
+  // Current month days
+  for(let d=1;d<=daysInMonth;d++){
+    const k=`${calYear}-${calMonth}-${d}`;
+    const ev=eventMap[k]||{bdays:[],annivs:[]};
+    const hasBday=ev.bdays.length>0;
+    const hasAnniv=ev.annivs.length>0;
+    const isToday=calYear===today.getFullYear()&&calMonth===today.getMonth()&&d===today.getDate();
+    let cls='cal-cell';
+    if(isToday) cls+=' today';
+    if(hasBday&&hasAnniv) cls+=' has-both';
+    else if(hasBday) cls+=' has-bday';
+    else if(hasAnniv) cls+=' has-anniv';
+    const dots=`<div class="cal-dots">${hasBday?'<div class="cal-dot cd-bday"></div>':''}${hasAnniv?'<div class="cal-dot cd-anniv"></div>':''}</div>`;
+    html+=`<div class="${cls}" onclick="showCalDay(${calYear},${calMonth},${d})">${d}${dots}</div>`;
+  }
+
+  // Next month fill
+  const total=firstDay+daysInMonth;
+  const remaining=(7-total%7)%7;
+  for(let d=1;d<=remaining;d++) html+=`<div class="cal-cell other-month">${d}</div>`;
+
+  document.getElementById('calGrid').innerHTML=html;
+}
+
+function showCalDay(y,m,d){
+  const k=`${y}-${m}-${d}`;
+  const dateStr=new Date(y,m,d).toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+  document.getElementById('calEventTitle').textContent=dateStr;
+
+  const bdays=employees.filter(e=>{if(!e.dob)return false;const dd=new Date(e.dob);return dd.getMonth()===m&&dd.getDate()===d;});
+  const annivs=employees.filter(e=>{if(!e.doj)return false;const dd=new Date(e.doj);return dd.getMonth()===m&&dd.getDate()===d&&(y-dd.getFullYear())>0;}).map(e=>({emp:e,years:y-new Date(e.doj).getFullYear()}));
+
+  const div=document.getElementById('calEvents');
+  if(!bdays.length&&!annivs.length){div.innerHTML=`<div class="ce-empty">No celebrations on this date</div>`;return;}
+
+  div.innerHTML=[
+    ...bdays.map((e,i)=>`<div class="ce-row"><div class="ce-icon">🎂</div><div class="ce-info"><div class="ce-name">${e.fName} ${e.lName}</div><div class="ce-type">Birthday · ${e.dept||'—'}</div></div></div>`),
+    ...annivs.map(({emp:e,years})=>`<div class="ce-row"><div class="ce-icon">🏆</div><div class="ce-info"><div class="ce-name">${e.fName} ${e.lName}</div><div class="ce-type">${getMilestoneLabel(years)} · ${e.dept||'—'}</div></div></div>`)
+  ].join('');
+}
+
+function changeMonth(dir){
+  calMonth+=dir;
+  if(calMonth>11){calMonth=0;calYear++;}
+  if(calMonth<0){calMonth=11;calYear--;}
+  buildCalendar();
+}
+
+/* ── TOAST ALERTS ── */
+function showAlerts(){
+  const container=document.getElementById('toastContainer');
+  container.innerHTML='';
+
+  const todayBdays=employees.filter(e=>isSameDayOfYear(e.dob,today));
+  const todayAnnivs=employees.filter(e=>isSameDayOfYear(e.doj,today)&&getYearsCompleted(e.doj)>0);
+  const soonBdays=employees.filter(e=>{const d=daysUntilNextOccurrence(e.dob);return d>0&&d<=3;});
+  const soonAnnivs=employees.filter(e=>{const d=daysUntilNextOccurrence(e.doj);return d>0&&d<=3&&getYearsCompleted(e.doj)>0;});
+
+  const toasts=[];
+
+  todayBdays.forEach(e=>{
+    toasts.push({type:'bday',icon:'🎂',title:`Happy Birthday, ${e.fName}! 🎉`,sub:`${e.dept||''} · ${e.job||''}`});
+  });
+  todayAnnivs.forEach(e=>{
+    const yrs=getYearsCompleted(e.doj);
+    toasts.push({type:'anniv',icon:'🏆',title:`${e.fName}'s Work Anniversary!`,sub:`${getMilestoneLabel(yrs)} with KIDV Tech`});
+  });
+  soonBdays.slice(0,2).forEach(e=>{
+    const d=daysUntilNextOccurrence(e.dob);
+    toasts.push({type:'bday',icon:'🎈',title:`${e.fName}'s Birthday Soon!`,sub:`In ${d} day${d>1?'s':''} · Don't forget!`});
+  });
+  soonAnnivs.slice(0,1).forEach(e=>{
+    const d=daysUntilNextOccurrence(e.doj);
+    toasts.push({type:'anniv',icon:'📅',title:`${e.fName}'s Anniversary Soon!`,sub:`In ${d} day${d>1?'s':''} · ${getMilestoneLabel(getYearsCompleted(e.doj)+1)}`});
+  });
+
+  if(!toasts.length){
+    // Demo: show upcoming within 7 days
+    const upcoming7=employees.filter(e=>daysUntilNextOccurrence(e.dob)<=7&&daysUntilNextOccurrence(e.dob)>0);
+    if(upcoming7.length){
+      const e=upcoming7[0];
+      const d=daysUntilNextOccurrence(e.dob);
+      toasts.push({type:'bday',icon:'🎈',title:`${e.fName}'s Birthday in ${d} days!`,sub:`${e.dept||''} · Prepare a wish!`});
+    } else {
+      toasts.push({type:'bday',icon:'😊',title:'No celebrations today',sub:'Check upcoming tab for future events'});
+    }
+  }
+
+  toasts.forEach((t,i)=>{
+    const el=document.createElement('div');
+    el.className=`toast-item ti-${t.type}`;
+    el.innerHTML=`<div class="ti-icon">${t.icon}</div><div class="ti-text"><div class="ti-title">${t.title}</div><div class="ti-sub">${t.sub}</div></div><button class="ti-close" onclick="this.parentElement.remove()">✕</button>`;
+    container.appendChild(el);
+    setTimeout(()=>el.classList.add('show'), 200+i*200);
+    setTimeout(()=>{el.classList.remove('show');setTimeout(()=>el.remove(),400);}, 6000+i*500);
+  });
+}
+
+function switchTab(name,btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+  if(name==='upcoming') renderUpcoming();
+  if(name==='calendar') buildCalendar();
+}
+</script>
+</body>
+</html>

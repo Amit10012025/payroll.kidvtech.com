@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>KIDV Tech | Training Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<script>if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}</script>
+<style>
+:root{--sidebar-w:260px;--navy:#07101f;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:'Outfit',sans-serif;background:#f0f4f9;overflow:hidden;}
+.app{display:flex;height:100vh;}
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:200;overflow:hidden;border-right:1px solid rgba(255,255,255,.05);box-shadow:8px 0 40px rgba(0,0,0,.35);}
+.sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16),transparent 65%);pointer-events:none;z-index:0;}
+.sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09),transparent 65%);pointer-events:none;z-index:0;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:199;backdrop-filter:blur(6px);}
+.logo-area{position:relative;z-index:1;flex-shrink:0;overflow:hidden;background:#fff;border-bottom:1px solid rgba(255,255,255,.06);}
+.logo-area img{width:100%;height:auto;display:block;}
+.nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 10px 4px;position:relative;z-index:1;}
+.nav::-webkit-scrollbar{width:3px;}.nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:99px;}
+.nav-sec{font-size:8.5px;color:rgba(148,163,184,.32);font-weight:700;text-transform:uppercase;letter-spacing:.2em;padding:0 8px;margin:16px 0 5px;display:flex;align-items:center;gap:8px;}
+.nav-sec::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07);}
+.nav a{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:11px;font-size:11px;font-weight:600;color:rgba(148,163,184,.65);text-decoration:none;margin-bottom:1px;text-transform:uppercase;letter-spacing:.055em;transition:color .18s,background .18s,transform .18s;position:relative;}
+.nav a:hover{color:rgba(241,245,249,.9);background:rgba(255,255,255,.07);transform:translateX(2px);}
+.nav a.active{color:#fff;background:linear-gradient(120deg,rgba(37,99,235,.32),rgba(6,182,212,.18));border:1px solid rgba(59,130,246,.28);box-shadow:0 4px 20px rgba(37,99,235,.22);}
+.nav a.active::after{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:55%;background:linear-gradient(180deg,#93c5fd,#22d3ee);border-radius:0 3px 3px 0;}
+.ic{width:29px;height:29px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ic .material-icons-round{font-size:15px;}
+.ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
+.ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-int{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.ic-adm{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
+.ic-fin{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-cel{background:rgba(236,72,153,.18);color:#f9a8d4;border:1px solid rgba(236,72,153,.18);}
+.ic-doc{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-trn{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.nav a.active .ic{transform:scale(1.08);}
+.nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
+.user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:rgba(255,255,255,.04);margin-bottom:8px;border:1px solid rgba(255,255,255,.11);}
+.user-av{width:33px;height:33px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.user-name{font-size:10.5px;font-weight:700;color:#fff;text-transform:uppercase;}
+.user-role{font-size:8px;color:rgba(148,163,184,.32);font-weight:500;text-transform:uppercase;margin-top:1px;}
+.logout-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:10px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);color:rgba(252,165,165,.8);font-size:10px;font-weight:700;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;}
+.logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;}
+.logout-btn .material-icons-round{font-size:14px;}
+.main{flex:1;display:flex;flex-direction:column;margin-left:var(--sidebar-w);overflow:hidden;}
+.topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:13px 26px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:14px;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.topbar-left{display:flex;align-items:center;gap:13px;}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;}
+.menu-btn .material-icons-round{font-size:22px;}
+.page-title{font-size:15px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
+.page-sub{font-size:9.5px;color:#94a3b8;font-weight:500;margin-top:2px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.06em;font-family:'Outfit',sans-serif;white-space:nowrap;}
+.btn-ghost{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}.btn-ghost:hover{background:#e2e8f0;}
+.btn-purple{background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;box-shadow:0 4px 14px rgba(139,92,246,.3);}.btn-purple:hover{transform:translateY(-1px);}
+.btn .material-icons-round{font-size:14px;}
+.tab-bar{display:flex;gap:4px;background:#f8fafc;border:1px solid #e8edf5;border-radius:12px;padding:4px;}
+.tab-btn{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:9px;border:none;cursor:pointer;font-family:'Outfit',sans-serif;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#64748b;background:transparent;transition:all .18s;white-space:nowrap;}
+.tab-btn.active{background:#fff;color:#0f172a;box-shadow:0 1px 6px rgba(0,0,0,.1);}
+.tab-btn .material-icons-round{font-size:14px;}
+.scroll{flex:1;overflow-y:auto;padding:20px 26px;}
+.scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+.tab-panel{display:none;animation:fadeUp .25s ease both;}.tab-panel.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* STATS */
+.stat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
+.sc{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:14px 16px;position:relative;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:all .2s;animation:fadeUp .4s ease both;}
+.sc:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08);}
+.sc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.sc-total::before{background:linear-gradient(90deg,#8b5cf6,#c084fc);}
+.sc-ongoing::before{background:linear-gradient(90deg,#2563eb,#60a5fa);}
+.sc-cert::before{background:linear-gradient(90deg,#10b981,#34d399);}
+.sc-exp::before{background:linear-gradient(90deg,#ef4444,#f87171);}
+.sc-comp::before{background:linear-gradient(90deg,#f59e0b,#fcd34d);}
+.sc-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:9px;font-size:17px;}
+.sc-label{font-size:7.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;margin-bottom:3px;}
+.sc-val{font-size:22px;font-weight:900;color:#0f172a;font-family:'JetBrains Mono',monospace;}
+.sc-sub{font-size:9px;color:#94a3b8;font-weight:600;margin-top:2px;}
+
+/* TRAINING CARD */
+.train-card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:all .22s;margin-bottom:10px;animation:fadeUp .3s ease both;}
+.train-card:hover{box-shadow:0 6px 22px rgba(0,0,0,.09);transform:translateY(-1px);}
+.tc-top{padding:16px 18px;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:start;}
+.tc-icon{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.tc-title{font-size:13px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.02em;}
+.tc-provider{font-size:9.5px;color:#94a3b8;font-weight:600;text-transform:uppercase;margin-top:2px;}
+.tc-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px;}
+.tc-tag{padding:3px 9px;border-radius:99px;font-size:8px;font-weight:700;text-transform:uppercase;}
+.tc-right{text-align:right;}
+.tc-status{display:inline-flex;align-items:center;gap:4px;padding:4px 11px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;}
+.ts-ongoing{background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe;}
+.ts-completed{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;}
+.ts-scheduled{background:#fef3c7;color:#d97706;border:1px solid #fde68a;}
+.ts-expired{background:#fef2f2;color:#dc2626;border:1px solid #fecaca;}
+.ts-cancelled{background:#f8fafc;color:#64748b;border:1px solid #e2e8f0;}
+.tc-dates{font-size:9px;color:#94a3b8;font-weight:600;margin-top:4px;font-family:'JetBrains Mono',monospace;}
+
+/* Progress */
+.tc-prog{padding:0 18px 14px;display:flex;align-items:center;gap:12px;}
+.prog-bar{flex:1;height:6px;background:#f1f5f9;border-radius:99px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:99px;transition:width .7s cubic-bezier(.4,0,.2,1);}
+.prog-pct{font-size:10px;font-weight:800;color:#0f172a;font-family:'JetBrains Mono',monospace;min-width:36px;text-align:right;}
+.tc-bottom{padding:10px 18px 14px;display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid #f8fafc;}
+.pax-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:8px;background:#f8fafc;border:1px solid #e2e8f0;font-size:9px;font-weight:700;color:#475569;text-transform:uppercase;}
+.pax-chip .material-icons-round{font-size:12px;}
+.act-btns{display:flex;gap:5px;}
+.abt{padding:5px 11px;border-radius:8px;border:none;cursor:pointer;font-size:9px;font-weight:700;text-transform:uppercase;font-family:'Outfit',sans-serif;transition:all .15s;display:flex;align-items:center;gap:4px;}
+.abt .material-icons-round{font-size:12px;}
+.abt-edit{background:#f8fafc;color:#475569;border:1px solid #e2e8f0;}.abt-edit:hover{background:#eff6ff;color:#2563eb;}
+.abt-del{background:#fef2f2;color:#ef4444;border:1px solid #fecaca;}.abt-del:hover{background:#ef4444;color:#fff;}
+.abt-comp{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;}.abt-comp:hover{background:#16a34a;color:#fff;}
+
+/* Filter */
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center;}
+.fsel{padding:8px 12px;border-radius:9px;border:1.5px solid #e8edf5;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;color:#475569;background:#f8fafc;cursor:pointer;outline:none;}
+.fsel:focus{border-color:#8b5cf6;}
+.search-box{display:flex;align-items:center;gap:7px;background:#f8fafc;border:1.5px solid #e8edf5;border-radius:10px;padding:8px 12px;flex:1;min-width:180px;}
+.search-box:focus-within{border-color:#8b5cf6;background:#fff;}
+.search-box .material-icons-round{font-size:15px;color:#94a3b8;}
+.search-box input{border:none;background:transparent;font-family:'Outfit',sans-serif;font-size:11px;font-weight:500;color:#1e293b;outline:none;width:100%;}
+
+/* CERT TABLE */
+.cert-tbl-card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04);}
+.ct-hd{padding:14px 18px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;background:#f8fafc;}
+.ct-title{font-size:10px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
+.tbl-wrap{overflow-x:auto;}
+table.ct{width:100%;border-collapse:collapse;font-size:11px;min-width:700px;}
+table.ct thead th{padding:9px 14px;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;text-align:left;background:#f8fafc;letter-spacing:.06em;}
+table.ct tbody tr{border-top:1px solid #f8fafc;transition:background .12s;}
+table.ct tbody tr:hover{background:#fafafa;}
+table.ct tbody td{padding:9px 14px;font-weight:600;color:#475569;}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:99px;font-size:8px;font-weight:700;text-transform:uppercase;}
+.b-ongoing{background:#eff6ff;color:#2563eb;}
+.b-completed{background:#dcfce7;color:#16a34a;}
+.b-scheduled{background:#fef3c7;color:#d97706;}
+.b-expired{background:#fee2e2;color:#ef4444;}
+.b-cancelled{background:#f1f5f9;color:#64748b;}
+
+/* PANEL */
+.panel-overlay{position:fixed;inset:0;background:rgba(7,16,31,.65);backdrop-filter:blur(6px);z-index:500;display:flex;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .28s;}
+.panel-overlay.open{opacity:1;pointer-events:all;}
+.panel{width:500px;max-width:100vw;height:100vh;background:#fff;box-shadow:-12px 0 50px rgba(0,0,0,.18);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);}
+.panel-overlay.open .panel{transform:translateX(0);}
+.panel-hd{padding:16px 22px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;background:#f8fafc;flex-shrink:0;}
+.panel-title{font-size:13px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
+.xbtn{width:31px;height:31px;background:#f1f5f9;border:none;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748b;}
+.xbtn:hover{background:#fef2f2;color:#ef4444;}
+.xbtn .material-icons-round{font-size:16px;}
+.pscroll{flex:1;overflow-y:auto;padding:20px;}
+.fl{font-size:8px;font-weight:700;text-transform:uppercase;color:#64748b;letter-spacing:.07em;display:block;margin-bottom:5px;}
+.finp,.fsel2,.ftxt{width:100%;padding:10px 13px;border-radius:10px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;color:#1e293b;background:#f8fafc;outline:none;transition:all .15s;}
+.finp:focus,.fsel2:focus,.ftxt:focus{border-color:#8b5cf6;background:#fff;box-shadow:0 0 0 3px rgba(139,92,246,.08);}
+.fsel2{cursor:pointer;}.ftxt{resize:vertical;min-height:70px;}
+.fg{margin-bottom:13px;}
+.fg2{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+.sec-lbl{font-size:8.5px;font-weight:800;text-transform:uppercase;color:#94a3b8;letter-spacing:.1em;padding-left:8px;border-left:3px solid #e2e8f0;margin:16px 0 10px;}
+.pax-section{background:#f8fafc;border-radius:12px;padding:14px;margin-bottom:14px;}
+.pax-emp-list{display:flex;flex-direction:column;gap:6px;max-height:180px;overflow-y:auto;margin-top:8px;}
+.pax-row{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;background:#fff;border:1px solid #e2e8f0;}
+.pax-chk{accent-color:#8b5cf6;width:14px;height:14px;cursor:pointer;}
+.pax-name{font-size:10.5px;font-weight:700;color:#1e293b;text-transform:uppercase;flex:1;}
+.pax-dept{font-size:8.5px;color:#94a3b8;}
+.save-btn{width:100%;padding:12px;border-radius:12px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border:none;cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 18px rgba(139,92,246,.35);}
+.save-btn:hover{transform:translateY(-1px);}
+
+.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.2);}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{background:#065f46;border-left:4px solid #6ee7b7;}
+.toast.error{background:#7f1d1d;border-left:4px solid #fca5a5;}
+.toast .material-icons-round{font-size:16px;}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px;color:#94a3b8;text-align:center;}
+.empty-state .material-icons-round{font-size:52px;margin-bottom:12px;opacity:.3;}
+
+@media(max-width:1100px){.stat-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:768px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.sidebar-overlay.open{display:block;}.main{margin-left:0!important;}.menu-btn{display:flex!important;}.topbar,.scroll{padding:11px 14px;}.stat-grid{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body onload="init()">
+<div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="logo-area"><img src="logo.png" alt="KIDV Tech"></div>
+  <nav class="nav">
+    <div class="nav-sec">Main</div>
+    <a href="index.html"><span class="ic ic-main"><span class="material-icons-round">dashboard</span></span>Dashboard</a>
+    <a href="employees.html"><span class="ic ic-main"><span class="material-icons-round">badge</span></span>Employees</a>
+    <div class="nav-sec">HR</div>
+    <a href="leave-management.html"><span class="ic ic-hr"><span class="material-icons-round">event_available</span></span>Leave</a>
+    <a href="shifts.html"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
+    <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
+    <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
+    <a href="hr-letters.html"><span class="ic ic-hr"><span class="material-icons-round">mail</span></span>HR Letters</a>
+    <a href="celebrations.html"><span class="ic ic-cel"><span class="material-icons-round">celebration</span></span>Celebrations</a>
+    <a href="document-expiry.html"><span class="ic ic-doc"><span class="material-icons-round">assignment_late</span></span>Doc Expiry</a>
+    <a href="training-tracker.html"><span class="ic ic-trn"><span class="material-icons-round">school</span></span>Training</a>
+    <div class="nav-sec">Operations</div>
+    <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
+    <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
+    <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
+    <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
+    <a href="analytics.html"><span class="ic ic-ops"><span class="material-icons-round">insights</span></span>Analytics</a>
+    <div class="nav-sec">Finance</div>
+    <a href="loan-management.html"><span class="ic ic-fin"><span class="material-icons-round">account_balance_wallet</span></span>Loans &amp; Advances</a>
+    <div class="nav-sec">Recruitment</div>
+    <a href="job-openings.html"><span class="ic ic-int"><span class="material-icons-round">work</span></span>Job Openings</a>
+    <div class="nav-sec">Self-Service</div>
+    <a href="ess-login.html"><span class="ic ic-int"><span class="material-icons-round">person_pin</span></span>Employee Portal</a>
+    <div class="nav-sec">Integration</div>
+    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">device_hub</span></span>Device Manager</a>
+    <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
+    <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
+    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">shield</span></span>Roles &amp; Perms</a>
+  </nav>
+  <div class="nav-bottom">
+    <div class="user-info"><div class="user-av" id="sideAvatar">SA</div><div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Administrator</div></div></div>
+    <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="menu-btn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
+      <div><div class="page-title">Training & Certifications</div><div class="page-sub" id="pageSubTxt">Track trainings, certifications & completions</div></div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('trainings',this)"><span class="material-icons-round">school</span>Trainings</button>
+        <button class="tab-btn" onclick="switchTab('certifications',this)"><span class="material-icons-round">workspace_premium</span>Certifications</button>
+      </div>
+      <button class="btn btn-purple" onclick="openPanel()"><span class="material-icons-round">add</span>Add Training</button>
+    </div>
+  </div>
+
+  <div class="scroll">
+    <div class="stat-grid">
+      <div class="sc sc-total" style="animation-delay:.05s"><div class="sc-icon">📚</div><div class="sc-label">Total Trainings</div><div class="sc-val" id="st-total">0</div><div class="sc-sub">All records</div></div>
+      <div class="sc sc-ongoing" style="animation-delay:.1s"><div class="sc-icon">🔄</div><div class="sc-label">Ongoing</div><div class="sc-val" id="st-ongoing">0</div><div class="sc-sub">In progress</div></div>
+      <div class="sc sc-cert" style="animation-delay:.15s"><div class="sc-icon">🏅</div><div class="sc-label">Completed</div><div class="sc-val" id="st-completed">0</div><div class="sc-sub">Successfully done</div></div>
+      <div class="sc sc-exp" style="animation-delay:.2s"><div class="sc-icon">⏰</div><div class="sc-label">Cert Expiring</div><div class="sc-val" id="st-certexp">0</div><div class="sc-sub">Within 90 days</div></div>
+      <div class="sc sc-comp" style="animation-delay:.25s"><div class="sc-icon">📊</div><div class="sc-label">Avg Completion</div><div class="sc-val" id="st-avgcomp">0%</div><div class="sc-sub">Overall rate</div></div>
+    </div>
+
+    <div id="tab-trainings" class="tab-panel active">
+      <div class="filter-row">
+        <div class="search-box"><span class="material-icons-round">search</span><input type="text" id="srch" placeholder="Search training..." oninput="renderTrainings()"></div>
+        <select class="fsel" id="fStatus" onchange="renderTrainings()"><option value="">All Status</option><option value="ongoing">Ongoing</option><option value="completed">Completed</option><option value="scheduled">Scheduled</option><option value="expired">Expired</option><option value="cancelled">Cancelled</option></select>
+        <select class="fsel" id="fCat" onchange="renderTrainings()"><option value="">All Categories</option><option value="technical">Technical</option><option value="safety">Safety</option><option value="compliance">Compliance</option><option value="soft">Soft Skills</option><option value="leadership">Leadership</option><option value="other">Other</option></select>
+      </div>
+      <div id="trainList"></div>
+    </div>
+
+    <div id="tab-certifications" class="tab-panel">
+      <div class="cert-tbl-card">
+        <div class="ct-hd"><div class="ct-title">Certification Registry</div><button class="btn btn-ghost" onclick="exportCerts()" style="padding:6px 12px;font-size:10px;"><span class="material-icons-round">download</span>Export</button></div>
+        <div class="tbl-wrap">
+          <table class="ct"><thead><tr><th>Employee</th><th>Training</th><th>Category</th><th>Completed On</th><th>Cert. Expiry</th><th>Days Left</th><th>Status</th></tr></thead>
+          <tbody id="certTable"></tbody></table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- PANEL -->
+<div id="trainPanel" class="panel-overlay" onclick="if(event.target===this)closePanel()">
+  <div class="panel">
+    <div class="panel-hd"><div class="panel-title" id="panelTitle">Add Training</div><button class="xbtn" onclick="closePanel()"><span class="material-icons-round">close</span></button></div>
+    <div class="pscroll">
+      <input type="hidden" id="editId">
+      <div class="fg"><label class="fl">Training Title *</label><input type="text" class="finp" id="f_title" placeholder="e.g. Fire Safety Training 2026"></div>
+      <div class="fg2">
+        <div class="fg"><label class="fl">Category *</label>
+          <select class="fsel2" id="f_cat">
+            <option value="technical">Technical</option><option value="safety">Safety</option>
+            <option value="compliance">Compliance</option><option value="soft">Soft Skills</option>
+            <option value="leadership">Leadership</option><option value="other">Other</option>
+          </select>
+        </div>
+        <div class="fg"><label class="fl">Status</label>
+          <select class="fsel2" id="f_status">
+            <option value="scheduled">Scheduled</option><option value="ongoing">Ongoing</option>
+            <option value="completed">Completed</option><option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg"><label class="fl">Provider / Trainer</label><input type="text" class="finp" id="f_provider" placeholder="e.g. NITI Aayog / Internal HR"></div>
+      <div class="fg2">
+        <div class="fg"><label class="fl">Start Date</label><input type="date" class="finp" id="f_start"></div>
+        <div class="fg"><label class="fl">End Date</label><input type="date" class="finp" id="f_end"></div>
+      </div>
+      <div class="fg2">
+        <div class="fg"><label class="fl">Duration (Hours)</label><input type="number" class="finp" id="f_hours" placeholder="e.g. 16"></div>
+        <div class="fg"><label class="fl">Cert. Valid (Months)</label><input type="number" class="finp" id="f_certmonths" placeholder="e.g. 12 (0=no cert)"></div>
+      </div>
+      <div class="fg"><label class="fl">Progress (%)</label><input type="range" id="f_progress" min="0" max="100" value="0" oninput="document.getElementById('progVal').textContent=this.value+'%'" style="width:100%;accent-color:#8b5cf6;"><div style="text-align:right;font-size:11px;font-weight:700;color:#8b5cf6;margin-top:2px;" id="progVal">0%</div></div>
+      <div class="fg"><label class="fl">Notes</label><textarea class="ftxt" id="f_notes" placeholder="Training details, venue, objectives..."></textarea></div>
+      <div class="sec-lbl">Assign Participants</div>
+      <div class="pax-section">
+        <div style="font-size:9px;color:#94a3b8;font-weight:600;margin-bottom:6px;">Select employees for this training:</div>
+        <div class="pax-emp-list" id="paxList"></div>
+      </div>
+      <button class="save-btn" onclick="saveTraining()"><span class="material-icons-round">save</span>Save Training</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="material-icons-round" id="toastIcon">check_circle</span><span id="toastMsg"></span></div>
+
+<script>
+const GRADS=['linear-gradient(135deg,#2563eb,#06b6d4)','linear-gradient(135deg,#8b5cf6,#ec4899)','linear-gradient(135deg,#10b981,#06b6d4)','linear-gradient(135deg,#f59e0b,#ef4444)','linear-gradient(135deg,#6366f1,#8b5cf6)'];
+const CAT_EMOJI={technical:'💻',safety:'⛑️',compliance:'📋',soft:'🤝',leadership:'🎯',other:'📚'};
+const CAT_COLOR={technical:'#eff6ff/#2563eb',safety:'#fef2f2/#ef4444',compliance:'#fffbeb/#f59e0b',soft:'#f0fdf4/#10b981',leadership:'#f5f3ff/#8b5cf6',other:'#f8fafc/#64748b'};
+let trainings=[], employees=[];
+
+function init(){
+  loadUserInfo();
+  employees=JSON.parse(localStorage.getItem('employees')||'[]');
+  trainings=JSON.parse(localStorage.getItem('kidv_trainings')||'[]');
+  if(!trainings.length) loadDemo();
+  updateStats();
+  renderTrainings();
+  renderCerts();
+}
+
+function loadUserInfo(){
+  const u=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+  if(u.name){const p=u.name.trim().split(' ');document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();document.getElementById('sideName').textContent=u.name;document.getElementById('sideRole').textContent=u.role||'Staff';}
+  const r=(u.role||'').toLowerCase();
+  if(r==='super admin'||r==='admin'){document.getElementById('adminNav').style.display='';document.getElementById('usersLink').style.display='';document.getElementById('rolesLink').style.display='';}
+}
+(function(){
+  const page=window.location.pathname.split('/').pop()||'index.html';
+  document.querySelectorAll('.nav a').forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')===page)a.classList.add('active');});
+})();
+function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');}
+
+function loadDemo(){
+  const today=new Date();
+  const addDays=d=>{const x=new Date(today);x.setDate(x.getDate()+d);return x.toISOString().split('T')[0];};
+  const subDays=d=>{const x=new Date(today);x.setDate(x.getDate()-d);return x.toISOString().split('T')[0];};
+  trainings=[
+    {id:1,title:'Fire Safety & Emergency Drill',cat:'safety',provider:'Fire Dept.',status:'completed',start:subDays(60),end:subDays(59),hours:8,certMonths:12,progress:100,notes:'Annual fire safety training',participants:[0,1,2,3,4],completedOn:subDays(59)},
+    {id:2,title:'Advanced Excel & MIS Reporting',cat:'technical',provider:'Internal HR',status:'ongoing',start:subDays(5),end:addDays(10),hours:16,certMonths:0,progress:45,notes:'',participants:[0,1,2]},
+    {id:3,title:'Leadership Development Program',cat:'leadership',provider:'External Trainer',status:'scheduled',start:addDays(15),end:addDays(17),hours:24,certMonths:24,progress:0,notes:'For senior staff only',participants:[1,3]},
+    {id:4,title:'POSH Compliance Training',cat:'compliance',provider:'Legal Advisor',status:'completed',start:subDays(120),end:subDays(119),hours:4,certMonths:12,progress:100,notes:'Mandatory annual training',participants:[0,1,2,3,4],completedOn:subDays(119)},
+  ];
+  saveData();
+}
+function saveData(){localStorage.setItem('kidv_trainings',JSON.stringify(trainings));}
+
+function updateStats(){
+  document.getElementById('st-total').textContent=trainings.length;
+  document.getElementById('st-ongoing').textContent=trainings.filter(t=>t.status==='ongoing').length;
+  document.getElementById('st-completed').textContent=trainings.filter(t=>t.status==='completed').length;
+  const today=new Date(); today.setHours(0,0,0,0);
+  let certExp=0;
+  trainings.filter(t=>t.status==='completed'&&t.certMonths>0&&t.completedOn).forEach(t=>{
+    const exp=new Date(t.completedOn);exp.setMonth(exp.getMonth()+t.certMonths);
+    const diff=Math.ceil((exp-today)/(1000*60*60*24));
+    if(diff>=0&&diff<=90) certExp++;
+  });
+  document.getElementById('st-certexp').textContent=certExp;
+  const comp=trainings.length?Math.round(trainings.reduce((s,t)=>s+(t.progress||0),0)/trainings.length):0;
+  document.getElementById('st-avgcomp').textContent=comp+'%';
+  document.getElementById('pageSubTxt').textContent=`${trainings.length} trainings · ${trainings.filter(t=>t.status==='ongoing').length} ongoing · ${comp}% avg completion`;
+}
+
+function fmtDate(v){if(!v)return'—';try{return new Date(v).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});}catch{return v;}}
+
+function renderTrainings(){
+  const q=(document.getElementById('srch').value||'').toLowerCase();
+  const fStatus=document.getElementById('fStatus').value;
+  const fCat=document.getElementById('fCat').value;
+  const filtered=trainings.filter(t=>{
+    if(q&&!(t.title||'').toLowerCase().includes(q)) return false;
+    if(fStatus&&t.status!==fStatus) return false;
+    if(fCat&&t.cat!==fCat) return false;
+    return true;
+  });
+  const list=document.getElementById('trainList');
+  if(!filtered.length){list.innerHTML=`<div class="empty-state"><span class="material-icons-round">school</span><div style="font-size:13px;font-weight:700;text-transform:uppercase;margin-bottom:6px;">No Trainings Found</div><div style="font-size:11px;opacity:.7;">Add a training using the button above</div></div>`;return;}
+  const statusClass={ongoing:'ts-ongoing',completed:'ts-completed',scheduled:'ts-scheduled',expired:'ts-expired',cancelled:'ts-cancelled'};
+  const barColor={ongoing:'#2563eb',completed:'#10b981',scheduled:'#f59e0b',expired:'#ef4444',cancelled:'#94a3b8'};
+  list.innerHTML=filtered.map((t,i)=>{
+    const cc=CAT_COLOR[t.cat]?.split('/')||['#f8fafc','#64748b'];
+    const paxNames=(t.participants||[]).map(idx=>{const e=employees[idx];return e?`${e.fName?.[0]||''}${e.lName?.[0]||''}`:null;}).filter(Boolean).slice(0,5).join(' ');
+    const paxCount=(t.participants||[]).length;
+    return `<div class="train-card" style="animation-delay:${i*0.05}s;">
+      <div class="tc-top">
+        <div class="tc-icon" style="background:${cc[0]};">${CAT_EMOJI[t.cat]||'📚'}</div>
+        <div>
+          <div class="tc-title">${t.title}</div>
+          <div class="tc-provider">${t.provider||'—'}</div>
+          <div class="tc-tags">
+            <span class="tc-tag" style="background:${cc[0]};color:${cc[1]};">${t.cat}</span>
+            ${t.certMonths>0?`<span class="tc-tag" style="background:#f5f3ff;color:#8b5cf6;">🏅 Cert ${t.certMonths}m</span>`:''}
+            ${t.hours?`<span class="tc-tag" style="background:#f8fafc;color:#64748b;">${t.hours}h</span>`:''}
+          </div>
+        </div>
+        <div class="tc-right">
+          <div class="tc-status ${statusClass[t.status]||'ts-scheduled'}">${t.status}</div>
+          <div class="tc-dates">${fmtDate(t.start)} → ${fmtDate(t.end)}</div>
+          <div class="act-btns" style="justify-content:flex-end;margin-top:6px;">
+            ${t.status!=='completed'?`<button class="abt abt-comp" onclick="markComplete(${t.id})"><span class="material-icons-round">check</span>Complete</button>`:''}
+            <button class="abt abt-edit" onclick="editTraining(${t.id})"><span class="material-icons-round">edit</span></button>
+            <button class="abt abt-del" onclick="deleteTraining(${t.id})"><span class="material-icons-round">delete</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="tc-prog">
+        <div class="prog-bar"><div class="prog-fill" style="width:${t.progress||0}%;background:${barColor[t.status]||'#8b5cf6'};"></div></div>
+        <span class="prog-pct">${t.progress||0}%</span>
+      </div>
+      <div class="tc-bottom">
+        <span class="pax-chip"><span class="material-icons-round">group</span>${paxCount} Participants</span>
+        ${t.notes?`<span class="pax-chip"><span class="material-icons-round">notes</span>${t.notes.slice(0,40)}${t.notes.length>40?'...':''}</span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderCerts(){
+  const today=new Date(); today.setHours(0,0,0,0);
+  const certs=[];
+  trainings.filter(t=>t.status==='completed'&&t.certMonths>0&&t.completedOn).forEach(t=>{
+    (t.participants||[]).forEach(idx=>{
+      const e=employees[idx];
+      if(!e) return;
+      const exp=new Date(t.completedOn); exp.setMonth(exp.getMonth()+t.certMonths);
+      const days=Math.ceil((exp-today)/(1000*60*60*24));
+      const status=days<0?'expired':days<=30?'critical':days<=90?'warning':'valid';
+      certs.push({empName:`${e.fName} ${e.lName}`,dept:e.dept||'—',title:t.title,cat:t.cat,completedOn:t.completedOn,expiry:exp.toISOString().split('T')[0],days,status});
+    });
+  });
+  const badgeMap={expired:'b-expired',critical:'b-expired',warning:'b-scheduled',valid:'b-completed'};
+  const tbody=document.getElementById('certTable');
+  if(!certs.length){tbody.innerHTML=`<tr><td colspan="7" style="text-align:center;padding:24px;color:#94a3b8;font-size:11px;">No certifications yet. Complete a training with cert validity to see entries.</td></tr>`;return;}
+  tbody.innerHTML=certs.map(c=>`<tr><td><strong style="text-transform:uppercase;">${c.empName}</strong><div style="font-size:9px;color:#94a3b8;">${c.dept}</div></td><td>${c.title}</td><td><span style="background:#f5f3ff;color:#8b5cf6;padding:2px 8px;border-radius:99px;font-size:8px;font-weight:700;text-transform:uppercase;">${c.cat}</span></td><td style="font-family:'JetBrains Mono',monospace;font-size:10.5px;">${fmtDate(c.completedOn)}</td><td style="font-family:'JetBrains Mono',monospace;font-size:10.5px;">${fmtDate(c.expiry)}</td><td style="font-weight:800;color:${c.days<0?'#ef4444':c.days<=30?'#ea580c':c.days<=90?'#d97706':'#10b981'};font-family:'JetBrains Mono',monospace;">${c.days<0?Math.abs(c.days)+'d ago':c.days+'d'}</td><td><span class="badge ${badgeMap[c.status]}">${c.status}</span></td></tr>`).join('');
+}
+
+function openPanel(){
+  document.getElementById('editId').value='';
+  ['f_title','f_provider','f_start','f_end','f_hours','f_certmonths','f_notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f_cat').value='technical';
+  document.getElementById('f_status').value='scheduled';
+  document.getElementById('f_progress').value=0;
+  document.getElementById('progVal').textContent='0%';
+  // Build participant list
+  document.getElementById('paxList').innerHTML=employees.map((e,i)=>`<div class="pax-row"><input type="checkbox" class="pax-chk" id="pax${i}" value="${i}"><label for="pax${i}" style="flex:1;cursor:pointer;"><span class="pax-name">${e.fName} ${e.lName}</span><span class="pax-dept">${e.dept||'—'}</span></label></div>`).join('');
+  document.getElementById('panelTitle').textContent='Add Training';
+  document.getElementById('trainPanel').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closePanel(){document.getElementById('trainPanel').classList.remove('open');document.body.style.overflow='';}
+
+function editTraining(id){
+  const t=trainings.find(x=>x.id===id); if(!t) return;
+  document.getElementById('editId').value=id;
+  document.getElementById('f_title').value=t.title||'';
+  document.getElementById('f_cat').value=t.cat||'technical';
+  document.getElementById('f_provider').value=t.provider||'';
+  document.getElementById('f_status').value=t.status||'scheduled';
+  document.getElementById('f_start').value=t.start||'';
+  document.getElementById('f_end').value=t.end||'';
+  document.getElementById('f_hours').value=t.hours||'';
+  document.getElementById('f_certmonths').value=t.certMonths||0;
+  document.getElementById('f_progress').value=t.progress||0;
+  document.getElementById('progVal').textContent=(t.progress||0)+'%';
+  document.getElementById('f_notes').value=t.notes||'';
+  document.getElementById('paxList').innerHTML=employees.map((e,i)=>`<div class="pax-row"><input type="checkbox" class="pax-chk" id="pax${i}" value="${i}" ${(t.participants||[]).includes(i)?'checked':''}><label for="pax${i}" style="flex:1;cursor:pointer;"><span class="pax-name">${e.fName} ${e.lName}</span><span class="pax-dept">${e.dept||'—'}</span></label></div>`).join('');
+  document.getElementById('panelTitle').textContent='Edit Training';
+  document.getElementById('trainPanel').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function saveTraining(){
+  const title=document.getElementById('f_title').value.trim();
+  if(!title){showToast('Please enter a title','error');return;}
+  const participants=[...document.querySelectorAll('.pax-chk:checked')].map(c=>parseInt(c.value));
+  const editId=document.getElementById('editId').value;
+  const status=document.getElementById('f_status').value;
+  const obj={
+    id:editId?parseInt(editId):Date.now(),
+    title,cat:document.getElementById('f_cat').value,
+    provider:document.getElementById('f_provider').value.trim(),
+    status,start:document.getElementById('f_start').value,
+    end:document.getElementById('f_end').value,
+    hours:parseInt(document.getElementById('f_hours').value)||0,
+    certMonths:parseInt(document.getElementById('f_certmonths').value)||0,
+    progress:parseInt(document.getElementById('f_progress').value)||0,
+    notes:document.getElementById('f_notes').value.trim(),
+    participants,
+    completedOn:status==='completed'?document.getElementById('f_end').value:null,
+  };
+  if(editId){const idx=trainings.findIndex(t=>t.id===parseInt(editId));if(idx>=0)trainings[idx]=obj;}
+  else trainings.unshift(obj);
+  saveData();closePanel();updateStats();renderTrainings();renderCerts();
+  showToast(editId?'Training updated!':'Training added!','success');
+}
+
+function markComplete(id){
+  const idx=trainings.findIndex(t=>t.id===id); if(idx<0) return;
+  trainings[idx].status='completed';
+  trainings[idx].progress=100;
+  trainings[idx].completedOn=new Date().toISOString().split('T')[0];
+  saveData();updateStats();renderTrainings();renderCerts();
+  showToast('Training marked complete! 🏅','success');
+}
+
+function deleteTraining(id){
+  if(!confirm('Delete this training record?')) return;
+  trainings=trainings.filter(t=>t.id!==id);
+  saveData();updateStats();renderTrainings();renderCerts();
+  showToast('Deleted','success');
+}
+
+function exportCerts(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const rows=[['Employee','Dept','Training','Category','Completed On','Cert Expiry','Days Left','Status']];
+  trainings.filter(t=>t.status==='completed'&&t.certMonths>0&&t.completedOn).forEach(t=>{
+    (t.participants||[]).forEach(idx=>{
+      const e=employees[idx]; if(!e) return;
+      const exp=new Date(t.completedOn);exp.setMonth(exp.getMonth()+t.certMonths);
+      const days=Math.ceil((exp-today)/(1000*60*60*24));
+      rows.push([`${e.fName} ${e.lName}`,e.dept||'',t.title,t.cat,t.completedOn,exp.toISOString().split('T')[0],days,days<0?'Expired':days<=90?'Expiring':'Valid']);
+    });
+  });
+  const csv=rows.map(r=>r.map(c=>`"${c||''}"`).join(',')).join('\n');
+  const el=document.createElement('a');el.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);el.download='Certifications.csv';el.click();
+  showToast('Exported!','success');
+}
+
+function switchTab(name,btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+  if(name==='certifications') renderCerts();
+}
+
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');t.className='toast '+type;
+  document.getElementById('toastIcon').textContent=type==='success'?'check_circle':'error';
+  document.getElementById('toastMsg').textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3200);
+}
+</script>
+</body>
+</html>

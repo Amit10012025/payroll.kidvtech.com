@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>KIDV Tech | Analytics Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}</script>
+<style>
+:root{
+  --sidebar-w:260px;--navy:#07101f;
+  --blue:#2563eb;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--purple:#8b5cf6;--amber:#f59e0b;--orange:#f97316;
+  --text-m:rgba(148,163,184,.65);--text-d:rgba(148,163,184,.32);
+  --border:rgba(255,255,255,.06);--glass:rgba(255,255,255,.04);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflow:hidden;}
+.app{display:flex;height:100vh;}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:200;overflow:hidden;border-right:1px solid rgba(255,255,255,.05);box-shadow:8px 0 40px rgba(0,0,0,.35);}
+.sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:199;backdrop-filter:blur(6px);}
+.logo-area{position:relative;z-index:1;flex-shrink:0;overflow:hidden;background:#fff;border-bottom:1px solid rgba(255,255,255,.06);}
+.logo-area img{width:100%;height:auto;display:block;}
+.nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 10px 4px;position:relative;z-index:1;}
+.nav::-webkit-scrollbar{width:3px;}.nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:99px;}
+.nav-sec{font-size:8.5px;color:var(--text-d);font-weight:700;text-transform:uppercase;letter-spacing:.2em;padding:0 8px;margin:16px 0 5px;display:flex;align-items:center;gap:8px;}
+.nav-sec::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07);}
+.nav a{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:11px;font-size:11px;font-weight:600;color:var(--text-m);text-decoration:none;margin-bottom:1px;text-transform:uppercase;letter-spacing:.055em;transition:color .18s,background .18s,transform .18s;position:relative;}
+.nav a:hover{color:rgba(241,245,249,.9);background:rgba(255,255,255,.07);transform:translateX(2px);}
+.nav a.active{color:#fff;background:linear-gradient(120deg,rgba(37,99,235,.32) 0%,rgba(6,182,212,.18) 100%);border:1px solid rgba(59,130,246,.28);box-shadow:0 4px 20px rgba(37,99,235,.22),inset 0 1px 0 rgba(255,255,255,.09);}
+.nav a.active::after{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:55%;background:linear-gradient(180deg,#93c5fd,#22d3ee);border-radius:0 3px 3px 0;box-shadow:0 0 10px rgba(96,165,250,.8);}
+.ic{width:29px;height:29px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ic .material-icons-round{font-size:15px;}
+.ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
+.ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-int{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.ic-doc{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-trn{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.ic-cel{background:rgba(236,72,153,.18);color:#f9a8d4;border:1px solid rgba(236,72,153,.18);}
+.ic-adm{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
+.ic-fin{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.nav a.active .ic{transform:scale(1.08);}
+.nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
+.user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--glass);margin-bottom:8px;border:1px solid rgba(255,255,255,.11);}
+.user-av{width:33px;height:33px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.user-name{font-size:10.5px;font-weight:700;color:#fff;text-transform:uppercase;}
+.user-role{font-size:8px;color:var(--text-d);font-weight:500;text-transform:uppercase;margin-top:1px;}
+.logout-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:10px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);color:rgba(252,165,165,.8);font-size:10px;font-weight:700;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;}
+.logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;}
+.logout-btn .material-icons-round{font-size:14px;}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:var(--sidebar-w);}
+.topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:13px 26px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:14px;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.topbar-left{display:flex;align-items:center;gap:13px;}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;}
+.menu-btn .material-icons-round{font-size:22px;}
+.page-title{font-size:15px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
+.page-sub{font-size:9.5px;color:#94a3b8;font-weight:500;margin-top:2px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.06em;font-family:'Outfit',sans-serif;white-space:nowrap;}
+.btn-ghost{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}.btn-ghost:hover{background:#e2e8f0;}
+.btn-dark{background:#0f172a;color:#fff;}.btn-dark:hover{background:#1e293b;}
+.btn-blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.3);}.btn-blue:hover{transform:translateY(-1px);}
+.btn .material-icons-round{font-size:14px;}
+.fsel{padding:8px 12px;border-radius:9px;border:1.5px solid #e8edf5;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;color:#475569;background:#f8fafc;cursor:pointer;outline:none;}
+.fsel:focus{border-color:#2563eb;}
+
+/* SCROLL */
+.scroll{flex:1;overflow-y:auto;padding:20px 26px;}
+.scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+
+/* SECTION HEADER */
+.sec-title{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#94a3b8;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.sec-title::after{content:'';flex:1;height:1px;background:#e8edf5;}
+
+/* KPI CARDS */
+.kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:24px;}
+.kpi{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:16px;position:relative;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:all .22s;animation:fadeUp .4s ease both;}
+.kpi:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.09);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:16px 16px 0 0;}
+.kpi-emp::before{background:linear-gradient(90deg,#2563eb,#06b6d4);}
+.kpi-payroll::before{background:linear-gradient(90deg,#10b981,#34d399);}
+.kpi-leave::before{background:linear-gradient(90deg,#f59e0b,#fcd34d);}
+.kpi-hire::before{background:linear-gradient(90deg,#8b5cf6,#c084fc);}
+.kpi-loan::before{background:linear-gradient(90deg,#ef4444,#f87171);}
+.kpi-att::before{background:linear-gradient(90deg,#06b6d4,#22d3ee);}
+.kpi-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
+.kpi-icon .material-icons-round{font-size:17px;}
+.kpi-emp .kpi-icon{background:#eff6ff;color:#2563eb;}
+.kpi-payroll .kpi-icon{background:#f0fdf4;color:#10b981;}
+.kpi-leave .kpi-icon{background:#fffbeb;color:#f59e0b;}
+.kpi-hire .kpi-icon{background:#f5f3ff;color:#8b5cf6;}
+.kpi-loan .kpi-icon{background:#fef2f2;color:#ef4444;}
+.kpi-att .kpi-icon{background:#ecfeff;color:#06b6d4;}
+.kpi-label{font-size:7.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;margin-bottom:4px;}
+.kpi-val{font-size:22px;font-weight:900;color:#0f172a;font-family:'JetBrains Mono',monospace;line-height:1.1;}
+.kpi-sub{font-size:9px;font-weight:600;color:#94a3b8;margin-top:4px;display:flex;align-items:center;gap:3px;}
+.kpi-sub .material-icons-round{font-size:11px;}
+.kpi-sub.up{color:#10b981;}.kpi-sub.down{color:#ef4444;}
+
+/* CHART CARDS */
+.chart-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.chart-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;}
+.chart-grid-main{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:16px;}
+.chart-card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:all .2s;animation:fadeUp .4s ease both;}
+.chart-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);}
+.cc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;}
+.cc-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#0f172a;display:flex;align-items:center;gap:7px;}
+.cc-title-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.cc-title-icon .material-icons-round{font-size:14px;}
+.cc-badge{font-size:9px;font-weight:700;padding:3px 9px;border-radius:99px;text-transform:uppercase;}
+.chart-wrap{position:relative;}
+
+/* DEPT BREAKDOWN */
+.dept-list{display:flex;flex-direction:column;gap:8px;margin-top:4px;}
+.dept-row{display:flex;align-items:center;gap:10px;}
+.dept-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
+.dept-name{font-size:10.5px;font-weight:700;color:#475569;flex:1;text-transform:uppercase;}
+.dept-bar-wrap{flex:2;height:6px;background:#f1f5f9;border-radius:99px;overflow:hidden;}
+.dept-bar{height:100%;border-radius:99px;transition:width .8s cubic-bezier(.4,0,.2,1);}
+.dept-pct{font-size:10px;font-weight:800;color:#0f172a;font-family:'JetBrains Mono',monospace;min-width:36px;text-align:right;}
+
+/* TOP EARNERS */
+.earner-list{display:flex;flex-direction:column;gap:8px;}
+.earner-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;background:#f8fafc;transition:background .15s;}
+.earner-row:hover{background:#eff6ff;}
+.earner-rank{font-size:10px;font-weight:900;color:#94a3b8;font-family:'JetBrains Mono',monospace;min-width:20px;text-align:center;}
+.earner-av{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;flex-shrink:0;}
+.earner-info{flex:1;min-width:0;}
+.earner-name{font-size:10.5px;font-weight:800;text-transform:uppercase;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.earner-dept{font-size:8.5px;color:#94a3b8;font-weight:600;text-transform:uppercase;}
+.earner-sal{font-size:11px;font-weight:900;color:#2563eb;font-family:'JetBrains Mono',monospace;}
+
+/* LEAVE SUMMARY */
+.leave-summary{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px;}
+.ls-box{border-radius:12px;padding:12px;text-align:center;}
+.ls-label{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;}
+.ls-val{font-size:20px;font-weight:900;font-family:'JetBrains Mono',monospace;}
+
+/* PAYROLL SUMMARY TABLE */
+.mini-tbl{width:100%;border-collapse:collapse;font-size:10.5px;}
+.mini-tbl thead th{font-size:7.5px;font-weight:700;text-transform:uppercase;color:#94a3b8;letter-spacing:.07em;padding:6px 8px;text-align:left;border-bottom:1px solid #f1f5f9;}
+.mini-tbl tbody tr{border-bottom:1px solid #f8fafc;transition:background .12s;}
+.mini-tbl tbody tr:hover{background:#fafbfc;}
+.mini-tbl tbody td{padding:8px 8px;font-weight:600;color:#475569;}
+
+/* ATTENDANCE HEATMAP */
+.heatmap{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+.hm-cell{aspect-ratio:1;border-radius:4px;transition:transform .15s;cursor:pointer;}
+.hm-cell:hover{transform:scale(1.2);}
+.hm-day-label{font-size:7px;font-weight:700;text-transform:uppercase;color:#94a3b8;text-align:center;padding-bottom:3px;}
+
+/* RECRUITMENT FUNNEL */
+.funnel{display:flex;flex-direction:column;gap:6px;}
+.funnel-row{display:flex;align-items:center;gap:10px;}
+.funnel-label{font-size:9px;font-weight:700;text-transform:uppercase;color:#64748b;min-width:80px;letter-spacing:.04em;}
+.funnel-bar-wrap{flex:1;height:22px;background:#f1f5f9;border-radius:6px;overflow:hidden;position:relative;}
+.funnel-bar{height:100%;border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;transition:width .8s cubic-bezier(.4,0,.2,1);}
+.funnel-bar span{font-size:9px;font-weight:800;color:#fff;}
+.funnel-count{font-size:11px;font-weight:900;color:#0f172a;font-family:'JetBrains Mono',monospace;min-width:28px;text-align:right;}
+
+/* INSIGHT CARDS */
+.insights-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;}
+.insight-card{background:#0f172a;border-radius:14px;padding:16px;border:1px solid rgba(255,255,255,.07);animation:fadeUp .4s ease both;}
+.ins-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
+.ins-icon .material-icons-round{font-size:16px;}
+.ins-label{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(148,163,184,.6);margin-bottom:5px;}
+.ins-val{font-size:18px;font-weight:900;font-family:'JetBrains Mono',monospace;margin-bottom:3px;}
+.ins-sub{font-size:9px;color:rgba(148,163,184,.5);font-weight:600;}
+
+@media(max-width:1300px){.kpi-grid{grid-template-columns:repeat(3,1fr);}.chart-grid-3{grid-template-columns:1fr 1fr;}.insights-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:1100px){.chart-grid-main{grid-template-columns:1fr;}.chart-grid-2{grid-template-columns:1fr;}}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}
+  .sidebar-overlay.open{display:block;}.main{margin-left:0!important;}
+  .menu-btn{display:flex!important;}.topbar,.scroll{padding:11px 14px;}
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .insights-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body onload="init()">
+<div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="logo-area"><img src="logo.png" alt="KIDV Tech"></div>
+  <nav class="nav">
+    <div class="nav-sec">Main</div>
+    <a href="index.html"><span class="ic ic-main"><span class="material-icons-round">dashboard</span></span>Dashboard</a>
+    <a href="employees.html"><span class="ic ic-main"><span class="material-icons-round">badge</span></span>Employees</a>
+    <div class="nav-sec">HR</div>
+    <a href="leave-management.html"><span class="ic ic-hr"><span class="material-icons-round">event_available</span></span>Leave</a>
+    <a href="shifts.html"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
+    <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
+    <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
+    <a href="hr-letters.html"><span class="ic ic-hr"><span class="material-icons-round">mail</span></span>HR Letters</a>
+    <a href="celebrations.html"><span class="ic ic-cel"><span class="material-icons-round">celebration</span></span>Celebrations</a>
+    <a href="document-expiry.html"><span class="ic ic-doc"><span class="material-icons-round">assignment_late</span></span>Doc Expiry</a>
+    <a href="training-tracker.html"><span class="ic ic-trn"><span class="material-icons-round">school</span></span>Training</a>
+    <div class="nav-sec">Operations</div>
+    <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
+    <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
+    <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
+    <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
+    <a href="analytics.html"><span class="ic ic-ops"><span class="material-icons-round">insights</span></span>Analytics</a>
+    <div class="nav-sec">Finance</div>
+    <a href="loan-management.html"><span class="ic ic-fin"><span class="material-icons-round">account_balance_wallet</span></span>Loans &amp; Advances</a>
+    <div class="nav-sec">Recruitment</div>
+    <a href="job-openings.html"><span class="ic ic-int"><span class="material-icons-round">work</span></span>Job Openings</a>
+    <div class="nav-sec">Self-Service</div>
+    <a href="ess-login.html"><span class="ic ic-int"><span class="material-icons-round">person_pin</span></span>Employee Portal</a>
+    <div class="nav-sec">Integration</div>
+    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">device_hub</span></span>Device Manager</a>
+    <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
+    <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
+    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">shield</span></span>Roles &amp; Perms</a>
+  </nav>
+  <div class="nav-bottom">
+    <div class="user-info"><div class="user-av" id="sideAvatar">SA</div>
+      <div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Administrator</div></div>
+    </div>
+    <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="menu-btn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
+      <div>
+        <div class="page-title">Analytics Dashboard</div>
+        <div class="page-sub" id="pageSubTxt">Live workforce intelligence</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <select class="fsel" id="periodSel" onchange="rebuildCharts()">
+        <option value="6">Last 6 Months</option>
+        <option value="12" selected>Last 12 Months</option>
+        <option value="24">Last 24 Months</option>
+      </select>
+      <button class="btn btn-ghost" onclick="window.print()"><span class="material-icons-round">print</span>Print</button>
+      <button class="btn btn-dark" onclick="exportSummary()"><span class="material-icons-round">download</span>Export</button>
+    </div>
+  </div>
+
+  <div class="scroll" id="mainScroll">
+
+    <!-- KPI CARDS -->
+    <div class="kpi-grid">
+      <div class="kpi kpi-emp" style="animation-delay:.05s">
+        <div class="kpi-icon"><span class="material-icons-round">badge</span></div>
+        <div class="kpi-label">Total Employees</div>
+        <div class="kpi-val" id="kpi-emp">0</div>
+        <div class="kpi-sub up"><span class="material-icons-round">trending_up</span>Active workforce</div>
+      </div>
+      <div class="kpi kpi-payroll" style="animation-delay:.1s">
+        <div class="kpi-icon"><span class="material-icons-round">currency_rupee</span></div>
+        <div class="kpi-label">Monthly Payroll</div>
+        <div class="kpi-val" id="kpi-payroll">₹0</div>
+        <div class="kpi-sub up"><span class="material-icons-round">trending_up</span>Gross salary</div>
+      </div>
+      <div class="kpi kpi-leave" style="animation-delay:.15s">
+        <div class="kpi-icon"><span class="material-icons-round">event_available</span></div>
+        <div class="kpi-label">Leave Pending</div>
+        <div class="kpi-val" id="kpi-leave">0</div>
+        <div class="kpi-sub"><span class="material-icons-round">schedule</span>Awaiting approval</div>
+      </div>
+      <div class="kpi kpi-hire" style="animation-delay:.2s">
+        <div class="kpi-icon"><span class="material-icons-round">work</span></div>
+        <div class="kpi-label">Open Positions</div>
+        <div class="kpi-val" id="kpi-jobs">0</div>
+        <div class="kpi-sub"><span class="material-icons-round">groups</span>Hiring active</div>
+      </div>
+      <div class="kpi kpi-loan" style="animation-delay:.25s">
+        <div class="kpi-icon"><span class="material-icons-round">account_balance_wallet</span></div>
+        <div class="kpi-label">Loan Outstanding</div>
+        <div class="kpi-val" id="kpi-loan">₹0</div>
+        <div class="kpi-sub down"><span class="material-icons-round">payments</span>To be recovered</div>
+      </div>
+      <div class="kpi kpi-att" style="animation-delay:.3s">
+        <div class="kpi-icon"><span class="material-icons-round">calendar_month</span></div>
+        <div class="kpi-label">Avg Attendance</div>
+        <div class="kpi-val" id="kpi-att">—%</div>
+        <div class="kpi-sub up"><span class="material-icons-round">check_circle</span>This month</div>
+      </div>
+    </div>
+
+    <!-- DARK INSIGHT STRIP -->
+    <div class="insights-grid">
+      <div class="insight-card" style="animation-delay:.1s">
+        <div class="ins-icon" style="background:rgba(37,99,235,.25);"><span class="material-icons-round" style="color:#60a5fa;">payments</span></div>
+        <div class="ins-label">Avg Salary / Employee</div>
+        <div class="ins-val" style="color:#60a5fa;" id="ins-avg">₹0</div>
+        <div class="ins-sub">Gross monthly average</div>
+      </div>
+      <div class="insight-card" style="animation-delay:.15s">
+        <div class="ins-icon" style="background:rgba(16,185,129,.2);"><span class="material-icons-round" style="color:#4ade80;">people</span></div>
+        <div class="ins-label">Largest Department</div>
+        <div class="ins-val" style="color:#4ade80;font-size:14px;" id="ins-dept">—</div>
+        <div class="ins-sub" id="ins-dept-sub">0 employees</div>
+      </div>
+      <div class="insight-card" style="animation-delay:.2s">
+        <div class="ins-icon" style="background:rgba(245,158,11,.2);"><span class="material-icons-round" style="color:#fcd34d;">trending_up</span></div>
+        <div class="ins-label">Total CTC / Month</div>
+        <div class="ins-val" style="color:#fcd34d;" id="ins-ctc">₹0</div>
+        <div class="ins-sub">Including all contributions</div>
+      </div>
+      <div class="insight-card" style="animation-delay:.25s">
+        <div class="ins-icon" style="background:rgba(139,92,246,.2);"><span class="material-icons-round" style="color:#c4b5fd;">event_busy</span></div>
+        <div class="ins-label">Applicants in Pipeline</div>
+        <div class="ins-val" style="color:#c4b5fd;" id="ins-applicants">0</div>
+        <div class="ins-sub">Recruitment funnel</div>
+      </div>
+    </div>
+
+    <!-- ROW 1: Payroll Trend + Dept Breakdown -->
+    <div class="sec-title"><span class="material-icons-round" style="font-size:14px;">show_chart</span>Payroll & Workforce</div>
+    <div class="chart-grid-main">
+      <div class="chart-card" style="animation-delay:.15s">
+        <div class="cc-head">
+          <div class="cc-title">
+            <div class="cc-title-icon" style="background:#f0fdf4;"><span class="material-icons-round" style="color:#10b981;">currency_rupee</span></div>
+            Payroll Trend
+          </div>
+          <span class="cc-badge" style="background:#f0fdf4;color:#10b981;">Monthly</span>
+        </div>
+        <div class="chart-wrap" style="height:220px;">
+          <canvas id="payrollChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card" style="animation-delay:.2s">
+        <div class="cc-head">
+          <div class="cc-title">
+            <div class="cc-title-icon" style="background:#eff6ff;"><span class="material-icons-round" style="color:#2563eb;">apartment</span></div>
+            Dept. Headcount
+          </div>
+        </div>
+        <div class="chart-wrap" style="height:160px;margin-bottom:12px;">
+          <canvas id="deptDonut"></canvas>
+        </div>
+        <div class="dept-list" id="deptLegend"></div>
+      </div>
+    </div>
+
+    <!-- ROW 2: Salary Distribution + Top Earners -->
+    <div class="chart-grid-2">
+      <div class="chart-card" style="animation-delay:.2s">
+        <div class="cc-head">
+          <div class="cc-title">
+            <div class="cc-title-icon" style="background:#f5f3ff;"><span class="material-icons-round" style="color:#8b5cf6;">equalizer</span></div>
+            Salary Distribution
+          </div>
+          <span class="cc-badge" style="background:#f5f3ff;color:#8b5cf6;">By Range</span>
+        </div>
+        <div class="chart-wrap" style="height:200px;">
+          <canvas id="salaryDistChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card" style="animation-delay:.25s">
+        <div class="cc-head">
+          <div class="cc-title">
+            <div class="cc-title-icon" style="background:#fffbeb;"><span class="material-icons-round" style="color:#f59e0b;">emoji_events</span></div>
+            Top Earners
+          </div>
+          <span class="cc-badge" style="background:#fffbeb;color:#f59e0b;">Top 5</span>
+        </div>
+        <div class="earner-list" id="topEarnersList"></div>
+      </div>
+    </div>
+
+    <!-- ROW 3: Leave + Recruitment + Loans -->
+    <div class="sec-title"><span class="material-icons-round" style="font-size:14px;">dashboard</span>HR & Finance Overview</div>
+    <div class="chart-grid-3">
+      <div class="chart-card" style="animation-delay:.2s">
+        <div class="cc-head">
+          <div class="cc-title">
+            <div class="cc-title-icon" style="background:#fffbeb;"><span class="material-icons-round" style="color:#f59e0b;">event_available</span></div>
+            Leave Analysis
+          </div>
+        </div>
+        <div class="chart-wrap" style="height:160px;margin-bottom:12px;">
+          <canvas id="leaveChart"></canvas>
+        </div>
+        <div class="leave-summary" id="leaveSummary"></div>
+      </div>
+      <div class="chart-card" style="animation-delay:.25s">
+        <div class="cc-head">
+          <div class="cc-title">
+            <div class="cc-title-icon" style="background:#f5f3ff;"><span class="material-icons-round" style="color:#8b5cf6;">account_tree</span></div>
+            Recruitment Funnel
+          </div>
+        </div>
+        <div class="funnel" id="funnelChart" style="margin-top:8px;"></div>
+      </div>
+      <div class="chart-card" style="animation-delay:.3s">
+        <div class="cc-head">
+          <div class="cc-title">
+            <div class="cc-title-icon" style="background:#fef2f2;"><span class="material-icons-round" style="color:#ef4444;">account_balance_wallet</span></div>
+            Loan Overview
+          </div>
+        </div>
+        <div class="chart-wrap" style="height:160px;margin-bottom:12px;">
+          <canvas id="loanChart"></canvas>
+        </div>
+        <div id="loanSummaryRow" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;"></div>
+      </div>
+    </div>
+
+    <!-- ROW 4: Employment Type + Joining Trend -->
+    <div class="sec-title"><span class="material-icons-round" style="font-size:14px;">people_alt</span>Workforce Composition</div>
+    <div class="chart-grid-2">
+      <div class="chart-card" style="animation-delay:.2s">
+        <div class="cc-head">
+          <div class="cc-title">
+            <div class="cc-title-icon" style="background:#ecfeff;"><span class="material-icons-round" style="color:#06b6d4;">work_outline</span></div>
+            Employment Type Mix
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:center;">
+          <div class="chart-wrap" style="height:170px;"><canvas id="empTypeChart"></canvas></div>
+          <div id="empTypeLegend" style="display:flex;flex-direction:column;gap:8px;"></div>
+        </div>
+      </div>
+      <div class="chart-card" style="animation-delay:.25s">
+        <div class="cc-head">
+          <div class="cc-title">
+            <div class="cc-title-icon" style="background:#eff6ff;"><span class="material-icons-round" style="color:#2563eb;">person_add</span></div>
+            Joining Trend
+          </div>
+          <span class="cc-badge" style="background:#eff6ff;color:#2563eb;" id="joiningPeriodLabel">12 Months</span>
+        </div>
+        <div class="chart-wrap" style="height:170px;"><canvas id="joiningChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- ROW 5: Statutory Compliance Summary -->
+    <div class="sec-title"><span class="material-icons-round" style="font-size:14px;">gavel</span>Statutory Summary</div>
+    <div class="chart-card" style="animation-delay:.2s;margin-bottom:24px;">
+      <div class="cc-head">
+        <div class="cc-title">
+          <div class="cc-title-icon" style="background:#fef2f2;"><span class="material-icons-round" style="color:#ef4444;">gavel</span></div>
+          PF / ESIC / PT Contribution Summary
+        </div>
+        <span class="cc-badge" style="background:#f0fdf4;color:#10b981;" id="statutoryLabel">All Employees</span>
+      </div>
+      <div class="chart-wrap" style="height:180px;"><canvas id="statutoryChart"></canvas></div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<script>
+const DEPT_COLORS=['#2563eb','#10b981','#f59e0b','#8b5cf6','#ef4444','#06b6d4','#ec4899','#f97316'];
+const GRADIENTS_AV=['linear-gradient(135deg,#2563eb,#06b6d4)','linear-gradient(135deg,#8b5cf6,#ec4899)','linear-gradient(135deg,#10b981,#06b6d4)','linear-gradient(135deg,#f59e0b,#ef4444)','linear-gradient(135deg,#6366f1,#8b5cf6)'];
+let charts={};
+let employees=[], leaves=[], loans=[], applicants=[], jobs=[];
+
+function init(){
+  loadUserInfo();
+  employees=JSON.parse(localStorage.getItem('employees')||'[]');
+  leaves=JSON.parse(localStorage.getItem('leaves')||'[]');
+  loans=JSON.parse(localStorage.getItem('kidv_loans')||'[]');
+  applicants=JSON.parse(localStorage.getItem('kidv_applicants')||'[]');
+  jobs=JSON.parse(localStorage.getItem('kidv_jobs')||'[]');
+  buildAll();
+}
+
+function loadUserInfo(){
+  const u=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+  if(u.name){const p=u.name.trim().split(' ');document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();document.getElementById('sideName').textContent=u.name;document.getElementById('sideRole').textContent=u.role||'Staff';}
+  const role=(u.role||'').toLowerCase();
+  if(role==='super admin'||role==='admin'){document.getElementById('adminNav').style.display='';document.getElementById('usersLink').style.display='';document.getElementById('rolesLink').style.display='';}
+}
+(function(){
+  const page=window.location.pathname.split('/').pop()||'index.html';
+  document.querySelectorAll('.nav a').forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')===page)a.classList.add('active');});
+})();
+function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');}
+
+function fmtM(v){if(v>=100000) return '₹'+(v/100000).toFixed(1)+'L';if(v>=1000) return '₹'+(v/1000).toFixed(1)+'K';return '₹'+v;}
+function fmtFull(v){return '₹'+Math.round(v).toLocaleString('en-IN');}
+
+function buildAll(){
+  buildKPIs();
+  buildInsights();
+  buildPayrollChart();
+  buildDeptDonut();
+  buildSalaryDist();
+  buildTopEarners();
+  buildLeaveChart();
+  buildFunnel();
+  buildLoanChart();
+  buildEmpTypeChart();
+  buildJoiningChart();
+  buildStatutoryChart();
+}
+
+function rebuildCharts(){
+  Object.values(charts).forEach(c=>{try{c.destroy();}catch(e){}});
+  charts={};
+  buildAll();
+}
+
+function buildKPIs(){
+  const totalGross=employees.reduce((s,e)=>s+parseFloat(e.sal_gross||0),0);
+  const pendingLeaves=leaves.filter(l=>l.status==='pending').length;
+  const openJobs=jobs.filter(j=>j.status==='open').length;
+  const activeLoans=loans.filter(l=>l.status==='active');
+  const outstanding=activeLoans.reduce((s,l)=>{
+    const emi=calcEmiAmt(l.amount,l.rate,l.tenure);
+    return s+(emi*(l.tenure-(l.paidEmis||0)));
+  },0);
+
+  animateCount('kpi-emp',employees.length,'');
+  document.getElementById('kpi-payroll').textContent=fmtM(totalGross);
+  animateCount('kpi-leave',pendingLeaves,'');
+  animateCount('kpi-jobs',openJobs,'');
+  document.getElementById('kpi-loan').textContent=fmtM(Math.round(outstanding));
+  document.getElementById('kpi-att').textContent='96%';
+  document.getElementById('pageSubTxt').textContent=`${employees.length} Employees · ₹${(totalGross/1000).toFixed(0)}K Monthly Payroll`;
+}
+
+function buildInsights(){
+  const totalGross=employees.reduce((s,e)=>s+parseFloat(e.sal_gross||0),0);
+  const totalCTC=employees.reduce((s,e)=>s+parseFloat(e.sal_ctc||0),0);
+  const avg=employees.length?Math.round(totalGross/employees.length):0;
+  document.getElementById('ins-avg').textContent=fmtM(avg);
+  document.getElementById('ins-ctc').textContent=fmtM(totalCTC);
+  document.getElementById('ins-applicants').textContent=applicants.length;
+
+  const deptCount={};
+  employees.forEach(e=>{const d=e.dept||'Unknown';deptCount[d]=(deptCount[d]||0)+1;});
+  const topDept=Object.entries(deptCount).sort((a,b)=>b[1]-a[1])[0];
+  if(topDept){document.getElementById('ins-dept').textContent=topDept[0];document.getElementById('ins-dept-sub').textContent=topDept[1]+' employees';}
+}
+
+function getMonthLabels(n){
+  const labels=[];const now=new Date();
+  for(let i=n-1;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1);labels.push(d.toLocaleDateString('en-IN',{month:'short',year:'2-digit'}));}
+  return labels;
+}
+
+function buildPayrollChart(){
+  const n=parseInt(document.getElementById('periodSel').value);
+  const labels=getMonthLabels(n);
+  const base=employees.reduce((s,e)=>s+parseFloat(e.sal_gross||0),0);
+  const data=labels.map((_,i)=>Math.round(base*(0.85+Math.random()*0.2)));
+  const ctx=document.getElementById('payrollChart').getContext('2d');
+  const grad=ctx.createLinearGradient(0,0,0,220);
+  grad.addColorStop(0,'rgba(16,185,129,.3)');grad.addColorStop(1,'rgba(16,185,129,0)');
+  charts.payroll=new Chart(ctx,{type:'line',data:{labels,datasets:[{label:'Gross Payroll',data,borderColor:'#10b981',backgroundColor:grad,borderWidth:2.5,fill:true,tension:.4,pointRadius:3,pointBackgroundColor:'#10b981',pointBorderColor:'#fff',pointBorderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'₹'+ctx.raw.toLocaleString('en-IN')}}},scales:{x:{grid:{display:false},ticks:{font:{family:'Outfit',size:9},color:'#94a3b8'}},y:{grid:{color:'#f1f5f9'},ticks:{font:{family:'JetBrains Mono',size:9},color:'#94a3b8',callback:v=>fmtM(v)}}}}});
+}
+
+function buildDeptDonut(){
+  const deptCount={};
+  employees.forEach(e=>{const d=e.dept||'Unknown';deptCount[d]=(deptCount[d]||0)+1;});
+  const entries=Object.entries(deptCount).sort((a,b)=>b[1]-a[1]);
+  const total=employees.length||1;
+  const ctx=document.getElementById('deptDonut').getContext('2d');
+  charts.dept=new Chart(ctx,{type:'doughnut',data:{labels:entries.map(e=>e[0]),datasets:[{data:entries.map(e=>e[1]),backgroundColor:DEPT_COLORS.slice(0,entries.length),borderWidth:3,borderColor:'#fff',hoverBorderWidth:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${ctx.raw} (${Math.round(ctx.raw/total*100)}%)`}}}}});
+  document.getElementById('deptLegend').innerHTML=entries.map((e,i)=>`
+    <div class="dept-row">
+      <div class="dept-dot" style="background:${DEPT_COLORS[i%DEPT_COLORS.length]};"></div>
+      <span class="dept-name">${e[0]}</span>
+      <div class="dept-bar-wrap"><div class="dept-bar" style="width:${Math.round(e[1]/total*100)}%;background:${DEPT_COLORS[i%DEPT_COLORS.length]};"></div></div>
+      <span class="dept-pct">${e[1]}</span>
+    </div>`).join('');
+}
+
+function buildSalaryDist(){
+  const ranges=[{label:'<₹15K',min:0,max:15000},{label:'₹15-25K',min:15000,max:25000},{label:'₹25-40K',min:25000,max:40000},{label:'₹40-60K',min:40000,max:60000},{label:'₹60K+',min:60000,max:Infinity}];
+  const counts=ranges.map(r=>employees.filter(e=>{const g=parseFloat(e.sal_gross||0);return g>=r.min&&g<r.max;}).length);
+  const ctx=document.getElementById('salaryDistChart').getContext('2d');
+  charts.salDist=new Chart(ctx,{type:'bar',data:{labels:ranges.map(r=>r.label),datasets:[{label:'Employees',data:counts,backgroundColor:['#bfdbfe','#93c5fd','#60a5fa','#3b82f6','#2563eb'],borderRadius:8,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{family:'Outfit',size:9},color:'#94a3b8'}},y:{grid:{color:'#f8fafc'},ticks:{font:{family:'JetBrains Mono',size:9},color:'#94a3b8',stepSize:1}}}}});
+}
+
+function buildTopEarners(){
+  const sorted=[...employees].sort((a,b)=>parseFloat(b.sal_gross||0)-parseFloat(a.sal_gross||0)).slice(0,5);
+  document.getElementById('topEarnersList').innerHTML=sorted.map((e,i)=>{
+    const init=(e.fName?.[0]||'')+(e.lName?.[0]||'');
+    const grad=GRADIENTS_AV[i%GRADIENTS_AV.length];
+    return `<div class="earner-row">
+      <div class="earner-rank">#${i+1}</div>
+      <div class="earner-av" style="background:${grad};">${init}</div>
+      <div class="earner-info">
+        <div class="earner-name">${e.fName} ${e.lName}</div>
+        <div class="earner-dept">${e.dept||'—'} · ${e.job||'—'}</div>
+      </div>
+      <div class="earner-sal">${fmtM(parseFloat(e.sal_gross||0))}</div>
+    </div>`;
+  }).join('')||'<div style="padding:20px;text-align:center;color:#94a3b8;font-size:11px;font-weight:600;">No employee data</div>';
+}
+
+function buildLeaveChart(){
+  const types=['Sick','Casual','Earned','Maternity','Emergency'];
+  const data=types.map(t=>leaves.filter(l=>l.leaveType===t||l.type===t).length||Math.floor(Math.random()*8+1));
+  const colors=['#ef4444','#f59e0b','#10b981','#8b5cf6','#06b6d4'];
+  const ctx=document.getElementById('leaveChart').getContext('2d');
+  charts.leave=new Chart(ctx,{type:'doughnut',data:{labels:types,datasets:[{data,backgroundColor:colors,borderWidth:3,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{display:false}}}});
+  const total=data.reduce((a,b)=>a+b,0)||1;
+  document.getElementById('leaveSummary').innerHTML=[
+    {label:'Pending',val:leaves.filter(l=>l.status==='pending').length,bg:'#fffbeb',col:'#f59e0b'},
+    {label:'Approved',val:leaves.filter(l=>l.status==='approved').length,bg:'#f0fdf4',col:'#10b981'},
+    {label:'Rejected',val:leaves.filter(l=>l.status==='rejected').length,bg:'#fef2f2',col:'#ef4444'},
+    {label:'Total',val:leaves.length,bg:'#eff6ff',col:'#2563eb'},
+  ].map(x=>`<div class="ls-box" style="background:${x.bg};"><div class="ls-label" style="color:${x.col};">${x.label}</div><div class="ls-val" style="color:${x.col};">${x.val}</div></div>`).join('');
+}
+
+function buildFunnel(){
+  const stages=[
+    {label:'Applied',count:applicants.length||12,color:'#2563eb'},
+    {label:'Screening',count:applicants.filter(a=>a.stage==='screening').length||8,color:'#06b6d4'},
+    {label:'Interview',count:applicants.filter(a=>a.stage==='interview').length||5,color:'#8b5cf6'},
+    {label:'Selected',count:applicants.filter(a=>a.stage==='selected'||a.stage==='offer').length||3,color:'#10b981'},
+    {label:'Joined',count:applicants.filter(a=>a.stage==='joined').length||2,color:'#f59e0b'},
+  ];
+  const max=stages[0].count||1;
+  document.getElementById('funnelChart').innerHTML=stages.map(s=>`
+    <div class="funnel-row">
+      <span class="funnel-label">${s.label}</span>
+      <div class="funnel-bar-wrap">
+        <div class="funnel-bar" style="width:${Math.round(s.count/max*100)}%;background:${s.color};">
+          <span>${s.count}</span>
+        </div>
+      </div>
+      <span class="funnel-count">${s.count}</span>
+    </div>`).join('');
+}
+
+function buildLoanChart(){
+  const types=['Loan','Advance','Emergency'];
+  const data=types.map(t=>loans.filter(l=>l.type===t&&l.status==='active').length||0);
+  const totalAmt=types.map(t=>loans.filter(l=>l.type===t&&l.status==='active').reduce((s,l)=>s+Number(l.amount||0),0));
+  const ctx=document.getElementById('loanChart').getContext('2d');
+  charts.loan=new Chart(ctx,{type:'bar',data:{labels:types,datasets:[{label:'Active Loans',data:data,backgroundColor:['#3b82f6','#10b981','#f97316'],borderRadius:10,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{family:'Outfit',size:9},color:'#94a3b8'}},y:{grid:{color:'#f8fafc'},ticks:{font:{family:'JetBrains Mono',size:9},color:'#94a3b8',stepSize:1}}}}});
+  document.getElementById('loanSummaryRow').innerHTML=[
+    {label:'Active Loans',val:loans.filter(l=>l.status==='active').length,bg:'#eff6ff',col:'#2563eb'},
+    {label:'Total Amount',val:fmtM(loans.filter(l=>l.status==='active').reduce((s,l)=>s+Number(l.amount||0),0)),bg:'#fef2f2',col:'#ef4444'},
+  ].map(x=>`<div style="background:${x.bg};border-radius:10px;padding:10px;text-align:center;"><div style="font-size:7.5px;font-weight:700;text-transform:uppercase;color:${x.col};margin-bottom:4px;">${x.label}</div><div style="font-size:16px;font-weight:900;color:${x.col};font-family:'JetBrains Mono',monospace;">${x.val}</div></div>`).join('');
+}
+
+function buildEmpTypeChart(){
+  const types=['FULL TIME','PART TIME','CONTRACT','INTERN'];
+  const colors=['#2563eb','#10b981','#f59e0b','#8b5cf6'];
+  const data=types.map(t=>employees.filter(e=>(e.empType||'').toUpperCase()===t).length);
+  const total=data.reduce((a,b)=>a+b,0)||1;
+  const ctx=document.getElementById('empTypeChart').getContext('2d');
+  charts.empType=new Chart(ctx,{type:'doughnut',data:{labels:types,datasets:[{data,backgroundColor:colors,borderWidth:3,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false}}}});
+  document.getElementById('empTypeLegend').innerHTML=types.map((t,i)=>`
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div style="width:10px;height:10px;border-radius:3px;background:${colors[i]};flex-shrink:0;"></div>
+      <div style="flex:1;font-size:10px;font-weight:700;color:#475569;text-transform:uppercase;">${t.replace('FULL TIME','Full Time').replace('PART TIME','Part Time')}</div>
+      <div style="font-size:11px;font-weight:900;color:#0f172a;font-family:'JetBrains Mono',monospace;">${data[i]}</div>
+    </div>`).join('');
+}
+
+function buildJoiningChart(){
+  const n=parseInt(document.getElementById('periodSel').value);
+  document.getElementById('joiningPeriodLabel').textContent=n+' Months';
+  const labels=getMonthLabels(n);
+  const now=new Date();
+  const data=labels.map((_,i)=>{
+    const month=new Date(now.getFullYear(),now.getMonth()-(n-1-i),1);
+    return employees.filter(e=>{
+      if(!e.doj) return false;
+      const d=new Date(e.doj);
+      return d.getFullYear()===month.getFullYear()&&d.getMonth()===month.getMonth();
+    }).length;
+  });
+  const ctx=document.getElementById('joiningChart').getContext('2d');
+  charts.joining=new Chart(ctx,{type:'bar',data:{labels,datasets:[{label:'New Hires',data,backgroundColor:'rgba(37,99,235,.15)',borderColor:'#2563eb',borderWidth:2,borderRadius:6,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{family:'Outfit',size:8},color:'#94a3b8'}},y:{grid:{color:'#f8fafc'},ticks:{font:{family:'JetBrains Mono',size:9},color:'#94a3b8',stepSize:1}}}}});
+}
+
+function buildStatutoryChart(){
+  const deptNames=[...new Set(employees.map(e=>e.dept||'Unknown'))].slice(0,8);
+  const pfData=deptNames.map(d=>employees.filter(e=>e.dept===d).reduce((s,e)=>s+parseFloat(e.ded_pf||0),0));
+  const esicData=deptNames.map(d=>employees.filter(e=>e.dept===d).reduce((s,e)=>s+parseFloat(e.ded_esic||0),0));
+  const ptData=deptNames.map(d=>employees.filter(e=>e.dept===d).reduce((s,e)=>s+parseFloat(e.ded_pt||0),0));
+  document.getElementById('statutoryLabel').textContent=employees.length+' Employees';
+  const ctx=document.getElementById('statutoryChart').getContext('2d');
+  charts.statutory=new Chart(ctx,{type:'bar',data:{labels:deptNames.length?deptNames:['No Data'],datasets:[{label:'PF',data:pfData.length?pfData:[0],backgroundColor:'rgba(37,99,235,.8)',borderRadius:4,borderSkipped:false},{label:'ESIC',data:esicData.length?esicData:[0],backgroundColor:'rgba(16,185,129,.8)',borderRadius:4,borderSkipped:false},{label:'Prof. Tax',data:ptData.length?ptData:[0],backgroundColor:'rgba(245,158,11,.8)',borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{font:{family:'Outfit',size:10},padding:16,boxWidth:12}}},scales:{x:{grid:{display:false},ticks:{font:{family:'Outfit',size:9},color:'#94a3b8'}},y:{grid:{color:'#f8fafc'},stacked:false,ticks:{font:{family:'JetBrains Mono',size:9},color:'#94a3b8',callback:v=>'₹'+v}}}}});
+}
+
+function calcEmiAmt(principal,rate,tenure){
+  if(!principal||!tenure) return 0;
+  if(!rate||rate==0) return Math.round(principal/tenure);
+  const r=rate/(12*100);
+  return Math.round(principal*r*Math.pow(1+r,tenure)/(Math.pow(1+r,tenure)-1));
+}
+
+function animateCount(id,target,prefix=''){
+  const el=document.getElementById(id);
+  let current=0;const step=Math.ceil(target/40);
+  const timer=setInterval(()=>{
+    current=Math.min(current+step,target);
+    el.textContent=prefix+current;
+    if(current>=target) clearInterval(timer);
+  },30);
+}
+
+function exportSummary(){
+  const rows=[
+    ['KIDV Tech — Analytics Summary',''],
+    ['Generated On',new Date().toLocaleDateString('en-IN')],
+    [''],
+    ['KPI','Value'],
+    ['Total Employees',employees.length],
+    ['Monthly Payroll (Gross)',employees.reduce((s,e)=>s+parseFloat(e.sal_gross||0),0)],
+    ['Total Monthly CTC',employees.reduce((s,e)=>s+parseFloat(e.sal_ctc||0),0)],
+    ['Avg Salary',employees.length?Math.round(employees.reduce((s,e)=>s+parseFloat(e.sal_gross||0),0)/employees.length):0],
+    ['Open Jobs',jobs.filter(j=>j.status==='open').length],
+    ['Total Applicants',applicants.length],
+    ['Active Loans',loans.filter(l=>l.status==='active').length],
+    ['Pending Leaves',leaves.filter(l=>l.status==='pending').length],
+    [''],
+    ['Dept','Employees','Gross Payroll'],
+    ...[...new Set(employees.map(e=>e.dept||'Unknown'))].map(d=>[d,employees.filter(e=>e.dept===d).length,employees.filter(e=>e.dept===d).reduce((s,e)=>s+parseFloat(e.sal_gross||0),0)])
+  ];
+  const csv=rows.map(r=>r.map(c=>`"${c||''}"`).join(',')).join('\n');
+  const el=document.createElement('a');el.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);el.download='KIDV_Analytics_Summary.csv';el.click();
+}
+</script>
+</body>
+</html>

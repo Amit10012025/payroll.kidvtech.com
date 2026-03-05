@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>KIDV Tech | Document Expiry</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<script>if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}</script>
+<style>
+:root{--sidebar-w:260px;--navy:#07101f;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:'Outfit',sans-serif;background:#f0f4f9;overflow:hidden;}
+.app{display:flex;height:100vh;}
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:200;overflow:hidden;border-right:1px solid rgba(255,255,255,.05);box-shadow:8px 0 40px rgba(0,0,0,.35);}
+.sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16),transparent 65%);pointer-events:none;z-index:0;}
+.sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09),transparent 65%);pointer-events:none;z-index:0;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:199;backdrop-filter:blur(6px);}
+.logo-area{position:relative;z-index:1;flex-shrink:0;overflow:hidden;background:#fff;border-bottom:1px solid rgba(255,255,255,.06);}
+.logo-area img{width:100%;height:auto;display:block;}
+.nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 10px 4px;position:relative;z-index:1;}
+.nav::-webkit-scrollbar{width:3px;}.nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:99px;}
+.nav-sec{font-size:8.5px;color:rgba(148,163,184,.32);font-weight:700;text-transform:uppercase;letter-spacing:.2em;padding:0 8px;margin:16px 0 5px;display:flex;align-items:center;gap:8px;}
+.nav-sec::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07);}
+.nav a{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:11px;font-size:11px;font-weight:600;color:rgba(148,163,184,.65);text-decoration:none;margin-bottom:1px;text-transform:uppercase;letter-spacing:.055em;transition:color .18s,background .18s,transform .18s;position:relative;}
+.nav a:hover{color:rgba(241,245,249,.9);background:rgba(255,255,255,.07);transform:translateX(2px);}
+.nav a.active{color:#fff;background:linear-gradient(120deg,rgba(37,99,235,.32),rgba(6,182,212,.18));border:1px solid rgba(59,130,246,.28);box-shadow:0 4px 20px rgba(37,99,235,.22);}
+.nav a.active::after{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:55%;background:linear-gradient(180deg,#93c5fd,#22d3ee);border-radius:0 3px 3px 0;}
+.ic{width:29px;height:29px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ic .material-icons-round{font-size:15px;}
+.ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
+.ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-int{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.ic-trn{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.ic-adm{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
+.ic-fin{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-cel{background:rgba(236,72,153,.18);color:#f9a8d4;border:1px solid rgba(236,72,153,.18);}
+.ic-doc{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.nav a.active .ic{transform:scale(1.08);}
+.nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
+.user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:rgba(255,255,255,.04);margin-bottom:8px;border:1px solid rgba(255,255,255,.11);}
+.user-av{width:33px;height:33px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.user-name{font-size:10.5px;font-weight:700;color:#fff;text-transform:uppercase;}
+.user-role{font-size:8px;color:rgba(148,163,184,.32);font-weight:500;text-transform:uppercase;margin-top:1px;}
+.logout-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:10px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);color:rgba(252,165,165,.8);font-size:10px;font-weight:700;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;}
+.logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;}
+.logout-btn .material-icons-round{font-size:14px;}
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;margin-left:var(--sidebar-w);overflow:hidden;}
+.topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:13px 26px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:14px;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.topbar-left{display:flex;align-items:center;gap:13px;}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;}
+.menu-btn .material-icons-round{font-size:22px;}
+.page-title{font-size:15px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
+.page-sub{font-size:9.5px;color:#94a3b8;font-weight:500;margin-top:2px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.06em;font-family:'Outfit',sans-serif;white-space:nowrap;}
+.btn-ghost{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}.btn-ghost:hover{background:#e2e8f0;}
+.btn-red{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;box-shadow:0 4px 14px rgba(239,68,68,.3);}
+.btn-red:hover{transform:translateY(-1px);}
+.btn .material-icons-round{font-size:14px;}
+.scroll{flex:1;overflow-y:auto;padding:20px 26px;}
+.scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* STAT CARDS */
+.stat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
+.sc{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:14px 16px;position:relative;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:all .2s;animation:fadeUp .4s ease both;}
+.sc:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08);}
+.sc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.sc-exp::before{background:linear-gradient(90deg,#ef4444,#f87171);}
+.sc-soon::before{background:linear-gradient(90deg,#f97316,#fb923c);}
+.sc-warn::before{background:linear-gradient(90deg,#f59e0b,#fcd34d);}
+.sc-ok::before{background:linear-gradient(90deg,#10b981,#34d399);}
+.sc-miss::before{background:linear-gradient(90deg,#94a3b8,#cbd5e1);}
+.sc-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:9px;font-size:18px;}
+.sc-label{font-size:7.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;margin-bottom:3px;}
+.sc-val{font-size:22px;font-weight:900;color:#0f172a;font-family:'JetBrains Mono',monospace;}
+.sc-sub{font-size:9px;color:#94a3b8;font-weight:600;margin-top:2px;}
+
+/* FILTER */
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center;}
+.fsel{padding:8px 12px;border-radius:9px;border:1.5px solid #e8edf5;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;color:#475569;background:#f8fafc;cursor:pointer;outline:none;}
+.fsel:focus{border-color:#f59e0b;}
+.search-box{display:flex;align-items:center;gap:7px;background:#f8fafc;border:1.5px solid #e8edf5;border-radius:10px;padding:8px 12px;flex:1;min-width:200px;}
+.search-box:focus-within{border-color:#f59e0b;background:#fff;}
+.search-box .material-icons-round{font-size:15px;color:#94a3b8;}
+.search-box input{border:none;background:transparent;font-family:'Outfit',sans-serif;font-size:11px;font-weight:500;color:#1e293b;outline:none;width:100%;}
+
+/* DOC CARDS */
+.doc-card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:all .22s;margin-bottom:10px;animation:fadeUp .3s ease both;}
+.doc-card:hover{box-shadow:0 6px 22px rgba(0,0,0,.09);}
+.dc-top{padding:14px 18px;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;}
+.dc-av{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0;}
+.dc-name{font-size:13px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.03em;}
+.dc-meta{font-size:9px;color:#94a3b8;font-weight:600;text-transform:uppercase;margin-top:2px;}
+.dc-docs{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;}
+.doc-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:8px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;cursor:default;}
+.doc-chip .material-icons-round{font-size:11px;}
+.chip-expired{background:#fef2f2;color:#dc2626;border:1px solid #fecaca;}
+.chip-critical{background:#fff7ed;color:#ea580c;border:1px solid #fed7aa;}
+.chip-warning{background:#fffbeb;color:#d97706;border:1px solid #fef08a;}
+.chip-ok{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;}
+.chip-missing{background:#f8fafc;color:#94a3b8;border:1px solid #e2e8f0;}
+.dc-right{text-align:right;}
+.dc-worst-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;}
+.badge-expired{background:#fef2f2;color:#dc2626;border:1px solid #fecaca;}
+.badge-critical{background:#fff7ed;color:#ea580c;border:1px solid #fed7aa;}
+.badge-warning{background:#fffbeb;color:#d97706;border:1px solid #fef08a;}
+.badge-ok{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;}
+.badge-missing{background:#f8fafc;color:#94a3b8;border:1px solid #e2e8f0;}
+
+/* SECTION HEADERS */
+.sec-hdr{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#94a3b8;margin:20px 0 10px;display:flex;align-items:center;gap:8px;}
+.sec-hdr::after{content:'';flex:1;height:1px;background:#e8edf5;}
+.sec-hdr .sec-count{background:#f1f5f9;color:#475569;padding:2px 8px;border-radius:99px;font-size:8px;}
+
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px;color:#94a3b8;text-align:center;}
+.empty-state .material-icons-round{font-size:52px;margin-bottom:12px;opacity:.3;}
+
+/* Add doc panel */
+.panel-overlay{position:fixed;inset:0;background:rgba(7,16,31,.65);backdrop-filter:blur(6px);z-index:500;display:flex;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .28s;}
+.panel-overlay.open{opacity:1;pointer-events:all;}
+.panel{width:480px;max-width:100vw;height:100vh;background:#fff;box-shadow:-12px 0 50px rgba(0,0,0,.18);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);}
+.panel-overlay.open .panel{transform:translateX(0);}
+.panel-hd{padding:16px 22px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;background:#f8fafc;flex-shrink:0;}
+.panel-title{font-size:13px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
+.xbtn{width:31px;height:31px;background:#f1f5f9;border:none;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748b;}
+.xbtn:hover{background:#fef2f2;color:#ef4444;}
+.xbtn .material-icons-round{font-size:16px;}
+.pscroll{flex:1;overflow-y:auto;padding:20px;}
+.fl{font-size:8px;font-weight:700;text-transform:uppercase;color:#64748b;letter-spacing:.07em;display:block;margin-bottom:5px;}
+.finp,.fsel2{width:100%;padding:10px 13px;border-radius:10px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;color:#1e293b;background:#f8fafc;outline:none;transition:all .15s;}
+.finp:focus,.fsel2:focus{border-color:#f59e0b;background:#fff;box-shadow:0 0 0 3px rgba(245,158,11,.08);}
+.fsel2{cursor:pointer;}
+.fg{margin-bottom:13px;}
+.fg2{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+.doc-fields{display:flex;flex-direction:column;gap:10px;background:#f8fafc;border-radius:12px;padding:14px;margin-bottom:14px;}
+.df-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:end;}
+.df-label{font-size:9px;font-weight:700;text-transform:uppercase;color:#64748b;letter-spacing:.07em;margin-bottom:4px;display:flex;align-items:center;gap:5px;}
+.df-label .material-icons-round{font-size:13px;}
+.sec-label{font-size:8.5px;font-weight:800;text-transform:uppercase;color:#94a3b8;letter-spacing:.1em;padding-left:8px;border-left:3px solid #e2e8f0;margin:16px 0 10px;}
+.save-btn{width:100%;padding:12px;border-radius:12px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 18px rgba(245,158,11,.35);}
+.save-btn:hover{transform:translateY(-1px);}
+
+/* Toast */
+.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;max-width:340px;box-shadow:0 8px 24px rgba(0,0,0,.2);}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{background:#065f46;border-left:4px solid #6ee7b7;}
+.toast.warning{background:#78350f;border-left:4px solid #fcd34d;}
+.toast .material-icons-round{font-size:16px;}
+
+@media(max-width:1100px){.stat-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:768px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.sidebar-overlay.open{display:block;}.main{margin-left:0!important;}.menu-btn{display:flex!important;}.topbar,.scroll{padding:11px 14px;}.stat-grid{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body onload="init()">
+<div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="logo-area"><img src="logo.png" alt="KIDV Tech"></div>
+  <nav class="nav">
+    <div class="nav-sec">Main</div>
+    <a href="index.html"><span class="ic ic-main"><span class="material-icons-round">dashboard</span></span>Dashboard</a>
+    <a href="employees.html"><span class="ic ic-main"><span class="material-icons-round">badge</span></span>Employees</a>
+    <div class="nav-sec">HR</div>
+    <a href="leave-management.html"><span class="ic ic-hr"><span class="material-icons-round">event_available</span></span>Leave</a>
+    <a href="shifts.html"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
+    <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
+    <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
+    <a href="hr-letters.html"><span class="ic ic-hr"><span class="material-icons-round">mail</span></span>HR Letters</a>
+    <a href="celebrations.html"><span class="ic ic-cel"><span class="material-icons-round">celebration</span></span>Celebrations</a>
+    <a href="document-expiry.html"><span class="ic ic-doc"><span class="material-icons-round">assignment_late</span></span>Doc Expiry</a>
+    <a href="training-tracker.html"><span class="ic ic-trn"><span class="material-icons-round">school</span></span>Training</a>
+    <div class="nav-sec">Operations</div>
+    <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
+    <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
+    <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
+    <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
+    <a href="analytics.html"><span class="ic ic-ops"><span class="material-icons-round">insights</span></span>Analytics</a>
+    <div class="nav-sec">Finance</div>
+    <a href="loan-management.html"><span class="ic ic-fin"><span class="material-icons-round">account_balance_wallet</span></span>Loans &amp; Advances</a>
+    <div class="nav-sec">Recruitment</div>
+    <a href="job-openings.html"><span class="ic ic-int"><span class="material-icons-round">work</span></span>Job Openings</a>
+    <div class="nav-sec">Self-Service</div>
+    <a href="ess-login.html"><span class="ic ic-int"><span class="material-icons-round">person_pin</span></span>Employee Portal</a>
+    <div class="nav-sec">Integration</div>
+    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">device_hub</span></span>Device Manager</a>
+    <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
+    <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
+    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">shield</span></span>Roles &amp; Perms</a>
+  </nav>
+  <div class="nav-bottom">
+    <div class="user-info"><div class="user-av" id="sideAvatar">SA</div><div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Administrator</div></div></div>
+    <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="menu-btn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
+      <div><div class="page-title">Document Expiry</div><div class="page-sub" id="pageSubTxt">Passport · Visa · Driving Licence · Medical Cert</div></div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-ghost" onclick="exportCSV()"><span class="material-icons-round">download</span>Export</button>
+      <button class="btn btn-red" onclick="openPanel()"><span class="material-icons-round">add</span>Add Document</button>
+    </div>
+  </div>
+
+  <div class="scroll">
+    <!-- Stats -->
+    <div class="stat-grid">
+      <div class="sc sc-exp" style="animation-delay:.05s"><div class="sc-icon">🚨</div><div class="sc-label">Expired</div><div class="sc-val" id="st-exp">0</div><div class="sc-sub">Action needed!</div></div>
+      <div class="sc sc-soon" style="animation-delay:.1s"><div class="sc-icon">⚠️</div><div class="sc-label">Critical (≤30d)</div><div class="sc-val" id="st-crit">0</div><div class="sc-sub">Renew urgently</div></div>
+      <div class="sc sc-warn" style="animation-delay:.15s"><div class="sc-icon">📋</div><div class="sc-label">Warning (≤90d)</div><div class="sc-val" id="st-warn">0</div><div class="sc-sub">Plan renewal</div></div>
+      <div class="sc sc-ok" style="animation-delay:.2s"><div class="sc-icon">✅</div><div class="sc-label">Valid</div><div class="sc-val" id="st-ok">0</div><div class="sc-sub">All good</div></div>
+      <div class="sc sc-miss" style="animation-delay:.25s"><div class="sc-icon">📭</div><div class="sc-label">Missing</div><div class="sc-val" id="st-miss">0</div><div class="sc-sub">Not provided</div></div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-row">
+      <div class="search-box"><span class="material-icons-round">search</span><input type="text" id="srch" placeholder="Search employee..." oninput="render()"></div>
+      <select class="fsel" id="fStatus" onchange="render()"><option value="">All Status</option><option value="expired">Expired</option><option value="critical">Critical (≤30d)</option><option value="warning">Warning (≤90d)</option><option value="ok">Valid</option><option value="missing">Missing</option></select>
+      <select class="fsel" id="fDocType" onchange="render()"><option value="">All Documents</option><option value="passport">Passport</option><option value="visa">Visa</option><option value="driving">Driving Licence</option><option value="medical">Medical Certificate</option><option value="contract">Contract</option><option value="other">Other</option></select>
+      <select class="fsel" id="fDept" onchange="render()"><option value="">All Departments</option></select>
+    </div>
+
+    <div id="mainList"></div>
+  </div>
+</div>
+</div>
+
+<!-- ADD PANEL -->
+<div id="docPanel" class="panel-overlay" onclick="if(event.target===this)closePanel()">
+  <div class="panel">
+    <div class="panel-hd"><div class="panel-title" id="panelTitle">Add Document</div><button class="xbtn" onclick="closePanel()"><span class="material-icons-round">close</span></button></div>
+    <div class="pscroll">
+      <input type="hidden" id="editDocId">
+      <div class="fg"><label class="fl">Employee *</label><select class="fsel2" id="f_emp"><option value="">-- Select Employee --</option></select></div>
+      <div class="fg2">
+        <div class="fg"><label class="fl">Document Type *</label>
+          <select class="fsel2" id="f_dtype">
+            <option value="passport">Passport</option><option value="visa">Visa</option>
+            <option value="driving">Driving Licence</option><option value="medical">Medical Certificate</option>
+            <option value="contract">Employment Contract</option><option value="other">Other</option>
+          </select>
+        </div>
+        <div class="fg"><label class="fl">Document Number</label><input type="text" class="finp" id="f_dnum" placeholder="e.g. P1234567"></div>
+      </div>
+      <div class="fg2">
+        <div class="fg"><label class="fl">Issue Date</label><input type="date" class="finp" id="f_issue"></div>
+        <div class="fg"><label class="fl">Expiry Date *</label><input type="date" class="finp" id="f_expiry"></div>
+      </div>
+      <div class="fg"><label class="fl">Issuing Authority</label><input type="text" class="finp" id="f_auth" placeholder="e.g. Passport Office, Ahmedabad"></div>
+      <div class="fg"><label class="fl">Remarks</label><input type="text" class="finp" id="f_remarks" placeholder="Optional notes..."></div>
+      <button class="save-btn" onclick="saveDoc()"><span class="material-icons-round">save</span>Save Document</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="material-icons-round" id="toastIcon">check_circle</span><span id="toastMsg"></span></div>
+
+<script>
+const GRADS=['linear-gradient(135deg,#2563eb,#06b6d4)','linear-gradient(135deg,#8b5cf6,#ec4899)','linear-gradient(135deg,#10b981,#06b6d4)','linear-gradient(135deg,#f59e0b,#ef4444)','linear-gradient(135deg,#6366f1,#8b5cf6)'];
+const DOC_LABELS={passport:'🛂 Passport',visa:'✈️ Visa',driving:'🚗 Driving Licence',medical:'🏥 Medical Cert',contract:'📄 Contract',other:'📁 Other'};
+let docs=[], employees=[];
+
+function init(){
+  loadUserInfo();
+  employees=JSON.parse(localStorage.getItem('employees')||'[]');
+  docs=JSON.parse(localStorage.getItem('kidv_docs')||'[]');
+  if(!docs.length) loadDemo();
+  populateFilters();
+  render();
+  updateStats();
+}
+
+function loadUserInfo(){
+  const u=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+  if(u.name){const p=u.name.trim().split(' ');document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();document.getElementById('sideName').textContent=u.name;document.getElementById('sideRole').textContent=u.role||'Staff';}
+  const r=(u.role||'').toLowerCase();
+  if(r==='super admin'||r==='admin'){document.getElementById('adminNav').style.display='';document.getElementById('usersLink').style.display='';document.getElementById('rolesLink').style.display='';}
+}
+(function(){
+  const page=window.location.pathname.split('/').pop()||'index.html';
+  document.querySelectorAll('.nav a').forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')===page)a.classList.add('active');});
+})();
+function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');}
+
+function loadDemo(){
+  const today=new Date();
+  const addDays=(d)=>{const x=new Date(today);x.setDate(x.getDate()+d);return x.toISOString().split('T')[0];};
+  docs=[
+    {id:1,empIdx:0,dtype:'passport',dnum:'P1234567',issue:'2020-01-15',expiry:addDays(-30),auth:'Passport Office',remarks:'',empName:'',dept:''},
+    {id:2,empIdx:0,dtype:'visa',dnum:'V987654',issue:'2023-01-01',expiry:addDays(15),auth:'Embassy',remarks:'',empName:'',dept:''},
+    {id:3,empIdx:1,dtype:'driving',dnum:'GJ05 2019 001234',issue:'2019-06-10',expiry:addDays(45),auth:'RTO Ahmedabad',remarks:'',empName:'',dept:''},
+    {id:4,empIdx:2,dtype:'medical',dnum:'MC-2024-567',issue:'2024-01-01',expiry:addDays(85),auth:'City Hospital',remarks:'Annual checkup',empName:'',dept:''},
+    {id:5,empIdx:3,dtype:'contract',dnum:'CONTRACT-2021-003',issue:'2021-06-01',expiry:addDays(200),auth:'KIDV HR',remarks:'',empName:'',dept:''},
+  ];
+  docs.forEach(d=>{const e=employees[d.empIdx]||{};d.empName=`${e.fName||'Employee'} ${e.lName||''}`.trim();d.dept=e.dept||'—';});
+  saveData();
+}
+function saveData(){localStorage.setItem('kidv_docs',JSON.stringify(docs));}
+
+function populateFilters(){
+  const depts=[...new Set(employees.map(e=>e.dept||'Unknown'))].filter(Boolean);
+  document.getElementById('fDept').innerHTML='<option value="">All Departments</option>'+depts.map(d=>`<option value="${d}">${d}</option>`).join('');
+  document.getElementById('f_emp').innerHTML='<option value="">-- Select Employee --</option>'+employees.map((e,i)=>`<option value="${i}">${e.fName} ${e.lName} (${e.dept||'—'})</option>`).join('');
+}
+
+function getStatus(expiryStr){
+  if(!expiryStr) return 'missing';
+  const today=new Date(); today.setHours(0,0,0,0);
+  const exp=new Date(expiryStr); exp.setHours(0,0,0,0);
+  const diff=Math.ceil((exp-today)/(1000*60*60*24));
+  if(diff<0) return 'expired';
+  if(diff<=30) return 'critical';
+  if(diff<=90) return 'warning';
+  return 'ok';
+}
+function getDaysLeft(expiryStr){
+  if(!expiryStr) return null;
+  const today=new Date(); today.setHours(0,0,0,0);
+  const exp=new Date(expiryStr); exp.setHours(0,0,0,0);
+  return Math.ceil((exp-today)/(1000*60*60*24));
+}
+function fmtDate(v){if(!v)return'—';try{return new Date(v).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});}catch{return v;}}
+function statusChipClass(st){return{expired:'chip-expired',critical:'chip-critical',warning:'chip-warning',ok:'chip-ok',missing:'chip-missing'}[st];}
+function badgeClass(st){return{expired:'badge-expired',critical:'badge-critical',warning:'badge-warning',ok:'badge-ok',missing:'badge-missing'}[st];}
+function statusLabel(st,days){
+  if(st==='expired') return `Expired ${Math.abs(days)}d ago`;
+  if(st==='critical') return `${days}d left!`;
+  if(st==='warning') return `${days}d left`;
+  if(st==='ok') return `Valid · ${days}d`;
+  return 'Missing';
+}
+
+function updateStats(){
+  let exp=0,crit=0,warn=0,ok=0,miss=0;
+  docs.forEach(d=>{const st=getStatus(d.expiry);if(st==='expired')exp++;else if(st==='critical')crit++;else if(st==='warning')warn++;else if(st==='ok')ok++;else miss++;});
+  document.getElementById('st-exp').textContent=exp;
+  document.getElementById('st-crit').textContent=crit;
+  document.getElementById('st-warn').textContent=warn;
+  document.getElementById('st-ok').textContent=ok;
+  document.getElementById('st-miss').textContent=miss;
+  const urgent=exp+crit;
+  document.getElementById('pageSubTxt').textContent=urgent>0?`🚨 ${urgent} document${urgent>1?'s':''} need immediate attention!`:`${docs.length} documents tracked · All good`;
+}
+
+function render(){
+  const q=(document.getElementById('srch').value||'').toLowerCase();
+  const fStatus=document.getElementById('fStatus').value;
+  const fType=document.getElementById('fDocType').value;
+  const fDept=document.getElementById('fDept').value;
+
+  // Group docs by employee
+  const empMap={};
+  docs.forEach(d=>{
+    const st=getStatus(d.expiry);
+    const days=getDaysLeft(d.expiry);
+    if(q&&!(d.empName||'').toLowerCase().includes(q)&&!(d.dnum||'').toLowerCase().includes(q)) return;
+    if(fStatus&&st!==fStatus) return;
+    if(fType&&d.dtype!==fType) return;
+    if(fDept&&d.dept!==fDept) return;
+    const key=d.empIdx;
+    if(!empMap[key]) empMap[key]={empIdx:d.empIdx,empName:d.empName,dept:d.dept,docs:[]};
+    empMap[key].docs.push({...d,status:st,days});
+  });
+
+  const sections={expired:[],critical:[],warning:[],ok:[],missing:[]};
+  Object.values(empMap).forEach(emp=>{
+    const worstOrder=['expired','critical','warning','missing','ok'];
+    const worstStatus=worstOrder.find(s=>emp.docs.some(d=>d.status===s))||'ok';
+    sections[worstStatus].push({...emp,worstStatus});
+  });
+
+  const list=document.getElementById('mainList');
+  const secConfigs=[
+    {key:'expired',label:'🚨 Expired Documents',cls:'expired'},
+    {key:'critical',label:'⚠️ Critical — Expiring in 30 Days',cls:'critical'},
+    {key:'warning',label:'📋 Warning — Expiring in 90 Days',cls:'warning'},
+    {key:'ok',label:'✅ Valid Documents',cls:'ok'},
+    {key:'missing',label:'📭 Missing Documents',cls:'missing'},
+  ];
+
+  let html='';
+  let totalShown=0;
+
+  secConfigs.forEach(sec=>{
+    const items=sections[sec.key];
+    if(!items.length) return;
+    totalShown+=items.length;
+    html+=`<div class="sec-hdr"><span>${sec.label}</span><span class="sec-count">${items.length}</span></div>`;
+    items.forEach((emp,ei)=>{
+      const grad=GRADS[(emp.empIdx||ei)%GRADS.length];
+      const init=(emp.empName||'').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+      const docChips=emp.docs.map(d=>`<span class="doc-chip ${statusChipClass(d.status)}"><span class="material-icons-round">${d.status==='expired'?'cancel':d.status==='critical'?'warning':d.status==='ok'?'check_circle':'info'}</span>${DOC_LABELS[d.dtype]||d.dtype} · ${statusLabel(d.status,d.days)}</span>`).join('');
+      html+=`<div class="doc-card" style="animation-delay:${ei*0.06}s;">
+        <div class="dc-top">
+          <div class="dc-av" style="background:${grad};">${init}</div>
+          <div>
+            <div class="dc-name">${emp.empName}</div>
+            <div class="dc-meta">${emp.dept}</div>
+            <div class="dc-docs">${docChips}</div>
+          </div>
+          <div class="dc-right">
+            <span class="dc-worst-badge ${badgeClass(emp.worstStatus)}">${emp.worstStatus.toUpperCase()}</span>
+            <div style="margin-top:6px;display:flex;gap:4px;justify-content:flex-end;">
+              <button onclick="editEmpDocs(${emp.empIdx})" style="padding:5px 10px;border-radius:7px;border:1px solid #e2e8f0;background:#f8fafc;font-size:9px;font-weight:700;text-transform:uppercase;cursor:pointer;color:#475569;" title="Add/Edit">
+                <span class="material-icons-round" style="font-size:12px;vertical-align:middle;">edit</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    });
+  });
+
+  if(!totalShown) html=`<div class="empty-state"><span class="material-icons-round">description</span><div style="font-size:13px;font-weight:700;text-transform:uppercase;margin-bottom:6px;">No Documents Found</div><div style="font-size:11px;opacity:.7;">Add documents using the button above</div></div>`;
+  list.innerHTML=html;
+}
+
+function openPanel(){
+  document.getElementById('editDocId').value='';
+  document.getElementById('f_emp').value='';
+  ['f_dnum','f_issue','f_expiry','f_auth','f_remarks'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f_dtype').value='passport';
+  document.getElementById('panelTitle').textContent='Add Document';
+  document.getElementById('docPanel').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closePanel(){document.getElementById('docPanel').classList.remove('open');document.body.style.overflow='';}
+
+function editEmpDocs(empIdx){
+  document.getElementById('f_emp').value=empIdx;
+  openPanel();
+  document.getElementById('panelTitle').textContent='Add/Update Document';
+}
+
+function saveDoc(){
+  const empIdx=document.getElementById('f_emp').value;
+  const expiry=document.getElementById('f_expiry').value;
+  if(empIdx===''){showToast('Please select an employee','warning');return;}
+  if(!expiry){showToast('Please enter expiry date','warning');return;}
+  const e=employees[empIdx]||{};
+  const obj={
+    id:Date.now(),empIdx:parseInt(empIdx),
+    empName:`${e.fName||'Employee'} ${e.lName||''}`.trim(),
+    dept:e.dept||'—',
+    dtype:document.getElementById('f_dtype').value,
+    dnum:document.getElementById('f_dnum').value.trim(),
+    issue:document.getElementById('f_issue').value,
+    expiry,
+    auth:document.getElementById('f_auth').value.trim(),
+    remarks:document.getElementById('f_remarks').value.trim(),
+  };
+  docs.unshift(obj);
+  saveData();closePanel();render();updateStats();
+  showToast('Document saved!','success');
+}
+
+function exportCSV(){
+  const rows=[['Employee','Dept','Doc Type','Doc Number','Issue Date','Expiry Date','Days Left','Status','Authority']];
+  docs.forEach(d=>{const st=getStatus(d.expiry);const days=getDaysLeft(d.expiry);rows.push([d.empName,d.dept,DOC_LABELS[d.dtype]||d.dtype,d.dnum,d.issue,d.expiry,days===null?'N/A':days,st,d.auth]);});
+  const csv=rows.map(r=>r.map(c=>`"${c||''}"`).join(',')).join('\n');
+  const el=document.createElement('a');el.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);el.download='Document_Expiry_Report.csv';el.click();
+  showToast('Exported!','success');
+}
+
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');t.className='toast '+type;
+  document.getElementById('toastIcon').textContent=type==='success'?'check_circle':'warning';
+  document.getElementById('toastMsg').textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3200);
+}
+</script>
+</body>
+</html>
