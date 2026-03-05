@@ -4,7 +4,7 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>KIDV Tech | Device Manager</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round&display=block" rel="stylesheet">
 <script>if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}</script>
 <style>
 :root{--navy:#07101f;--blue:#2563eb;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--purple:#8b5cf6;--amber:#f59e0b;--orange:#f97316;--text-m:rgba(148,163,184,.65);--text-d:rgba(148,163,184,.32);--border-b:rgba(255,255,255,.11);--glass:rgba(255,255,255,.04);--sidebar-w:260px;}
@@ -12,7 +12,7 @@
 html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflow:hidden;}
 .app{display:flex;height:100vh;}
 
-/* SIDEBAR */
+/* ── SIDEBAR ── */
 .sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden;border-right:1px solid rgba(255,255,255,.05);box-shadow:8px 0 40px rgba(0,0,0,.35);}
 .sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 65%);pointer-events:none;z-index:0;}
 .sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09) 0%,transparent 65%);pointer-events:none;z-index:0;}
@@ -32,8 +32,12 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
 .ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
 .ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
-.ic-int{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
-.ic-adm{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
+.ic-int{background:rgba(6,182,212,.22);color:#22d3ee;border:1px solid rgba(6,182,212,.3);}
+.ic-fin{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-cel{background:rgba(236,72,153,.22);color:#f472b6;border:1px solid rgba(236,72,153,.3);}
+.ic-doc{background:rgba(245,158,11,.22);color:#fbbf24;border:1px solid rgba(245,158,11,.3);}
+.ic-trn{background:rgba(139,92,246,.22);color:#a78bfa;border:1px solid rgba(139,92,246,.3);}
+.ic-adm{background:rgba(239,68,68,.2);color:#fca5a5;border:1px solid rgba(239,68,68,.25);}
 .nav a.active .ic{transform:scale(1.08);box-shadow:0 0 14px rgba(37,99,235,.4);}
 .nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
 .user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--glass);margin-bottom:8px;border:1px solid var(--border-b);}
@@ -44,7 +48,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;}
 .logout-btn .material-icons-round{font-size:14px;}
 
-/* MAIN */
+/* ── MAIN ── */
 .main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:var(--sidebar-w);}
 .topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:11px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,.05);}
 .topbar-left{display:flex;align-items:center;gap:12px;}
@@ -53,7 +57,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .page-title{font-size:15px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
 .page-sub{font-size:9px;color:#94a3b8;font-weight:500;margin-top:2px;letter-spacing:.05em;text-transform:uppercase;}
 
-/* TABS */
+/* ── TABS ── */
 .tab-bar{background:#fff;border-bottom:1px solid #e8edf5;padding:0 24px;display:flex;gap:0;overflow-x:auto;flex-shrink:0;box-shadow:0 1px 4px rgba(0,0,0,.03);}
 .tab-bar::-webkit-scrollbar{height:3px;}.tab-bar::-webkit-scrollbar-thumb{background:#e2e8f0;}
 .tab-btn{display:flex;align-items:center;gap:7px;padding:13px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#94a3b8;border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;transition:all .18s;white-space:nowrap;font-family:'Outfit',sans-serif;}
@@ -61,7 +65,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .tab-btn.active{color:#2563eb;border-bottom-color:#2563eb;}
 .tab-btn .material-icons-round{font-size:15px;}
 
-/* BTNS */
+/* ── BUTTONS ── */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.06em;font-family:'Outfit',sans-serif;white-space:nowrap;}
 .btn-blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.3);}
 .btn-blue:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,.44);}
@@ -75,20 +79,20 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .btn-sm{padding:6px 12px;font-size:10px;border-radius:8px;}
 .btn .material-icons-round{font-size:14px;}
 
-/* SCROLL */
+/* ── SCROLL ── */
 .scroll{flex:1;overflow-y:auto;padding:18px 24px;}
 .scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
 
-/* PANES */
+/* ── PANES ── */
 .tab-pane{display:none;animation:fadeIn .2s ease;}.tab-pane.active{display:block;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
 
-/* CARDS */
+/* ── CARDS ── */
 .card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
 .card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
 .card-title{font-size:12px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.08em;}
 
-/* STAT BOXES */
+/* ── STAT BOXES ── */
 .g4{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .stat-box{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:16px 18px;position:relative;overflow:hidden;transition:all .18s;box-shadow:0 1px 3px rgba(0,0,0,.04);}
@@ -110,7 +114,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .stat-val{font-size:24px;font-weight:900;color:#0f172a;margin-top:3px;font-family:'JetBrains Mono',monospace;}
 .stat-sub{font-size:9px;color:#94a3b8;font-weight:500;margin-top:3px;}
 
-/* TABLE */
+/* ── TABLE ── */
 .tbl-wrap{border-radius:12px;overflow:hidden;border:1px solid #ecf0f6;overflow-x:auto;}
 .tbl-wrap::-webkit-scrollbar{height:4px;}.tbl-wrap::-webkit-scrollbar-thumb{background:#e2e8f0;border-radius:10px;}
 table.dtbl{width:100%;border-collapse:collapse;font-size:11px;min-width:600px;}
@@ -120,7 +124,7 @@ table.dtbl tbody tr:hover{background:#fafbfc;}
 table.dtbl tbody tr:last-child{border-bottom:none;}
 table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercase;vertical-align:middle;}
 
-/* BADGES */
+/* ── BADGES ── */
 .badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;}
 .badge-blue{background:#eff6ff;color:#2563eb;}
 .badge-green{background:#dcfce7;color:#15803d;}
@@ -130,26 +134,26 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
 .badge-purple{background:#ede9fe;color:#6d28d9;}
 .badge-yellow{background:#fefce8;color:#a16207;}
 
-/* STEP CARDS */
+/* ── STEP CARDS ── */
 .step{display:flex;gap:12px;align-items:flex-start;padding:12px 16px;border-radius:12px;background:#f8fafc;border:1px solid #ecf0f6;margin-bottom:8px;transition:all .15s;}
 .step:hover{border-color:#bfdbfe;background:#f0f7ff;}
 .step-num{width:26px;height:26px;border-radius:99px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;box-shadow:0 3px 8px rgba(37,99,235,.3);}
 .step-text{font-size:11px;color:#475569;font-weight:600;line-height:1.6;}
 .step-text strong{color:#0f172a;font-weight:800;}
 
-/* DROP ZONE */
+/* ── DROP ZONE ── */
 .drop-zone{border:2px dashed #cbd5e1;border-radius:14px;padding:40px 24px;text-align:center;transition:all .2s;cursor:pointer;background:#fafbfc;}
 .drop-zone:hover,.drop-zone.drag-over{border-color:#2563eb;background:#eff6ff;}
 .dz-icon{font-size:48px;color:#cbd5e1;display:block;margin-bottom:12px;transition:all .2s;}
 .drop-zone:hover .dz-icon,.drop-zone.drag-over .dz-icon{color:#2563eb;}
 
-/* COL SETTINGS */
+/* ── COL SETTINGS ── */
 .col-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;}
 .form-label{font-size:8.5px;font-weight:700;text-transform:uppercase;color:#64748b;letter-spacing:.08em;margin-bottom:5px;display:block;}
 .form-inp{width:100%;padding:8px 12px;border-radius:9px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:11.5px;font-weight:600;color:#1e293b;background:#f8fafc;transition:all .15s;}
 .form-inp:focus{outline:none;border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
 
-/* DB PANEL */
+/* ── DB PANEL ── */
 .db-panel{background:linear-gradient(135deg,#07101f,#0f2044);border-radius:16px;padding:20px 22px;margin-bottom:16px;border:1px solid rgba(37,99,235,.3);box-shadow:0 8px 32px rgba(0,0,0,.25);}
 .db-input{width:100%;padding:9px 12px;border-radius:9px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;outline:none;transition:all .15s;}
 .db-input:focus{border-color:rgba(37,99,235,.6);background:rgba(255,255,255,.12);}
@@ -157,17 +161,17 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
 .db-label{font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;font-weight:700;margin-bottom:5px;letter-spacing:.08em;display:block;}
 .db-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;}
 
-/* SUCCESS BANNER */
+/* ── SUCCESS BANNER ── */
 .success-banner{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #bbf7d0;border-radius:14px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
 
-/* TOAST */
+/* ── TOAST ── */
 .toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.2);}
 .toast.show{transform:translateY(0);opacity:1;}
 .toast.success{background:#065f46;border-left:4px solid #6ee7b7;}
 .toast.error{background:#7f1d1d;border-left:4px solid #fca5a5;}
 .toast .material-icons-round{font-size:16px;}
 
-/* RESPONSIVE */
+/* ── RESPONSIVE ── */
 @media(max-width:1100px){.g4{grid-template-columns:repeat(3,1fr);}.col-grid{grid-template-columns:1fr 1fr;}.db-grid{grid-template-columns:1fr 1fr;}}
 @media(max-width:768px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.sidebar-overlay.open{display:block;}.main{margin-left:0!important;}.menu-btn{display:flex!important;}.topbar,.scroll{padding:11px 14px;}.g4{grid-template-columns:1fr 1fr;}.g2{grid-template-columns:1fr;}.col-grid{grid-template-columns:1fr 1fr;}.db-grid{grid-template-columns:1fr;}}
 @media(max-width:480px){.g4{grid-template-columns:1fr 1fr;}.col-grid{grid-template-columns:1fr;}}
@@ -189,19 +193,27 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
     <a href="shifts.html"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
     <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
     <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
+    <a href="hr-letters.html"><span class="ic ic-hr"><span class="material-icons-round">mail</span></span>HR Letters</a>
+    <a href="celebrations.html"><span class="ic ic-cel"><span class="material-icons-round">auto_awesome</span></span>Celebrations</a>
+    <a href="document-expiry.html"><span class="ic ic-doc"><span class="material-icons-round">event_busy</span></span>Doc Expiry</a>
+    <a href="training-tracker.html"><span class="ic ic-trn"><span class="material-icons-round">model_training</span></span>Training</a>
     <div class="nav-sec">Operations</div>
     <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
     <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
     <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
     <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
+    <a href="analytics.html"><span class="ic ic-ops"><span class="material-icons-round">insights</span></span>Analytics</a>
+    <div class="nav-sec">Finance</div>
+    <a href="loan-management.html"><span class="ic ic-fin"><span class="material-icons-round">account_balance_wallet</span></span>Loans &amp; Advances</a>
     <div class="nav-sec">Recruitment</div>
-    <a href="job-openings.html"><span class="ic ic-rec"><span class="material-icons-round">work</span></span>Job Openings</a>
-    <a href="hr-letters.html"><span class="ic ic-hr"><span class="material-icons-round">mail</span></span>HR Letters</a>
+    <a href="job-openings.html"><span class="ic ic-int"><span class="material-icons-round">work</span></span>Job Openings</a>
+    <div class="nav-sec">Self-Service</div>
+    <a href="ess-login.html"><span class="ic ic-int"><span class="material-icons-round">person_pin</span></span>Employee Portal</a>
     <div class="nav-sec">Integration</div>
-    <a href="device-manager.html" class="active"><span class="ic ic-int"><span class="material-icons-round">device_hub</span></span>Device Manager</a>
+    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">devices_other</span></span>Device Manager</a>
     <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
     <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
-    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">shield</span></span>Roles &amp; Perms</a>
+    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">admin_panel_settings</span></span>Roles &amp; Perms</a>
   </nav>
   <div class="nav-bottom">
     <div class="user-info"><div class="user-av" id="sideAvatar">SA</div><div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Administrator</div></div></div>
@@ -234,10 +246,9 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
 
   <div class="scroll">
 
-    <!-- ══════════ TAB: CSV IMPORT ══════════ -->
+    <!-- ══ TAB: CSV IMPORT ══ -->
     <div class="tab-pane active" id="pane-csv">
 
-      <!-- Stats -->
       <div class="g4" style="margin-bottom:16px;" id="statsSection" style="display:none;">
         <div class="stat-box sb-green"><div class="stat-icon si-green"><span class="material-icons-round">check_circle</span></div><div class="stat-lbl">Matched</div><div class="stat-val" id="stMatched">0</div><div class="stat-sub">Records found</div></div>
         <div class="stat-box sb-red"><div class="stat-icon si-red"><span class="material-icons-round">cancel</span></div><div class="stat-lbl">Unmatched</div><div class="stat-val" id="stUnmatched">0</div><div class="stat-sub">Device code missing</div></div>
@@ -246,7 +257,6 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
         <div class="stat-box sb-purple"><div class="stat-icon si-purple"><span class="material-icons-round">people</span></div><div class="stat-lbl">Employees</div><div class="stat-val" id="stEmps">0</div><div class="stat-sub">Unique codes</div></div>
       </div>
 
-      <!-- Steps Guide -->
       <div class="card">
         <div class="card-hd">
           <div style="display:flex;align-items:center;gap:8px;">
@@ -261,7 +271,6 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
         <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Device Code</strong> ↔ <strong>Employee deviceCode</strong> match na thay to "Unmatched" list show thashe. Employees page ma deviceCode set karo.</div></div>
       </div>
 
-      <!-- Upload -->
       <div class="card">
         <div class="card-hd">
           <div style="display:flex;align-items:center;gap:8px;">
@@ -270,7 +279,6 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
           </div>
         </div>
 
-        <!-- Column Settings -->
         <div style="background:#f8fafc;border-radius:12px;padding:14px 16px;margin-bottom:16px;border:1px solid #ecf0f6;">
           <div style="font-size:10px;font-weight:800;color:#475569;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;">📋 CSV Column Names (Match your file)</div>
           <div class="col-grid">
@@ -289,7 +297,6 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
         </div>
       </div>
 
-      <!-- Preview -->
       <div id="previewSection" style="display:none;">
         <div class="card">
           <div class="card-hd">
@@ -312,7 +319,6 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
           </div>
         </div>
 
-        <!-- Unmatched Warning -->
         <div id="unmatchedSection" style="display:none;background:#fef2f2;border-radius:14px;padding:16px 20px;border:1.5px solid #fecaca;margin-bottom:16px;">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
             <span class="material-icons-round" style="color:#ef4444;font-size:18px;">warning</span>
@@ -328,7 +334,6 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
         </div>
       </div>
 
-      <!-- Success Banner -->
       <div id="successBanner" style="display:none;" class="success-banner">
         <span class="material-icons-round" style="font-size:30px;color:#10b981;">check_circle</span>
         <div style="flex:1;">
@@ -337,10 +342,9 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
         </div>
         <a href="attendance.html" class="btn btn-green"><span class="material-icons-round">calendar_month</span>View Attendance</a>
       </div>
-
     </div>
 
-    <!-- ══════════ TAB: DATABASE CONNECT ══════════ -->
+    <!-- ══ TAB: DATABASE CONNECT ══ -->
     <div class="tab-pane" id="pane-db">
       <div class="db-panel">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;">
@@ -354,7 +358,6 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
           <span id="dbStatus" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.35);padding:5px 14px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;color:#fca5a5;letter-spacing:.05em;">Disconnected</span>
         </div>
 
-        <!-- Setup Info -->
         <div style="background:rgba(0,0,0,.25);border-radius:12px;padding:14px 18px;margin-bottom:18px;border:1px solid rgba(255,255,255,.06);">
           <div style="font-size:9px;font-weight:800;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:10px;letter-spacing:.1em;">⚙ One-Time Setup</div>
           <div style="font-size:11px;color:rgba(255,255,255,.65);font-weight:600;line-height:2.1;">
@@ -371,9 +374,7 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
         </div>
 
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button onclick="testDBConnection()" class="btn" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2);">
-            <span class="material-icons-round">wifi</span>Test Connection
-          </button>
+          <button onclick="testDBConnection()" class="btn" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2);"><span class="material-icons-round">wifi</span>Test Connection</button>
           <button onclick="fetchFromDB(false)" id="btnFetchDB" class="btn btn-green" style="display:none;"><span class="material-icons-round">download</span>Fetch by Date</button>
           <button onclick="fetchFromDB(true)" id="btnFetchAll" class="btn" style="display:none;background:rgba(251,191,36,.2);color:#fbbf24;border:1px solid rgba(251,191,36,.35);"><span class="material-icons-round">download_for_offline</span>Fetch All</button>
           <button onclick="showDBTables()" id="btnTables" class="btn" style="display:none;background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.15);"><span class="material-icons-round">table_chart</span>Tables</button>
@@ -381,11 +382,10 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
           <button onclick="diagnoseTable()" id="btnDiag" class="btn" style="display:none;background:rgba(251,191,36,.18);color:#fbbf24;border:1px solid rgba(251,191,36,.3);"><span class="material-icons-round">bug_report</span>Diagnose</button>
         </div>
       </div>
-
       <div id="dbResultSection"></div>
     </div>
 
-    <!-- ══════════ TAB: DEVICE CODE MAPPING ══════════ -->
+    <!-- ══ TAB: DEVICE CODE MAPPING ══ -->
     <div class="tab-pane" id="pane-map">
       <div class="card">
         <div class="card-hd">
@@ -399,7 +399,6 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
           </div>
         </div>
 
-        <!-- Status summary -->
         <div class="g2" style="margin-bottom:16px;">
           <div style="background:#f0fdf4;border-radius:12px;padding:14px 18px;border:1.5px solid #bbf7d0;display:flex;align-items:center;gap:12px;">
             <div style="width:36px;height:36px;background:#10b981;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span class="material-icons-round" style="color:#fff;font-size:18px;">check_circle</span></div>
@@ -430,6 +429,11 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
 let parsedRows=[], employees=[];
 const AV_COLORS=['linear-gradient(135deg,#2563eb,#06b6d4)','linear-gradient(135deg,#8b5cf6,#ec4899)','linear-gradient(135deg,#10b981,#06b6d4)','linear-gradient(135deg,#f59e0b,#ef4444)','linear-gradient(135deg,#6366f1,#8b5cf6)','linear-gradient(135deg,#0891b2,#10b981)'];
 
+(function(){
+  const page=window.location.pathname.split('/').pop()||'index.html';
+  document.querySelectorAll('.nav a').forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')===page)a.classList.add('active');});
+})();
+
 function init(){
   loadUserInfo();
   employees=JSON.parse(localStorage.getItem('employees')||'[]');
@@ -440,7 +444,6 @@ function init(){
   if(savedUrl)document.getElementById('dbBridgeUrl').value=savedUrl;
   if(savedTable)document.getElementById('dbTable').value=savedTable;
   if(localStorage.getItem('dbWasConnected')==='true'){switchTab('db');autoReconnect();}
-  // set today as defaults for date range
   const today=new Date().toISOString().split('T')[0];
   const d30=new Date();d30.setDate(d30.getDate()-30);
   document.getElementById('dbFrom').value=d30.toISOString().split('T')[0];
@@ -464,7 +467,6 @@ function switchTab(t){
   document.getElementById('pane-'+t).classList.add('active');
 }
 
-// ── EMP MAP ──
 function renderEmpMap(){
   const tbody=document.getElementById('empMapBody');
   const ready=employees.filter(e=>e.deviceCode&&e.deviceCode.trim()).length;
@@ -492,7 +494,6 @@ function renderEmpMap(){
   }).join('');
 }
 
-// ── DROP ZONE ──
 function setupDrop(){
   const dz=document.getElementById('dropZone');
   dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag-over');});
@@ -614,16 +615,12 @@ function clearImported(){
   document.getElementById('fileInput').value='';
 }
 
-// ── DB CONNECT ──
 async function autoReconnect(){
   const url=document.getElementById('dbBridgeUrl').value.trim();
   const st=document.getElementById('dbStatus');
   st.textContent='Reconnecting...';st.style.background='rgba(251,191,36,.2)';st.style.color='#fbbf24';st.style.borderColor='rgba(251,191,36,.35)';
-  try{
-    const res=await fetch(url+'/api/test',{signal:AbortSignal.timeout(4000)});
-    const d=await res.json();
-    if(d.success){setDBStatus(true);}else{setDBStatus(false);}
-  }catch(e){setDBStatus(false);}
+  try{const res=await fetch(url+'/api/test',{signal:AbortSignal.timeout(4000)});const d=await res.json();setDBStatus(d.success);}
+  catch(e){setDBStatus(false);}
 }
 function setDBStatus(connected){
   const st=document.getElementById('dbStatus');
@@ -639,11 +636,8 @@ async function testDBConnection(){
   st.textContent='Testing...';st.style.background='rgba(251,191,36,.2)';st.style.color='#fbbf24';
   try{
     const res=await fetch(url+'/api/test');const d=await res.json();
-    if(d.success){
-      setDBStatus(true);
-      localStorage.setItem('dbWasConnected','true');localStorage.setItem('dbBridgeUrl',url);localStorage.setItem('dbTable',document.getElementById('dbTable').value);
-      showToast('Connected! Diagnose button click karo.','success');
-    }else{setDBStatus(false);showToast('Connection failed: '+d.error,'error');}
+    if(d.success){setDBStatus(true);localStorage.setItem('dbWasConnected','true');localStorage.setItem('dbBridgeUrl',url);localStorage.setItem('dbTable',document.getElementById('dbTable').value);showToast('Connected! Diagnose button click karo.','success');}
+    else{setDBStatus(false);showToast('Connection failed: '+d.error,'error');}
   }catch(e){setDBStatus(false);showToast('Bridge server not running! node server.js\n'+e.message,'error');}
 }
 async function fetchFromDB(noDateFilter=false){
@@ -677,7 +671,8 @@ async function fetchFromDB(noDateFilter=false){
 }
 async function showDBTables(){
   const url=document.getElementById('dbBridgeUrl').value.trim();
-  try{const res=await fetch(url+'/api/tables');const d=await res.json();if(d.success)alert('📋 Available Tables:\n\n'+d.tables.join('\n'));}catch(e){showToast('Error: '+e.message,'error');}
+  try{const res=await fetch(url+'/api/tables');const d=await res.json();if(d.success)alert('📋 Available Tables:\n\n'+d.tables.join('\n'));}
+  catch(e){showToast('Error: '+e.message,'error');}
 }
 async function previewTable(){
   const url=document.getElementById('dbBridgeUrl').value.trim();
@@ -704,10 +699,7 @@ async function diagnoseTable(){
     const minD=d.dateRange?.min?new Date(d.dateRange.min).toLocaleDateString('en-IN'):'—';
     const maxD=d.dateRange?.max?new Date(d.dateRange.max).toLocaleDateString('en-IN'):'—';
     sec.innerHTML=`<div class="card">
-      <div class="card-hd">
-        <div class="card-title">🔍 Diagnose — ${tbl}</div>
-        <span class="badge ${d.totalRows>0?'badge-green':'badge-red'}">${d.totalRows>0?'Data Found':'Empty Table'}</span>
-      </div>
+      <div class="card-hd"><div class="card-title">🔍 Diagnose — ${tbl}</div><span class="badge ${d.totalRows>0?'badge-green':'badge-red'}">${d.totalRows>0?'Data Found':'Empty Table'}</span></div>
       <div class="g4" style="margin-bottom:16px;">
         <div class="stat-box sb-blue"><div class="stat-icon si-blue"><span class="material-icons-round">list_alt</span></div><div class="stat-lbl">Total Rows</div><div class="stat-val">${d.totalRows.toLocaleString()}</div></div>
         <div class="stat-box sb-green"><div class="stat-icon si-green"><span class="material-icons-round">event</span></div><div class="stat-lbl">Oldest Record</div><div class="stat-val" style="font-size:14px;">${minD}</div></div>
