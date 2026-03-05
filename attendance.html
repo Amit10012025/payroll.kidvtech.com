@@ -8,15 +8,17 @@
 <script>if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}</script>
 <style>
 :root{
-  --sidebar-w:260px;--navy:#07101f;
-  --blue:#2563eb;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--purple:#8b5cf6;--amber:#f59e0b;--orange:#f97316;
+  --navy:#07101f;--blue:#2563eb;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;
+  --purple:#8b5cf6;--amber:#f59e0b;--orange:#f97316;
   --text-m:rgba(148,163,184,.65);--text-d:rgba(148,163,184,.32);
-  --border:rgba(255,255,255,.06);--border-b:rgba(255,255,255,.11);--glass:rgba(255,255,255,.04);
+  --border:rgba(255,255,255,.06);--border-b:rgba(255,255,255,.11);
+  --glass:rgba(255,255,255,.04);--sidebar-w:260px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflow:hidden;}
 .app{display:flex;height:100vh;}
-/* SIDEBAR */
+
+/* ── SIDEBAR ── */
 .sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden;border-right:1px solid rgba(255,255,255,.05);box-shadow:8px 0 40px rgba(0,0,0,.35);}
 .sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 65%);pointer-events:none;z-index:0;}
 .sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09) 0%,transparent 65%);pointer-events:none;z-index:0;}
@@ -31,14 +33,18 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .nav a:hover{color:rgba(241,245,249,.9);background:rgba(255,255,255,.07);transform:translateX(2px);}
 .nav a.active{color:#fff;background:linear-gradient(120deg,rgba(37,99,235,.32) 0%,rgba(6,182,212,.18) 100%);border:1px solid rgba(59,130,246,.28);box-shadow:0 4px 20px rgba(37,99,235,.22),inset 0 1px 0 rgba(255,255,255,.09);}
 .nav a.active::after{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:55%;background:linear-gradient(180deg,#93c5fd,#22d3ee);border-radius:0 3px 3px 0;box-shadow:0 0 10px rgba(96,165,250,.8);}
-.ic{width:29px;height:29px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ic{width:29px;height:29px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .18s;}
 .ic .material-icons-round{font-size:15px;}
 .ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
 .ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
 .ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
 .ic-int{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.ic-doc{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-trn{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.ic-cel{background:rgba(236,72,153,.18);color:#f9a8d4;border:1px solid rgba(236,72,153,.18);}
+.ic-fin{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
 .ic-adm{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
-.nav a.active .ic{transform:scale(1.08);}
+.nav a.active .ic{transform:scale(1.08);box-shadow:0 0 14px rgba(37,99,235,.4);}
 .nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
 .user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--glass);margin-bottom:8px;border:1px solid var(--border-b);}
 .user-av{width:33px;height:33px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
@@ -47,166 +53,196 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .logout-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:10px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);color:rgba(252,165,165,.8);font-size:10px;font-weight:700;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;}
 .logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;}
 .logout-btn .material-icons-round{font-size:14px;}
-/* MAIN */
+
+/* ── MAIN ── */
 .main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:var(--sidebar-w);}
-.topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:13px 26px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:14px;box-shadow:0 1px 4px rgba(0,0,0,.05);}
-.topbar-left{display:flex;align-items:center;gap:13px;}
+.topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:11px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.topbar-left{display:flex;align-items:center;gap:12px;}
 .menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;}
 .menu-btn .material-icons-round{font-size:22px;}
 .page-title{font-size:15px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
-.page-sub{font-size:9.5px;color:#94a3b8;font-weight:500;margin-top:2px;}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.06em;font-family:'Outfit',sans-serif;white-space:nowrap;}
-.btn-blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 16px rgba(37,99,235,.32);}
-.btn-blue:hover{transform:translateY(-1px);}
-.btn-green{background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 4px 14px rgba(16,185,129,.3);}
-.btn-green:hover{transform:translateY(-1px);}
+.page-sub{font-size:9px;color:#94a3b8;font-weight:500;margin-top:2px;letter-spacing:.05em;text-transform:uppercase;}
+
+/* TABS */
+.tabs{display:flex;gap:3px;background:#f1f5f9;padding:4px;border-radius:11px;flex-shrink:0;}
+.tab{padding:7px 16px;border-radius:8px;font-size:10.5px;font-weight:700;color:#64748b;cursor:pointer;text-transform:uppercase;transition:all .18s;border:none;background:none;font-family:'Outfit',sans-serif;letter-spacing:.04em;display:flex;align-items:center;gap:5px;white-space:nowrap;}
+.tab .material-icons-round{font-size:13px;}
+.tab.active{background:#fff;color:#2563eb;box-shadow:0 2px 8px rgba(0,0,0,.09);}
+
+/* CONTROLS */
+.ctrl-sel{padding:8px 12px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:9px;font-family:'Outfit',sans-serif;font-size:11.5px;font-weight:600;color:#1e293b;outline:none;cursor:pointer;transition:border-color .15s;}
+.ctrl-sel:focus{border-color:#2563eb;}
+
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.06em;font-family:'Outfit',sans-serif;white-space:nowrap;}
+.btn-blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.3);}
+.btn-blue:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,.44);}
 .btn-ghost{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}
 .btn-ghost:hover{background:#e2e8f0;}
-.btn-sm{padding:6px 12px;font-size:10px;border-radius:8px;}
+.btn-green{background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 4px 14px rgba(16,185,129,.28);}
+.btn-green:hover{transform:translateY(-1px);}
+.btn-amber{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;box-shadow:0 4px 14px rgba(245,158,11,.28);}
+.btn-amber:hover{transform:translateY(-1px);}
 .btn .material-icons-round{font-size:14px;}
-.tab-bar{display:flex;gap:3px;background:#f8fafc;border:1px solid #e8edf5;border-radius:13px;padding:4px;flex-wrap:wrap;}
-.tab-btn{display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:9px;border:none;cursor:pointer;font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#64748b;background:transparent;transition:all .18s;white-space:nowrap;}
-.tab-btn.active{background:#fff;color:#0f172a;box-shadow:0 1px 6px rgba(0,0,0,.1);}
-.tab-btn .material-icons-round{font-size:13px;}
-.scroll{flex:1;overflow-y:auto;padding:20px 26px;}
+
+.scroll{flex:1;overflow-y:auto;padding:18px 24px;}
 .scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
-.tab-panel{display:none;animation:fadeUp .28s ease both;}.tab-panel.active{display:block;}
+
+/* ── STAT CARDS ── */
+.stats{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-bottom:18px;}
+.stat-card{background:#fff;border-radius:14px;padding:13px 10px;border:1px solid #ecf0f6;text-align:center;position:relative;overflow:hidden;transition:all .18s;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.09);}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.sc-p::before{background:linear-gradient(90deg,#10b981,#06b6d4);}
+.sc-a::before{background:linear-gradient(90deg,#ef4444,#f97316);}
+.sc-h::before{background:linear-gradient(90deg,#f97316,#fbbf24);}
+.sc-l::before{background:linear-gradient(90deg,#f59e0b,#fbbf24);}
+.sc-wo::before{background:linear-gradient(90deg,#64748b,#94a3b8);}
+.sc-oh::before{background:linear-gradient(90deg,#8b5cf6,#ec4899);}
+.sc-hd::before{background:linear-gradient(90deg,#2563eb,#06b6d4);}
+.stat-n{font-size:24px;font-weight:900;font-family:'JetBrains Mono',monospace;color:#0f172a;margin-top:2px;}
+.stat-l{font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;margin-top:3px;letter-spacing:.05em;}
+.stat-badge{width:28px;height:28px;border-radius:8px;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;}
+.sb-p{background:#dcfce7;color:#15803d;}
+.sb-a{background:#fee2e2;color:#dc2626;}
+.sb-h{background:#ffedd5;color:#c2410c;}
+.sb-l{background:#fef9c3;color:#a16207;}
+.sb-w{background:#f1f5f9;color:#475569;}
+.sb-oh{background:#ede9fe;color:#6d28d9;}
+.sb-hd{background:#eff6ff;color:#1d4ed8;}
+
+/* ── LEGEND ── */
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+.leg{display:flex;align-items:center;gap:5px;font-size:9px;font-weight:700;text-transform:uppercase;color:#64748b;background:#f8fafc;border:1px solid #ecf0f6;border-radius:99px;padding:4px 10px;transition:all .15s;}
+.leg:hover{background:#f1f5f9;}
+.leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+
+/* ── ATTENDANCE TABLE ── */
+.att-wrap{overflow-x:auto;border-radius:14px;border:1px solid #ecf0f6;box-shadow:0 1px 4px rgba(0,0,0,.04);-webkit-overflow-scrolling:touch;}
+.att-wrap::-webkit-scrollbar{height:5px;}.att-wrap::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+.atbl{width:100%;border-collapse:collapse;font-size:11px;}
+.atbl thead{position:sticky;top:0;z-index:10;}
+.atbl thead tr:first-child th{background:#0f172a;color:#fff;padding:10px 8px;font-size:8px;text-transform:uppercase;font-weight:700;letter-spacing:.08em;text-align:center;white-space:nowrap;}
+.atbl thead tr:first-child th:first-child{text-align:left;min-width:170px;padding-left:16px;}
+.atbl thead tr:first-child th:last-child{min-width:100px;}
+.atbl thead tr:first-child th.is-today{background:#1d4ed8;}
+.atbl thead tr:first-child th.is-holiday{background:#92400e;}
+.atbl thead tr:first-child th.is-weekend{background:#1e2d3d;color:rgba(255,255,255,.5);}
+.atbl tbody tr{border-bottom:1px solid #f8fafc;transition:background .12s;}
+.atbl tbody tr:hover{background:#fafbfc;}
+.atbl tbody tr:last-child{border-bottom:none;}
+.atbl td{padding:7px 5px;text-align:center;vertical-align:middle;}
+.atbl td:first-child{text-align:left;padding-left:14px;}
+.atbl td:last-child{padding-right:10px;}
+
+/* Employee cell */
+.emp-cell{display:flex;align-items:center;gap:9px;min-width:160px;}
+.eav{width:32px;height:32px;border-radius:9px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;}
+.ename{font-size:11px;font-weight:700;color:#0f172a;text-transform:uppercase;white-space:nowrap;}
+.ejob{font-size:8.5px;color:#94a3b8;text-transform:uppercase;font-weight:500;margin-top:1px;}
+
+/* Status buttons */
+.sb{width:28px;height:28px;border-radius:7px;border:1.5px solid;cursor:pointer;font-size:9.5px;font-weight:800;transition:all .12s;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;margin:0 auto;}
+.sb:hover{transform:scale(1.15);z-index:2;position:relative;}
+.s-P{background:#dcfce7;color:#15803d;border-color:#86efac;}
+.s-A{background:#fee2e2;color:#dc2626;border-color:#fca5a5;}
+.s-H{background:#ffedd5;color:#c2410c;border-color:#fdba74;}
+.s-L{background:#fef9c3;color:#a16207;border-color:#fde047;}
+.s-WO{background:#f1f5f9;color:#64748b;border-color:#e2e8f0;}
+.s-OH{background:#ede9fe;color:#6d28d9;border-color:#ddd6fe;}
+.s-HD{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe;}
+.s-empty{background:#f8fafc;color:#cbd5e1;border-color:#f1f5f9;}
+
+/* total cell */
+.total-cell{font-size:10px;min-width:90px;}
+.total-main{font-weight:800;color:#0f172a;font-family:'JetBrains Mono',monospace;font-size:10.5px;}
+.total-pct{font-size:9px;font-weight:700;margin-top:2px;}
+.pct-high{color:#10b981;}
+.pct-mid{color:#f59e0b;}
+.pct-low{color:#ef4444;}
+
+/* day header */
+.day-hd{line-height:1.2;}
+.day-name{font-size:7.5px;opacity:.6;}
+.day-num{font-size:12px;font-weight:900;}
+.day-hol-badge{font-size:6px;background:rgba(255,255,255,.15);border-radius:3px;padding:1px 3px;margin-top:1px;}
+
+/* ── MONTHLY SUMMARY CARDS ── */
+.mo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;}
+.emp-sum{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:16px;transition:all .18s;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.emp-sum:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.09);}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.emp-sum{animation:fadeUp .25s ease both;}
+.esc-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.esc-pct{margin-left:auto;text-align:right;flex-shrink:0;}
+.esc-pct-num{font-size:22px;font-weight:900;font-family:'JetBrains Mono',monospace;line-height:1;}
+.esc-pct-lbl{font-size:7.5px;color:#94a3b8;text-transform:uppercase;font-weight:600;margin-top:2px;}
+.esc-counts{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;}
+.esc-cnt{background:#f8fafc;border-radius:9px;padding:8px 4px;text-align:center;border:1px solid #f1f5f9;}
+.esc-n{font-size:16px;font-weight:900;font-family:'JetBrains Mono',monospace;}
+.esc-l{font-size:7px;color:#94a3b8;text-transform:uppercase;font-weight:700;margin-top:2px;letter-spacing:.03em;}
 
-/* STAT CARDS */
-.stat-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:18px;}
-.stat-card{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:15px 16px;position:relative;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:all .2s;}
-.stat-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08);}
-.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
-.sc-p::before{background:linear-gradient(90deg,#10b981,#34d399);}
-.sc-a::before{background:linear-gradient(90deg,#ef4444,#f87171);}
-.sc-l::before{background:linear-gradient(90deg,#f59e0b,#fcd34d);}
-.sc-e::before{background:linear-gradient(90deg,#8b5cf6,#c084fc);}
-.sc-o::before{background:linear-gradient(90deg,#f97316,#fb923c);}
-.sc-w::before{background:linear-gradient(90deg,#06b6d4,#67e8f9);}
-.stat-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
-.sc-p .stat-icon{background:#f0fdf4;color:#10b981;}
-.sc-a .stat-icon{background:#fef2f2;color:#ef4444;}
-.sc-l .stat-icon{background:#fffbeb;color:#f59e0b;}
-.sc-e .stat-icon{background:#f5f3ff;color:#8b5cf6;}
-.sc-o .stat-icon{background:#fff7ed;color:#f97316;}
-.sc-w .stat-icon{background:#f0fdfe;color:#06b6d4;}
-.stat-icon .material-icons-round{font-size:17px;}
-.stat-label{font-size:7.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;margin-bottom:4px;}
-.stat-val{font-size:24px;font-weight:900;color:#0f172a;font-family:'JetBrains Mono',monospace;line-height:1;}
-.stat-sub{font-size:8.5px;font-weight:600;color:#94a3b8;margin-top:4px;}
-/* CARD */
-.card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
-.card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;}
-.card-title{font-size:12px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
-/* FILTER ROW */
-.filter-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
-.fsel{padding:8px 12px;border-radius:9px;border:1.5px solid #e8edf5;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;color:#475569;background:#f8fafc;cursor:pointer;outline:none;transition:border .15s;}
-.fsel:focus{border-color:#2563eb;}
-.search-box{display:flex;align-items:center;gap:7px;background:#f8fafc;border:1.5px solid #e8edf5;border-radius:10px;padding:8px 12px;flex:1;min-width:150px;}
-.search-box:focus-within{border-color:#2563eb;background:#fff;}
-.search-box .material-icons-round{font-size:15px;color:#94a3b8;}
-.search-box input{border:none;background:transparent;font-family:'Outfit',sans-serif;font-size:11px;font-weight:500;color:#1e293b;outline:none;width:100%;}
-/* TABLE */
-.tbl-wrap{border-radius:12px;overflow:hidden;border:1px solid #f1f5f9;overflow-x:auto;}
-table{width:100%;border-collapse:collapse;font-size:11.5px;}
-thead th{background:#f8fafc;padding:10px 13px;font-size:8px;color:#94a3b8;text-transform:uppercase;font-weight:700;text-align:left;white-space:nowrap;letter-spacing:.06em;}
-tbody tr{border-top:1px solid #f8fafc;transition:background .12s;}
-tbody tr:hover{background:#fafafa;}
-tbody td{padding:10px 13px;font-weight:600;color:#475569;vertical-align:middle;}
-.emp-cell{display:flex;align-items:center;gap:9px;}
-.emp-av{width:30px;height:30px;border-radius:8px;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.emp-nm{font-size:11px;font-weight:800;color:#0f172a;text-transform:uppercase;}
-.emp-id{font-size:8px;color:#94a3b8;font-weight:600;margin-top:1px;}
-/* BADGES */
-.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;font-size:8.5px;font-weight:700;text-transform:uppercase;white-space:nowrap;}
-.b-present{background:#dcfce7;color:#16a34a;}
-.b-absent{background:#fee2e2;color:#ef4444;}
-.b-late{background:#fef3c7;color:#d97706;}
-.b-halfday{background:#f0fdfe;color:#0891b2;}
-.b-weekoff{background:#f1f5f9;color:#64748b;}
-.b-holiday{background:#fef3c7;color:#92400e;}
-.b-early{background:#f5f3ff;color:#7c3aed;}
-.mono{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;}
-/* PAGINATION */
-.pagination{display:flex;align-items:center;justify-content:space-between;padding:10px 13px;border-top:1px solid #f8fafc;flex-wrap:wrap;gap:8px;}
-.pg-info{font-size:10px;font-weight:600;color:#94a3b8;text-transform:uppercase;}
-.pg-btns{display:flex;gap:4px;}
-.pg-btn{width:28px;height:28px;border-radius:7px;border:1px solid #e2e8f0;background:#fff;font-size:11px;font-weight:700;color:#475569;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;}
-.pg-btn.active{background:#2563eb;color:#fff;border-color:#2563eb;}
+/* Progress bar in monthly card */
+.att-bar{height:5px;background:#f1f5f9;border-radius:99px;overflow:hidden;margin-bottom:12px;}
+.att-bar-fill{height:100%;border-radius:99px;transition:width .4s ease;}
 
-/* ATTENDANCE CARD */
-.att-card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;}
-.att-card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:all .22s;}
-.att-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.08);}
-.att-card-header{background:var(--navy);padding:16px;display:flex;align-items:center;gap:12px;position:relative;overflow:hidden;}
-.att-card-header::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;background:radial-gradient(circle,rgba(37,99,235,.3) 0%,transparent 65%);}
-.att-card-av{width:44px;height:44px;border-radius:12px;color:#fff;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid rgba(255,255,255,.2);}
-.att-card-name{font-size:12px;font-weight:800;text-transform:uppercase;color:#fff;letter-spacing:.04em;}
-.att-card-info{font-size:8.5px;color:rgba(255,255,255,.5);font-weight:600;text-transform:uppercase;margin-top:2px;}
-.att-card-body{padding:14px;}
-.att-mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
-.att-mini{background:#f8fafc;border-radius:9px;padding:9px 10px;text-align:center;border:1px solid #f1f5f9;}
-.att-mini-lbl{font-size:7px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin-bottom:3px;}
-.att-mini-val{font-size:18px;font-weight:900;font-family:'JetBrains Mono',monospace;}
-.att-bar-row{margin-bottom:8px;}
-.att-bar-lbl{display:flex;justify-content:space-between;font-size:8.5px;font-weight:700;color:#475569;text-transform:uppercase;margin-bottom:4px;}
-.att-bar-bg{height:6px;background:#f1f5f9;border-radius:99px;overflow:hidden;}
-.att-bar-fill{height:100%;border-radius:99px;}
-.month-cal-mini{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:10px;}
-.cal-cell{width:100%;aspect-ratio:1;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;cursor:default;}
-.cal-cell.p{background:#dcfce7;color:#16a34a;}
-.cal-cell.a{background:#fee2e2;color:#ef4444;}
-.cal-cell.l{background:#fef3c7;color:#d97706;}
-.cal-cell.h{background:#f1f5f9;color:#64748b;}
-.cal-cell.hd{background:#dbeafe;color:#2563eb;}
-.cal-cell.e{background:#f5f3ff;color:#7c3aed;}
-.cal-cell.em{color:transparent;background:transparent;}
-
-/* PUNCH PANEL */
-.punch-panel{display:grid;grid-template-columns:340px 1fr;gap:16px;align-items:start;}
-.punch-form{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
-.fl{font-size:8.5px;font-weight:700;text-transform:uppercase;color:#64748b;letter-spacing:.07em;display:block;margin-bottom:5px;}
-.finp,.fsel{width:100%;padding:10px 13px;border-radius:10px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;color:#1e293b;background:#f8fafc;outline:none;transition:all .15s;}
-.finp:focus,.fsel:focus{border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
-.fg{margin-bottom:13px;}
-.fgrid2{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
-/* OT REPORT */
-.ot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
-.ot-card{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:all .2s;}
-.ot-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.08);}
-.ot-card-hd{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
-.ot-av{width:36px;height:36px;border-radius:10px;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.ot-val{font-size:26px;font-weight:900;color:#f97316;font-family:'JetBrains Mono',monospace;line-height:1;}
-.ot-sub{font-size:8.5px;color:#94a3b8;font-weight:600;text-transform:uppercase;margin-top:3px;}
-/* MODAL */
-.mo{position:fixed;inset:0;background:rgba(7,16,31,.65);backdrop-filter:blur(6px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}
-.mo.open{opacity:1;pointer-events:all;}
-.mb{background:#fff;border-radius:20px;width:90%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 30px 70px rgba(0,0,0,.22);transform:translateY(20px);transition:transform .25s;}
-.mo.open .mb{transform:translateY(0);}
-.mh{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #f1f5f9;position:sticky;top:0;background:#fff;z-index:1;border-radius:20px 20px 0 0;}
-.xbtn{width:31px;height:31px;border-radius:8px;background:#f1f5f9;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;color:#64748b;}
-.xbtn:hover{background:#fef2f2;color:#ef4444;}
-/* TOAST */
-.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;max-width:340px;box-shadow:0 8px 24px rgba(0,0,0,.2);}
+/* ── TOAST ── */
+.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.2);}
 .toast.show{transform:translateY(0);opacity:1;}
 .toast.success{background:#065f46;border-left:4px solid #6ee7b7;}
 .toast.error{background:#7f1d1d;border-left:4px solid #fca5a5;}
 .toast .material-icons-round{font-size:16px;}
 
-@media(max-width:1200px){.stat-grid{grid-template-columns:repeat(3,1fr);}
-  .punch-panel{grid-template-columns:1fr;}}
+/* ── EMPTY STATE ── */
+.empty-state{text-align:center;padding:60px 20px;color:#94a3b8;}
+.empty-state .material-icons-round{font-size:52px;color:#e2e8f0;display:block;margin-bottom:14px;}
+.empty-title{font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;}
+.empty-sub{font-size:11px;font-weight:500;margin-top:6px;}
+
+/* ── QUICK FILL MODAL ── */
+.mo{position:fixed;inset:0;background:rgba(7,16,31,.65);backdrop-filter:blur(6px);z-index:500;display:none;align-items:center;justify-content:center;}
+.mo.open{display:flex;}
+.mb{background:#fff;border-radius:20px;width:90%;max-width:460px;max-height:85vh;overflow-y:auto;box-shadow:0 30px 70px rgba(0,0,0,.22);}
+.mh{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #f1f5f9;position:sticky;top:0;background:#fff;border-radius:20px 20px 0 0;z-index:1;}
+.mtitle{font-size:13px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.06em;}
+.xbtn{width:32px;height:32px;background:#f1f5f9;border:none;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;color:#64748b;}
+.xbtn:hover{background:#fef2f2;color:#ef4444;}
+.xbtn .material-icons-round{font-size:16px;}
+.status-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;}
+.status-pick{border:2px solid #e2e8f0;border-radius:11px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .18s;font-family:'Outfit',sans-serif;}
+.status-pick:hover{transform:scale(1.04);}
+.status-pick.sel{border-color:#2563eb;background:#eff6ff;box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+.status-pick-code{font-size:18px;font-weight:900;font-family:'JetBrains Mono',monospace;}
+.status-pick-lbl{font-size:8px;font-weight:700;text-transform:uppercase;color:#64748b;margin-top:4px;}
+.qf-emp-list{max-height:260px;overflow-y:auto;border:1.5px solid #ecf0f6;border-radius:12px;margin-bottom:14px;}
+.qf-emp-list::-webkit-scrollbar{width:3px;}.qf-emp-list::-webkit-scrollbar-thumb{background:#e2e8f0;}
+.qf-emp{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #f8fafc;cursor:pointer;transition:background .12s;}
+.qf-emp:last-child{border-bottom:none;}
+.qf-emp:hover{background:#f8fafc;}
+.qf-emp input[type=checkbox]{width:16px;height:16px;accent-color:#2563eb;}
+
+@media(max-width:1200px){.stats{grid-template-columns:repeat(4,1fr);}}
 @media(max-width:768px){
-  .sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}
-  .sidebar-overlay.open{display:block;}.main{margin-left:0!important;}
-  .menu-btn{display:flex!important;}.topbar,.scroll{padding:11px 14px;}
-  .stat-grid{grid-template-columns:repeat(2,1fr);}
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);}
+  .sidebar-overlay.open{display:block;}
+  .main{margin-left:0!important;}
+  .menu-btn{display:flex!important;}
+  .topbar{padding:10px 14px;gap:8px;}
+  .scroll{padding:12px 14px;}
+  .stats{grid-template-columns:repeat(4,1fr);}
+  .mo-grid{grid-template-columns:1fr;}
+}
+@media(max-width:480px){
+  .stats{grid-template-columns:repeat(3,1fr);}
+  .tab span.tab-text{display:none;}
 }
 </style>
 </head>
 <body onload="init()">
 <div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
 <div class="app">
+
+<!-- ── SIDEBAR ── -->
 <aside class="sidebar" id="sidebar">
   <div class="logo-area"><img src="logo.png" alt="KIDV Tech"></div>
   <nav class="nav">
@@ -218,14 +254,22 @@ tbody td{padding:10px 13px;font-weight:600;color:#475569;vertical-align:middle;}
     <a href="shifts.html"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
     <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
     <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
+    <a href="hr-letters.html"><span class="ic ic-hr"><span class="material-icons-round">mail</span></span>HR Letters</a>
+    <a href="celebrations.html"><span class="ic ic-cel"><span class="material-icons-round">celebration</span></span>Celebrations</a>
+    <a href="document-expiry.html"><span class="ic ic-doc"><span class="material-icons-round">assignment_late</span></span>Doc Expiry</a>
+    <a href="training-tracker.html"><span class="ic ic-trn"><span class="material-icons-round">school</span></span>Training</a>
     <div class="nav-sec">Operations</div>
     <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
     <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
     <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
     <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
+    <a href="analytics.html"><span class="ic ic-ops"><span class="material-icons-round">insights</span></span>Analytics</a>
+    <div class="nav-sec">Finance</div>
+    <a href="loan-management.html"><span class="ic ic-fin"><span class="material-icons-round">account_balance_wallet</span></span>Loans &amp; Advances</a>
     <div class="nav-sec">Recruitment</div>
-    <a href="job-openings.html"><span class="ic ic-rec"><span class="material-icons-round">work</span></span>Job Openings</a>
-    <a href="hr-letters.html"><span class="ic ic-hr"><span class="material-icons-round">mail</span></span>HR Letters</a>
+    <a href="job-openings.html"><span class="ic ic-int"><span class="material-icons-round">work</span></span>Job Openings</a>
+    <div class="nav-sec">Self-Service</div>
+    <a href="ess-login.html"><span class="ic ic-int"><span class="material-icons-round">person_pin</span></span>Employee Portal</a>
     <div class="nav-sec">Integration</div>
     <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">device_hub</span></span>Device Manager</a>
     <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
@@ -233,854 +277,393 @@ tbody td{padding:10px 13px;font-weight:600;color:#475569;vertical-align:middle;}
     <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">shield</span></span>Roles &amp; Perms</a>
   </nav>
   <div class="nav-bottom">
-    <div class="user-info"><div class="user-av" id="sideAvatar">SA</div>
-      <div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Administrator</div></div>
-    </div>
+    <div class="user-info"><div class="user-av" id="sideAvatar">SA</div><div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Administrator</div></div></div>
     <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
   </div>
 </aside>
 
+<!-- ── MAIN ── -->
 <div class="main">
   <div class="topbar">
     <div class="topbar-left">
       <button class="menu-btn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
-      <div><div class="page-title">Attendance</div><div class="page-sub" id="pageSubTxt">Loading...</div></div>
+      <div>
+        <div class="page-title">Attendance</div>
+        <div class="page-sub">Daily Entry · Monthly Summary · Reports</div>
+      </div>
     </div>
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-      <div class="tab-bar">
-        <button class="tab-btn active" onclick="switchTab('punch',this)"><span class="material-icons-round">fingerprint</span>Punch Entry</button>
-        <button class="tab-btn" onclick="switchTab('daily',this)"><span class="material-icons-round">today</span>Daily IN/OUT</button>
-        <button class="tab-btn" onclick="switchTab('monthly',this)"><span class="material-icons-round">calendar_month</span>Monthly P/A</button>
-        <button class="tab-btn" onclick="switchTab('late',this)"><span class="material-icons-round">schedule</span>Late Arrivals</button>
-        <button class="tab-btn" onclick="switchTab('early',this)"><span class="material-icons-round">directions_run</span>Early Going</button>
-        <button class="tab-btn" onclick="switchTab('ot',this)"><span class="material-icons-round">alarm_on</span>OT Report</button>
-        <button class="tab-btn" onclick="switchTab('card',this)"><span class="material-icons-round">badge</span>Emp Card</button>
+      <div class="tabs">
+        <button class="tab active" id="tab-daily" onclick="switchTab('daily')">
+          <span class="material-icons-round">calendar_view_day</span>
+          <span class="tab-text">Daily</span>
+        </button>
+        <button class="tab" id="tab-monthly" onclick="switchTab('monthly')">
+          <span class="material-icons-round">grid_view</span>
+          <span class="tab-text">Monthly</span>
+        </button>
       </div>
-      <button class="btn btn-blue btn-sm" onclick="exportCurrent()"><span class="material-icons-round">download</span>Export</button>
+      <select class="ctrl-sel" id="monthSel" onchange="render()"></select>
+      <select class="ctrl-sel" id="yearSel" onchange="render()"></select>
+      <button class="btn btn-ghost" onclick="openQuickFill()" title="Quick Fill All">
+        <span class="material-icons-round">auto_fix_high</span>Quick Fill
+      </button>
+      <button class="btn btn-blue" onclick="exportCSV()">
+        <span class="material-icons-round">download</span>Export
+      </button>
     </div>
   </div>
 
   <div class="scroll">
-
-    <!-- STAT CARDS (shown on all tabs) -->
-    <div class="stat-grid" id="statGrid">
-      <div class="stat-card sc-p"><div class="stat-icon"><span class="material-icons-round">check_circle</span></div><div class="stat-label">Present</div><div class="stat-val" id="st-present">0</div><div class="stat-sub" id="st-present-sub">Today</div></div>
-      <div class="stat-card sc-a"><div class="stat-icon"><span class="material-icons-round">cancel</span></div><div class="stat-label">Absent</div><div class="stat-val" id="st-absent">0</div><div class="stat-sub" id="st-absent-sub">Today</div></div>
-      <div class="stat-card sc-l"><div class="stat-icon"><span class="material-icons-round">timer_off</span></div><div class="stat-label">Late In</div><div class="stat-val" id="st-late">0</div><div class="stat-sub" id="st-late-sub">Today</div></div>
-      <div class="stat-card sc-e"><div class="stat-icon"><span class="material-icons-round">exit_to_app</span></div><div class="stat-label">Early Out</div><div class="stat-val" id="st-early">0</div><div class="stat-sub" id="st-early-sub">Today</div></div>
-      <div class="stat-card sc-o"><div class="stat-icon"><span class="material-icons-round">alarm_on</span></div><div class="stat-label">OT Today</div><div class="stat-val" id="st-ot">0</div><div class="stat-sub" id="st-ot-sub">Employees</div></div>
-      <div class="stat-card sc-w"><div class="stat-icon"><span class="material-icons-round">weekend</span></div><div class="stat-label">Week Off</div><div class="stat-val" id="st-wo">0</div><div class="stat-sub" id="st-wo-sub">Today</div></div>
+    <!-- Stat cards -->
+    <div class="stats">
+      <div class="stat-card sc-p"><div class="stat-badge sb-p">P</div><div class="stat-n" id="sP">0</div><div class="stat-l">Present</div></div>
+      <div class="stat-card sc-a"><div class="stat-badge sb-a">A</div><div class="stat-n" id="sA">0</div><div class="stat-l">Absent</div></div>
+      <div class="stat-card sc-h"><div class="stat-badge sb-h">H</div><div class="stat-n" id="sH">0</div><div class="stat-l">Half Day</div></div>
+      <div class="stat-card sc-l"><div class="stat-badge sb-l">L</div><div class="stat-n" id="sL">0</div><div class="stat-l">Leave</div></div>
+      <div class="stat-card sc-wo"><div class="stat-badge sb-w">WO</div><div class="stat-n" id="sWO">0</div><div class="stat-l">Week Off</div></div>
+      <div class="stat-card sc-oh"><div class="stat-badge sb-oh">OH</div><div class="stat-n" id="sOH">0</div><div class="stat-l">Off. Holiday</div></div>
+      <div class="stat-card sc-hd"><div class="stat-badge sb-hd">HD</div><div class="stat-n" id="sHD">0</div><div class="stat-l">Holiday</div></div>
     </div>
 
-    <!-- ── TAB: PUNCH ENTRY ── -->
-    <div id="tab-punch" class="tab-panel active">
-      <div class="punch-panel">
-        <div class="punch-form">
-          <div style="font-size:12px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;padding-left:9px;border-left:3px solid #2563eb;margin-bottom:16px;">Mark Attendance</div>
-          <div class="fg"><label class="fl">Employee *</label>
-            <select class="fsel" id="p_emp"><option value="">-- Select Employee --</option></select>
-          </div>
-          <div class="fg"><label class="fl">Date *</label><input type="date" class="finp" id="p_date"></div>
-          <div class="fgrid2">
-            <div class="fg"><label class="fl">IN Time</label><input type="time" class="finp" id="p_in"></div>
-            <div class="fg"><label class="fl">OUT Time</label><input type="time" class="finp" id="p_out"></div>
-          </div>
-          <div class="fg"><label class="fl">Status</label>
-            <select class="fsel" id="p_status">
-              <option value="present">Present</option>
-              <option value="absent">Absent</option>
-              <option value="halfday">Half Day</option>
-              <option value="weekoff">Week Off</option>
-              <option value="holiday">Holiday</option>
-            </select>
-          </div>
-          <div class="fg"><label class="fl">Remarks</label><input type="text" class="finp" id="p_remark" placeholder="Optional remarks..."></div>
-          <div style="display:flex;gap:8px;">
-            <button class="btn btn-green" style="flex:1;justify-content:center;" onclick="saveAttendance()"><span class="material-icons-round">save</span>Save</button>
-            <button class="btn btn-blue" style="flex:1;justify-content:center;" onclick="openBulkModal()"><span class="material-icons-round">groups</span>Bulk Mark</button>
-          </div>
-        </div>
-        <!-- Today's attendance table -->
-        <div class="card">
-          <div class="card-hd">
-            <div class="card-title">Today's Attendance</div>
-            <div style="display:flex;gap:8px;align-items:center;">
-              <span id="todayDateLabel" style="font-size:10px;font-weight:700;color:#2563eb;font-family:'JetBrains Mono',monospace;"></span>
-              <button class="btn btn-ghost btn-sm" onclick="loadDemoData()"><span class="material-icons-round">auto_fix_high</span>Load Demo</button>
-            </div>
-          </div>
-          <div class="tbl-wrap">
-            <table style="min-width:500px;">
-              <thead><tr><th>Employee</th><th>IN Time</th><th>OUT Time</th><th>Hours</th><th>Status</th><th>Remarks</th><th></th></tr></thead>
-              <tbody id="todayTable"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+    <!-- Legend -->
+    <div class="legend">
+      <div class="leg"><div class="leg-dot" style="background:#10b981;"></div>P = Present</div>
+      <div class="leg"><div class="leg-dot" style="background:#ef4444;"></div>A = Absent</div>
+      <div class="leg"><div class="leg-dot" style="background:#f97316;"></div>H = Half Day</div>
+      <div class="leg"><div class="leg-dot" style="background:#f59e0b;"></div>L = Leave</div>
+      <div class="leg"><div class="leg-dot" style="background:#64748b;"></div>WO = Week Off</div>
+      <div class="leg"><div class="leg-dot" style="background:#8b5cf6;"></div>OH = Off. Holiday</div>
+      <div class="leg"><div class="leg-dot" style="background:#2563eb;"></div>HD = Holiday</div>
+      <div class="leg" style="cursor:pointer;color:#2563eb;" onclick="openQuickFill()"><div class="leg-dot" style="background:#2563eb;"></div>Click cell to cycle status</div>
     </div>
 
-    <!-- ── TAB: DAILY IN/OUT ── -->
-    <div id="tab-daily" class="tab-panel">
-      <div class="card">
-        <div class="card-hd">
-          <div class="card-title">Daily IN / OUT Report</div>
-          <button class="btn btn-ghost btn-sm" onclick="exportTable('dailyTable','Daily_InOut')"><span class="material-icons-round">download</span>CSV</button>
-        </div>
-        <div class="filter-row">
-          <div class="search-box"><span class="material-icons-round">search</span><input type="text" id="d_search" placeholder="Search employee..." oninput="renderDaily()"></div>
-          <input type="date" class="fsel" id="d_date" onchange="renderDaily()">
-          <select class="fsel" id="d_dept" onchange="renderDaily()"><option value="">All Depts</option></select>
-          <select class="fsel" id="d_status" onchange="renderDaily()">
-            <option value="">All Status</option><option value="present">Present</option><option value="absent">Absent</option>
-            <option value="late">Late</option><option value="halfday">Half Day</option><option value="weekoff">Week Off</option>
-          </select>
-        </div>
-        <div class="tbl-wrap">
-          <table style="min-width:650px;">
-            <thead><tr><th>#</th><th>Employee</th><th>Dept</th><th>Date</th><th>IN Time</th><th>Shift Start</th><th>Late By</th><th>OUT Time</th><th>Shift End</th><th>Early By</th><th>Hours Worked</th><th>OT</th><th>Status</th><th>Remarks</th></tr></thead>
-            <tbody id="dailyTable"></tbody>
-          </table>
-        </div>
-        <div class="pagination"><div class="pg-info" id="d_pgInfo"></div><div class="pg-btns" id="d_pgBtns"></div></div>
-      </div>
-    </div>
-
-    <!-- ── TAB: MONTHLY P/A ── -->
-    <div id="tab-monthly" class="tab-panel">
-      <div class="card">
-        <div class="card-hd">
-          <div class="card-title">Monthly Present / Absent Summary</div>
-          <button class="btn btn-ghost btn-sm" onclick="exportTable('monthlyTable','Monthly_PA')"><span class="material-icons-round">download</span>CSV</button>
-        </div>
-        <div class="filter-row">
-          <div class="search-box"><span class="material-icons-round">search</span><input type="text" id="m_search" placeholder="Search employee..." oninput="renderMonthly()"></div>
-          <select class="fsel" id="m_month" onchange="renderMonthly()"></select>
-          <select class="fsel" id="m_year" onchange="renderMonthly()"></select>
-          <select class="fsel" id="m_dept" onchange="renderMonthly()"><option value="">All Depts</option></select>
-        </div>
-        <div class="tbl-wrap">
-          <table style="min-width:700px;">
-            <thead><tr><th>Employee</th><th>Dept</th><th>Working Days</th><th>Present</th><th>Absent</th><th>Half Day</th><th>Late</th><th>Early Out</th><th>OT Days</th><th>Week Off</th><th>Holiday</th><th>Attendance %</th></tr></thead>
-            <tbody id="monthlyTable"></tbody>
-          </table>
-        </div>
-        <div class="pagination"><div class="pg-info" id="m_pgInfo"></div><div class="pg-btns" id="m_pgBtns"></div></div>
-      </div>
-    </div>
-
-    <!-- ── TAB: LATE ARRIVALS ── -->
-    <div id="tab-late" class="tab-panel">
-      <div class="card">
-        <div class="card-hd">
-          <div class="card-title">Late Arrival Report</div>
-          <button class="btn btn-ghost btn-sm" onclick="exportTable('lateTable','Late_Arrivals')"><span class="material-icons-round">download</span>CSV</button>
-        </div>
-        <div class="filter-row">
-          <div class="search-box"><span class="material-icons-round">search</span><input type="text" id="l_search" placeholder="Search employee..." oninput="renderLate()"></div>
-          <select class="fsel" id="l_month" onchange="renderLate()"></select>
-          <select class="fsel" id="l_year" onchange="renderLate()"></select>
-          <select class="fsel" id="l_dept" onchange="renderLate()"><option value="">All Depts</option></select>
-        </div>
-        <div class="tbl-wrap">
-          <table style="min-width:600px;">
-            <thead><tr><th>#</th><th>Employee</th><th>Dept</th><th>Date</th><th>IN Time</th><th>Shift Start</th><th>Late By</th><th>Remarks</th></tr></thead>
-            <tbody id="lateTable"></tbody>
-          </table>
-        </div>
-        <div class="pagination"><div class="pg-info" id="l_pgInfo"></div><div class="pg-btns" id="l_pgBtns"></div></div>
-      </div>
-    </div>
-
-    <!-- ── TAB: EARLY GOING ── -->
-    <div id="tab-early" class="tab-panel">
-      <div class="card">
-        <div class="card-hd">
-          <div class="card-title">Early Going Report</div>
-          <button class="btn btn-ghost btn-sm" onclick="exportTable('earlyTable','Early_Going')"><span class="material-icons-round">download</span>CSV</button>
-        </div>
-        <div class="filter-row">
-          <div class="search-box"><span class="material-icons-round">search</span><input type="text" id="eg_search" placeholder="Search employee..." oninput="renderEarly()"></div>
-          <select class="fsel" id="eg_month" onchange="renderEarly()"></select>
-          <select class="fsel" id="eg_year" onchange="renderEarly()"></select>
-          <select class="fsel" id="eg_dept" onchange="renderEarly()"><option value="">All Depts</option></select>
-        </div>
-        <div class="tbl-wrap">
-          <table style="min-width:600px;">
-            <thead><tr><th>#</th><th>Employee</th><th>Dept</th><th>Date</th><th>OUT Time</th><th>Shift End</th><th>Early By</th><th>Hours Worked</th><th>Remarks</th></tr></thead>
-            <tbody id="earlyTable"></tbody>
-          </table>
-        </div>
-        <div class="pagination"><div class="pg-info" id="eg_pgInfo"></div><div class="pg-btns" id="eg_pgBtns"></div></div>
-      </div>
-    </div>
-
-    <!-- ── TAB: OT REPORT ── -->
-    <div id="tab-ot" class="tab-panel">
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-hd">
-          <div class="card-title">OT (Overtime) Report</div>
-          <div style="display:flex;gap:8px;align-items:center;">
-            <select class="fsel" id="ot_month" onchange="renderOT()"></select>
-            <select class="fsel" id="ot_year" onchange="renderOT()"></select>
-            <button class="btn btn-ghost btn-sm" onclick="exportTable('otTable','OT_Report')"><span class="material-icons-round">download</span>CSV</button>
-          </div>
-        </div>
-        <div class="tbl-wrap">
-          <table style="min-width:550px;">
-            <thead><tr><th>Employee</th><th>Dept</th><th>Shift End</th><th>OT Days</th><th>Total OT Hours</th><th>Avg OT/Day</th><th>Max OT Day</th></tr></thead>
-            <tbody id="otTable"></tbody>
-          </table>
-        </div>
-      </div>
-      <div id="otCards" class="ot-grid"></div>
-    </div>
-
-    <!-- ── TAB: EMPLOYEE CARD ── -->
-    <div id="tab-card" class="tab-panel">
-      <div class="filter-row" style="margin-bottom:16px;">
-        <div class="search-box"><span class="material-icons-round">search</span><input type="text" id="ec_search" placeholder="Search employee..." oninput="renderEmpCards()"></div>
-        <select class="fsel" id="ec_month" onchange="renderEmpCards()"></select>
-        <select class="fsel" id="ec_year" onchange="renderEmpCards()"></select>
-        <select class="fsel" id="ec_dept" onchange="renderEmpCards()"><option value="">All Depts</option></select>
-        <button class="btn btn-blue btn-sm" onclick="printAllCards()"><span class="material-icons-round">print</span>Print All</button>
-      </div>
-      <div id="empCardGrid" class="att-card-grid"></div>
-    </div>
-
-  </div><!-- /scroll -->
+    <div id="tabContent"></div>
+  </div>
 </div>
 </div>
 
-<!-- BULK MARK MODAL -->
-<div id="bulkModal" class="mo" onclick="if(event.target===this)closeBulkModal()">
+<!-- ── QUICK FILL MODAL ── -->
+<div id="qfModal" class="mo">
   <div class="mb">
     <div class="mh">
-      <div style="font-size:13px;font-weight:800;text-transform:uppercase;color:#0f172a;">Bulk Mark Attendance</div>
-      <button class="xbtn" onclick="closeBulkModal()"><span class="material-icons-round" style="font-size:16px;">close</span></button>
+      <div class="mtitle">Quick Fill Attendance</div>
+      <button class="xbtn" onclick="closeQF()"><span class="material-icons-round">close</span></button>
     </div>
-    <div style="padding:18px 20px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
-        <div class="fg"><label class="fl">Date *</label><input type="date" class="finp" id="bulk_date"></div>
-        <div class="fg"><label class="fl">Status</label>
-          <select class="fsel" id="bulk_status"><option value="present">Present</option><option value="absent">Absent</option><option value="holiday">Holiday</option><option value="weekoff">Week Off</option></select>
+    <div style="padding:20px;">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#64748b;letter-spacing:.06em;margin-bottom:10px;">Select Status to Apply</div>
+      <div class="status-grid" id="statusPicker"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#64748b;letter-spacing:.06em;">Apply to Employees</div>
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-ghost" style="padding:5px 10px;font-size:10px;" onclick="qfSelectAll(true)">All</button>
+          <button class="btn btn-ghost" style="padding:5px 10px;font-size:10px;" onclick="qfSelectAll(false)">None</button>
         </div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
-        <div class="fg"><label class="fl">IN Time (if present)</label><input type="time" class="finp" id="bulk_in"></div>
-        <div class="fg"><label class="fl">OUT Time (if present)</label><input type="time" class="finp" id="bulk_out"></div>
+      <div class="qf-emp-list" id="qfEmpList"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;margin-bottom:14px;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#64748b;letter-spacing:.06em;">Apply to Date</div>
       </div>
-      <div class="fg"><label class="fl">Apply to Department</label>
-        <select class="fsel" id="bulk_dept"><option value="">All Employees</option></select>
+      <div style="display:flex;gap:10px;margin-bottom:14px;">
+        <div style="flex:1;"><label style="font-size:8.5px;font-weight:700;text-transform:uppercase;color:#64748b;display:block;margin-bottom:5px;">From Day</label><input type="number" id="qfFrom" class="ctrl-sel" value="1" min="1" max="31" style="width:100%;"></div>
+        <div style="flex:1;"><label style="font-size:8.5px;font-weight:700;text-transform:uppercase;color:#64748b;display:block;margin-bottom:5px;">To Day</label><input type="number" id="qfTo" class="ctrl-sel" value="31" min="1" max="31" style="width:100%;"></div>
       </div>
-      <button class="btn btn-green" style="width:100%;justify-content:center;margin-top:6px;" onclick="saveBulkAttendance()">
-        <span class="material-icons-round">done_all</span>Mark All
-      </button>
+      <div style="display:flex;gap:8px;justify-content:flex-end;">
+        <button class="btn btn-ghost" onclick="closeQF()">Cancel</button>
+        <button class="btn btn-blue" onclick="applyQuickFill()"><span class="material-icons-round">auto_fix_high</span>Apply</button>
+      </div>
     </div>
   </div>
 </div>
 
+<!-- TOAST -->
 <div class="toast" id="toast"><span class="material-icons-round" id="toastIcon">check_circle</span><span id="toastMsg"></span></div>
 
 <script>
-// ── CONFIG ──
-const MONTHS_S=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const MONTHS_F=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 const AV_COLORS=['linear-gradient(135deg,#2563eb,#06b6d4)','linear-gradient(135deg,#8b5cf6,#ec4899)','linear-gradient(135deg,#10b981,#06b6d4)','linear-gradient(135deg,#f59e0b,#ef4444)','linear-gradient(135deg,#6366f1,#8b5cf6)','linear-gradient(135deg,#0891b2,#10b981)'];
-const STATUS_BADGE={present:'b-present',absent:'b-absent',halfday:'b-halfday',weekoff:'b-weekoff',holiday:'b-holiday'};
-let employees=[],attendance=[],currentTab='punch';
-let dPage=1,mPage=1,lPage=1,egPage=1;const PER=15;
+
+const STATUS_CFG={
+  P:{lbl:'Present',cls:'s-P',color:'#10b981'},
+  A:{lbl:'Absent',cls:'s-A',color:'#ef4444'},
+  H:{lbl:'Half Day',cls:'s-H',color:'#f97316'},
+  L:{lbl:'Leave',cls:'s-L',color:'#f59e0b'},
+  WO:{lbl:'Week Off',cls:'s-WO',color:'#64748b'},
+  OH:{lbl:'Off. Holiday',cls:'s-OH',color:'#8b5cf6'},
+  HD:{lbl:'Holiday',cls:'s-HD',color:'#2563eb'},
+  '':'·'
+};
+const STATUS_CYCLE=['P','A','H','L','WO','OH','HD',''];
+
+let currentTab='daily', qfStatus='P';
+let employees=[];
 
 function init(){
   loadUserInfo();
   employees=JSON.parse(localStorage.getItem('employees')||'[]');
-  attendance=JSON.parse(localStorage.getItem('kidv_attendance')||'[]');
-  if(!attendance.length&&employees.length) loadDemoData(false);
-  populateFilters();
-  renderTodayTable();
-  updateStats();
-  const today=new Date().toISOString().split('T')[0];
-  document.getElementById('p_date').value=today;
-  document.getElementById('todayDateLabel').textContent=today;
-  document.getElementById('d_date').value=today;
-  document.getElementById('pageSubTxt').textContent=`${employees.length} Employees · ${new Date().toDateString()}`;
+  const now=new Date();
+  const mSel=document.getElementById('monthSel'),ySel=document.getElementById('yearSel');
+  MONTHS.forEach((m,i)=>{const o=document.createElement('option');o.value=i;o.textContent=m;if(i===now.getMonth())o.selected=true;mSel.appendChild(o);});
+  for(let y=now.getFullYear()-3;y<=now.getFullYear()+1;y++){const o=document.createElement('option');o.value=y;o.textContent=y;if(y===now.getFullYear())o.selected=true;ySel.appendChild(o);}
+  buildQFStatusPicker();
+  buildQFEmpList();
+  render();
 }
+
+function getMY(){return{m:parseInt(document.getElementById('monthSel').value),y:parseInt(document.getElementById('yearSel').value)};}
+function getAttKey(empId,date){return`att_${empId}_${date}`;}
+function getStatus(empId,date){return localStorage.getItem(getAttKey(empId,date))||'';}
+function setStatus(empId,date,status){if(status)localStorage.setItem(getAttKey(empId,date),status);else localStorage.removeItem(getAttKey(empId,date));}
+
+function isHoliday(date){
+  const{y}=getMY();
+  const hols=JSON.parse(localStorage.getItem(`holidays_${y}`)||localStorage.getItem('holidays')||'[]');
+  return hols.find(h=>(h.date||h.holidayDate)===date)||null;
+}
+
+function empId(e,i){return e.id||('EMP'+i);}
+
 function loadUserInfo(){
-  const u=JSON.parse(localStorage.getItem('kidv_user')||'{}');
-  if(u.name){const p=u.name.trim().split(' ');document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();document.getElementById('sideName').textContent=u.name;document.getElementById('sideRole').textContent=u.role||'Staff';}
-  const role=(u.role||'').toLowerCase();
+  const user=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+  if(user.name){const p=user.name.trim().split(' ');document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();document.getElementById('sideName').textContent=user.name;document.getElementById('sideRole').textContent=user.role||'Staff';}
+  const role=(user.role||'').toLowerCase();
   if(role==='super admin'||role==='admin'){document.getElementById('adminNav').style.display='';document.getElementById('usersLink').style.display='';document.getElementById('rolesLink').style.display='';}
 }
+(function(){
+  const page=window.location.pathname.split('/').pop()||'index.html';
+  document.querySelectorAll('.nav a').forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')===page)a.classList.add('active');});
+})();
 function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
 function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');document.body.style.overflow='hidden';}
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');document.body.style.overflow='';}
 
-function populateFilters(){
-  const empSel=document.getElementById('p_emp');
-  empSel.innerHTML='<option value="">-- Select Employee --</option>';
-  employees.forEach((e,i)=>empSel.innerHTML+=`<option value="${i}">${e.fName} ${e.lName} (${e.id||''})</option>`);
-  const depts=[...new Set(employees.map(e=>e.dept).filter(Boolean))];
-  ['d_dept','m_dept','l_dept','eg_dept','ec_dept','bulk_dept'].forEach(id=>{
-    const s=document.getElementById(id);if(!s)return;
-    const first=id==='bulk_dept'?'<option value="">All Employees</option>':'<option value="">All Depts</option>';
-    s.innerHTML=first+depts.map(d=>`<option value="${d}">${d}</option>`).join('');
-  });
-  const now=new Date();
-  ['m_month','l_month','eg_month','ot_month','ec_month'].forEach(id=>{
-    const s=document.getElementById(id);if(!s)return;
-    s.innerHTML=MONTHS_F.map((m,i)=>`<option value="${i+1}"${i===now.getMonth()?' selected':''}>${m}</option>`).join('');
-  });
-  const nowY=now.getFullYear();
-  ['m_year','l_year','eg_year','ot_year','ec_year'].forEach(id=>{
-    const s=document.getElementById(id);if(!s)return;
-    s.innerHTML=[nowY,nowY-1,nowY-2].map(y=>`<option value="${y}"${y===nowY?' selected':''}>${y}</option>`).join('');
-  });
-  document.getElementById('bulk_date').value=now.toISOString().split('T')[0];
+function switchTab(t){
+  currentTab=t;
+  document.getElementById('tab-daily').classList.toggle('active',t==='daily');
+  document.getElementById('tab-monthly').classList.toggle('active',t==='monthly');
+  render();
 }
 
-function switchTab(name,btn){
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-'+name).classList.add('active');
-  btn.classList.add('active');
-  currentTab=name;
-  if(name==='daily') renderDaily();
-  else if(name==='monthly') renderMonthly();
-  else if(name==='late') renderLate();
-  else if(name==='early') renderEarly();
-  else if(name==='ot') renderOT();
-  else if(name==='card') renderEmpCards();
-}
+function render(){currentTab==='daily'?renderDaily():renderMonthly();}
 
-// ── ATTENDANCE DATA ──
-function saveAttendance(){
-  const empIdx=document.getElementById('p_emp').value;
-  const date=document.getElementById('p_date').value;
-  const inT=document.getElementById('p_in').value;
-  const outT=document.getElementById('p_out').value;
-  const status=document.getElementById('p_status').value;
-  const remark=document.getElementById('p_remark').value.trim();
-  if(!empIdx||empIdx===''){showToast('Please select an employee','error');return;}
-  if(!date){showToast('Please select a date','error');return;}
-  const emp=employees[parseInt(empIdx)];
-  const shifts=JSON.parse(localStorage.getItem('shifts')||'[]');
-  const shiftIdx=emp.assignedShift!==undefined&&emp.assignedShift!==''?parseInt(emp.assignedShift):-1;
-  const shift=shiftIdx>=0?shifts[shiftIdx]:null;
-  // calc hours worked and OT
-  let hoursWorked=0,otMins=0;
-  if(inT&&outT){
-    const [ih,im]=inT.split(':').map(Number),[oh,om]=outT.split(':').map(Number);
-    hoursWorked=((oh*60+om)-(ih*60+im))/60;
-    if(shift&&shift.end){
-      const [sh,sm]=shift.end.split(':').map(Number);
-      const shiftEndMins=sh*60+sm,outMins=oh*60+om;
-      otMins=Math.max(0,outMins-shiftEndMins);
-    }
-  }
-  // late calc
-  let lateBy=0;
-  if(inT&&shift&&shift.start){
-    const [sth,stm]=shift.start.split(':').map(Number);
-    const grace=parseInt(shift.grace||0);
-    const [ih,im]=inT.split(':').map(Number);
-    lateBy=Math.max(0,(ih*60+im)-(sth*60+stm+grace));
-  }
-  // early calc
-  let earlyBy=0;
-  if(outT&&shift&&shift.end){
-    const [sh,sm]=shift.end.split(':').map(Number);
-    const [oh,om]=outT.split(':').map(Number);
-    earlyBy=Math.max(0,(sh*60+sm)-(oh*60+om));
-  }
-  const rec={id:Date.now(),empIndex:parseInt(empIdx),empName:`${emp.fName} ${emp.lName}`,empId:emp.id||'',dept:emp.dept||'',date,inTime:inT,outTime:outT,status,remark,hoursWorked:hoursWorked.toFixed(2),otMins,lateBy,earlyBy,shiftStart:shift?.start||'',shiftEnd:shift?.end||''};
-  // Replace existing record for same emp+date
-  const existIdx=attendance.findIndex(a=>a.empIndex===parseInt(empIdx)&&a.date===date);
-  if(existIdx>=0) attendance[existIdx]=rec;else attendance.push(rec);
-  localStorage.setItem('kidv_attendance',JSON.stringify(attendance));
-  updateStats();renderTodayTable();
-  showToast(`Attendance saved for ${emp.fName}`,'success');
-  document.getElementById('p_in').value='';document.getElementById('p_out').value='';document.getElementById('p_remark').value='';
-}
-
-function loadDemoData(notify=true){
-  const today=new Date();
-  const recs=[];
-  const shifts=JSON.parse(localStorage.getItem('shifts')||'[]');
-  // generate past 30 days
-  employees.forEach((e,ei)=>{
-    const shiftIdx=e.assignedShift!==undefined&&e.assignedShift!==''?parseInt(e.assignedShift):-1;
-    const shift=shiftIdx>=0?shifts[shiftIdx]:null;
-    for(let d=0;d<30;d++){
-      const dt=new Date(today);dt.setDate(today.getDate()-d);
-      const dow=dt.getDay();
-      const ds=dt.toISOString().split('T')[0];
-      if(dow===0){recs.push({id:Date.now()+ei*1000+d,empIndex:ei,empName:`${e.fName} ${e.lName}`,empId:e.id||'',dept:e.dept||'',date:ds,inTime:'',outTime:'',status:'weekoff',remark:'',hoursWorked:0,otMins:0,lateBy:0,earlyBy:0,shiftStart:'',shiftEnd:''});continue;}
-      const rand=Math.random();
-      let status,inT='',outT='',late=0,early=0,hours=0,ot=0;
-      if(rand<0.05){status='absent';}
-      else{
-        status=rand<0.15?'halfday':'present';
-        // Random in time near shift start
-        const baseH=shift?parseInt(shift.start.split(':')[0]):9;
-        const baseM=shift?parseInt(shift.start.split(':')[1]):0;
-        const lateMin=Math.random()<0.2?Math.floor(Math.random()*45):0;
-        const inH=baseH+Math.floor((baseM+lateMin)/60),inM=(baseM+lateMin)%60;
-        inT=`${String(inH).padStart(2,'0')}:${String(inM).padStart(2,'0')}`;
-        // out time
-        const endH=shift?parseInt(shift.end.split(':')[0]):18;
-        const endM=shift?parseInt(shift.end.split(':')[1]):0;
-        const earlyMin=status==='halfday'?240:(Math.random()<0.15?Math.floor(Math.random()*30):0);
-        const otMin=earlyMin===0&&Math.random()<0.25?Math.floor(Math.random()*90):0;
-        const outH=endH+Math.floor((endM-earlyMin+otMin)/60),outM=((endM-earlyMin+otMin)%60+60)%60;
-        outT=`${String(Math.min(23,Math.max(12,outH))).padStart(2,'0')}:${String(outM).padStart(2,'0')}`;
-        late=lateMin;early=earlyMin>30?earlyMin:0;
-        const[ih,im]=inT.split(':').map(Number),[oh,om]=outT.split(':').map(Number);
-        hours=((oh*60+om)-(ih*60+im))/60;
-        ot=otMin;
-      }
-      const grace=parseInt(shift?.grace||0);
-      recs.push({id:Date.now()+ei*1000+d,empIndex:ei,empName:`${e.fName} ${e.lName}`,empId:e.id||'',dept:e.dept||'',date:ds,inTime:inT,outTime:outT,status,remark:'',hoursWorked:Math.max(0,hours).toFixed(2),otMins:ot,lateBy:late>grace?late-grace:0,earlyBy:early,shiftStart:shift?.start||'',shiftEnd:shift?.end||''});
-    }
-  });
-  attendance=recs;
-  localStorage.setItem('kidv_attendance',JSON.stringify(attendance));
-  updateStats();renderTodayTable();
-  if(notify)showToast('Demo data loaded — 30 days for all employees','success');
-}
-
-// ── STATS ──
-function updateStats(){
-  const today=new Date().toISOString().split('T')[0];
-  const todayRecs=attendance.filter(a=>a.date===today);
-  document.getElementById('st-present').textContent=todayRecs.filter(a=>a.status==='present').length;
-  document.getElementById('st-absent').textContent=todayRecs.filter(a=>a.status==='absent').length;
-  document.getElementById('st-late').textContent=todayRecs.filter(a=>a.lateBy>0).length;
-  document.getElementById('st-early').textContent=todayRecs.filter(a=>a.earlyBy>0).length;
-  document.getElementById('st-ot').textContent=todayRecs.filter(a=>a.otMins>0).length;
-  document.getElementById('st-wo').textContent=todayRecs.filter(a=>a.status==='weekoff'||a.status==='holiday').length;
-}
-
-// ── TODAY TABLE ──
-function renderTodayTable(){
-  const today=new Date().toISOString().split('T')[0];
-  const recs=attendance.filter(a=>a.date===today);
-  const tbody=document.getElementById('todayTable');
-  if(!recs.length){tbody.innerHTML=`<tr><td colspan="7" style="text-align:center;padding:24px;color:#94a3b8;font-size:11px;font-weight:600;text-transform:uppercase;">No attendance for today. Mark above or load demo data.</td></tr>`;return;}
-  tbody.innerHTML=recs.map(r=>{
-    const col=AV_COLORS[r.empIndex%AV_COLORS.length];
-    const init=(r.empName.split(' ')[0][0]||'')+(r.empName.split(' ')[1]?.[0]||'');
-    const late=r.lateBy>0?`<span class="badge b-late" style="margin-left:4px;">${r.lateBy}m late</span>`:'';
-    const early=r.earlyBy>0?`<span class="badge b-early" style="margin-left:4px;">${r.earlyBy}m early</span>`:'';
-    const ot=r.otMins>0?`<span style="color:#f97316;font-size:9px;font-weight:700;margin-left:4px;">+${fmtMins(r.otMins)} OT</span>`:'';
-    return `<tr>
-      <td><div class="emp-cell"><div class="emp-av" style="background:${col};">${init}</div><div><div class="emp-nm">${r.empName}</div><div class="emp-id">${r.empId}</div></div></div></td>
-      <td><span class="mono">${r.inTime||'—'}</span>${late}</td>
-      <td><span class="mono">${r.outTime||'—'}</span>${early}</td>
-      <td><span class="mono" style="color:#2563eb;">${r.hoursWorked>0?r.hoursWorked+'h':'—'}</span>${ot}</td>
-      <td><span class="badge ${STATUS_BADGE[r.status]||'b-present'}">${r.status}</span></td>
-      <td style="color:#94a3b8;font-size:10px;">${r.remark||'—'}</td>
-      <td><button onclick="deleteRec(${r.id})" style="width:26px;height:26px;border-radius:7px;border:none;background:#fef2f2;color:#ef4444;cursor:pointer;display:flex;align-items:center;justify-content:center;"><span class="material-icons-round" style="font-size:13px;">delete</span></button></td>
-    </tr>`;
-  }).join('');
-}
-function deleteRec(id){
-  attendance=attendance.filter(a=>a.id!==id);
-  localStorage.setItem('kidv_attendance',JSON.stringify(attendance));
-  updateStats();renderTodayTable();showToast('Record deleted','error');
-}
-
-// ── DAILY REPORT ──
-let dFiltered=[];
+// ── RENDER DAILY ──
 function renderDaily(){
-  const q=document.getElementById('d_search').value.toLowerCase();
-  const date=document.getElementById('d_date').value;
-  const dept=document.getElementById('d_dept').value;
-  const status=document.getElementById('d_status').value;
-  dFiltered=attendance.filter(a=>{
-    if(q&&!a.empName.toLowerCase().includes(q)&&!(a.empId||'').toLowerCase().includes(q)) return false;
-    if(date&&a.date!==date) return false;
-    if(dept&&a.dept!==dept) return false;
-    if(status==='late'&&a.lateBy<=0) return false;
-    if(status&&status!=='late'&&a.status!==status) return false;
-    return true;
-  }).sort((a,b)=>a.empName.localeCompare(b.empName));
-  dPage=1;renderDailyPage();
-}
-function renderDailyPage(){
-  const start=(dPage-1)*PER,rows=dFiltered.slice(start,start+PER);
-  const tbody=document.getElementById('dailyTable');
-  if(!rows.length){tbody.innerHTML=`<tr><td colspan="14" style="text-align:center;padding:24px;color:#94a3b8;font-size:11px;">No records found</td></tr>`;renderPg('d',0);return;}
-  tbody.innerHTML=rows.map((r,i)=>{
-    const col=AV_COLORS[r.empIndex%AV_COLORS.length];
-    const init=(r.empName.split(' ')[0][0]||'')+(r.empName.split(' ')[1]?.[0]||'');
-    const lateCell=r.lateBy>0?`<span class="badge b-late">${fmtMins(r.lateBy)}</span>`:'-';
-    const earlyCell=r.earlyBy>0?`<span class="badge b-early">${fmtMins(r.earlyBy)}</span>`:'-';
-    const otCell=r.otMins>0?`<span style="color:#f97316;font-weight:800;font-family:'JetBrains Mono',monospace;">${fmtMins(r.otMins)}</span>`:'—';
-    return `<tr>
-      <td style="color:#94a3b8;font-size:10px;">${start+i+1}</td>
-      <td><div class="emp-cell"><div class="emp-av" style="background:${col};">${init}</div><div><div class="emp-nm">${r.empName}</div><div class="emp-id">${r.empId}</div></div></div></td>
-      <td style="font-size:10px;color:#64748b;">${r.dept}</td>
-      <td class="mono" style="color:#64748b;">${r.date}</td>
-      <td class="mono" style="color:${r.lateBy>0?'#d97706':'#0f172a'};">${r.inTime||'—'}</td>
-      <td class="mono" style="color:#94a3b8;">${r.shiftStart||'—'}</td>
-      <td>${lateCell}</td>
-      <td class="mono" style="color:${r.earlyBy>0?'#7c3aed':'#0f172a'};">${r.outTime||'—'}</td>
-      <td class="mono" style="color:#94a3b8;">${r.shiftEnd||'—'}</td>
-      <td>${earlyCell}</td>
-      <td class="mono" style="color:#2563eb;">${r.hoursWorked>0?r.hoursWorked+'h':'—'}</td>
-      <td>${otCell}</td>
-      <td><span class="badge ${STATUS_BADGE[r.status]||'b-present'}">${r.status}</span></td>
-      <td style="font-size:10px;color:#94a3b8;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.remark||'—'}</td>
-    </tr>`;
-  }).join('');
-  renderPg('d',dFiltered.length);
-}
+  const{m,y}=getMY();
+  const daysInMonth=new Date(y,m+1,0).getDate();
+  const now=new Date();
+  const todayStr=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
 
-// ── MONTHLY ──
-let mFiltered=[];
-function renderMonthly(){
-  const q=document.getElementById('m_search').value.toLowerCase();
-  const mo=parseInt(document.getElementById('m_month').value);
-  const yr=parseInt(document.getElementById('m_year').value);
-  const dept=document.getElementById('m_dept').value;
-  const prefix=`${yr}-${String(mo).padStart(2,'0')}`;
-  const mRecs=attendance.filter(a=>a.date.startsWith(prefix));
-  mFiltered=employees.filter(e=>!q||(e.fName+' '+e.lName).toLowerCase().includes(q)).filter(e=>!dept||e.dept===dept).map((e,_)=>{
-    const ei=employees.indexOf(e);
-    const erecs=mRecs.filter(a=>a.empIndex===ei);
-    const present=erecs.filter(a=>a.status==='present').length;
-    const absent=erecs.filter(a=>a.status==='absent').length;
-    const halfday=erecs.filter(a=>a.status==='halfday').length;
-    const late=erecs.filter(a=>a.lateBy>0).length;
-    const early=erecs.filter(a=>a.earlyBy>0).length;
-    const otDays=erecs.filter(a=>a.otMins>0).length;
-    const wo=erecs.filter(a=>a.status==='weekoff').length;
-    const hol=erecs.filter(a=>a.status==='holiday').length;
-    const workingDays=new Date(yr,mo,0).getDate()-wo-hol;
-    const pct=workingDays>0?Math.round((present+halfday*.5)/workingDays*100):0;
-    return{e,present,absent,halfday,late,early,otDays,wo,hol,workingDays,pct};
-  });
-  mPage=1;renderMonthlyPage();
-}
-function renderMonthlyPage(){
-  const start=(mPage-1)*PER,rows=mFiltered.slice(start,start+PER);
-  const tbody=document.getElementById('monthlyTable');
-  if(!rows.length){tbody.innerHTML=`<tr><td colspan="12" style="text-align:center;padding:24px;color:#94a3b8;font-size:11px;">No records</td></tr>`;renderPg('m',0);return;}
-  tbody.innerHTML=rows.map(({e,present,absent,halfday,late,early,otDays,wo,hol,workingDays,pct})=>{
-    const ei=employees.indexOf(e);const col=AV_COLORS[ei%AV_COLORS.length];
-    const init=(e.fName?.[0]||'')+(e.lName?.[0]||'');
-    const pctColor=pct>=90?'#10b981':pct>=70?'#f59e0b':'#ef4444';
-    return `<tr>
-      <td><div class="emp-cell"><div class="emp-av" style="background:${col};">${init}</div><div><div class="emp-nm">${e.fName} ${e.lName}</div><div class="emp-id">${e.id||''}</div></div></div></td>
-      <td style="font-size:10px;color:#64748b;">${e.dept||'—'}</td>
-      <td class="mono" style="color:#0f172a;">${workingDays}</td>
-      <td class="mono" style="color:#10b981;font-weight:900;">${present}</td>
-      <td class="mono" style="color:#ef4444;">${absent}</td>
-      <td class="mono" style="color:#0891b2;">${halfday}</td>
-      <td class="mono" style="color:#d97706;">${late}</td>
-      <td class="mono" style="color:#7c3aed;">${early}</td>
-      <td class="mono" style="color:#f97316;">${otDays}</td>
-      <td class="mono" style="color:#64748b;">${wo}</td>
-      <td class="mono" style="color:#92400e;">${hol}</td>
-      <td><span style="font-size:12px;font-weight:900;color:${pctColor};font-family:'JetBrains Mono',monospace;">${pct}%</span></td>
-    </tr>`;
-  }).join('');
-  renderPg('m',mFiltered.length);
-}
-
-// ── LATE ──
-let lFiltered=[];
-function renderLate(){
-  const q=document.getElementById('l_search').value.toLowerCase();
-  const mo=parseInt(document.getElementById('l_month').value);
-  const yr=parseInt(document.getElementById('l_year').value);
-  const dept=document.getElementById('l_dept').value;
-  const prefix=`${yr}-${String(mo).padStart(2,'0')}`;
-  lFiltered=attendance.filter(a=>a.date.startsWith(prefix)&&a.lateBy>0).filter(a=>!q||(a.empName.toLowerCase().includes(q)||(a.empId||'').toLowerCase().includes(q))).filter(a=>!dept||a.dept===dept).sort((a,b)=>a.date.localeCompare(b.date));
-  lPage=1;renderLatePage();
-}
-function renderLatePage(){
-  const start=(lPage-1)*PER,rows=lFiltered.slice(start,start+PER);
-  const tbody=document.getElementById('lateTable');
-  if(!rows.length){tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:24px;color:#94a3b8;font-size:11px;">No late arrivals</td></tr>`;renderPg('l',0);return;}
-  tbody.innerHTML=rows.map((r,i)=>{
-    const col=AV_COLORS[r.empIndex%AV_COLORS.length];
-    const init=(r.empName.split(' ')[0][0]||'')+(r.empName.split(' ')[1]?.[0]||'');
-    return `<tr>
-      <td style="color:#94a3b8;font-size:10px;">${start+i+1}</td>
-      <td><div class="emp-cell"><div class="emp-av" style="background:${col};">${init}</div><div><div class="emp-nm">${r.empName}</div><div class="emp-id">${r.empId}</div></div></div></td>
-      <td style="font-size:10px;color:#64748b;">${r.dept}</td>
-      <td class="mono" style="color:#64748b;">${r.date}</td>
-      <td class="mono" style="color:#d97706;font-weight:900;">${r.inTime||'—'}</td>
-      <td class="mono" style="color:#94a3b8;">${r.shiftStart||'—'}</td>
-      <td><span class="badge b-late">${fmtMins(r.lateBy)}</span></td>
-      <td style="font-size:10px;color:#94a3b8;">${r.remark||'—'}</td>
-    </tr>`;
-  }).join('');
-  renderPg('l',lFiltered.length);
-}
-
-// ── EARLY ──
-let egFiltered=[];
-function renderEarly(){
-  const q=document.getElementById('eg_search').value.toLowerCase();
-  const mo=parseInt(document.getElementById('eg_month').value);
-  const yr=parseInt(document.getElementById('eg_year').value);
-  const dept=document.getElementById('eg_dept').value;
-  const prefix=`${yr}-${String(mo).padStart(2,'0')}`;
-  egFiltered=attendance.filter(a=>a.date.startsWith(prefix)&&a.earlyBy>0).filter(a=>!q||(a.empName.toLowerCase().includes(q)||(a.empId||'').toLowerCase().includes(q))).filter(a=>!dept||a.dept===dept).sort((a,b)=>a.date.localeCompare(b.date));
-  egPage=1;renderEarlyPage();
-}
-function renderEarlyPage(){
-  const start=(egPage-1)*PER,rows=egFiltered.slice(start,start+PER);
-  const tbody=document.getElementById('earlyTable');
-  if(!rows.length){tbody.innerHTML=`<tr><td colspan="9" style="text-align:center;padding:24px;color:#94a3b8;font-size:11px;">No early going records</td></tr>`;renderPg('eg',0);return;}
-  tbody.innerHTML=rows.map((r,i)=>{
-    const col=AV_COLORS[r.empIndex%AV_COLORS.length];
-    const init=(r.empName.split(' ')[0][0]||'')+(r.empName.split(' ')[1]?.[0]||'');
-    return `<tr>
-      <td style="color:#94a3b8;font-size:10px;">${start+i+1}</td>
-      <td><div class="emp-cell"><div class="emp-av" style="background:${col};">${init}</div><div><div class="emp-nm">${r.empName}</div><div class="emp-id">${r.empId}</div></div></div></td>
-      <td style="font-size:10px;color:#64748b;">${r.dept}</td>
-      <td class="mono" style="color:#64748b;">${r.date}</td>
-      <td class="mono" style="color:#7c3aed;font-weight:900;">${r.outTime||'—'}</td>
-      <td class="mono" style="color:#94a3b8;">${r.shiftEnd||'—'}</td>
-      <td><span class="badge b-early">${fmtMins(r.earlyBy)}</span></td>
-      <td class="mono" style="color:#2563eb;">${r.hoursWorked>0?r.hoursWorked+'h':'—'}</td>
-      <td style="font-size:10px;color:#94a3b8;">${r.remark||'—'}</td>
-    </tr>`;
-  }).join('');
-  renderPg('eg',egFiltered.length);
-}
-
-// ── OT ──
-function renderOT(){
-  const mo=parseInt(document.getElementById('ot_month').value);
-  const yr=parseInt(document.getElementById('ot_year').value);
-  const prefix=`${yr}-${String(mo).padStart(2,'0')}`;
-  const tbody=document.getElementById('otTable');
-  const rows=employees.map((e,ei)=>{
-    const recs=attendance.filter(a=>a.empIndex===ei&&a.date.startsWith(prefix)&&a.otMins>0);
-    if(!recs.length) return null;
-    const totalOT=recs.reduce((s,r)=>s+r.otMins,0);
-    const maxDay=recs.reduce((best,r)=>r.otMins>best.otMins?r:best,recs[0]);
-    return{e,ei,otDays:recs.length,totalOT,avgOT:totalOT/recs.length,maxDay};
-  }).filter(Boolean).sort((a,b)=>b.totalOT-a.totalOT);
-
-  if(!rows.length){tbody.innerHTML=`<tr><td colspan="7" style="text-align:center;padding:24px;color:#94a3b8;font-size:11px;">No OT records</td></tr>`;document.getElementById('otCards').innerHTML='';return;}
-  const shifts=JSON.parse(localStorage.getItem('shifts')||'[]');
-  tbody.innerHTML=rows.map(({e,ei,otDays,totalOT,avgOT,maxDay})=>{
-    const col=AV_COLORS[ei%AV_COLORS.length];
-    const init=(e.fName?.[0]||'')+(e.lName?.[0]||'');
-    const shiftIdx=e.assignedShift!==undefined&&e.assignedShift!==''?parseInt(e.assignedShift):-1;
-    const shiftEnd=shiftIdx>=0?shifts[shiftIdx]?.end||'—':'—';
-    return `<tr>
-      <td><div class="emp-cell"><div class="emp-av" style="background:${col};">${init}</div><div><div class="emp-nm">${e.fName} ${e.lName}</div><div class="emp-id">${e.id||''}</div></div></div></td>
-      <td style="font-size:10px;color:#64748b;">${e.dept||'—'}</td>
-      <td class="mono" style="color:#94a3b8;">${shiftEnd}</td>
-      <td class="mono" style="color:#0f172a;">${otDays}</td>
-      <td class="mono" style="color:#f97316;font-weight:900;">${fmtMins(totalOT)}</td>
-      <td class="mono" style="color:#f59e0b;">${fmtMins(Math.round(avgOT))}</td>
-      <td class="mono" style="color:#2563eb;">${maxDay.date} (${fmtMins(maxDay.otMins)})</td>
-    </tr>`;
-  }).join('');
-  document.getElementById('otCards').innerHTML=rows.slice(0,8).map(({e,ei,otDays,totalOT})=>{
-    const col=AV_COLORS[ei%AV_COLORS.length];const init=(e.fName?.[0]||'')+(e.lName?.[0]||'');
-    return `<div class="ot-card">
-      <div class="ot-card-hd"><div class="ot-av" style="background:${col};">${init}</div><div><div style="font-size:11px;font-weight:800;text-transform:uppercase;color:#0f172a;">${e.fName} ${e.lName}</div><div style="font-size:8.5px;color:#94a3b8;font-weight:600;margin-top:1px;">${e.dept||'—'} · ${e.id||''}</div></div></div>
-      <div class="ot-val">${fmtMins(totalOT)}</div><div class="ot-sub">Total OT · ${otDays} Days</div>
-      <div style="height:4px;background:#f1f5f9;border-radius:99px;margin-top:10px;overflow:hidden;"><div style="height:100%;background:linear-gradient(90deg,#f97316,#fb923c);border-radius:99px;width:${Math.min(100,(totalOT/600)*100)}%;"></div></div>
-    </div>`;
-  }).join('');
-}
-
-// ── EMP CARDS ──
-function renderEmpCards(){
-  const q=document.getElementById('ec_search').value.toLowerCase();
-  const mo=parseInt(document.getElementById('ec_month').value);
-  const yr=parseInt(document.getElementById('ec_year').value);
-  const dept=document.getElementById('ec_dept').value;
-  const prefix=`${yr}-${String(mo).padStart(2,'0')}`;
-  const daysInMonth=new Date(yr,mo,0).getDate();
-  const grid=document.getElementById('empCardGrid');
-  const filtered=employees.filter(e=>(!q||(e.fName+' '+e.lName).toLowerCase().includes(q))&&(!dept||e.dept===dept));
-  if(!filtered.length){grid.innerHTML='<div style="text-align:center;padding:40px;color:#94a3b8;font-size:12px;font-weight:600;text-transform:uppercase;grid-column:1/-1;">No employees found</div>';return;}
-  grid.innerHTML=filtered.map(e=>{
-    const ei=employees.indexOf(e);const col=AV_COLORS[ei%AV_COLORS.length];
-    const init=(e.fName?.[0]||'')+(e.lName?.[0]||'');
-    const recs=attendance.filter(a=>a.empIndex===ei&&a.date.startsWith(prefix));
-    const present=recs.filter(a=>a.status==='present').length;
-    const absent=recs.filter(a=>a.status==='absent').length;
-    const late=recs.filter(a=>a.lateBy>0).length;
-    const wo=recs.filter(a=>a.status==='weekoff').length;
-    const ot=recs.filter(a=>a.otMins>0).length;
-    const halfday=recs.filter(a=>a.status==='halfday').length;
-    const workDays=daysInMonth-wo;
-    const pct=workDays>0?Math.round((present+halfday*.5)/workDays*100):0;
-    const pctColor=pct>=90?'#10b981':pct>=70?'#f59e0b':'#ef4444';
-    // Mini month calendar
-    let calHtml='';
-    for(let d=1;d<=daysInMonth;d++){
-      const dow=new Date(yr,mo-1,d).getDay();
-      if(d===1){for(let i=0;i<dow;i++) calHtml+=`<div class="cal-cell em"></div>`;}
-      const ds=`${yr}-${String(mo).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-      const rec=recs.find(a=>a.date===ds);
-      let cls='h';
-      if(rec){if(rec.status==='present') cls=rec.lateBy>0?'l':'p';else if(rec.status==='absent') cls='a';else if(rec.status==='halfday') cls='hd';else if(rec.status==='weekoff'||rec.status==='holiday') cls='h';}
-      else if(dow===0) cls='h';
-      calHtml+=`<div class="cal-cell ${cls}" title="${ds}">${d}</div>`;
-    }
-    return `<div class="att-card" onclick="printCard(${ei},${mo},${yr})">
-      <div class="att-card-header">
-        <div class="att-card-av" style="background:${col};">${init}</div>
-        <div><div class="att-card-name">${e.fName} ${e.lName}</div><div class="att-card-info">${e.job||'—'} · ${e.dept||'—'} · ${e.id||''}</div></div>
-        <span class="material-icons-round" style="margin-left:auto;color:rgba(255,255,255,.3);font-size:18px;">print</span>
-      </div>
-      <div class="att-card-body">
-        <div class="att-mini-grid">
-          <div class="att-mini"><div class="att-mini-lbl">Present</div><div class="att-mini-val" style="color:#10b981;">${present}</div></div>
-          <div class="att-mini"><div class="att-mini-lbl">Absent</div><div class="att-mini-val" style="color:#ef4444;">${absent}</div></div>
-          <div class="att-mini"><div class="att-mini-lbl">Late</div><div class="att-mini-val" style="color:#d97706;">${late}</div></div>
-          <div class="att-mini"><div class="att-mini-lbl">Half Day</div><div class="att-mini-val" style="color:#0891b2;">${halfday}</div></div>
-          <div class="att-mini"><div class="att-mini-lbl">Week Off</div><div class="att-mini-val" style="color:#64748b;">${wo}</div></div>
-          <div class="att-mini"><div class="att-mini-lbl">OT Days</div><div class="att-mini-val" style="color:#f97316;">${ot}</div></div>
-        </div>
-        <div class="att-bar-row">
-          <div class="att-bar-lbl"><span>Attendance</span><span style="color:${pctColor};">${pct}%</span></div>
-          <div class="att-bar-bg"><div class="att-bar-fill" style="width:${pct}%;background:${pctColor};"></div></div>
-        </div>
-        <div class="month-cal-mini">${calHtml}</div>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-// ── BULK ──
-function openBulkModal(){document.getElementById('bulkModal').classList.add('open');}
-function closeBulkModal(){document.getElementById('bulkModal').classList.remove('open');}
-function saveBulkAttendance(){
-  const date=document.getElementById('bulk_date').value;
-  const status=document.getElementById('bulk_status').value;
-  const inT=document.getElementById('bulk_in').value;
-  const outT=document.getElementById('bulk_out').value;
-  const dept=document.getElementById('bulk_dept').value;
-  if(!date){showToast('Please select a date','error');return;}
-  const shifts=JSON.parse(localStorage.getItem('shifts')||'[]');
-  let count=0;
-  employees.forEach((e,ei)=>{
-    if(dept&&e.dept!==dept) return;
-    const shiftIdx=e.assignedShift!==undefined&&e.assignedShift!==''?parseInt(e.assignedShift):-1;
-    const shift=shiftIdx>=0?shifts[shiftIdx]:null;
-    let lateBy=0,earlyBy=0,hours=0,otMins=0;
-    if(inT&&outT){
-      const[ih,im]=inT.split(':').map(Number),[oh,om]=outT.split(':').map(Number);
-      hours=((oh*60+om)-(ih*60+im))/60;
-      if(shift&&shift.start){const[sh,sm]=shift.start.split(':').map(Number);const g=parseInt(shift.grace||0);lateBy=Math.max(0,(ih*60+im)-(sh*60+sm+g));}
-      if(shift&&shift.end){const[sh,sm]=shift.end.split(':').map(Number);earlyBy=Math.max(0,(sh*60+sm)-(oh*60+om));otMins=Math.max(0,(oh*60+om)-(sh*60+sm));}
-    }
-    const rec={id:Date.now()+ei,empIndex:ei,empName:`${e.fName} ${e.lName}`,empId:e.id||'',dept:e.dept||'',date,inTime:inT,outTime:outT,status,remark:'Bulk',hoursWorked:Math.max(0,hours).toFixed(2),otMins,lateBy,earlyBy,shiftStart:shift?.start||'',shiftEnd:shift?.end||''};
-    const existIdx=attendance.findIndex(a=>a.empIndex===ei&&a.date===date);
-    if(existIdx>=0) attendance[existIdx]=rec;else attendance.push(rec);
-    count++;
-  });
-  localStorage.setItem('kidv_attendance',JSON.stringify(attendance));
-  closeBulkModal();updateStats();renderTodayTable();
-  showToast(`Bulk marked ${count} employees for ${date}`,'success');
-}
-
-// ── PAGINATION ──
-function renderPg(prefix,total){
-  const pageVars={d:()=>{dPage;},m:()=>{mPage;},l:()=>{lPage;},eg:()=>{egPage;}};
-  const pages=Math.ceil(total/PER);
-  const cur={d:dPage,m:mPage,l:lPage,eg:egPage}[prefix]||1;
-  const s=(cur-1)*PER+1,e2=Math.min(cur*PER,total);
-  const info=document.getElementById(`${prefix}_pgInfo`);const btns=document.getElementById(`${prefix}_pgBtns`);
-  if(!info||!btns) return;
-  info.textContent=total?`Showing ${s}–${e2} of ${total}`:'No records';
-  btns.innerHTML='';
-  for(let i=1;i<=Math.min(pages,7);i++){
-    const b=document.createElement('button');b.className='pg-btn'+(i===cur?' active':'');b.textContent=i;
-    b.onclick=(()=>{const p=i;return()=>{if(prefix==='d'){dPage=p;renderDailyPage();}else if(prefix==='m'){mPage=p;renderMonthlyPage();}else if(prefix==='l'){lPage=p;renderLatePage();}else if(prefix==='eg'){egPage=p;renderEarlyPage();}};})();
-    btns.appendChild(b);
+  if(!employees.length){
+    document.getElementById('tabContent').innerHTML='<div class="empty-state"><span class="material-icons-round">people_outline</span><div class="empty-title">No Employees Found</div><div class="empty-sub">Add employees first to track attendance</div></div>';
+    resetStats();return;
   }
+
+  // Build date headers
+  let headHTML='<th>Employee</th>';
+  for(let d=1;d<=daysInMonth;d++){
+    const dt=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dow=new Date(dt).getDay();
+    const hol=isHoliday(dt);
+    const isToday=dt===todayStr;
+    const isWknd=(dow===0||dow===6);
+    let cls='';
+    if(isToday)cls='is-today';
+    else if(hol)cls='is-holiday';
+    else if(isWknd)cls='is-weekend';
+    headHTML+=`<th class="${cls}" title="${hol?(hol.name||hol.holidayName||'Holiday'):''}"><div class="day-hd"><div class="day-name">${DAYS[dow]}</div><div class="day-num">${d}</div>${hol?`<div class="day-hol-badge">H</div>`:''}</div></th>`;
+  }
+  headHTML+='<th>Summary</th>';
+
+  // stat accumulators
+  const stats={P:0,A:0,H:0,L:0,WO:0,OH:0,HD:0};
+
+  let bodyHTML=employees.map((e,ei)=>{
+    const eid=empId(e,ei);
+    const grad=AV_COLORS[ei%AV_COLORS.length];
+    let rowCells=`<td><div class="emp-cell"><div class="eav" style="background:${grad};">${(e.fName||'?')[0]}${(e.lName||'?')[0]}</div><div><div class="ename">${e.fName||''} ${e.lName||''}</div><div class="ejob">${e.job||e.designation||'—'}</div></div></div></td>`;
+    const DAY_NAMES=['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
+    const empWO=((e.weekoff||'SUNDAY').toUpperCase().trim());
+    let p=0,a=0,h=0,l=0,wo=0;
+
+    for(let d=1;d<=daysInMonth;d++){
+      const dt=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const dow=new Date(dt).getDay();
+      const isWe=DAY_NAMES[dow]===empWO;
+      const hol=isHoliday(dt);
+      let cur=getStatus(eid,dt);
+      // Auto-defaults (only if not set)
+      if(!cur){cur=hol?'HD':isWe?'WO':'';if(cur)setStatus(eid,dt,cur);}
+      // Count
+      if(cur==='P')p++;else if(cur==='A')a++;else if(cur==='H')h++;else if(cur==='L')l++;else if(cur==='WO')wo++;
+      if(stats[cur]!==undefined)stats[cur]++;
+      const sc=STATUS_CFG[cur]||{cls:'s-empty',lbl:'·'};
+      const label=cur||'·';
+      rowCells+=`<td><button class="sb ${cur?sc.cls:'s-empty'}" onclick="cycleStatus('${eid}','${dt}',this,${ei})" title="${sc.lbl||''}">${label}</button></td>`;
+    }
+    const workDays=daysInMonth-wo-(stats.HD||0);
+    const pct=daysInMonth>0?Math.round((p+(h*.5))/Math.max(daysInMonth-wo,1)*100):0;
+    const pctCls=pct>=90?'pct-high':pct>=75?'pct-mid':'pct-low';
+    rowCells+=`<td class="total-cell"><div class="total-main">${p}P ${a}A ${h}H ${l}L</div><div class="total-pct ${pctCls}">${pct}% present</div></td>`;
+    return`<tr>${rowCells}</tr>`;
+  }).join('');
+
+  document.getElementById('tabContent').innerHTML=`<div class="att-wrap"><table class="atbl"><thead><tr>${headHTML}</tr></thead><tbody>${bodyHTML}</tbody></table></div>`;
+  updateStats(stats);
 }
 
-// ── PRINT ──
-function printCard(ei,mo,yr){
-  const e=employees[ei];const col=AV_COLORS[ei%AV_COLORS.length];
-  const prefix=`${yr}-${String(mo).padStart(2,'0')}`;
-  const recs=attendance.filter(a=>a.empIndex===ei&&a.date.startsWith(prefix));
-  const mo_name=MONTHS_F[mo-1];
-  const shifts=JSON.parse(localStorage.getItem('shifts')||'[]');
-  const shiftIdx=e.assignedShift!==undefined&&e.assignedShift!==''?parseInt(e.assignedShift):-1;
-  const shift=shiftIdx>=0?shifts[shiftIdx]:null;
-  const present=recs.filter(a=>a.status==='present').length;
-  const absent=recs.filter(a=>a.status==='absent').length;
-  const late=recs.filter(a=>a.lateBy>0).length;
-  const wo=recs.filter(a=>a.status==='weekoff').length;
-  const daysInMonth=new Date(yr,mo,0).getDate();
-  const workDays=daysInMonth-wo;
-  const pct=workDays>0?Math.round(present/workDays*100):0;
-  const rows=recs.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>`
-    <tr style="border-bottom:1px solid #f1f5f9;">
-      <td style="padding:7px 10px;font-size:11px;color:#475569;">${r.date}</td>
-      <td style="padding:7px 10px;font-size:11px;font-weight:700;">${r.inTime||'—'}</td>
-      <td style="padding:7px 10px;font-size:11px;font-weight:700;">${r.outTime||'—'}</td>
-      <td style="padding:7px 10px;font-size:11px;">${r.hoursWorked>0?r.hoursWorked+'h':'—'}</td>
-      <td style="padding:7px 10px;"><span style="padding:2px 8px;border-radius:99px;font-size:9px;font-weight:700;text-transform:uppercase;background:${r.status==='present'?'#dcfce7':r.status==='absent'?'#fee2e2':'#f1f5f9'};color:${r.status==='present'?'#16a34a':r.status==='absent'?'#ef4444':'#475569'};">${r.status}</span></td>
-      <td style="padding:7px 10px;font-size:9px;color:#94a3b8;">${r.lateBy>0?fmtMins(r.lateBy)+' Late':''}${r.earlyBy>0?' '+fmtMins(r.earlyBy)+' Early':''}</td>
-    </tr>`).join('');
-  const w=window.open('','_blank');
-  w.document.write(`<!DOCTYPE html><html><head><title>Attendance Card - ${e.fName} ${e.lName}</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <style>body{font-family:'Outfit',sans-serif;margin:0;padding:20px;background:#fff;color:#1e293b;}@media print{body{padding:0;}}</style></head>
-  <body>
-  <div style="background:#07101f;border-radius:12px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-    <div style="display:flex;align-items:center;gap:14px;">
-      <div style="width:48px;height:48px;border-radius:12px;background:${col};color:#fff;font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center;">${(e.fName?.[0]||'')+(e.lName?.[0]||'')}</div>
-      <div><div style="font-size:15px;font-weight:900;text-transform:uppercase;color:#fff;letter-spacing:.05em;">${e.fName} ${e.lName}</div><div style="font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;margin-top:3px;">${e.job||''} · ${e.dept||''} · ${e.id||''}</div></div>
-    </div>
-    <div style="text-align:right;"><div style="font-size:13px;font-weight:800;color:#06b6d4;text-transform:uppercase;">${mo_name} ${yr}</div><div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:3px;">${shift?shift.name+' · '+shift.start+'–'+shift.end:'No Default Shift'}</div></div>
-  </div>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
-    ${[['Present',present,'#10b981'],['Absent',absent,'#ef4444'],['Late',late,'#f59e0b'],['Attendance',pct+'%',pct>=80?'#10b981':'#ef4444']].map(([l,v,c])=>`<div style="background:#f8fafc;border-radius:10px;padding:14px;text-align:center;border:1px solid #ecf0f6;"><div style="font-size:9px;color:#94a3b8;text-transform:uppercase;font-weight:700;margin-bottom:6px;">${l}</div><div style="font-size:22px;font-weight:900;color:${c};font-family:'JetBrains Mono',monospace;">${v}</div></div>`).join('')}
-  </div>
-  <table style="width:100%;border-collapse:collapse;">
-    <thead><tr style="background:#f8fafc;"><th style="padding:9px 10px;font-size:9px;color:#94a3b8;text-transform:uppercase;text-align:left;font-weight:700;">Date</th><th style="padding:9px 10px;font-size:9px;color:#94a3b8;text-transform:uppercase;text-align:left;font-weight:700;">IN</th><th style="padding:9px 10px;font-size:9px;color:#94a3b8;text-transform:uppercase;text-align:left;font-weight:700;">OUT</th><th style="padding:9px 10px;font-size:9px;color:#94a3b8;text-transform:uppercase;text-align:left;font-weight:700;">Hours</th><th style="padding:9px 10px;font-size:9px;color:#94a3b8;text-transform:uppercase;text-align:left;font-weight:700;">Status</th><th style="padding:9px 10px;font-size:9px;color:#94a3b8;text-transform:uppercase;text-align:left;font-weight:700;">Remarks</th></tr></thead>
-    <tbody>${rows||'<tr><td colspan="6" style="text-align:center;padding:20px;color:#94a3b8;">No records for this month</td></tr>'}</tbody>
-  </table>
-  <div style="margin-top:20px;font-size:9px;color:#94a3b8;text-align:center;text-transform:uppercase;">Generated on ${new Date().toLocaleDateString('en-IN')} · KIDV Tech HRMS</div>
-  <script>window.onload=()=>window.print();<\/script>
-  </body></html>`);w.document.close();
+function cycleStatus(empId,date,btn,empIdx){
+  const cur=getStatus(empId,date)||'';
+  const next=STATUS_CYCLE[(STATUS_CYCLE.indexOf(cur)+1)%STATUS_CYCLE.length];
+  setStatus(empId,date,next);
+  const sc=STATUS_CFG[next]||{cls:'s-empty'};
+  btn.textContent=next||'·';
+  btn.className=`sb ${next?sc.cls:'s-empty'}`;
+  // Re-render stats only (not full table to avoid flicker)
+  recalcStats();
 }
-function printAllCards(){showToast('Printing cards for all employees...','success');renderEmpCards();setTimeout(()=>{employees.forEach((_,ei)=>{const mo=parseInt(document.getElementById('ec_month').value),yr=parseInt(document.getElementById('ec_year').value);printCard(ei,mo,yr);});},300);}
 
-// ── EXPORT ──
-function exportTable(tbId,name){
-  const table=document.getElementById(tbId);if(!table) return;
-  const rows=[];
-  const heads=[...table.closest('table').querySelectorAll('thead th')].map(th=>th.textContent.trim());
-  rows.push(heads.join(','));
-  [...table.querySelectorAll('tr')].forEach(tr=>{
-    const cells=[...tr.querySelectorAll('td')].map(td=>'"'+(td.textContent.trim().replace(/"/g,''))+'"');
-    if(cells.length) rows.push(cells.join(','));
+function recalcStats(){
+  const{m,y}=getMY();
+  const daysInMonth=new Date(y,m+1,0).getDate();
+  const stats={P:0,A:0,H:0,L:0,WO:0,OH:0,HD:0};
+  employees.forEach((e,ei)=>{
+    const eid=empId(e,ei);
+    for(let d=1;d<=daysInMonth;d++){
+      const dt=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const cur=getStatus(eid,dt);
+      if(stats[cur]!==undefined)stats[cur]++;
+    }
   });
-  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.join('\n'));
-  a.download=`${name}_${new Date().toISOString().split('T')[0]}.csv`;a.click();
-  showToast('Exported!','success');
-}
-function exportCurrent(){
-  const map={daily:'dailyTable',monthly:'monthlyTable',late:'lateTable',early:'earlyTable',ot:'otTable'};
-  const tbId=map[currentTab];
-  if(tbId) exportTable(tbId,currentTab.charAt(0).toUpperCase()+currentTab.slice(1));
-  else showToast('Nothing to export on this tab','error');
+  updateStats(stats);
 }
 
-// ── UTILS ──
-function fmtMins(m){if(!m) return'0m';const h=Math.floor(m/60),mn=m%60;return h>0?`${h}h ${mn}m`:`${mn}m`;}
+function updateStats(s){
+  document.getElementById('sP').textContent=s.P||0;document.getElementById('sA').textContent=s.A||0;document.getElementById('sH').textContent=s.H||0;document.getElementById('sL').textContent=s.L||0;document.getElementById('sWO').textContent=s.WO||0;document.getElementById('sOH').textContent=s.OH||0;document.getElementById('sHD').textContent=s.HD||0;
+}
+function resetStats(){updateStats({P:0,A:0,H:0,L:0,WO:0,OH:0,HD:0});}
+
+// ── RENDER MONTHLY ──
+function renderMonthly(){
+  const{m,y}=getMY();
+  const daysInMonth=new Date(y,m+1,0).getDate();
+  if(!employees.length){document.getElementById('tabContent').innerHTML='<div class="empty-state"><span class="material-icons-round">people_outline</span><div class="empty-title">No Employees Found</div></div>';resetStats();return;}
+  const stats={P:0,A:0,H:0,L:0,WO:0,OH:0,HD:0};
+  const cards=employees.map((e,ei)=>{
+    const eid=empId(e,ei);
+    const grad=AV_COLORS[ei%AV_COLORS.length];
+    let p=0,a=0,h=0,l=0,wo=0,oh=0,hd=0;
+    for(let d=1;d<=daysInMonth;d++){
+      const dt=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const s=getStatus(eid,dt);
+      if(s==='P')p++;else if(s==='A')a++;else if(s==='H')h++;else if(s==='L')l++;else if(s==='WO')wo++;else if(s==='OH')oh++;else if(s==='HD')hd++;
+      if(stats[s]!==undefined)stats[s]++;
+    }
+    const pct=daysInMonth>0?Math.round((p+(h*.5))/Math.max(daysInMonth-wo-hd-oh,1)*100):0;
+    const pctColor=pct>=90?'#10b981':pct>=75?'#f59e0b':'#ef4444';
+    const barColor=pct>=90?'linear-gradient(90deg,#10b981,#06b6d4)':pct>=75?'linear-gradient(90deg,#f59e0b,#fbbf24)':'linear-gradient(90deg,#ef4444,#f97316)';
+    return`<div class="emp-sum" style="animation-delay:${ei*.04}s">
+      <div class="esc-head">
+        <div class="eav" style="background:${grad};width:36px;height:36px;border-radius:10px;font-size:11px;">${(e.fName||'?')[0]}${(e.lName||'?')[0]}</div>
+        <div><div class="ename">${e.fName||''} ${e.lName||''}</div><div class="ejob">${e.job||e.designation||'—'}</div></div>
+        <div class="esc-pct"><div class="esc-pct-num" style="color:${pctColor};">${pct}%</div><div class="esc-pct-lbl">Present</div></div>
+      </div>
+      <div class="att-bar"><div class="att-bar-fill" style="width:${pct}%;background:${barColor};"></div></div>
+      <div class="esc-counts">
+        <div class="esc-cnt"><div class="esc-n" style="color:#10b981;">${p}</div><div class="esc-l">Present</div></div>
+        <div class="esc-cnt"><div class="esc-n" style="color:#ef4444;">${a}</div><div class="esc-l">Absent</div></div>
+        <div class="esc-cnt"><div class="esc-n" style="color:#f97316;">${h}</div><div class="esc-l">Half</div></div>
+        <div class="esc-cnt"><div class="esc-n" style="color:#f59e0b;">${l}</div><div class="esc-l">Leave</div></div>
+        <div class="esc-cnt"><div class="esc-n" style="color:#64748b;">${wo}</div><div class="esc-l">WO</div></div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('tabContent').innerHTML=`<div class="mo-grid">${cards}</div>`;
+  updateStats(stats);
+}
+
+// ── QUICK FILL ──
+function buildQFStatusPicker(){
+  const cfg={P:{lbl:'Present',color:'#10b981',bg:'#dcfce7'},A:{lbl:'Absent',color:'#ef4444',bg:'#fee2e2'},H:{lbl:'Half Day',color:'#f97316',bg:'#ffedd5'},L:{lbl:'Leave',color:'#f59e0b',bg:'#fef9c3'},WO:{lbl:'Week Off',color:'#64748b',bg:'#f1f5f9'},OH:{lbl:'Off.Holiday',color:'#8b5cf6',bg:'#ede9fe'},HD:{lbl:'Holiday',color:'#2563eb',bg:'#eff6ff'}};
+  const el=document.getElementById('statusPicker');
+  el.innerHTML=Object.entries(cfg).map(([k,v])=>`<div class="status-pick ${k==='P'?'sel':''}" onclick="selectQFStatus('${k}',this)" style="border-color:${k==='P'?v.color:'#e2e8f0'};background:${k==='P'?v.bg:'#fff'};" data-color="${v.color}" data-bg="${v.bg}"><div class="status-pick-code" style="color:${v.color};">${k}</div><div class="status-pick-lbl">${v.lbl}</div></div>`).join('');
+}
+
+function selectQFStatus(code,el){
+  qfStatus=code;
+  document.querySelectorAll('.status-pick').forEach(p=>{p.classList.remove('sel');p.style.borderColor='#e2e8f0';p.style.background='#fff';});
+  el.classList.add('sel');el.style.borderColor=el.dataset.color;el.style.background=el.dataset.bg;
+}
+
+function buildQFEmpList(){
+  const el=document.getElementById('qfEmpList');
+  if(!employees.length){el.innerHTML='<div style="padding:16px;text-align:center;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;">No employees</div>';return;}
+  el.innerHTML=employees.map((e,i)=>{
+    const grad=AV_COLORS[i%AV_COLORS.length];
+    const name=`${e.fName||''} ${e.lName||''}`.trim();
+    return`<div class="qf-emp"><input type="checkbox" class="qf-chk" value="${i}" checked><div class="eav" style="background:${grad};width:26px;height:26px;border-radius:7px;font-size:9px;">${(e.fName||'?')[0]}${(e.lName||'?')[0]}</div><div><div class="ename" style="font-size:10.5px;">${name}</div><div class="ejob">${e.dept||e.job||''}</div></div></div>`;
+  }).join('');
+}
+
+function qfSelectAll(v){document.querySelectorAll('.qf-chk').forEach(c=>c.checked=v);}
+
+function openQuickFill(){
+  const{m,y}=getMY();const daysInMonth=new Date(y,m+1,0).getDate();
+  document.getElementById('qfFrom').value=1;document.getElementById('qfTo').value=daysInMonth;
+  buildQFEmpList();
+  document.getElementById('qfModal').classList.add('open');
+}
+function closeQF(){document.getElementById('qfModal').classList.remove('open');}
+
+function applyQuickFill(){
+  const{m,y}=getMY();
+  const from=parseInt(document.getElementById('qfFrom').value)||1;
+  const to=parseInt(document.getElementById('qfTo').value)||31;
+  const daysInMonth=new Date(y,m+1,0).getDate();
+  const selected=Array.from(document.querySelectorAll('.qf-chk:checked')).map(c=>parseInt(c.value));
+  if(!selected.length){showToast('Select at least one employee','error');return;}
+  let count=0;
+  selected.forEach(idx=>{
+    const e=employees[idx];if(!e)return;
+    const eid=empId(e,idx);
+    for(let d=Math.max(1,from);d<=Math.min(daysInMonth,to);d++){
+      const dt=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      setStatus(eid,dt,qfStatus);count++;
+    }
+  });
+  closeQF();render();
+  showToast(`Applied ${qfStatus} to ${count} day(s) across ${selected.length} employee(s)!`,'success');
+}
+
+// ── EXPORT CSV ──
+function exportCSV(){
+  const{m,y}=getMY();
+  const daysInMonth=new Date(y,m+1,0).getDate();
+  if(!employees.length){showToast('No employees to export','error');return;}
+  let csv=`Employee,ID,${Array.from({length:daysInMonth},(_,i)=>`${i+1}`).join(',')},P,A,H,L,WO\n`;
+  employees.forEach((e,ei)=>{
+    const eid=empId(e,ei);
+    const name=`${e.fName||''} ${e.lName||''}`.trim();
+    let p=0,a=0,h=0,l=0,wo=0;
+    const days=[];
+    for(let d=1;d<=daysInMonth;d++){
+      const dt=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const s=getStatus(eid,dt)||'-';days.push(s);
+      if(s==='P')p++;else if(s==='A')a++;else if(s==='H')h++;else if(s==='L')l++;else if(s==='WO')wo++;
+    }
+    csv+=`"${name}",${eid},${days.join(',')},${p},${a},${h},${l},${wo}\n`;
+  });
+  const blob=new Blob([csv],{type:'text/csv'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=`Attendance_${MONTHS[m]}_${y}.csv`;a.click();
+  showToast('Attendance exported as CSV!','success');
+}
+
 function showToast(msg,type='success'){
   const t=document.getElementById('toast');t.className='toast '+type;
   document.getElementById('toastIcon').textContent=type==='success'?'check_circle':'error';
-  document.getElementById('toastMsg').textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);
+  document.getElementById('toastMsg').textContent=msg;
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);
 }
 </script>
 </body>
