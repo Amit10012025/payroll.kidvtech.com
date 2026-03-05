@@ -11,8 +11,6 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflow:hidden;}
 .app{display:flex;height:100vh;}
-
-/* SIDEBAR */
 .sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden;border-right:1px solid rgba(255,255,255,.05);box-shadow:8px 0 40px rgba(0,0,0,.35);}
 .sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 65%);pointer-events:none;z-index:0;}
 .sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09) 0%,transparent 65%);pointer-events:none;z-index:0;}
@@ -33,6 +31,10 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
 .ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
 .ic-int{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.ic-doc{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-trn{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
+.ic-cel{background:rgba(236,72,153,.18);color:#f9a8d4;border:1px solid rgba(236,72,153,.18);}
+.ic-fin{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
 .ic-adm{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
 .nav a.active .ic{transform:scale(1.08);box-shadow:0 0 14px rgba(37,99,235,.4);}
 .nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
@@ -43,8 +45,6 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .logout-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:10px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);color:rgba(252,165,165,.8);font-size:10px;font-weight:700;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;}
 .logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;}
 .logout-btn .material-icons-round{font-size:14px;}
-
-/* MAIN */
 .main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:var(--sidebar-w);}
 .topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:11px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,.05);}
 .topbar-left{display:flex;align-items:center;gap:12px;}
@@ -52,16 +52,12 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .menu-btn .material-icons-round{font-size:22px;}
 .page-title{font-size:15px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
 .page-sub{font-size:9px;color:#94a3b8;font-weight:500;margin-top:2px;letter-spacing:.05em;text-transform:uppercase;}
-
-/* TABS */
 .tab-bar{background:#fff;border-bottom:1px solid #e8edf5;padding:0 24px;display:flex;gap:0;overflow-x:auto;flex-shrink:0;box-shadow:0 1px 4px rgba(0,0,0,.03);}
 .tab-bar::-webkit-scrollbar{height:3px;}.tab-bar::-webkit-scrollbar-thumb{background:#e2e8f0;}
 .tab-btn{display:flex;align-items:center;gap:7px;padding:13px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#94a3b8;border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;transition:all .18s;white-space:nowrap;font-family:'Outfit',sans-serif;}
 .tab-btn:hover{color:#0f172a;}
 .tab-btn.active{color:#2563eb;border-bottom-color:#2563eb;}
 .tab-btn .material-icons-round{font-size:15px;}
-
-/* BTNS */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.06em;font-family:'Outfit',sans-serif;white-space:nowrap;}
 .btn-blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.3);}
 .btn-blue:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,.44);}
@@ -77,26 +73,16 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .btn-purple:hover{transform:translateY(-1px);}
 .btn-sm{padding:6px 12px;font-size:10px;border-radius:8px;}
 .btn .material-icons-round{font-size:14px;}
-
-/* SCROLL */
 .scroll{flex:1;overflow-y:auto;padding:18px 24px;}
 .scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
-
-/* PANES */
 .tab-pane{display:none;animation:fadeIn .2s ease;}.tab-pane.active{display:block;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
-
-/* CARDS */
 .card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
 .card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
 .card-title{font-size:12px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.08em;}
-
-/* GRID */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
-
-/* STAT BOXES */
 .stat-box{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:16px 18px;position:relative;overflow:hidden;transition:all .18s;box-shadow:0 1px 3px rgba(0,0,0,.04);}
 .stat-box:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.08);}
 .stat-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
@@ -115,8 +101,6 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .stat-lbl{font-size:8.5px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.06em;}
 .stat-val{font-size:22px;font-weight:900;color:#0f172a;margin-top:3px;font-family:'JetBrains Mono',monospace;}
 .stat-sub{font-size:9px;color:#94a3b8;font-weight:500;margin-top:3px;}
-
-/* DATA TABLE */
 .tbl-wrap{border-radius:12px;overflow:hidden;border:1px solid #ecf0f6;overflow-x:auto;}
 .tbl-wrap::-webkit-scrollbar{height:4px;}.tbl-wrap::-webkit-scrollbar-thumb{background:#e2e8f0;border-radius:10px;}
 table.dtbl{width:100%;border-collapse:collapse;font-size:11px;min-width:600px;}
@@ -131,8 +115,6 @@ table.dtbl tfoot td{padding:11px 14px;font-size:11px;font-weight:900;color:#0f17
 .eav{width:30px;height:30px;border-radius:8px;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .ename{font-size:11px;font-weight:700;color:#0f172a;}
 .eid{font-size:8.5px;color:#94a3b8;font-weight:500;margin-top:1px;}
-
-/* BADGES */
 .badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;}
 .badge-blue{background:#eff6ff;color:#2563eb;}
 .badge-green{background:#dcfce7;color:#15803d;}
@@ -141,15 +123,11 @@ table.dtbl tfoot td{padding:11px 14px;font-size:11px;font-weight:900;color:#0f17
 .badge-gray{background:#f1f5f9;color:#64748b;}
 .badge-purple{background:#ede9fe;color:#6d28d9;}
 .badge-cyan{background:#ecfeff;color:#0e7490;}
-
-/* FILTER BAR */
 .filter-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px;}
 .form-sel{padding:8px 12px;border-radius:9px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;color:#1e293b;background:#f8fafc;cursor:pointer;transition:all .15s;}
 .form-sel:focus{outline:none;border-color:#2563eb;background:#fff;}
 .form-inp{padding:8px 12px;border-radius:9px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:11.5px;font-weight:600;color:#1e293b;background:#f8fafc;transition:all .15s;}
 .form-inp:focus{outline:none;border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
-
-/* BAR CHART */
 .bar-chart{display:flex;flex-direction:column;gap:12px;}
 .bar-item{display:flex;align-items:center;gap:12px;}
 .bar-label{font-size:10px;font-weight:800;text-transform:uppercase;color:#0f172a;min-width:130px;flex-shrink:0;}
@@ -157,8 +135,6 @@ table.dtbl tfoot td{padding:11px 14px;font-size:11px;font-weight:900;color:#0f17
 .bar-fill{height:100%;border-radius:99px;transition:width .7s cubic-bezier(.4,0,.2,1);}
 .bar-val{font-size:11px;font-weight:900;color:#0f172a;min-width:100px;text-align:right;flex-shrink:0;font-family:'JetBrains Mono',monospace;}
 .bar-pct{font-size:9px;font-weight:700;color:#94a3b8;min-width:42px;text-align:right;}
-
-/* DEPT CARDS */
 .dept-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
 .dept-card{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:16px;position:relative;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:all .18s;}
 .dept-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.08);}
@@ -168,32 +144,22 @@ table.dtbl tfoot td{padding:11px 14px;font-size:11px;font-weight:900;color:#0f17
 .dept-stat:last-child{border-bottom:none;}
 .dept-stat-lbl{color:#94a3b8;font-weight:600;text-transform:uppercase;font-size:10px;}
 .dept-stat-val{font-weight:800;color:#0f172a;font-family:'JetBrains Mono',monospace;}
-
-/* GROWTH CHART */
 .growth-bars{display:flex;align-items:flex-end;gap:8px;height:180px;padding:10px 0;}
 .growth-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
 .growth-bar{width:100%;border-radius:6px 6px 0 0;transition:height .7s cubic-bezier(.4,0,.2,1);}
 .growth-bar-lbl{font-size:8px;font-weight:700;text-transform:uppercase;color:#94a3b8;text-align:center;}
 .growth-bar-val{font-size:9px;font-weight:900;color:#0f172a;text-align:center;font-family:'JetBrains Mono',monospace;}
-
-/* SUMMARY HIGHLIGHTS */
 .highlight-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
 .hl-box{background:#fff;border-radius:12px;border:1px solid #ecf0f6;padding:14px 16px;text-align:center;}
 .hl-lbl{font-size:8.5px;font-weight:700;text-transform:uppercase;color:#94a3b8;letter-spacing:.06em;}
 .hl-val{font-size:20px;font-weight:900;color:#0f172a;margin-top:4px;font-family:'JetBrains Mono',monospace;}
-
-/* TOAST */
 .toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.2);}
 .toast.show{transform:translateY(0);opacity:1;}
 .toast.success{background:#065f46;border-left:4px solid #6ee7b7;}
 .toast.error{background:#7f1d1d;border-left:4px solid #fca5a5;}
 .toast .material-icons-round{font-size:16px;}
-
-/* PRINT */
 #printZone{display:none;position:fixed;inset:0;background:white;padding:20px;z-index:9999;overflow:auto;}
 @media print{body *{visibility:hidden!important;}#printZone,#printZone *{visibility:visible!important;}#printZone{position:fixed!important;inset:0!important;z-index:9999!important;padding:20px!important;overflow:auto!important;}}
-
-/* RESPONSIVE */
 @media(max-width:1000px){.g4{grid-template-columns:1fr 1fr;}.g3{grid-template-columns:1fr 1fr;}.dept-grid{grid-template-columns:1fr 1fr;}.highlight-row{grid-template-columns:1fr 1fr;}}
 @media(max-width:768px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.sidebar-overlay.open{display:block;}.main{margin-left:0!important;}.menu-btn{display:flex!important;}.topbar,.scroll{padding:11px 14px;}.g2,.g3,.g4,.dept-grid{grid-template-columns:1fr;}.highlight-row{grid-template-columns:1fr 1fr;}}
 </style>
@@ -203,28 +169,40 @@ table.dtbl tfoot td{padding:11px 14px;font-size:11px;font-weight:900;color:#0f17
 <div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
 <div class="app">
 
-<!-- SIDEBAR -->
+<!-- SIDEBAR — UPDATED with Job Openings + HR Letters -->
 <aside class="sidebar" id="sidebar">
   <div class="logo-area"><img src="logo.png" alt="KIDV Tech"></div>
   <nav class="nav">
     <div class="nav-sec">Main</div>
     <a href="index.html"><span class="ic ic-main"><span class="material-icons-round">dashboard</span></span>Dashboard</a>
     <a href="employees.html"><span class="ic ic-main"><span class="material-icons-round">badge</span></span>Employees</a>
+
     <div class="nav-sec">HR</div>
     <a href="leave-management.html"><span class="ic ic-hr"><span class="material-icons-round">event_available</span></span>Leave</a>
     <a href="shifts.html"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
     <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
     <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
+    <a href="hr-letters.html"><span class="ic ic-hr"><span class="material-icons-round">mail</span></span>HR Letters</a>
+    <a href="celebrations.html"><span class="ic ic-cel"><span class="material-icons-round">celebration</span></span>Celebrations</a>
+    <a href="document-expiry.html"><span class="ic ic-doc"><span class="material-icons-round">assignment_late</span></span>Doc Expiry</a>
+    <a href="training-tracker.html"><span class="ic ic-trn"><span class="material-icons-round">school</span></span>Training</a>
+
     <div class="nav-sec">Operations</div>
     <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
     <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
     <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
-    <a href="reports.html" class="active"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
+    <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
+    <a href="analytics.html"><span class="ic ic-ops"><span class="material-icons-round">insights</span></span>Analytics</a>
+    <div class="nav-sec">Finance</div>
+    <a href="loan-management.html"><span class="ic ic-fin"><span class="material-icons-round">account_balance_wallet</span></span>Loans &amp; Advances</a>
     <div class="nav-sec">Recruitment</div>
-    <a href="job-openings.html"><span class="ic ic-rec"><span class="material-icons-round">work</span></span>Job Openings</a>
-    <a href="hr-letters.html"><span class="ic ic-hr"><span class="material-icons-round">mail</span></span>HR Letters</a>
+    <a href="job-openings.html"><span class="ic ic-int"><span class="material-icons-round">work</span></span>Job Openings</a>
+
+    <div class="nav-sec">Self-Service</div>
+    <a href="ess-login.html"><span class="ic ic-int"><span class="material-icons-round">person_pin</span></span>Employee Portal</a>
     <div class="nav-sec">Integration</div>
     <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">device_hub</span></span>Device Manager</a>
+
     <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
     <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
     <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">shield</span></span>Roles &amp; Perms</a>
@@ -235,7 +213,7 @@ table.dtbl tfoot td{padding:11px 14px;font-size:11px;font-weight:900;color:#0f17
   </div>
 </aside>
 
-<!-- MAIN -->
+<!-- MAIN — unchanged from user's original -->
 <div class="main">
   <div class="topbar">
     <div class="topbar-left">
@@ -251,7 +229,6 @@ table.dtbl tfoot td{padding:11px 14px;font-size:11px;font-weight:900;color:#0f17
     </div>
   </div>
 
-  <!-- TABS -->
   <div class="tab-bar">
     <button class="tab-btn active" id="tab-register" onclick="switchTab('register')"><span class="material-icons-round">table_chart</span>Salary Register</button>
     <button class="tab-btn" id="tab-dept" onclick="switchTab('dept')"><span class="material-icons-round">corporate_fare</span>Dept. Cost Analysis</button>
@@ -261,7 +238,7 @@ table.dtbl tfoot td{padding:11px 14px;font-size:11px;font-weight:900;color:#0f17
 
   <div class="scroll">
 
-    <!-- ══════════ TAB 1 — SALARY REGISTER ══════════ -->
+    <!-- TAB 1 — SALARY REGISTER -->
     <div class="tab-pane active" id="pane-register">
       <div class="g4" style="margin-bottom:16px;">
         <div class="stat-box sb-blue"><div class="stat-icon si-blue"><span class="material-icons-round">people</span></div><div class="stat-lbl">Total Employees</div><div class="stat-val" id="r-count">0</div><div class="stat-sub">On payroll</div></div>
@@ -269,7 +246,6 @@ table.dtbl tfoot td{padding:11px 14px;font-size:11px;font-weight:900;color:#0f17
         <div class="stat-box sb-orange"><div class="stat-icon si-orange"><span class="material-icons-round">money_off</span></div><div class="stat-lbl">Total Deductions</div><div class="stat-val" id="r-ded" style="font-size:17px;">₹0</div><div class="stat-sub">PF + ESIC + PT</div></div>
         <div class="stat-box sb-purple"><div class="stat-icon si-purple"><span class="material-icons-round">account_balance_wallet</span></div><div class="stat-lbl">Net Pay-out</div><div class="stat-val" id="r-net" style="font-size:17px;">₹0</div><div class="stat-sub">Bank transfers</div></div>
       </div>
-
       <div class="card">
         <div class="card-hd">
           <div class="card-title">Monthly Salary Register</div>
@@ -282,11 +258,7 @@ table.dtbl tfoot td{padding:11px 14px;font-size:11px;font-weight:900;color:#0f17
         </div>
         <div class="tbl-wrap">
           <table class="dtbl">
-            <thead><tr>
-              <th>#</th><th>Employee</th><th>Department</th><th>Basic</th>
-              <th>Gross</th><th>PF Emp</th><th>ESIC Emp</th><th>Prof. Tax</th>
-              <th>Total Ded.</th><th>Net Pay</th><th>CTC</th>
-            </tr></thead>
+            <thead><tr><th>#</th><th>Employee</th><th>Department</th><th>Basic</th><th>Gross</th><th>PF Emp</th><th>ESIC Emp</th><th>Prof. Tax</th><th>Total Ded.</th><th>Net Pay</th><th>CTC</th></tr></thead>
             <tbody id="registerBody"></tbody>
             <tfoot><tr id="registerFoot"></tr></tfoot>
           </table>
@@ -294,7 +266,7 @@ table.dtbl tfoot td{padding:11px 14px;font-size:11px;font-weight:900;color:#0f17
       </div>
     </div>
 
-    <!-- ══════════ TAB 2 — DEPT COST ANALYSIS ══════════ -->
+    <!-- TAB 2 — DEPT COST ANALYSIS -->
     <div class="tab-pane" id="pane-dept">
       <div class="g4" style="margin-bottom:16px;">
         <div class="stat-box sb-blue"><div class="stat-icon si-blue"><span class="material-icons-round">corporate_fare</span></div><div class="stat-lbl">Total Departments</div><div class="stat-val" id="d-count">0</div></div>
@@ -302,16 +274,14 @@ table.dtbl tfoot td{padding:11px 14px;font-size:11px;font-weight:900;color:#0f17
         <div class="stat-box sb-orange"><div class="stat-icon si-orange"><span class="material-icons-round">trending_up</span></div><div class="stat-lbl">Total Monthly CTC</div><div class="stat-val" id="d-ctc" style="font-size:17px;">₹0</div></div>
         <div class="stat-box sb-purple"><div class="stat-icon si-purple"><span class="material-icons-round">person</span></div><div class="stat-lbl">Avg. CTC / Employee</div><div class="stat-val" id="d-avg" style="font-size:17px;">₹0</div></div>
       </div>
-
       <div class="dept-grid" id="deptCards"></div>
-
       <div class="card">
         <div class="card-hd"><div class="card-title">Department-wise Cost Breakdown</div></div>
         <div class="bar-chart" id="deptBarChart"></div>
       </div>
     </div>
 
-    <!-- ══════════ TAB 3 — SALARY HISTORY ══════════ -->
+    <!-- TAB 3 — SALARY HISTORY -->
     <div class="tab-pane" id="pane-history">
       <div class="card">
         <div class="card-hd">
@@ -320,22 +290,18 @@ table.dtbl tfoot td{padding:11px 14px;font-size:11px;font-weight:900;color:#0f17
         </div>
         <div class="tbl-wrap">
           <table class="dtbl">
-            <thead><tr>
-              <th>Employee</th><th>Department</th><th>Effective Date</th>
-              <th>Basic</th><th>Gross</th><th>Net Pay</th><th>CTC</th><th>Change</th>
-            </tr></thead>
+            <thead><tr><th>Employee</th><th>Department</th><th>Effective Date</th><th>Basic</th><th>Gross</th><th>Net Pay</th><th>CTC</th><th>Change</th></tr></thead>
             <tbody id="historyBody"></tbody>
           </table>
         </div>
       </div>
-
       <div class="card" id="growthCard" style="display:none;">
         <div class="card-hd"><div class="card-title" id="growthTitle">Salary Growth Chart</div></div>
         <div class="growth-bars" id="growthBars"></div>
       </div>
     </div>
 
-    <!-- ══════════ TAB 4 — HEADCOUNT ══════════ -->
+    <!-- TAB 4 — HEADCOUNT -->
     <div class="tab-pane" id="pane-headcount">
       <div class="g4" style="margin-bottom:16px;">
         <div class="stat-box sb-blue"><div class="stat-icon si-blue"><span class="material-icons-round">people</span></div><div class="stat-lbl">Total Headcount</div><div class="stat-val" id="hc-total">0</div></div>
@@ -343,7 +309,6 @@ table.dtbl tfoot td{padding:11px 14px;font-size:11px;font-weight:900;color:#0f17
         <div class="stat-box sb-orange"><div class="stat-icon si-orange"><span class="material-icons-round">assignment_ind</span></div><div class="stat-lbl">Contract / Probation</div><div class="stat-val" id="hc-contract">0</div></div>
         <div class="stat-box sb-purple"><div class="stat-icon si-purple"><span class="material-icons-round">account_balance_wallet</span></div><div class="stat-lbl">On Payroll</div><div class="stat-val" id="hc-payroll">0</div><div class="stat-sub">Salary assigned</div></div>
       </div>
-
       <div class="g2" style="margin-bottom:16px;">
         <div class="card">
           <div class="card-hd"><div class="card-title">Department-wise Headcount</div></div>
@@ -351,17 +316,10 @@ table.dtbl tfoot td{padding:11px 14px;font-size:11px;font-weight:900;color:#0f17
         </div>
         <div class="card">
           <div class="card-hd"><div class="card-title">PF &amp; ESIC Enrollment</div></div>
-          <div style="margin-bottom:14px;">
-            <div style="font-size:10px;font-weight:800;color:#2563eb;text-transform:uppercase;margin-bottom:8px;">Provident Fund</div>
-            <div class="bar-chart" id="pfBars"></div>
-          </div>
-          <div>
-            <div style="font-size:10px;font-weight:800;color:#10b981;text-transform:uppercase;margin-bottom:8px;">ESIC</div>
-            <div class="bar-chart" id="esicBars"></div>
-          </div>
+          <div style="margin-bottom:14px;"><div style="font-size:10px;font-weight:800;color:#2563eb;text-transform:uppercase;margin-bottom:8px;">Provident Fund</div><div class="bar-chart" id="pfBars"></div></div>
+          <div><div style="font-size:10px;font-weight:800;color:#10b981;text-transform:uppercase;margin-bottom:8px;">ESIC</div><div class="bar-chart" id="esicBars"></div></div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-hd"><div class="card-title">Designation-wise Distribution</div></div>
         <div class="tbl-wrap">
@@ -373,7 +331,7 @@ table.dtbl tfoot td{padding:11px 14px;font-size:11px;font-weight:900;color:#0f17
       </div>
     </div>
 
-  </div><!-- /scroll -->
+  </div>
 </div>
 </div>
 
@@ -405,6 +363,10 @@ function loadUserInfo(){
   const r=(u.role||'').toLowerCase();
   if(r==='super admin'||r==='admin'){document.getElementById('adminNav').style.display='';document.getElementById('usersLink').style.display='';document.getElementById('rolesLink').style.display='';}
 }
+(function(){
+  const page=window.location.pathname.split('/').pop()||'index.html';
+  document.querySelectorAll('.nav a').forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')===page)a.classList.add('active');});
+})();
 function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
 function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');}
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');}
@@ -450,7 +412,6 @@ function getCalc(e){
   return{gross,basic,pfEmp,esicEmp,pt,totalDed,netPay,ctc,pfApp,esicOk};
 }
 
-// ══ SALARY REGISTER ══
 function renderRegister(){
   const deptF=document.getElementById('reg-dept').value;
   const q=(document.getElementById('reg-search').value||'').toLowerCase();
@@ -501,7 +462,6 @@ function updateRegisterStats(cnt,gross,ded,net){
   document.getElementById('r-net').textContent=fmt(net);
 }
 
-// ══ DEPT ANALYSIS ══
 function renderDeptAnalysis(){
   const empWithSal=employees.filter(e=>e.sal_gross);
   const deptMap={};
@@ -541,7 +501,6 @@ function renderDeptAnalysis(){
   }).join('');
 }
 
-// ══ SALARY HISTORY ══
 function renderHistory(){
   const idx=document.getElementById('hist-emp').value;
   let list=idx===''?employees:employees.filter((_,i)=>i===parseInt(idx));
@@ -582,7 +541,6 @@ function renderHistory(){
     </tr>`);
   });
   tbody.innerHTML=rows.length?rows.join(''):'<tr><td colspan="8" style="text-align:center;padding:32px;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;">No salary history found.</td></tr>';
-
   const growthCard=document.getElementById('growthCard');
   if(idx!==''&&list.length){
     const e=list[0];const hist=e.history||[];const c=getCalc(e);
@@ -601,7 +559,6 @@ function renderHistory(){
   } else growthCard.style.display='none';
 }
 
-// ══ HEADCOUNT ══
 function renderHeadcount(){
   const total=employees.length;
   const perm=employees.filter(e=>(e.empType||'').toLowerCase().includes('perm')).length;
@@ -611,8 +568,6 @@ function renderHeadcount(){
   document.getElementById('hc-perm').textContent=perm;
   document.getElementById('hc-contract').textContent=contract;
   document.getElementById('hc-payroll').textContent=payroll;
-
-  // Dept headcount bars
   const deptMap={};
   employees.forEach(e=>{const d=e.dept||'Other';deptMap[d]=(deptMap[d]||0)+1;});
   const depts=Object.entries(deptMap).sort((a,b)=>b[1]-a[1]);
@@ -624,8 +579,6 @@ function renderHeadcount(){
       <div class="bar-val" style="min-width:30px;font-size:15px;">${cnt}</div>
       <div class="bar-pct">${total?((cnt/total)*100).toFixed(0):0}%</div>
     </div>`).join('');
-
-  // PF / ESIC
   const pfYes=employees.filter(e=>(e.pf||'').toUpperCase()==='YES').length;
   const esicYes=employees.filter(e=>n(e.sal_gross)>0&&n(e.sal_gross)<21000).length;
   document.getElementById('pfBars').innerHTML=[['Enrolled',pfYes,'#2563eb'],['Exempt',total-pfYes,'#bfdbfe']].map(([l,v,c])=>`
@@ -640,8 +593,6 @@ function renderHeadcount(){
       <div class="bar-track"><div class="bar-fill" style="width:${payroll?((v/payroll)*100):0}%;background:${c};"></div></div>
       <div class="bar-val" style="min-width:24px;font-size:14px;color:${c};">${v}</div>
     </div>`).join('');
-
-  // Designation table
   const desigMap={};
   employees.forEach(e=>{const d=e.job||e.designation||'Other';if(!desigMap[d])desigMap[d]={count:0,ctcTotal:0};desigMap[d].count++;desigMap[d].ctcTotal+=n(e.sal_ctc)||0;});
   document.getElementById('desigBody').innerHTML=Object.entries(desigMap).sort((a,b)=>b[1].count-a[1].count).map(([desig,d])=>`<tr>
@@ -656,7 +607,6 @@ function renderHeadcount(){
   </tr>`).join('');
 }
 
-// ══ EXPORT ══
 function exportReport(){
   let csv='',fname='Report';
   if(currentTab==='register'){
