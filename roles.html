@@ -4,7 +4,7 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>KIDV Tech | Roles &amp; Permissions</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round&display=block" rel="stylesheet">
 <script>
 if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}
 const _u=JSON.parse(localStorage.getItem('kidv_user')||'{}');
@@ -16,7 +16,7 @@ if((_u.role||'').toLowerCase()!=='super admin'&&(_u.role||'').toLowerCase()!=='a
 html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflow:hidden;}
 .app{display:flex;height:100vh;}
 
-/* SIDEBAR */
+/* ── SIDEBAR ── */
 .sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden;border-right:1px solid rgba(255,255,255,.05);box-shadow:8px 0 40px rgba(0,0,0,.35);}
 .sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 65%);pointer-events:none;z-index:0;}
 .sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09) 0%,transparent 65%);pointer-events:none;z-index:0;}
@@ -36,8 +36,12 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
 .ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
 .ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
-.ic-int{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
-.ic-adm{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
+.ic-int{background:rgba(6,182,212,.22);color:#22d3ee;border:1px solid rgba(6,182,212,.3);}
+.ic-fin{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-cel{background:rgba(236,72,153,.22);color:#f472b6;border:1px solid rgba(236,72,153,.3);}
+.ic-doc{background:rgba(245,158,11,.22);color:#fbbf24;border:1px solid rgba(245,158,11,.3);}
+.ic-trn{background:rgba(139,92,246,.22);color:#a78bfa;border:1px solid rgba(139,92,246,.3);}
+.ic-adm{background:rgba(239,68,68,.2);color:#fca5a5;border:1px solid rgba(239,68,68,.25);}
 .nav a.active .ic{transform:scale(1.08);box-shadow:0 0 14px rgba(37,99,235,.4);}
 .nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
 .user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--glass);margin-bottom:8px;border:1px solid var(--border-b);}
@@ -48,7 +52,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;}
 .logout-btn .material-icons-round{font-size:14px;}
 
-/* MAIN */
+/* ── MAIN ── */
 .main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:var(--sidebar-w);}
 .topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:11px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,.05);}
 .topbar-left{display:flex;align-items:center;gap:12px;}
@@ -59,7 +63,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .scroll{flex:1;overflow-y:auto;padding:18px 24px;}
 .scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
 
-/* BTNS */
+/* ── BUTTONS ── */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.06em;font-family:'Outfit',sans-serif;white-space:nowrap;}
 .btn-blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.3);}
 .btn-blue:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,.44);}
@@ -70,7 +74,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .btn-sm{padding:6px 10px;font-size:10px;border-radius:8px;}
 .btn .material-icons-round{font-size:14px;}
 
-/* STATS ROW */
+/* ── STATS ROW ── */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
 .stat-box{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:16px 18px;position:relative;overflow:hidden;transition:all .18s;box-shadow:0 1px 3px rgba(0,0,0,.04);}
 .stat-box:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.08);}
@@ -89,7 +93,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .stat-val{font-size:26px;font-weight:900;color:#0f172a;margin-top:3px;font-family:'JetBrains Mono',monospace;}
 .stat-sub{font-size:9px;color:#94a3b8;font-weight:500;margin-top:3px;}
 
-/* ROLES GRID */
+/* ── ROLES GRID ── */
 .roles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;}
 .role-card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:20px;transition:all .2s;box-shadow:0 1px 4px rgba(0,0,0,.04);position:relative;overflow:hidden;animation:fadeIn .3s ease;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
@@ -108,7 +112,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .perm-more{background:#f1f5f9;color:#64748b;padding:3px 9px;border-radius:7px;font-size:8.5px;font-weight:800;text-transform:uppercase;}
 .role-actions{display:flex;gap:5px;flex-shrink:0;}
 
-/* MODAL */
+/* ── MODAL ── */
 .mo{position:fixed;inset:0;background:rgba(7,16,31,.65);backdrop-filter:blur(6px);z-index:500;display:none;align-items:center;justify-content:center;padding:16px;}
 .mo.open{display:flex;}
 .mb{background:#fff;border-radius:20px;width:90%;max-width:600px;max-height:92vh;overflow-y:auto;box-shadow:0 30px 70px rgba(0,0,0,.22);animation:mIn .25s cubic-bezier(.16,1,.3,1);}
@@ -122,7 +126,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .mbody{padding:22px;}
 .mfooter{display:flex;justify-content:flex-end;gap:10px;padding:14px 22px 20px;border-top:1px solid #f1f5f9;}
 
-/* FORM */
+/* ── FORM ── */
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .form-group{margin-bottom:14px;}
 .form-label{font-size:8.5px;font-weight:700;text-transform:uppercase;color:#64748b;letter-spacing:.08em;margin-bottom:5px;display:block;}
@@ -131,7 +135,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .sec-div{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#2563eb;border-bottom:2px solid #bfdbfe;padding-bottom:7px;margin:18px 0 14px;display:flex;align-items:center;justify-content:space-between;}
 .check-all-btn{font-size:9px;font-weight:800;color:#2563eb;background:none;border:none;cursor:pointer;text-decoration:underline;text-transform:uppercase;font-family:'Outfit',sans-serif;padding:0;}
 
-/* PERMISSION GROUPS */
+/* ── PERMISSION GROUPS ── */
 .perm-section{margin-bottom:16px;}
 .perm-section-hd{font-size:9px;font-weight:800;text-transform:uppercase;color:#475569;letter-spacing:.08em;margin-bottom:8px;padding:6px 10px;background:#f8fafc;border-radius:8px;border:1px solid #ecf0f6;display:flex;align-items:center;gap:6px;}
 .perm-section-hd .material-icons-round{font-size:13px;}
@@ -143,19 +147,19 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .perm-check span{font-size:10px;font-weight:700;text-transform:uppercase;color:#475569;line-height:1.3;}
 .perm-check.checked span{color:#1d4ed8;}
 
-/* TOAST */
+/* ── TOAST ── */
 .toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.2);}
 .toast.show{transform:translateY(0);opacity:1;}
 .toast.success{background:#065f46;border-left:4px solid #6ee7b7;}
 .toast.error{background:#7f1d1d;border-left:4px solid #fca5a5;}
 .toast .material-icons-round{font-size:16px;}
 
-/* EMPTY */
+/* ── EMPTY ── */
 .empty-state{text-align:center;padding:60px 20px;color:#94a3b8;grid-column:1/-1;}
 .empty-state .material-icons-round{font-size:48px;margin-bottom:12px;display:block;opacity:.3;}
 .empty-state div{font-size:13px;font-weight:700;text-transform:uppercase;}
 
-/* RESPONSIVE */
+/* ── RESPONSIVE ── */
 @media(max-width:768px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.sidebar-overlay.open{display:block;}.main{margin-left:0!important;}.menu-btn{display:flex!important;}.topbar,.scroll{padding:11px 14px;}.stats-row{grid-template-columns:1fr 1fr;}.roles-grid{grid-template-columns:1fr;}.form-grid{grid-template-columns:1fr;}.perm-checks{grid-template-columns:1fr;}}
 </style>
 </head>
@@ -175,19 +179,27 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
     <a href="shifts.html"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
     <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
     <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
+    <a href="hr-letters.html"><span class="ic ic-hr"><span class="material-icons-round">mail</span></span>HR Letters</a>
+    <a href="celebrations.html"><span class="ic ic-cel"><span class="material-icons-round">auto_awesome</span></span>Celebrations</a>
+    <a href="document-expiry.html"><span class="ic ic-doc"><span class="material-icons-round">event_busy</span></span>Doc Expiry</a>
+    <a href="training-tracker.html"><span class="ic ic-trn"><span class="material-icons-round">model_training</span></span>Training</a>
     <div class="nav-sec">Operations</div>
     <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
     <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
     <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
     <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
+    <a href="analytics.html"><span class="ic ic-ops"><span class="material-icons-round">insights</span></span>Analytics</a>
+    <div class="nav-sec">Finance</div>
+    <a href="loan-management.html"><span class="ic ic-fin"><span class="material-icons-round">account_balance_wallet</span></span>Loans &amp; Advances</a>
     <div class="nav-sec">Recruitment</div>
-    <a href="job-openings.html"><span class="ic ic-rec"><span class="material-icons-round">work</span></span>Job Openings</a>
-    <a href="hr-letters.html"><span class="ic ic-hr"><span class="material-icons-round">mail</span></span>HR Letters</a>
+    <a href="job-openings.html"><span class="ic ic-int"><span class="material-icons-round">work</span></span>Job Openings</a>
+    <div class="nav-sec">Self-Service</div>
+    <a href="ess-login.html"><span class="ic ic-int"><span class="material-icons-round">person_pin</span></span>Employee Portal</a>
     <div class="nav-sec">Integration</div>
-    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">device_hub</span></span>Device Manager</a>
-    <div class="nav-sec">Admin</div>
-    <a href="users.html"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
-    <a href="roles.html" class="active"><span class="ic ic-adm"><span class="material-icons-round">shield</span></span>Roles &amp; Perms</a>
+    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">devices_other</span></span>Device Manager</a>
+    <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
+    <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
+    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">admin_panel_settings</span></span>Roles &amp; Perms</a>
   </nav>
   <div class="nav-bottom">
     <div class="user-info"><div class="user-av" id="sideAvatar">SA</div><div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Super Admin</div></div></div>
@@ -209,7 +221,6 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
   </div>
 
   <div class="scroll">
-
     <!-- STATS -->
     <div class="stats-row">
       <div class="stat-box sb-blue"><div class="stat-icon si-blue"><span class="material-icons-round">shield</span></div><div class="stat-lbl">Total Roles</div><div class="stat-val" id="st-roles">0</div></div>
@@ -220,7 +231,6 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 
     <!-- ROLES GRID -->
     <div class="roles-grid" id="rolesGrid"></div>
-
   </div>
 </div>
 </div>
@@ -233,7 +243,6 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
       <button class="xbtn" onclick="closeModal()"><span class="material-icons-round">close</span></button>
     </div>
     <div class="mbody">
-
       <div class="form-grid">
         <div class="form-group"><label class="form-label">Role Name *</label><input class="form-inp" type="text" id="fName" placeholder="e.g. HR Manager"></div>
         <div class="form-group"><label class="form-label">Color Theme</label>
@@ -248,8 +257,6 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
         </div>
       </div>
       <div class="form-group"><label class="form-label">Description</label><input class="form-inp" type="text" id="fDesc" placeholder="Brief description of this role's responsibilities"></div>
-
-      <!-- PERMISSIONS -->
       <div class="sec-div">
         <span>Permissions</span>
         <button class="check-all-btn" id="checkAllBtn" onclick="toggleAll()">Select All</button>
@@ -267,23 +274,22 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 <div class="toast" id="toast"><span class="material-icons-round" id="toastIco">check_circle</span><span id="toastMsg"></span></div>
 
 <script>
-/* ── CONFIG ── */
 const PERMS={
-  'Dashboard & Reports':    {icon:'dashboard',  perms:['View Dashboard','View Reports','Export Reports']},
-  'Employee Management':    {icon:'badge',       perms:['View Employees','Add Employee','Edit Employee','Delete Employee']},
-  'HR Operations':          {icon:'event_available',perms:['View Attendance','Mark Attendance','View Shifts','Manage Shifts','View Holidays','Manage Holidays','View Leave','Manage Leave']},
-  'Payroll & Compliance':   {icon:'receipt_long', perms:['View Payroll','Run Payroll','Edit Payroll','Export Payslip','View Compliance','Manage Salary Structure']},
-  'Device & Integration':   {icon:'device_hub',  perms:['View Device Manager','Fetch Attendance','Configure Device']},
-  'Administration':         {icon:'shield',      perms:['View Users','Create User','Edit User','Delete User','Manage Roles']},
+  'Dashboard & Reports':  {icon:'dashboard',      perms:['View Dashboard','View Reports','Export Reports']},
+  'Employee Management':  {icon:'badge',           perms:['View Employees','Add Employee','Edit Employee','Delete Employee']},
+  'HR Operations':        {icon:'event_available', perms:['View Attendance','Mark Attendance','View Shifts','Manage Shifts','View Holidays','Manage Holidays','View Leave','Manage Leave']},
+  'Payroll & Compliance': {icon:'receipt_long',    perms:['View Payroll','Run Payroll','Edit Payroll','Export Payslip','View Compliance','Manage Salary Structure']},
+  'Device & Integration': {icon:'devices_other',   perms:['View Device Manager','Fetch Attendance','Configure Device']},
+  'Administration':       {icon:'admin_panel_settings', perms:['View Users','Create User','Edit User','Delete User','Manage Roles']},
 };
 
 const THEME={
-  red:    {bg:'rgba(239,68,68,.1)',    text:'#ef4444',   bar:'linear-gradient(90deg,#ef4444,#f97316)',    tagBg:'#fef2f2',   tagText:'#dc2626', ucBg:'#fef2f2',ucText:'#dc2626'},
-  blue:   {bg:'rgba(37,99,235,.1)',   text:'#2563eb',   bar:'linear-gradient(90deg,#2563eb,#06b6d4)',   tagBg:'#eff6ff',   tagText:'#2563eb', ucBg:'#eff6ff',ucText:'#2563eb'},
-  green:  {bg:'rgba(16,185,129,.1)',  text:'#10b981',   bar:'linear-gradient(90deg,#10b981,#06b6d4)',  tagBg:'#dcfce7',   tagText:'#15803d', ucBg:'#dcfce7',ucText:'#15803d'},
-  yellow: {bg:'rgba(245,158,11,.1)',  text:'#f59e0b',   bar:'linear-gradient(90deg,#f59e0b,#f97316)',  tagBg:'#fefce8',   tagText:'#a16207', ucBg:'#fefce8',ucText:'#a16207'},
-  purple: {bg:'rgba(139,92,246,.1)', text:'#8b5cf6',   bar:'linear-gradient(90deg,#8b5cf6,#ec4899)', tagBg:'#ede9fe',   tagText:'#6d28d9', ucBg:'#ede9fe',ucText:'#6d28d9'},
-  cyan:   {bg:'rgba(6,182,212,.1)',   text:'#06b6d4',   bar:'linear-gradient(90deg,#06b6d4,#2563eb)',  tagBg:'#ecfeff',   tagText:'#0e7490', ucBg:'#ecfeff',ucText:'#0e7490'},
+  red:    {bg:'rgba(239,68,68,.1)',   text:'#ef4444', bar:'linear-gradient(90deg,#ef4444,#f97316)', tagBg:'#fef2f2',tagText:'#dc2626',ucBg:'#fef2f2',ucText:'#dc2626'},
+  blue:   {bg:'rgba(37,99,235,.1)',  text:'#2563eb', bar:'linear-gradient(90deg,#2563eb,#06b6d4)', tagBg:'#eff6ff',tagText:'#2563eb',ucBg:'#eff6ff',ucText:'#2563eb'},
+  green:  {bg:'rgba(16,185,129,.1)', text:'#10b981', bar:'linear-gradient(90deg,#10b981,#06b6d4)', tagBg:'#dcfce7',tagText:'#15803d',ucBg:'#dcfce7',ucText:'#15803d'},
+  yellow: {bg:'rgba(245,158,11,.1)', text:'#f59e0b', bar:'linear-gradient(90deg,#f59e0b,#f97316)', tagBg:'#fefce8',tagText:'#a16207',ucBg:'#fefce8',ucText:'#a16207'},
+  purple: {bg:'rgba(139,92,246,.1)',text:'#8b5cf6', bar:'linear-gradient(90deg,#8b5cf6,#ec4899)', tagBg:'#ede9fe',tagText:'#6d28d9',ucBg:'#ede9fe',ucText:'#6d28d9'},
+  cyan:   {bg:'rgba(6,182,212,.1)',  text:'#06b6d4', bar:'linear-gradient(90deg,#06b6d4,#2563eb)', tagBg:'#ecfeff',tagText:'#0e7490',ucBg:'#ecfeff',ucText:'#0e7490'},
 };
 const ICONS={red:'security',blue:'shield',green:'eco',yellow:'star',purple:'account_balance',cyan:'support_agent'};
 
@@ -301,37 +307,38 @@ const saveStore=()=>localStorage.setItem('kidv_roles',JSON.stringify(roles));
 const getUsers=()=>JSON.parse(localStorage.getItem('kidv_users')||'[]');
 const getUserCount=name=>getUsers().filter(u=>u.role===name).length;
 
-/* ── INIT ── */
 function init(){
   loadUserInfo();
   renderRoles();
 }
+
+(function(){
+  const page=window.location.pathname.split('/').pop()||'index.html';
+  document.querySelectorAll('.nav a').forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')===page)a.classList.add('active');});
+})();
+
 function loadUserInfo(){
   const u=JSON.parse(localStorage.getItem('kidv_user')||'{}');
   if(u.name){const p=u.name.trim().split(' ');document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();document.getElementById('sideName').textContent=u.name;document.getElementById('sideRole').textContent=u.role||'';}
+  const r=(u.role||'').toLowerCase();
+  if(r==='super admin'||r==='admin'){document.getElementById('adminNav').style.display='';document.getElementById('usersLink').style.display='';document.getElementById('rolesLink').style.display='';}
 }
 function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
 function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');}
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');}
 
-/* ── STATS ── */
 function updateStats(){
   const allPerms=new Set(roles.flatMap(r=>r.perms));
-  const totalUsers=getUsers().length;
-  const customRoles=roles.filter(r=>!r.isDefault).length;
   document.getElementById('st-roles').textContent=roles.length;
-  document.getElementById('st-users').textContent=totalUsers;
+  document.getElementById('st-users').textContent=getUsers().length;
   document.getElementById('st-perms').textContent=allPerms.size;
-  document.getElementById('st-custom').textContent=customRoles;
+  document.getElementById('st-custom').textContent=roles.filter(r=>!r.isDefault).length;
 }
 
-/* ── RENDER ── */
 function renderRoles(){
   updateStats();
   const grid=document.getElementById('rolesGrid');
-  if(!roles.length){
-    grid.innerHTML=`<div class="empty-state"><span class="material-icons-round">shield</span><div>No roles yet. Create your first role!</div></div>`;return;
-  }
+  if(!roles.length){grid.innerHTML=`<div class="empty-state"><span class="material-icons-round">shield</span><div>No roles yet. Create your first role!</div></div>`;return;}
   grid.innerHTML=roles.map(r=>{
     const th=THEME[r.color]||THEME.blue;
     const icon=ICONS[r.color]||'shield';
@@ -357,16 +364,13 @@ function renderRoles(){
       </div>
       <div class="role-meta">
         <div class="perm-count"><span class="material-icons-round" style="font-size:11px;vertical-align:middle;margin-right:2px;">lock_open</span>${r.perms.length} Permissions</div>
-        <div class="user-count-badge" style="background:${th.ucBg};color:${th.ucText};">
-          <span class="material-icons-round" style="font-size:12px;">group</span>${uc} User${uc!==1?'s':''}
-        </div>
+        <div class="user-count-badge" style="background:${th.ucBg};color:${th.ucText};"><span class="material-icons-round" style="font-size:12px;">group</span>${uc} User${uc!==1?'s':''}</div>
       </div>
       <div class="perm-tags">${tags}${more}</div>
     </div>`;
   }).join('');
 }
 
-/* ── PERM BUILDER ── */
 function buildPermSections(selected=[]){
   document.getElementById('permSections').innerHTML=Object.entries(PERMS).map(([sec,{icon,perms}])=>`
     <div class="perm-section">
@@ -378,23 +382,13 @@ function buildPermSections(selected=[]){
       </div>
     </div>`).join('');
 }
-
-function togglePerm(el){
-  el.classList.toggle('checked');
-  const chk=el.querySelector('input');
-  chk.checked=el.classList.contains('checked');
-}
-
+function togglePerm(el){el.classList.toggle('checked');el.querySelector('input').checked=el.classList.contains('checked');}
 function toggleAll(){
   allSelected=!allSelected;
-  document.querySelectorAll('#permSections .perm-check').forEach(el=>{
-    el.classList.toggle('checked',allSelected);
-    el.querySelector('input').checked=allSelected;
-  });
+  document.querySelectorAll('#permSections .perm-check').forEach(el=>{el.classList.toggle('checked',allSelected);el.querySelector('input').checked=allSelected;});
   document.getElementById('checkAllBtn').textContent=allSelected?'Deselect All':'Select All';
 }
 
-/* ── MODAL ── */
 function openModal(){
   document.getElementById('editId').value='';
   document.getElementById('fName').value='';
@@ -449,8 +443,7 @@ function deleteRole(id){
   if(uc>0){showToast(`Cannot delete — ${uc} user(s) have this role. Reassign them first.`,'error');return;}
   if(!confirm(`Delete role "${r.name}"?\nThis action cannot be undone.`))return;
   roles=roles.filter(x=>x.id!==id);
-  saveStore();renderRoles();
-  showToast('Role deleted.','success');
+  saveStore();renderRoles();showToast('Role deleted.','success');
 }
 
 function showToast(msg,type='success'){
