@@ -4,7 +4,7 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>KIDV Tech | User Management</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round&display=block" rel="stylesheet">
 <script>
 if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}
 const _u=JSON.parse(localStorage.getItem('kidv_user')||'{}');
@@ -16,7 +16,7 @@ if((_u.role||'').toLowerCase()!=='super admin'&&(_u.role||'').toLowerCase()!=='a
 html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflow:hidden;}
 .app{display:flex;height:100vh;}
 
-/* SIDEBAR */
+/* ── SIDEBAR ── */
 .sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden;border-right:1px solid rgba(255,255,255,.05);box-shadow:8px 0 40px rgba(0,0,0,.35);}
 .sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 65%);pointer-events:none;z-index:0;}
 .sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09) 0%,transparent 65%);pointer-events:none;z-index:0;}
@@ -36,8 +36,12 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
 .ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
 .ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
-.ic-int{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
-.ic-adm{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
+.ic-int{background:rgba(6,182,212,.22);color:#22d3ee;border:1px solid rgba(6,182,212,.3);}
+.ic-fin{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-cel{background:rgba(236,72,153,.22);color:#f472b6;border:1px solid rgba(236,72,153,.3);}
+.ic-doc{background:rgba(245,158,11,.22);color:#fbbf24;border:1px solid rgba(245,158,11,.3);}
+.ic-trn{background:rgba(139,92,246,.22);color:#a78bfa;border:1px solid rgba(139,92,246,.3);}
+.ic-adm{background:rgba(239,68,68,.2);color:#fca5a5;border:1px solid rgba(239,68,68,.25);}
 .nav a.active .ic{transform:scale(1.08);box-shadow:0 0 14px rgba(37,99,235,.4);}
 .nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
 .user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--glass);margin-bottom:8px;border:1px solid var(--border-b);}
@@ -48,7 +52,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;}
 .logout-btn .material-icons-round{font-size:14px;}
 
-/* MAIN */
+/* ── MAIN ── */
 .main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:var(--sidebar-w);}
 .topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:11px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,.05);}
 .topbar-left{display:flex;align-items:center;gap:12px;}
@@ -56,12 +60,10 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .menu-btn .material-icons-round{font-size:22px;}
 .page-title{font-size:15px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
 .page-sub{font-size:9px;color:#94a3b8;font-weight:500;margin-top:2px;letter-spacing:.05em;text-transform:uppercase;}
-
-/* SCROLL */
 .scroll{flex:1;overflow-y:auto;padding:18px 24px;}
 .scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
 
-/* BTNS */
+/* ── BUTTONS ── */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.06em;font-family:'Outfit',sans-serif;white-space:nowrap;}
 .btn-blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.3);}
 .btn-blue:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,.44);}
@@ -72,7 +74,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .btn-sm{padding:6px 10px;font-size:10px;border-radius:8px;}
 .btn .material-icons-round{font-size:14px;}
 
-/* STATS */
+/* ── STATS ── */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
 .stat-box{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:16px 18px;position:relative;overflow:hidden;transition:all .18s;box-shadow:0 1px 3px rgba(0,0,0,.04);}
 .stat-box:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.08);}
@@ -90,7 +92,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .stat-lbl{font-size:8.5px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.06em;}
 .stat-val{font-size:26px;font-weight:900;color:#0f172a;margin-top:3px;font-family:'JetBrains Mono',monospace;}
 
-/* CARD / TABLE */
+/* ── CARD / TABLE ── */
 .card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
 .card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
 .card-title{font-size:12px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.08em;}
@@ -103,13 +105,13 @@ table.dtbl tbody tr:hover{background:#fafbfc;}
 table.dtbl tbody tr:last-child{border-bottom:none;}
 table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transform:uppercase;vertical-align:middle;}
 
-/* AVATAR */
+/* ── USER CELL ── */
 .user-cell{display:flex;align-items:center;gap:10px;}
 .uav{width:32px;height:32px;border-radius:9px;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .u-name{font-size:11px;font-weight:700;color:#0f172a;}
 .u-email{font-size:8.5px;color:#94a3b8;font-weight:500;margin-top:1px;}
 
-/* BADGES */
+/* ── BADGES ── */
 .badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;}
 .badge-blue{background:#eff6ff;color:#2563eb;}
 .badge-green{background:#dcfce7;color:#15803d;}
@@ -119,13 +121,13 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
 .badge-purple{background:#ede9fe;color:#6d28d9;}
 .badge-yellow{background:#fefce8;color:#a16207;}
 
-/* SEARCH */
+/* ── SEARCH ── */
 .search-wrap{display:flex;align-items:center;gap:8px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:8px 14px;transition:all .15s;}
 .search-wrap:focus-within{border-color:#2563eb;background:#fff;}
 .search-wrap .material-icons-round{font-size:16px;color:#94a3b8;}
 .search-wrap input{border:none;outline:none;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;color:#1e293b;width:200px;background:transparent;}
 
-/* MODAL */
+/* ── MODAL ── */
 .mo{position:fixed;inset:0;background:rgba(7,16,31,.65);backdrop-filter:blur(6px);z-index:500;display:none;align-items:center;justify-content:center;padding:16px;}
 .mo.open{display:flex;}
 .mb{background:#fff;border-radius:20px;width:90%;max-width:520px;max-height:92vh;overflow-y:auto;box-shadow:0 30px 70px rgba(0,0,0,.22);animation:mIn .25s cubic-bezier(.16,1,.3,1);}
@@ -139,7 +141,7 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
 .mbody{padding:22px;}
 .mfooter{display:flex;justify-content:flex-end;gap:10px;padding:14px 22px 20px;border-top:1px solid #f1f5f9;}
 
-/* FORM */
+/* ── FORM ── */
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .form-group{margin-bottom:14px;}
 .form-label{font-size:8.5px;font-weight:700;text-transform:uppercase;color:#64748b;letter-spacing:.08em;margin-bottom:5px;display:block;}
@@ -153,18 +155,16 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
 .strength-bar{display:flex;gap:3px;margin-top:6px;}
 .strength-bar span{flex:1;height:3px;border-radius:3px;background:#e2e8f0;transition:background .3s;}
 .strength-label{font-size:9px;margin-top:4px;font-weight:700;}
-
-/* DIVIDER */
 .sec-div{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#2563eb;border-bottom:2px solid #bfdbfe;padding-bottom:7px;margin:18px 0 14px;}
 
-/* TOAST */
+/* ── TOAST ── */
 .toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.2);}
 .toast.show{transform:translateY(0);opacity:1;}
 .toast.success{background:#065f46;border-left:4px solid #6ee7b7;}
 .toast.error{background:#7f1d1d;border-left:4px solid #fca5a5;}
 .toast .material-icons-round{font-size:16px;}
 
-/* RESPONSIVE */
+/* ── RESPONSIVE ── */
 @media(max-width:768px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.sidebar-overlay.open{display:block;}.main{margin-left:0!important;}.menu-btn{display:flex!important;}.topbar,.scroll{padding:11px 14px;}.stats-row{grid-template-columns:1fr 1fr;}.form-grid{grid-template-columns:1fr;}}
 </style>
 </head>
@@ -184,19 +184,27 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
     <a href="shifts.html"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
     <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
     <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
+    <a href="hr-letters.html"><span class="ic ic-hr"><span class="material-icons-round">mail</span></span>HR Letters</a>
+    <a href="celebrations.html"><span class="ic ic-cel"><span class="material-icons-round">auto_awesome</span></span>Celebrations</a>
+    <a href="document-expiry.html"><span class="ic ic-doc"><span class="material-icons-round">event_busy</span></span>Doc Expiry</a>
+    <a href="training-tracker.html"><span class="ic ic-trn"><span class="material-icons-round">model_training</span></span>Training</a>
     <div class="nav-sec">Operations</div>
     <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
     <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
     <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
     <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
+    <a href="analytics.html"><span class="ic ic-ops"><span class="material-icons-round">insights</span></span>Analytics</a>
+    <div class="nav-sec">Finance</div>
+    <a href="loan-management.html"><span class="ic ic-fin"><span class="material-icons-round">account_balance_wallet</span></span>Loans &amp; Advances</a>
     <div class="nav-sec">Recruitment</div>
-    <a href="job-openings.html"><span class="ic ic-rec"><span class="material-icons-round">work</span></span>Job Openings</a>
-    <a href="hr-letters.html"><span class="ic ic-hr"><span class="material-icons-round">mail</span></span>HR Letters</a>
+    <a href="job-openings.html"><span class="ic ic-int"><span class="material-icons-round">work</span></span>Job Openings</a>
+    <div class="nav-sec">Self-Service</div>
+    <a href="ess-login.html"><span class="ic ic-int"><span class="material-icons-round">person_pin</span></span>Employee Portal</a>
     <div class="nav-sec">Integration</div>
-    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">device_hub</span></span>Device Manager</a>
-    <div class="nav-sec">Admin</div>
-    <a href="users.html" class="active"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
-    <a href="roles.html"><span class="ic ic-adm"><span class="material-icons-round">shield</span></span>Roles &amp; Perms</a>
+    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">devices_other</span></span>Device Manager</a>
+    <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
+    <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
+    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">admin_panel_settings</span></span>Roles &amp; Perms</a>
   </nav>
   <div class="nav-bottom">
     <div class="user-info"><div class="user-av" id="sideAvatar">SA</div><div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Super Admin</div></div></div>
@@ -218,7 +226,6 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
   </div>
 
   <div class="scroll">
-
     <!-- STATS -->
     <div class="stats-row">
       <div class="stat-box sb-blue"><div class="stat-icon si-blue"><span class="material-icons-round">group</span></div><div class="stat-lbl">Total Users</div><div class="stat-val" id="st-total">0</div></div>
@@ -256,7 +263,6 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
         </table>
       </div>
     </div>
-
   </div>
 </div>
 </div>
@@ -269,15 +275,12 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
       <button class="xbtn" onclick="closeModal()"><span class="material-icons-round">close</span></button>
     </div>
     <div class="mbody">
-      <!-- Personal Info -->
       <div class="sec-div">Personal Information</div>
       <div class="form-grid">
         <div class="form-group"><label class="form-label">First Name *</label><input class="form-inp" type="text" id="fFirstName" placeholder="Amit"></div>
         <div class="form-group"><label class="form-label">Last Name *</label><input class="form-inp" type="text" id="fLastName" placeholder="Patel"></div>
       </div>
       <div class="form-group"><label class="form-label">Email Address *</label><input class="form-inp" type="email" id="fEmail" placeholder="amit@kidvtech.com"></div>
-
-      <!-- Account Info -->
       <div class="sec-div">Account Settings</div>
       <div class="form-grid">
         <div class="form-group"><label class="form-label">Username *</label><input class="form-inp" type="text" id="fUsername" placeholder="amit.patel"></div>
@@ -289,8 +292,6 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
           <select class="form-sel" id="fStatus"><option value="Active">Active</option><option value="Inactive">Inactive</option></select>
         </div>
       </div>
-
-      <!-- Password -->
       <div class="sec-div" id="passSecDiv">Password</div>
       <div class="form-group">
         <label class="form-label" id="passLabel">Password *</label>
@@ -308,7 +309,6 @@ table.dtbl tbody td{padding:10px 14px;font-weight:600;color:#475569;text-transfo
           <button class="eye-btn" type="button" onclick="togglePass('fCPass','eyeIco2')"><span class="material-icons-round" id="eyeIco2">visibility</span></button>
         </div>
       </div>
-
       <input type="hidden" id="editId">
     </div>
     <div class="mfooter">
@@ -351,14 +351,9 @@ function getRoles(){
   const def=[{name:'Super Admin'},{name:'Admin'},{name:'HR Manager'},{name:'Accountant'},{name:'Viewer'}];
   return JSON.parse(localStorage.getItem('kidv_roles')||JSON.stringify(def));
 }
-
 function roleBadge(r){
   const m={'Super Admin':'badge-blue','Admin':'badge-purple','HR Manager':'badge-yellow','Accountant':'badge-green','Viewer':'badge-gray'};
   return m[r]||'badge-orange';
-}
-function roleColor(r){
-  const m={'Super Admin':'#2563eb','Admin':'#8b5cf6','HR Manager':'#f59e0b','Accountant':'#10b981','Viewer':'#64748b'};
-  return m[r]||'#f97316';
 }
 
 function init(){
@@ -366,9 +361,17 @@ function init(){
   populateRoleFilter();
   renderTable();
 }
+
+(function(){
+  const page=window.location.pathname.split('/').pop()||'index.html';
+  document.querySelectorAll('.nav a').forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')===page)a.classList.add('active');});
+})();
+
 function loadUserInfo(){
   const u=JSON.parse(localStorage.getItem('kidv_user')||'{}');
   if(u.name){const p=u.name.trim().split(' ');document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();document.getElementById('sideName').textContent=u.name;document.getElementById('sideRole').textContent=u.role||'';}
+  const r=(u.role||'').toLowerCase();
+  if(r==='super admin'||r==='admin'){document.getElementById('adminNav').style.display='';document.getElementById('usersLink').style.display='';document.getElementById('rolesLink').style.display='';}
 }
 function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
 function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');}
@@ -378,7 +381,6 @@ function populateRoleFilter(){
   const sel=document.getElementById('filterRole');
   sel.innerHTML='<option value="">All Roles</option>'+getRoles().map(r=>`<option value="${r.name}">${r.name}</option>`).join('');
 }
-
 function fillRoleSelect(current){
   const sel=document.getElementById('fRole');
   sel.innerHTML='<option value="">Select Role</option>'+getRoles().map(r=>`<option value="${r.name}" ${r.name===current?'selected':''}>${r.name}</option>`).join('');
@@ -398,14 +400,11 @@ function renderTable(q=''){
   const sFilter=document.getElementById('filterStatus').value;
   let list=users.filter(u=>{
     const nm=(u.firstName+u.lastName+u.email+u.username+u.role+u.dept).toLowerCase();
-    const matchQ=!search||nm.includes(search.toLowerCase());
-    const matchR=!rFilter||u.role===rFilter;
-    const matchS=!sFilter||u.status===sFilter;
-    return matchQ&&matchR&&matchS;
+    return(!search||nm.includes(search.toLowerCase()))&&(!rFilter||u.role===rFilter)&&(!sFilter||u.status===sFilter);
   });
   const tbody=document.getElementById('usersTbody');
   if(!list.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:40px;color:#94a3b8;font-size:12px;font-weight:700;text-transform:uppercase;">No users found.</td></tr>';return;}
-  tbody.innerHTML=list.map((u,i)=>{
+  tbody.innerHTML=list.map((u)=>{
     const nm=`${u.firstName} ${u.lastName}`;
     const init=(u.firstName[0]+(u.lastName[0]||'')).toUpperCase();
     const grad=AV_COLORS[users.indexOf(u)%AV_COLORS.length];
@@ -437,8 +436,7 @@ function openModal(){
   document.getElementById('cpassLabel').textContent='Confirm Password *';
   document.getElementById('passSecDiv').textContent='Password';
   document.getElementById('modalTitle').textContent='Create New User';
-  fillRoleSelect('');
-  resetStrength();
+  fillRoleSelect('');resetStrength();
   document.getElementById('userModal').classList.add('open');
 }
 function closeModal(){document.getElementById('userModal').classList.remove('open');}
@@ -458,8 +456,7 @@ function editUser(id){
   document.getElementById('cpassLabel').textContent='Confirm New Password';
   document.getElementById('passSecDiv').textContent='Change Password (Optional)';
   document.getElementById('modalTitle').textContent='Edit User';
-  fillRoleSelect(u.role);
-  resetStrength();
+  fillRoleSelect(u.role);resetStrength();
   document.getElementById('userModal').classList.add('open');
 }
 
@@ -468,7 +465,6 @@ function viewUser(id){
   const nm=`${u.firstName} ${u.lastName}`;
   const init=(u.firstName[0]+(u.lastName[0]||'')).toUpperCase();
   const grad=AV_COLORS[users.indexOf(u)%AV_COLORS.length];
-  document.getElementById('viewTitle').textContent='User Details';
   document.getElementById('viewBody').innerHTML=`
     <div style="text-align:center;margin-bottom:20px;">
       <div style="width:64px;height:64px;border-radius:16px;background:${grad};color:#fff;font-size:22px;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;">${init}</div>
@@ -528,7 +524,6 @@ function togglePass(inputId,iconId){
   inp.type=inp.type==='password'?'text':'password';
   ico.textContent=inp.type==='password'?'visibility':'visibility_off';
 }
-
 function checkStrength(v){
   let s=0;
   if(v.length>=6)s++;if(/[A-Z]/.test(v))s++;if(/[0-9]/.test(v))s++;if(/[^A-Za-z0-9]/.test(v))s++;
@@ -540,7 +535,6 @@ function resetStrength(){
   for(let i=1;i<=4;i++)document.getElementById('s'+i).style.background='#e2e8f0';
   document.getElementById('sLabel').textContent='';
 }
-
 function showToast(msg,type='success'){
   const t=document.getElementById('toast');t.className='toast '+type;
   document.getElementById('toastIco').textContent=type==='success'?'check_circle':'error';
