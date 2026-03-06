@@ -27,11 +27,15 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .nav a.active::after{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:55%;background:linear-gradient(180deg,#93c5fd,#22d3ee);border-radius:0 3px 3px 0;}
 .ic{width:29px;height:29px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .ic .material-icons-round{font-size:15px;}
-.ic-m{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
-.ic-h{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
-.ic-o{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
-.ic-i{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
-.ic-a{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
+.ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
+.ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-int{background:rgba(6,182,212,.22);color:#22d3ee;border:1px solid rgba(6,182,212,.3);}
+.ic-fin{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-cel{background:rgba(236,72,153,.22);color:#f472b6;border:1px solid rgba(236,72,153,.3);}
+.ic-doc{background:rgba(245,158,11,.22);color:#fbbf24;border:1px solid rgba(245,158,11,.3);}
+.ic-trn{background:rgba(139,92,246,.22);color:#a78bfa;border:1px solid rgba(139,92,246,.3);}
+.ic-adm{background:rgba(239,68,68,.2);color:#fca5a5;border:1px solid rgba(239,68,68,.25);}
 .nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
 .user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--glass);margin-bottom:8px;border:1px solid var(--border-b);}
 .user-av{width:33px;height:33px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
@@ -183,9 +187,9 @@ table.dt tbody td{padding:10px 14px;font-weight:600;color:#475569;vertical-align
     <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
     <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
     <a href="hr-letters.html"><span class="ic ic-hr"><span class="material-icons-round">mail</span></span>HR Letters</a>
-    <a href="celebrations.html"><span class="ic ic-cel"><span class="material-icons-round">celebration</span></span>Celebrations</a>
-    <a href="document-expiry.html"><span class="ic ic-doc"><span class="material-icons-round">assignment_late</span></span>Doc Expiry</a>
-    <a href="training-tracker.html"><span class="ic ic-trn"><span class="material-icons-round">school</span></span>Training</a>
+    <a href="celebrations.html"><span class="ic ic-cel"><span class="material-icons-round">auto_awesome</span></span>Celebrations</a>
+    <a href="document-expiry.html"><span class="ic ic-doc"><span class="material-icons-round">event_busy</span></span>Doc Expiry</a>
+    <a href="training-tracker.html"><span class="ic ic-trn"><span class="material-icons-round">model_training</span></span>Training</a>
     <div class="nav-sec">Operations</div>
     <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
     <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
@@ -193,21 +197,19 @@ table.dt tbody td{padding:10px 14px;font-weight:600;color:#475569;vertical-align
     <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
     <a href="analytics.html"><span class="ic ic-ops"><span class="material-icons-round">insights</span></span>Analytics</a>
     <div class="nav-sec">Finance</div>
-    <a href="loan-management.html"><span class="ic ic-fin"><span class="material-icons-round">account_balance_wallet</span></span>Loans & Advances</a>
+    <a href="loan-management.html"><span class="ic ic-fin"><span class="material-icons-round">account_balance_wallet</span></span>Loans &amp; Advances</a>
     <div class="nav-sec">Recruitment</div>
     <a href="job-openings.html"><span class="ic ic-int"><span class="material-icons-round">work</span></span>Job Openings</a>
     <div class="nav-sec">Self-Service</div>
     <a href="ess-login.html"><span class="ic ic-int"><span class="material-icons-round">person_pin</span></span>Employee Portal</a>
     <div class="nav-sec">Integration</div>
-    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">device_hub</span></span>Device Manager</a>
+    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">devices_other</span></span>Device Manager</a>
     <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
     <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
-    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">shield</span></span>Roles &amp; Perms</a>
+    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">admin_panel_settings</span></span>Roles &amp; Perms</a>
   </nav>
   <div class="nav-bottom">
-    <div class="user-info"><div class="user-av" id="sideAvatar">SA</div>
-      <div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Administrator</div></div>
-    </div>
+    <div class="user-info"><div class="user-av" id="sideAvatar">SA</div><div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Administrator</div></div></div>
     <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
   </div>
 </aside>
