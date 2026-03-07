@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>KIDV Tech | Performance Appraisal</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round&display=block" rel="stylesheet">
+<script>if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}</script>
+<style>
+:root{--navy:#07101f;--blue:#2563eb;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--amber:#f59e0b;--purple:#8b5cf6;--text-m:rgba(148,163,184,.65);--text-d:rgba(148,163,184,.32);--border-b:rgba(255,255,255,.11);--glass:rgba(255,255,255,.04);--sw:260px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflow:hidden;}
+.app{display:flex;height:100vh;}
+.sidebar{width:var(--sw);min-width:var(--sw);background:var(--navy);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:200;overflow:hidden;border-right:1px solid rgba(255,255,255,.05);box-shadow:8px 0 40px rgba(0,0,0,.35);}
+.sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:199;backdrop-filter:blur(6px);}
+.logo-area{position:relative;z-index:1;flex-shrink:0;background:#fff;border-bottom:1px solid rgba(255,255,255,.06);}
+.logo-area img{width:100%;height:auto;display:block;}
+.nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 10px 4px;position:relative;z-index:1;}
+.nav::-webkit-scrollbar{width:3px;}.nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);}
+.nav-sec{font-size:8.5px;color:var(--text-d);font-weight:700;text-transform:uppercase;letter-spacing:.2em;padding:0 8px;margin:16px 0 5px;display:flex;align-items:center;gap:8px;}
+.nav-sec::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07);}
+.nav a{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:11px;font-size:11px;font-weight:600;color:var(--text-m);text-decoration:none;margin-bottom:1px;text-transform:uppercase;letter-spacing:.055em;transition:all .18s;position:relative;}
+.nav a:hover{color:rgba(241,245,249,.9);background:rgba(255,255,255,.07);transform:translateX(2px);}
+.nav a.active{color:#fff;background:linear-gradient(120deg,rgba(37,99,235,.32),rgba(6,182,212,.18));border:1px solid rgba(59,130,246,.28);box-shadow:0 4px 20px rgba(37,99,235,.22);}
+.nav a.active::after{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:55%;background:linear-gradient(180deg,#93c5fd,#22d3ee);border-radius:0 3px 3px 0;}
+.ic{width:29px;height:29px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ic .material-icons-round{font-size:15px;}
+.ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
+.ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-int{background:rgba(6,182,212,.22);color:#22d3ee;border:1px solid rgba(6,182,212,.3);}
+.ic-fin{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-cel{background:rgba(236,72,153,.22);color:#f472b6;border:1px solid rgba(236,72,153,.3);}
+.ic-doc{background:rgba(245,158,11,.22);color:#fbbf24;border:1px solid rgba(245,158,11,.3);}
+.ic-trn{background:rgba(139,92,246,.22);color:#a78bfa;border:1px solid rgba(139,92,246,.3);}
+.ic-adm{background:rgba(239,68,68,.2);color:#fca5a5;border:1px solid rgba(239,68,68,.25);}
+.ic-ppl{background:rgba(99,102,241,.22);color:#a5b4fc;border:1px solid rgba(99,102,241,.3);}
+.nav a.active .ic{transform:scale(1.08);}
+.nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
+.user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--glass);margin-bottom:8px;border:1px solid var(--border-b);}
+.user-av{width:33px;height:33px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.user-name{font-size:10.5px;font-weight:700;color:#fff;text-transform:uppercase;}
+.user-role{font-size:8px;color:var(--text-d);font-weight:500;text-transform:uppercase;margin-top:1px;}
+.logout-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:10px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);color:rgba(252,165,165,.8);font-size:10px;font-weight:700;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;}
+.logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;}
+.logout-btn .material-icons-round{font-size:14px;}
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:var(--sw);}
+.topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:11px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.topbar-left{display:flex;align-items:center;gap:12px;}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;}
+.menu-btn .material-icons-round{font-size:22px;}
+.page-title{font-size:15px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
+.page-sub{font-size:9px;color:#94a3b8;font-weight:500;margin-top:2px;letter-spacing:.05em;text-transform:uppercase;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.06em;font-family:'Outfit',sans-serif;white-space:nowrap;}
+.btn-blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.3);}
+.btn-blue:hover{transform:translateY(-1px);}
+.btn-ghost{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}
+.btn-ghost:hover{background:#e2e8f0;}
+.btn .material-icons-round{font-size:14px;}
+.scroll{flex:1;overflow-y:auto;padding:18px 24px;}
+.scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+.stat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
+.scard{background:#fff;border-radius:14px;padding:14px 16px;border:1px solid #ecf0f6;position:relative;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:all .18s;}
+.scard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.09);}
+.scard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.sc1::before{background:linear-gradient(90deg,#6366f1,#8b5cf6);}
+.sc2::before{background:linear-gradient(90deg,#10b981,#06b6d4);}
+.sc3::before{background:linear-gradient(90deg,#f59e0b,#fbbf24);}
+.sc4::before{background:linear-gradient(90deg,#ef4444,#f97316);}
+.s-ico{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;}
+.s-ico .material-icons-round{font-size:16px;}
+.si1{background:rgba(99,102,241,.1);color:#6366f1;}
+.si2{background:rgba(16,185,129,.1);color:#10b981;}
+.si3{background:rgba(245,158,11,.1);color:#f59e0b;}
+.si4{background:rgba(239,68,68,.1);color:#ef4444;}
+.s-lbl{font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.06em;}
+.s-val{font-size:22px;font-weight:900;color:#0f172a;margin-top:2px;font-family:'JetBrains Mono',monospace;}
+.s-sub{font-size:9px;color:#94a3b8;margin-top:2px;font-weight:500;}
+/* APPRAISAL CARDS */
+.filters{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.fi-inp{padding:8px 12px;border-radius:9px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;background:#f8fafc;outline:none;color:#1e293b;}
+.fi-inp:focus{border-color:#2563eb;}
+.appr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px;}
+.acard{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:16px 18px;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:all .18s;position:relative;overflow:hidden;}
+.acard:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.09);}
+.acard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.ar-5::before{background:linear-gradient(90deg,#10b981,#06b6d4);}
+.ar-4::before{background:linear-gradient(90deg,#6366f1,#8b5cf6);}
+.ar-3::before{background:linear-gradient(90deg,#f59e0b,#fbbf24);}
+.ar-2::before{background:linear-gradient(90deg,#ef4444,#f97316);}
+.ar-1::before{background:linear-gradient(90deg,#94a3b8,#cbd5e1);}
+.acard-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.emp-av-lg{width:40px;height:40px;border-radius:11px;color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.acard-name{font-size:13px;font-weight:800;color:#0f172a;}
+.acard-dept{font-size:9.5px;color:#64748b;font-weight:600;margin-top:2px;}
+/* STAR RATING */
+.stars{display:flex;gap:3px;margin-bottom:10px;}
+.star{font-size:18px;color:#e2e8f0;cursor:pointer;transition:color .12s;user-select:none;}
+.star.filled{color:#f59e0b;}
+.star.half{color:#f59e0b;}
+/* SCORE BAR */
+.score-bar-wrap{margin-bottom:10px;}
+.score-label{display:flex;justify-content:space-between;font-size:9px;font-weight:700;color:#64748b;text-transform:uppercase;margin-bottom:4px;}
+.score-bar{height:6px;background:#f1f5f9;border-radius:99px;overflow:hidden;}
+.score-fill{height:100%;border-radius:99px;transition:width .4s ease;}
+.acard-meta{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px;}
+.chip{padding:3px 9px;border-radius:99px;font-size:9px;font-weight:700;text-transform:uppercase;}
+.chip-blue{background:#eff6ff;color:#2563eb;}
+.chip-green{background:#dcfce7;color:#15803d;}
+.chip-amber{background:#fef9c3;color:#a16207;}
+.chip-red{background:#fee2e2;color:#dc2626;}
+.chip-gray{background:#f1f5f9;color:#64748b;}
+.chip-purple{background:#ede9fe;color:#6d28d9;}
+.acard-remarks{font-size:10px;color:#64748b;line-height:1.6;margin-bottom:12px;background:#f8fafc;border-radius:8px;padding:8px 10px;border-left:3px solid #e2e8f0;}
+.acard-foot{display:flex;align-items:center;justify-content:space-between;}
+.acard-date{font-size:9px;color:#94a3b8;font-weight:600;}
+.acard-actions{display:flex;gap:5px;}
+.act-btn{width:28px;height:28px;border-radius:7px;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .12s;}
+.ab-e{background:#eff6ff;color:#2563eb;}.ab-e:hover{background:#2563eb;color:#fff;}
+.ab-x{background:#fef2f2;color:#ef4444;}.ab-x:hover{background:#ef4444;color:#fff;}
+.act-btn .material-icons-round{font-size:13px;}
+.empty{grid-column:1/-1;text-align:center;padding:60px;color:#94a3b8;font-size:13px;font-weight:700;text-transform:uppercase;background:#fff;border-radius:16px;border:1px solid #ecf0f6;}
+/* MODAL */
+.mo{position:fixed;inset:0;background:rgba(7,16,31,.65);backdrop-filter:blur(6px);z-index:500;display:none;align-items:center;justify-content:center;padding:16px;}
+.mo.open{display:flex;}
+.mb{background:#fff;border-radius:20px;width:90%;max-width:640px;max-height:90vh;overflow-y:auto;box-shadow:0 30px 70px rgba(0,0,0,.22);}
+.mb::-webkit-scrollbar{width:4px;}.mb::-webkit-scrollbar-thumb{background:#cbd5e1;}
+.mh{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;border-bottom:1px solid #f1f5f9;position:sticky;top:0;background:#fff;border-radius:20px 20px 0 0;z-index:1;}
+.mt-h{font-size:13px;font-weight:800;text-transform:uppercase;color:#0f172a;}
+.xbtn{width:32px;height:32px;background:#f1f5f9;border:none;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748b;transition:all .15s;}
+.xbtn:hover{background:#fef2f2;color:#ef4444;}
+.xbtn .material-icons-round{font-size:16px;}
+.mbody{padding:20px;}
+.fg{margin-bottom:12px;}
+.fl{font-size:8.5px;font-weight:700;text-transform:uppercase;color:#64748b;letter-spacing:.08em;margin-bottom:5px;display:block;}
+.fi,.fs{width:100%;padding:9px 12px;border-radius:9px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:11.5px;font-weight:600;color:#1e293b;background:#f8fafc;transition:all .15s;outline:none;}
+.fi:focus,.fs:focus{border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
+.fr2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.fta{width:100%;padding:9px 12px;border-radius:9px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;color:#1e293b;background:#f8fafc;resize:vertical;min-height:70px;outline:none;}
+.fta:focus{border-color:#2563eb;background:#fff;}
+.rating-row{display:flex;gap:4px;margin-top:4px;}
+.r-star{font-size:28px;cursor:pointer;color:#e2e8f0;transition:color .1s;user-select:none;}
+.r-star.on{color:#f59e0b;}
+.sec-lbl{font-size:9px;font-weight:800;text-transform:uppercase;color:#64748b;letter-spacing:.08em;margin:14px 0 8px;padding-bottom:5px;border-bottom:1px solid #f1f5f9;}
+.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{background:#065f46;border-left:4px solid #6ee7b7;}
+.toast.error{background:#7f1d1d;border-left:4px solid #fca5a5;}
+.toast .material-icons-round{font-size:16px;}
+@media(max-width:768px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.sidebar-overlay.open{display:block;}.main{margin-left:0!important;}.menu-btn{display:flex!important;}.stat-strip{grid-template-columns:1fr 1fr;}.appr-grid{grid-template-columns:1fr;}.fr2,.fr3{grid-template-columns:1fr;}}
+</style>
+</head>
+<body onload="init()">
+<div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="logo-area"><img src="logo.png" alt="KIDV Tech"></div>
+  <nav class="nav">
+    <div class="nav-sec">Main</div>
+    <a href="index.html"><span class="ic ic-main"><span class="material-icons-round">dashboard</span></span>Dashboard</a>
+    <a href="employees.html"><span class="ic ic-main"><span class="material-icons-round">badge</span></span>Employees</a>
+    <div class="nav-sec">HR</div>
+    <a href="leave-management.html"><span class="ic ic-hr"><span class="material-icons-round">event_available</span></span>Leave</a>
+    <a href="shifts.html"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
+    <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
+    <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
+    <a href="hr-letters.html"><span class="ic ic-hr"><span class="material-icons-round">mail</span></span>HR Letters</a>
+    <a href="celebrations.html"><span class="ic ic-cel"><span class="material-icons-round">auto_awesome</span></span>Celebrations</a>
+    <a href="document-expiry.html"><span class="ic ic-doc"><span class="material-icons-round">event_busy</span></span>Doc Expiry</a>
+    <a href="training-tracker.html"><span class="ic ic-trn"><span class="material-icons-round">model_training</span></span>Training</a>
+    <div class="nav-sec">Operations</div>
+    <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
+    <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
+    <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
+    <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
+    <a href="analytics.html"><span class="ic ic-ops"><span class="material-icons-round">insights</span></span>Analytics</a>
+    <div class="nav-sec">Finance</div>
+    <a href="loan-management.html"><span class="ic ic-fin"><span class="material-icons-round">account_balance_wallet</span></span>Loans &amp; Advances</a>
+    <a href="expense-claims.html"><span class="ic ic-fin"><span class="material-icons-round">receipt</span></span>Expense Claims</a>
+    <div class="nav-sec">Recruitment</div>
+    <a href="job-openings.html"><span class="ic ic-int"><span class="material-icons-round">work</span></span>Job Openings</a>
+    <div class="nav-sec">Self-Service</div>
+    <a href="ess-login.html"><span class="ic ic-int"><span class="material-icons-round">person_pin</span></span>Employee Portal</a>
+    <div class="nav-sec">Integration</div>
+    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">devices_other</span></span>Device Manager</a>
+    <div class="nav-sec">People</div>
+    <a href="grievance.html"><span class="ic ic-ppl"><span class="material-icons-round">support_agent</span></span>Grievance</a>
+    <a href="performance.html"><span class="ic ic-ppl"><span class="material-icons-round">leaderboard</span></span>Performance</a>
+    <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
+    <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
+    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">admin_panel_settings</span></span>Roles &amp; Perms</a>
+  </nav>
+  <div class="nav-bottom">
+    <div class="user-info"><div class="user-av" id="sideAvatar">SA</div><div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Administrator</div></div></div>
+    <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="menu-btn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
+      <div><div class="page-title">Performance Appraisal</div><div class="page-sub">Rate · Review · Score · Track Growth</div></div>
+    </div>
+    <button class="btn btn-blue" onclick="openModal(-1)"><span class="material-icons-round">add</span>New Appraisal</button>
+  </div>
+
+  <div class="scroll">
+    <div class="stat-strip">
+      <div class="scard sc1"><div class="s-ico si1"><span class="material-icons-round">leaderboard</span></div><div class="s-lbl">Total Appraisals</div><div class="s-val" id="st-total">0</div><div class="s-sub">All cycles</div></div>
+      <div class="scard sc2"><div class="s-ico si2"><span class="material-icons-round">star</span></div><div class="s-lbl">Excellent (5★)</div><div class="s-val" id="st-exc">0</div><div class="s-sub">Top performers</div></div>
+      <div class="scard sc3"><div class="s-ico si3"><span class="material-icons-round">trending_up</span></div><div class="s-lbl">Avg Score</div><div class="s-val" id="st-avg">—</div><div class="s-sub">Out of 5</div></div>
+      <div class="scard sc4"><div class="s-ico si4"><span class="material-icons-round">trending_down</span></div><div class="s-lbl">Needs Improvement</div><div class="s-val" id="st-low">0</div><div class="s-sub">Score ≤ 2</div></div>
+    </div>
+
+    <div class="filters">
+      <input class="fi-inp" id="srch" placeholder="Search employee..." oninput="render()" style="flex:1;min-width:160px;">
+      <select class="fi-inp" id="fCycle" onchange="render()">
+        <option value="">All Cycles</option>
+        <option>Q1 2025</option><option>Q2 2025</option><option>Q3 2025</option><option>Q4 2025</option>
+        <option>Q1 2026</option><option>Q2 2026</option><option>Annual 2024</option><option>Annual 2025</option>
+      </select>
+      <select class="fi-inp" id="fRating" onchange="render()">
+        <option value="">All Ratings</option>
+        <option value="5">5★ Excellent</option>
+        <option value="4">4★ Good</option>
+        <option value="3">3★ Average</option>
+        <option value="2">2★ Below Average</option>
+        <option value="1">1★ Poor</option>
+      </select>
+    </div>
+
+    <div class="appr-grid" id="apprGrid"></div>
+  </div>
+</div>
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="mo" onclick="if(event.target===this)closeModal()">
+  <div class="mb">
+    <div class="mh"><div class="mt-h" id="modalTitle">New Appraisal</div><button class="xbtn" onclick="closeModal()"><span class="material-icons-round">close</span></button></div>
+    <div class="mbody">
+      <div class="fr2">
+        <div class="fg"><label class="fl">Employee *</label><select class="fs" id="f_emp"><option value="">-- Select --</option></select></div>
+        <div class="fg"><label class="fl">Review Cycle *</label><select class="fs" id="f_cycle">
+          <option>Q1 2025</option><option>Q2 2025</option><option>Q3 2025</option><option>Q4 2025</option>
+          <option>Q1 2026</option><option>Q2 2026</option><option>Annual 2024</option><option>Annual 2025</option>
+        </select></div>
+      </div>
+      <div class="fr2">
+        <div class="fg"><label class="fl">Reviewer</label><input class="fi" id="f_reviewer" placeholder="Manager / HR name"></div>
+        <div class="fg"><label class="fl">Review Date</label><input class="fi" type="date" id="f_date"></div>
+      </div>
+
+      <div class="sec-lbl">Performance Scores (1–5)</div>
+      <div class="fr3">
+        <div class="fg"><label class="fl">Work Quality</label><div class="rating-row" id="r-quality"></div><input type="hidden" id="f_quality" value="3"></div>
+        <div class="fg"><label class="fl">Punctuality</label><div class="rating-row" id="r-punctuality"></div><input type="hidden" id="f_punctuality" value="3"></div>
+        <div class="fg"><label class="fl">Teamwork</label><div class="rating-row" id="r-teamwork"></div><input type="hidden" id="f_teamwork" value="3"></div>
+      </div>
+      <div class="fr3">
+        <div class="fg"><label class="fl">Initiative</label><div class="rating-row" id="r-initiative"></div><input type="hidden" id="f_initiative" value="3"></div>
+        <div class="fg"><label class="fl">Communication</label><div class="rating-row" id="r-communication"></div><input type="hidden" id="f_communication" value="3"></div>
+        <div class="fg"><label class="fl">Overall Rating</label><div class="rating-row" id="r-overall"></div><input type="hidden" id="f_overall" value="3"></div>
+      </div>
+
+      <div class="fg"><label class="fl">Strengths</label><input class="fi" id="f_strengths" placeholder="Key strengths observed..."></div>
+      <div class="fg"><label class="fl">Areas of Improvement</label><input class="fi" id="f_improve" placeholder="Areas needing improvement..."></div>
+      <div class="fg"><label class="fl">Reviewer Remarks</label><textarea class="fta" id="f_remarks" placeholder="Overall feedback and comments..."></textarea></div>
+
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
+        <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-blue" onclick="saveAppraisal()"><span class="material-icons-round">save</span>Save Appraisal</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="material-icons-round" id="toastIcon">check_circle</span><span id="toastMsg"></span></div>
+
+<script>
+let appraisals=[], employees=[], editIdx=-1;
+const FIELDS=['quality','punctuality','teamwork','initiative','communication','overall'];
+const FIELD_LABELS={'quality':'Work Quality','punctuality':'Punctuality','teamwork':'Teamwork','initiative':'Initiative','communication':'Communication','overall':'Overall'};
+const AVG=['linear-gradient(135deg,#2563eb,#06b6d4)','linear-gradient(135deg,#8b5cf6,#ec4899)','linear-gradient(135deg,#10b981,#06b6d4)','linear-gradient(135deg,#f59e0b,#ef4444)','linear-gradient(135deg,#6366f1,#8b5cf6)'];
+const RATING_LABEL={5:'Excellent',4:'Good',3:'Average',2:'Below Average',1:'Poor'};
+const RATING_CHIP={5:'chip-green',4:'chip-blue',3:'chip-amber',2:'chip-red',1:'chip-gray'};
+const BAR_COLOR={5:'#10b981',4:'#6366f1',3:'#f59e0b',2:'#ef4444',1:'#94a3b8'};
+
+(function(){const pg=window.location.pathname.split('/').pop()||'index.html';document.querySelectorAll('.nav a').forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')===pg)a.classList.add('active');});})();
+
+function init(){
+  loadUser();
+  employees=JSON.parse(localStorage.getItem('employees')||'[]');
+  appraisals=JSON.parse(localStorage.getItem('kidv_appraisals')||'[]');
+  const sel=document.getElementById('f_emp');
+  employees.forEach((e,i)=>{const o=document.createElement('option');o.value=i;o.textContent=`${e.id||''} — ${e.fName||''} ${e.lName||''}`;sel.appendChild(o);});
+  document.getElementById('f_date').value=new Date().toISOString().split('T')[0];
+  buildStars();
+  render();
+}
+
+function buildStars(){
+  FIELDS.forEach(f=>{
+    const wrap=document.getElementById('r-'+f);
+    wrap.innerHTML='';
+    for(let i=1;i<=5;i++){
+      const s=document.createElement('span');s.className='r-star';s.textContent='★';s.dataset.v=i;s.dataset.f=f;
+      s.onclick=()=>{document.getElementById('f_'+f).value=i;updateStars(f,i);};
+      wrap.appendChild(s);
+    }
+    updateStars(f,3);
+  });
+}
+
+function updateStars(field,val){
+  document.querySelectorAll(`#r-${field} .r-star`).forEach(s=>{
+    s.classList.toggle('on',parseInt(s.dataset.v)<=val);
+  });
+}
+
+function save(){localStorage.setItem('kidv_appraisals',JSON.stringify(appraisals));}
+
+function updateStats(){
+  document.getElementById('st-total').textContent=appraisals.length;
+  document.getElementById('st-exc').textContent=appraisals.filter(a=>parseInt(a.overall)===5).length;
+  document.getElementById('st-low').textContent=appraisals.filter(a=>parseInt(a.overall)<=2).length;
+  if(appraisals.length){
+    const avg=appraisals.reduce((s,a)=>s+(parseFloat(a.overall)||0),0)/appraisals.length;
+    document.getElementById('st-avg').textContent=avg.toFixed(1);
+  } else document.getElementById('st-avg').textContent='—';
+}
+
+function render(){
+  updateStats();
+  const q=document.getElementById('srch').value.toLowerCase();
+  const fc=document.getElementById('fCycle').value;
+  const fr=document.getElementById('fRating').value;
+  let list=appraisals.filter(a=>{
+    const emp=employees[a.empIdx];const nm=emp?`${emp.fName||''} ${emp.lName||''}`.toLowerCase():'';
+    return(!q||nm.includes(q))&&(!fc||a.cycle===fc)&&(!fr||String(a.overall)===fr);
+  });
+  const g=document.getElementById('apprGrid');
+  if(!list.length){g.innerHTML='<div class="empty">No appraisals yet. Click New Appraisal to get started.</div>';return;}
+  g.innerHTML=list.map(a=>{
+    const ri=appraisals.indexOf(a);
+    const emp=employees[a.empIdx];
+    const nm=emp?`${emp.fName||''} ${emp.lName||''}`.trim():'Unknown';
+    const init=(nm.split(' ').map(w=>w[0]||'').slice(0,2).join('').toUpperCase())||'?';
+    const gr=AVG[(a.empIdx||0)%AVG.length];
+    const ov=parseInt(a.overall)||3;
+    const stars='★'.repeat(ov)+'☆'.repeat(5-ov);
+    const scoreFields=FIELDS.filter(f=>f!=='overall');
+    return`<div class="acard ar-${ov}">
+      <div class="acard-head">
+        <div class="emp-av-lg" style="background:${gr};">${init}</div>
+        <div>
+          <div class="acard-name">${nm}</div>
+          <div class="acard-dept">${emp?emp.dept||'—':'—'} · ${a.cycle}</div>
+        </div>
+      </div>
+      <div class="acard-meta">
+        <span class="chip ${RATING_CHIP[ov]}">${stars} ${RATING_LABEL[ov]}</span>
+        ${a.reviewer?`<span class="chip chip-gray">By: ${a.reviewer}</span>`:''}
+      </div>
+      ${scoreFields.map(f=>{
+        const v=parseInt(a[f])||3;const pct=(v/5)*100;
+        return`<div class="score-bar-wrap">
+          <div class="score-label"><span>${FIELD_LABELS[f]}</span><span style="color:${BAR_COLOR[v]};font-weight:800;">${v}/5</span></div>
+          <div class="score-bar"><div class="score-fill" style="width:${pct}%;background:${BAR_COLOR[v]};"></div></div>
+        </div>`;
+      }).join('')}
+      ${a.remarks?`<div class="acard-remarks">"${a.remarks}"</div>`:''}
+      ${a.strengths?`<div style="font-size:9.5px;color:#10b981;font-weight:700;margin-bottom:4px;">✓ ${a.strengths}</div>`:''}
+      ${a.improve?`<div style="font-size:9.5px;color:#ef4444;font-weight:700;margin-bottom:8px;">↑ ${a.improve}</div>`:''}
+      <div class="acard-foot">
+        <div class="acard-date">${a.date||'—'}</div>
+        <div class="acard-actions">
+          <button class="act-btn ab-e" title="Edit" onclick="openModal(${ri})"><span class="material-icons-round">edit</span></button>
+          <button class="act-btn ab-x" title="Delete" onclick="del(${ri})"><span class="material-icons-round">delete</span></button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openModal(idx){
+  editIdx=idx;
+  document.getElementById('modalTitle').textContent=idx>=0?'Edit Appraisal':'New Appraisal';
+  if(idx>=0){
+    const a=appraisals[idx];
+    document.getElementById('f_emp').value=a.empIdx;
+    document.getElementById('f_cycle').value=a.cycle;
+    document.getElementById('f_reviewer').value=a.reviewer||'';
+    document.getElementById('f_date').value=a.date||'';
+    FIELDS.forEach(f=>{document.getElementById('f_'+f).value=a[f]||3;updateStars(f,parseInt(a[f])||3);});
+    document.getElementById('f_strengths').value=a.strengths||'';
+    document.getElementById('f_improve').value=a.improve||'';
+    document.getElementById('f_remarks').value=a.remarks||'';
+  } else {
+    document.getElementById('f_emp').value='';
+    FIELDS.forEach(f=>{document.getElementById('f_'+f).value=3;updateStars(f,3);});
+    ['f_reviewer','f_strengths','f_improve','f_remarks'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('f_date').value=new Date().toISOString().split('T')[0];
+  }
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal(){document.getElementById('modal').classList.remove('open');editIdx=-1;}
+
+function saveAppraisal(){
+  const empIdx=document.getElementById('f_emp').value;
+  if(empIdx===''){showToast('Please select an employee','error');return;}
+  const obj={empIdx:parseInt(empIdx),cycle:document.getElementById('f_cycle').value,reviewer:document.getElementById('f_reviewer').value,date:document.getElementById('f_date').value,strengths:document.getElementById('f_strengths').value,improve:document.getElementById('f_improve').value,remarks:document.getElementById('f_remarks').value};
+  FIELDS.forEach(f=>obj[f]=parseInt(document.getElementById('f_'+f).value)||3);
+  if(editIdx>=0)appraisals[editIdx]=obj;else appraisals.push(obj);
+  save();closeModal();render();showToast(`Appraisal ${editIdx>=0?'updated':'saved'}!`,'success');
+}
+function del(idx){if(!confirm('Delete this appraisal?'))return;appraisals.splice(idx,1);save();render();}
+
+function loadUser(){const u=JSON.parse(localStorage.getItem('kidv_user')||'{}');if(u.name){const p=u.name.trim().split(' ');document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();document.getElementById('sideName').textContent=u.name;document.getElementById('sideRole').textContent=u.role||'Staff';}const r=(u.role||'').toLowerCase();if(r==='super admin'||r==='admin'){document.getElementById('adminNav').style.display='';document.getElementById('usersLink').style.display='';document.getElementById('rolesLink').style.display='';}}
+function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');}
+function showToast(msg,type='success'){const t=document.getElementById('toast');t.className='toast '+type;document.getElementById('toastIcon').textContent=type==='success'?'check_circle':'error';document.getElementById('toastMsg').textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
+</script>
+</body>
+</html>
