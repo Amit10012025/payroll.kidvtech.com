@@ -99,11 +99,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
   pointer-events:none;z-index:0;
 }
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:199;backdrop-filter:blur(6px);}
-.logo-area{
-  position:relative;z-index:1;flex-shrink:0;
-  overflow:hidden;background:#fff;
-  border-bottom:1px solid rgba(255,255,255,.06);
-}
+.logo-area{position:relative;z-index:1;flex-shrink:0;overflow:hidden;background:#fff;border-bottom:1px solid rgba(255,255,255,.06);}
 .logo-area img{width:100%;height:auto;object-fit:cover;display:block;}
 .nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 10px 4px;position:relative;z-index:1;}
 .nav::-webkit-scrollbar{width:3px;}
@@ -140,17 +136,18 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
   border-radius:0 3px 3px 0;
   box-shadow:0 0 10px rgba(96,165,250,.8);
 }
-.ic{width:29px;height:29px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .18s, box-shadow .18s;}
+.ic{width:29px;height:29px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .18s,box-shadow .18s;}
 .ic .material-icons-round{font-size:15px;}
 .ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
 .ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
 .ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
-.ic-int{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
-.ic-doc{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
-.ic-trn{background:rgba(139,92,246,.18);color:#c4b5fd;border:1px solid rgba(139,92,246,.18);}
-.ic-cel{background:rgba(236,72,153,.18);color:#f9a8d4;border:1px solid rgba(236,72,153,.18);}
+.ic-int{background:rgba(6,182,212,.22);color:#22d3ee;border:1px solid rgba(6,182,212,.3);}
 .ic-fin{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
-.ic-adm{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.18);}
+.ic-cel{background:rgba(236,72,153,.22);color:#f472b6;border:1px solid rgba(236,72,153,.3);}
+.ic-doc{background:rgba(245,158,11,.22);color:#fbbf24;border:1px solid rgba(245,158,11,.3);}
+.ic-trn{background:rgba(139,92,246,.22);color:#a78bfa;border:1px solid rgba(139,92,246,.3);}
+.ic-adm{background:rgba(239,68,68,.2);color:#fca5a5;border:1px solid rgba(239,68,68,.25);}
+.ic-ppl{background:rgba(99,102,241,.22);color:#a5b4fc;border:1px solid rgba(99,102,241,.3);}
 .nav a.active .ic{transform:scale(1.08);box-shadow:0 0 14px rgba(37,99,235,.4);}
 .nav a:hover .ic{transform:scale(1.06);}
 .nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
@@ -162,6 +159,10 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .logout-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:10px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);color:rgba(252,165,165,.8);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;}
 .logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;border-color:rgba(239,68,68,.4);box-shadow:0 4px 16px rgba(239,68,68,.18);}
 .logout-btn .material-icons-round{font-size:14px;}
+
+/* ════════════════════════════════
+   MAIN
+════════════════════════════════ */
 .main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:var(--sidebar-w);}
 .topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:13px 26px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:14px;box-shadow:0 1px 4px rgba(0,0,0,.05);}
 .topbar-left{display:flex;align-items:center;gap:13px;}
@@ -177,6 +178,8 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .scroll{flex:1;overflow-y:auto;padding:20px 26px;}
 .scroll::-webkit-scrollbar{width:5px;}
 .scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+
+/* STATS */
 .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px;}
 .stat{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:19px;position:relative;overflow:hidden;transition:all .22s;box-shadow:0 1px 4px rgba(0,0,0,.04);}
 .stat:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.09);border-color:#dde4ef;}
@@ -189,6 +192,8 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .stat-icon .material-icons-round{font-size:21px;}
 .stat-n{font-size:28px;font-weight:900;color:#0f172a;margin-bottom:3px;letter-spacing:-.02em;}
 .stat-l{font-size:9px;color:#94a3b8;text-transform:uppercase;font-weight:600;letter-spacing:.1em;}
+
+/* QUICK GRID */
 .quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:18px;}
 .ql{display:flex;align-items:center;gap:11px;background:#fff;border-radius:14px;padding:14px;border:1px solid #ecf0f6;text-decoration:none;transition:all .22s;box-shadow:0 1px 4px rgba(0,0,0,.04);}
 .ql:hover{box-shadow:0 6px 22px rgba(0,0,0,.1);transform:translateY(-2px);border-color:#dde4ef;}
@@ -196,6 +201,8 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .ql-icon .material-icons-round{font-size:18px;}
 .ql-name{font-size:11px;font-weight:800;text-transform:uppercase;color:#1e293b;letter-spacing:.04em;}
 .ql-desc{font-size:8.5px;color:#94a3b8;font-weight:500;text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
+
+/* BOTTOM */
 .dash-grid{display:grid;grid-template-columns:1fr 330px;gap:14px;}
 .card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:19px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
 .card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;}
@@ -220,6 +227,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .pay-box{border-radius:12px;padding:12px;}
 .pay-label{font-size:7.5px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;}
 .pay-val{font-size:16px;font-weight:900;letter-spacing:-.01em;}
+
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
 .stat{animation:fadeUp .38s ease both;}
 .stat:nth-child(1){animation-delay:.06s;}
@@ -228,6 +236,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
 .stat:nth-child(4){animation-delay:.24s;}
 .ql{animation:fadeUp .38s ease both;}
 .card{animation:fadeUp .38s ease .52s both;}
+
 @media(max-width:1100px){.dash-grid{grid-template-columns:1fr;}.stat-grid{grid-template-columns:repeat(2,1fr);}.quick-grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:768px){
   .sidebar{transform:translateX(-100%);}
@@ -252,19 +261,23 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
   <nav class="nav">
     <div class="nav-sec">Main</div>
     <a href="index.html"><span class="ic ic-main"><span class="material-icons-round">dashboard</span></span>Dashboard</a>
-    <a href="employees.html"><span class="ic ic-main"><span class="material-icons-round">badge</span></span>Employees</a>
+    <a href="employee-profile.html"><span class="ic ic-main"><span class="material-icons-round">badge</span></span>Employees</a>
     <div class="nav-sec">HR</div>
     <a href="leave-management.html"><span class="ic ic-hr"><span class="material-icons-round">event_available</span></span>Leave</a>
     <a href="shifts.html"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
     <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
     <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
     <a href="hr-letters.html"><span class="ic ic-hr"><span class="material-icons-round">mail</span></span>HR Letters</a>
-    <a href="celebrations.html"><span class="ic ic-cel"><span class="material-icons-round">celebration</span></span>Celebrations</a>
-    <a href="document-expiry.html"><span class="ic ic-doc"><span class="material-icons-round">assignment_late</span></span>Doc Expiry</a>
-    <a href="training-tracker.html"><span class="ic ic-trn"><span class="material-icons-round">school</span></span>Training</a>
+    <a href="onboarding.html"><span class="ic ic-hr"><span class="material-icons-round">how_to_reg</span></span>Onboarding</a>
+    <a href="offboarding.html"><span class="ic ic-hr"><span class="material-icons-round">logout</span></span>Offboarding</a>
+    <a href="celebrations.html"><span class="ic ic-cel"><span class="material-icons-round">auto_awesome</span></span>Celebrations</a>
+    <a href="document-expiry.html"><span class="ic ic-doc"><span class="material-icons-round">event_busy</span></span>Doc Expiry</a>
+    <a href="training-tracker.html"><span class="ic ic-trn"><span class="material-icons-round">model_training</span></span>Training</a>
     <div class="nav-sec">Operations</div>
     <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
     <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
+    <a href="salary-structure.html"><span class="ic ic-ops"><span class="material-icons-round">account_tree</span></span>Salary Structure</a>
+    <a href="tds-calculator.html"><span class="ic ic-ops"><span class="material-icons-round">calculate</span></span>TDS Calculator</a>
     <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
     <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
     <a href="analytics.html"><span class="ic ic-ops"><span class="material-icons-round">insights</span></span>Analytics</a>
@@ -273,16 +286,20 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
     <a href="expense-claims.html"><span class="ic ic-fin"><span class="material-icons-round">receipt</span></span>Expense Claims</a>
     <div class="nav-sec">Recruitment</div>
     <a href="job-openings.html"><span class="ic ic-int"><span class="material-icons-round">work</span></span>Job Openings</a>
+    <a href="candidates.html"><span class="ic ic-int"><span class="material-icons-round">people_alt</span></span>Candidates</a>
+    <div class="nav-sec">Assets</div>
+    <a href="asset-management.html"><span class="ic ic-doc"><span class="material-icons-round">inventory_2</span></span>Asset Management</a>
+    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">devices_other</span></span>Device Manager</a>
     <div class="nav-sec">Self-Service</div>
     <a href="ess-login.html"><span class="ic ic-int"><span class="material-icons-round">person_pin</span></span>Employee Portal</a>
-    <div class="nav-sec">Integration</div>
-    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">devices_other</span></span>Device Manager</a>
     <div class="nav-sec">People</div>
     <a href="grievance.html"><span class="ic ic-ppl"><span class="material-icons-round">support_agent</span></span>Grievance</a>
     <a href="performance.html"><span class="ic ic-ppl"><span class="material-icons-round">leaderboard</span></span>Performance</a>
     <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
     <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
     <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">shield</span></span>Roles &amp; Perms</a>
+    <a href="company-settings.html" id="settingsLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">settings</span></span>Company Settings</a>
+    <a href="notifications.html" id="notifLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">notifications</span></span>Notifications</a>
   </nav>
   <div class="nav-bottom">
     <div class="user-info">
@@ -305,7 +322,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
         <div class="page-date" id="todayStr"></div>
       </div>
     </div>
-    <a href="employees.html" class="btn btn-blue"><span class="material-icons-round">add</span>Add Employee</a>
+    <a href="employee-profile.html" class="btn btn-blue"><span class="material-icons-round">add</span>Add Employee</a>
   </div>
 
   <div class="scroll">
@@ -329,21 +346,21 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflo
     </div>
 
     <div class="quick-grid">
-      <a href="employees.html" class="ql"><div class="ql-icon" style="background:#eff6ff;"><span class="material-icons-round" style="color:#2563eb;">badge</span></div><div><div class="ql-name">Employees</div><div class="ql-desc">Manage workforce</div></div></a>
+      <a href="employee-profile.html" class="ql"><div class="ql-icon" style="background:#eff6ff;"><span class="material-icons-round" style="color:#2563eb;">badge</span></div><div><div class="ql-name">Employees</div><div class="ql-desc">Manage workforce</div></div></a>
       <a href="shifts.html" class="ql"><div class="ql-icon" style="background:#fffbeb;"><span class="material-icons-round" style="color:#f59e0b;">schedule</span></div><div><div class="ql-name">Shifts</div><div class="ql-desc">Shift master</div></div></a>
       <a href="holidays.html" class="ql"><div class="ql-icon" style="background:#f5f3ff;"><span class="material-icons-round" style="color:#8b5cf6;">event</span></div><div><div class="ql-name">Holidays</div><div class="ql-desc">Holiday calendar</div></div></a>
       <a href="attendance.html" class="ql"><div class="ql-icon" style="background:#f0fdf4;"><span class="material-icons-round" style="color:#10b981;">calendar_month</span></div><div><div class="ql-name">Attendance</div><div class="ql-desc">Daily marking</div></div></a>
       <a href="payroll.html" class="ql"><div class="ql-icon" style="background:#fef3c7;"><span class="material-icons-round" style="color:#d97706;">receipt_long</span></div><div><div class="ql-name">Payroll</div><div class="ql-desc">Monthly salary</div></div></a>
-      <a href="reports.html" class="ql"><div class="ql-icon" style="background:#fef2f2;"><span class="material-icons-round" style="color:#ef4444;">bar_chart</span></div><div><div class="ql-name">Reports</div><div class="ql-desc">Analytics</div></div></a>
-      <a href="device-manager.html" class="ql"><div class="ql-icon" style="background:#f5f3ff;"><span class="material-icons-round" style="color:#8b5cf6;">device_hub</span></div><div><div class="ql-name">Devices</div><div class="ql-desc">Attendance pull</div></div></a>
-      <div class="ql" style="cursor:default;"><div class="ql-icon" style="background:#f0fdf4;"><span class="material-icons-round" style="color:#10b981;">sync</span></div><div><div class="ql-name" id="qlPullCount">0 Records</div><div class="ql-desc">Pulled Today</div></div></div>
+      <a href="onboarding.html" class="ql"><div class="ql-icon" style="background:#f0fdf4;"><span class="material-icons-round" style="color:#10b981;">how_to_reg</span></div><div><div class="ql-name">Onboarding</div><div class="ql-desc">New joiners</div></div></a>
+      <a href="candidates.html" class="ql"><div class="ql-icon" style="background:#eff6ff;"><span class="material-icons-round" style="color:#2563eb;">people_alt</span></div><div><div class="ql-name">Candidates</div><div class="ql-desc">Hiring pipeline</div></div></a>
+      <a href="analytics.html" class="ql"><div class="ql-icon" style="background:#fef2f2;"><span class="material-icons-round" style="color:#ef4444;">insights</span></div><div><div class="ql-name">Analytics</div><div class="ql-desc">Workforce insights</div></div></a>
     </div>
 
     <div class="dash-grid">
       <div class="card">
         <div class="card-hd">
           <div class="card-title">Recent Employees</div>
-          <a href="employees.html" class="card-link">View All →</a>
+          <a href="employee-profile.html" class="card-link">View All →</a>
         </div>
         <div style="border-radius:11px;overflow:hidden;border:1px solid #f1f5f9;overflow-x:auto;">
           <table class="etbl"><thead><tr><th>Employee</th><th>Designation</th><th>Dept</th><th>Device Code</th><th>Gross</th><th>Joined</th></tr></thead><tbody id="empTable"></tbody></table>
@@ -377,7 +394,13 @@ function loadUserInfo(){
   const user=JSON.parse(localStorage.getItem('kidv_user')||'{}');
   if(user.name){const p=user.name.trim().split(' ');document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();document.getElementById('sideName').textContent=user.name;document.getElementById('sideRole').textContent=user.role||'Staff';}
   const role=(user.role||'').toLowerCase();
-  if(role==='super admin'||role==='admin'){document.getElementById('adminNav').style.display='';document.getElementById('usersLink').style.display='';document.getElementById('rolesLink').style.display='';}
+  if(role==='super admin'||role==='admin'){
+    document.getElementById('adminNav').style.display='';
+    document.getElementById('usersLink').style.display='';
+    document.getElementById('rolesLink').style.display='';
+    document.getElementById('settingsLink').style.display='';
+    document.getElementById('notifLink').style.display='';
+  }
 }
 function loadDash(){
   loadUserInfo();
@@ -389,7 +412,6 @@ function loadDash(){
   const y=new Date().getFullYear();
   const holidays=JSON.parse(localStorage.getItem('holidays_'+y)||'[]');
   document.getElementById('stHol').textContent=holidays.length;
-  document.getElementById('qlPullCount').textContent=JSON.parse(localStorage.getItem('pullHistory')||'[]').reduce((s,h)=>s+(h.records||0),0).toLocaleString()+' Records';
   const tbody=document.getElementById('empTable');
   if(!emps.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:22px;color:#94a3b8;font-weight:600;text-transform:uppercase;font-size:9.5px;">No employees yet</td></tr>';}
   else{tbody.innerHTML=[...emps].reverse().slice(0,8).map(e=>`<tr><td><div style="display:flex;align-items:center;gap:9px;"><div class="eav">${(e.fName[0]+e.lName[0]).toUpperCase()}</div><span style="font-size:11px;font-weight:700;color:#1e293b;">${e.fName} ${e.lName}</span></div></td><td style="color:#64748b;font-size:10px;">${e.job||'--'}</td><td style="color:#64748b;font-size:10px;">${e.dept||'--'}</td><td>${e.deviceCode?`<span class="dev-badge">${e.deviceCode}</span>`:'<span style="color:#e2e8f0;">—</span>'}</td><td style="font-weight:800;color:#2563eb;">₹${parseFloat(e.sal_gross||0).toLocaleString('en-IN')}</td><td style="color:#94a3b8;font-size:9.5px;">${e.doj||'--'}</td></tr>`).join('');}
