@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<!-- ═══ SEO - Google Search & Favicon ═══ -->
+<title>Notifications | KIDV Tech HR Software</title>
+<meta name="description" content="Manage system alerts, reminders and notification preferences. KIDV Tech HR &amp; Payroll Software, Ahmedabad Gujarat.">
+<link rel="canonical" href="https://payroll.kidvtech.com/notifications.html">
+<link rel="icon" type="image/png" href="logo-new.jpg">
+<link rel="apple-touch-icon" href="logo-new.jpg">
+<meta name="theme-color" content="#07101f">
+<meta name="robots" content="index, follow">
+<meta name="author" content="KIDV Tech">
+<meta name="keywords" content="payroll software, HR software, attendance management, employee management, payroll Ahmedabad, Gujarat, KIDV Tech payroll">
+<meta property="og:title" content="Notifications | KIDV Tech">
+<meta property="og:description" content="System alerts, reminders and notification preference management.">
+<meta property="og:url" content="https://payroll.kidvtech.com/notifications.html">
+<meta property="og:site_name" content="KIDV Tech Payroll">
+<meta property="og:image" content="https://payroll.kidvtech.com/logo-new.jpg">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "KIDV Tech Payroll Software",
+  "url": "https://payroll.kidvtech.com",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "description": "Smart HR & Payroll Management Software for Indian businesses",
+  "publisher": {
+    "@type": "Organization",
+    "name": "KIDV Tech",
+    "url": "https://www.kidvtech.com"
+  }
+}
+</script>
+<!-- ═══════════════════════════════════ -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round&display=block" rel="stylesheet">
+<script>
+if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}
+const _u=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+if((_u.role||'').toLowerCase()!=='super admin'&&(_u.role||'').toLowerCase()!=='admin'){window.location.replace('index.html');}
+</script>
+<style>
+:root{--navy:#07101f;--blue:#2563eb;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--purple:#8b5cf6;--amber:#f59e0b;--orange:#f97316;--text-m:rgba(148,163,184,.65);--text-d:rgba(148,163,184,.32);--border-b:rgba(255,255,255,.11);--glass:rgba(255,255,255,.04);--sidebar-w:260px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflow:hidden;}
+.app{display:flex;height:100vh;}
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden;border-right:1px solid rgba(255,255,255,.05);box-shadow:8px 0 40px rgba(0,0,0,.35);}
+.sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:199;backdrop-filter:blur(6px);}
+.logo-area{position:relative;z-index:1;flex-shrink:0;overflow:hidden;background:#fff;border-bottom:1px solid rgba(255,255,255,.06);}
+.logo-area img{width:100%;height:auto;display:block;}
+.nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 10px 4px;position:relative;z-index:1;}
+.nav::-webkit-scrollbar{width:3px;}.nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:99px;}
+.nav-sec{font-size:8.5px;color:var(--text-d);font-weight:700;text-transform:uppercase;letter-spacing:.2em;padding:0 8px;margin:16px 0 5px;display:flex;align-items:center;gap:8px;}
+.nav-sec::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07);}
+.nav a{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:11px;font-size:11px;font-weight:600;color:var(--text-m);text-decoration:none;margin-bottom:1px;text-transform:uppercase;letter-spacing:.055em;transition:color .18s,background .18s,transform .18s;position:relative;}
+.nav a:hover{color:rgba(241,245,249,.9);background:rgba(255,255,255,.07);transform:translateX(2px);}
+.nav a.active{color:#fff;background:linear-gradient(120deg,rgba(37,99,235,.32) 0%,rgba(6,182,212,.18) 100%);border:1px solid rgba(59,130,246,.28);box-shadow:0 4px 20px rgba(37,99,235,.22),inset 0 1px 0 rgba(255,255,255,.09);}
+.nav a.active::after{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:55%;background:linear-gradient(180deg,#93c5fd,#22d3ee);border-radius:0 3px 3px 0;box-shadow:0 0 10px rgba(96,165,250,.8);}
+.ic{width:29px;height:29px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .18s;}
+.ic .material-icons-round{font-size:15px;}
+.ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
+.ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-int{background:rgba(6,182,212,.22);color:#22d3ee;border:1px solid rgba(6,182,212,.3);}
+.ic-fin{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-cel{background:rgba(236,72,153,.22);color:#f472b6;border:1px solid rgba(236,72,153,.3);}
+.ic-doc{background:rgba(245,158,11,.22);color:#fbbf24;border:1px solid rgba(245,158,11,.3);}
+.ic-trn{background:rgba(139,92,246,.22);color:#a78bfa;border:1px solid rgba(139,92,246,.3);}
+.ic-adm{background:rgba(239,68,68,.2);color:#fca5a5;border:1px solid rgba(239,68,68,.25);}
+.ic-ppl{background:rgba(99,102,241,.22);color:#a5b4fc;border:1px solid rgba(99,102,241,.3);}
+.nav a.active .ic{transform:scale(1.08);box-shadow:0 0 14px rgba(37,99,235,.4);}
+.nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
+.user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--glass);margin-bottom:8px;border:1px solid var(--border-b);}
+.user-av{width:33px;height:33px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.user-name{font-size:10.5px;font-weight:700;color:#fff;text-transform:uppercase;}
+.user-role{font-size:8px;color:var(--text-d);font-weight:500;text-transform:uppercase;margin-top:1px;}
+.logout-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:10px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);color:rgba(252,165,165,.8);font-size:10px;font-weight:700;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;}
+.logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;}
+.logout-btn .material-icons-round{font-size:14px;}
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:var(--sidebar-w);}
+.topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:11px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.topbar-left{display:flex;align-items:center;gap:12px;}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;}
+.menu-btn .material-icons-round{font-size:22px;}
+.page-title{font-size:15px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
+.page-sub{font-size:9px;color:#94a3b8;font-weight:500;margin-top:2px;letter-spacing:.05em;text-transform:uppercase;}
+.scroll{flex:1;overflow-y:auto;padding:18px 24px;}
+.scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.06em;font-family:'Outfit',sans-serif;white-space:nowrap;}
+.btn-blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.3);}
+.btn-blue:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,.44);}
+.btn-green{background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 4px 14px rgba(16,185,129,.3);}
+.btn-green:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(16,185,129,.4);}
+.btn-ghost{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}
+.btn-ghost:hover{background:#e2e8f0;}
+.btn-danger{background:#fef2f2;color:#ef4444;border:1px solid #fecaca;}
+.btn-danger:hover{background:#fee2e2;}
+.btn-amber{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;box-shadow:0 4px 14px rgba(245,158,11,.3);}
+.btn-sm{padding:6px 10px;font-size:10px;border-radius:8px;}
+.btn .material-icons-round{font-size:14px;}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.stat-box{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:16px 18px;position:relative;overflow:hidden;transition:all .18s;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.stat-box:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.08);}
+.stat-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.sb-blue::before{background:linear-gradient(90deg,#2563eb,#06b6d4);}
+.sb-green::before{background:linear-gradient(90deg,#10b981,#06b6d4);}
+.sb-purple::before{background:linear-gradient(90deg,#8b5cf6,#ec4899);}
+.sb-orange::before{background:linear-gradient(90deg,#f97316,#fbbf24);}
+.sb-cyan::before{background:linear-gradient(90deg,#06b6d4,#2563eb);}
+.sb-red::before{background:linear-gradient(90deg,#ef4444,#f97316);}
+.stat-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
+.stat-icon .material-icons-round{font-size:17px;}
+.si-blue{background:rgba(37,99,235,.1);color:#2563eb;}
+.si-green{background:rgba(16,185,129,.1);color:#10b981;}
+.si-purple{background:rgba(139,92,246,.1);color:#8b5cf6;}
+.si-orange{background:rgba(249,115,22,.1);color:#f97316;}
+.si-cyan{background:rgba(6,182,212,.1);color:#06b6d4;}
+.si-red{background:rgba(239,68,68,.1);color:#ef4444;}
+.stat-lbl{font-size:8.5px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.06em;}
+.stat-val{font-size:26px;font-weight:900;color:#0f172a;margin-top:3px;font-family:'JetBrains Mono',monospace;}
+.stat-sub{font-size:9px;color:#94a3b8;font-weight:500;margin-top:3px;}
+.card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.04);animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.card:hover{box-shadow:0 6px 20px rgba(0,0,0,.08);transform:translateY(-2px);}
+.card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:8px;}
+.card-title{font-size:12px;font-weight:800;color:#0f172a;text-transform:uppercase;letter-spacing:.04em;}
+.card-sub{font-size:9.5px;color:#94a3b8;font-weight:500;margin-top:2px;}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;}
+.badge-blue{background:#eff6ff;color:#2563eb;}
+.badge-green{background:#dcfce7;color:#15803d;}
+.badge-red{background:#fef2f2;color:#dc2626;}
+.badge-amber{background:#fefce8;color:#a16207;}
+.badge-purple{background:#ede9fe;color:#6d28d9;}
+.badge-cyan{background:#ecfeff;color:#0e7490;}
+.badge-gray{background:#f1f5f9;color:#64748b;}
+.tbl-wrap{overflow-x:auto;border-radius:12px;border:1px solid #ecf0f6;}
+table{width:100%;border-collapse:collapse;background:#fff;}
+thead tr{background:#f8fafc;border-bottom:1px solid #e2e8f0;}
+th{padding:10px 14px;font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#64748b;text-align:left;white-space:nowrap;}
+td{padding:11px 14px;font-size:11.5px;font-weight:500;color:#334155;border-bottom:1px solid #f1f5f9;vertical-align:middle;}
+tbody tr:hover{background:#f8fafc;}
+tbody tr:last-child td{border-bottom:none;}
+.mo{position:fixed;inset:0;background:rgba(7,16,31,.65);backdrop-filter:blur(6px);z-index:500;display:none;align-items:center;justify-content:center;padding:16px;}
+.mo.open{display:flex;}
+.mb{background:#fff;border-radius:20px;width:90%;max-width:620px;max-height:92vh;overflow-y:auto;box-shadow:0 30px 70px rgba(0,0,0,.22);animation:mIn .25s cubic-bezier(.16,1,.3,1);}
+@keyframes mIn{from{opacity:0;transform:scale(.95) translateY(16px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.mb::-webkit-scrollbar{width:4px;}.mb::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+.mh{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-bottom:1px solid #f1f5f9;position:sticky;top:0;background:#fff;border-radius:20px 20px 0 0;z-index:1;}
+.mt{font-size:13px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.06em;}
+.xbtn{width:32px;height:32px;background:#f1f5f9;border:none;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;color:#64748b;}
+.xbtn:hover{background:#fef2f2;color:#ef4444;}
+.xbtn .material-icons-round{font-size:16px;}
+.mbody{padding:22px;}
+.mfooter{display:flex;justify-content:flex-end;gap:10px;padding:14px 22px 20px;border-top:1px solid #f1f5f9;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.form-full{grid-column:1/-1;}
+.form-group{margin-bottom:14px;}
+.form-label{font-size:8.5px;font-weight:700;text-transform:uppercase;color:#64748b;letter-spacing:.08em;margin-bottom:5px;display:block;}
+.form-inp,.form-sel,.form-ta{width:100%;padding:10px 13px;border-radius:9px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;color:#1e293b;background:#f8fafc;transition:all .15s;}
+.form-ta{resize:vertical;min-height:80px;}
+.form-inp:focus,.form-sel:focus,.form-ta:focus{outline:none;border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
+.sec-div{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#2563eb;border-bottom:2px solid #bfdbfe;padding-bottom:7px;margin:18px 0 14px;display:flex;align-items:center;justify-content:space-between;}
+.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.2);}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{background:#065f46;border-left:4px solid #6ee7b7;}
+.toast.error{background:#7f1d1d;border-left:4px solid #fca5a5;}
+.toast .material-icons-round{font-size:16px;}
+.empty-state{text-align:center;padding:60px 20px;color:#94a3b8;}
+.empty-state .material-icons-round{font-size:48px;margin-bottom:12px;display:block;opacity:.3;}
+.empty-state div{font-size:13px;font-weight:700;text-transform:uppercase;}
+.search-bar{display:flex;align-items:center;gap:8px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:8px 13px;min-width:220px;}
+.search-bar .material-icons-round{font-size:16px;color:#94a3b8;}
+.search-bar input{border:none;background:none;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;color:#1e293b;outline:none;width:100%;}
+.filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.step-bar{display:flex;align-items:center;gap:0;margin-bottom:22px;}
+.step{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;}
+.step.done{color:#10b981;}
+.step.active{color:#2563eb;}
+.step-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;background:#f1f5f9;color:#94a3b8;flex-shrink:0;}
+.step.done .step-num{background:#dcfce7;color:#15803d;}
+.step.active .step-num{background:#eff6ff;color:#2563eb;}
+.step-line{flex:1;height:2px;background:#e2e8f0;margin:0 8px;}
+.step-line.done{background:#10b981;}
+@media(max-width:768px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.sidebar-overlay.open{display:block;}.main{margin-left:0!important;}.menu-btn{display:flex!important;}.topbar,.scroll{padding:11px 14px;}.stats-row{grid-template-columns:1fr 1fr;}.form-grid,.form-grid-3{grid-template-columns:1fr;}}
+</style>
+<style>
+.notif-layout{display:grid;grid-template-columns:1fr 360px;gap:20px;}
+.notif-list{display:flex;flex-direction:column;gap:8px;}
+.notif-item{background:#fff;border-radius:12px;border:1px solid #ecf0f6;padding:14px 18px;display:flex;align-items:center;gap:14px;box-shadow:0 1px 3px rgba(0,0,0,.03);transition:all .15s;animation:fadeIn .25s ease;}
+.notif-item:hover{box-shadow:0 4px 14px rgba(0,0,0,.07);}
+.notif-item.unread{border-left:3px solid #2563eb;background:#f8fbff;}
+.notif-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.notif-icon .material-icons-round{font-size:18px;}
+.notif-body{flex:1;min-width:0;}
+.notif-title{font-size:12px;font-weight:700;color:#0f172a;}
+.notif-msg{font-size:10.5px;color:#64748b;font-weight:500;margin-top:2px;}
+.notif-time{font-size:9px;color:#94a3b8;font-weight:600;margin-top:4px;}
+.notif-actions{display:flex;gap:5px;flex-shrink:0;}
+.settings-card{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:14px;}
+.settings-card-title{font-size:11px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.05em;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:7px;}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f8fafc;}
+.toggle-row:last-child{border-bottom:none;}
+.toggle-label{font-size:11.5px;font-weight:600;color:#334155;}
+.toggle-desc{font-size:9.5px;color:#94a3b8;margin-top:1px;}
+.toggle{position:relative;width:38px;height:22px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:#e2e8f0;border-radius:99px;cursor:pointer;transition:.3s;}
+.toggle-slider::before{content:'';position:absolute;width:16px;height:16px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+input:checked+.toggle-slider{background:#2563eb;}
+input:checked+.toggle-slider::before{transform:translateX(16px);}
+@media(max-width:900px){.notif-layout{grid-template-columns:1fr;}}
+</style>
+</head>
+<body onload="init()">
+<div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="logo-area"><img src="logo.png" alt="KIDV Tech"></div>
+  <nav class="nav">
+    <div class="nav-sec">Main</div>
+    <a href="index.html"><span class="ic ic-main"><span class="material-icons-round">dashboard</span></span>Dashboard</a>
+    <a href="employee-profile.html"><span class="ic ic-main"><span class="material-icons-round">badge</span></span>Employees</a>
+    <div class="nav-sec">HR</div>
+    <a href="leave-management.html"><span class="ic ic-hr"><span class="material-icons-round">event_available</span></span>Leave</a>
+    <a href="shifts.html"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
+    <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
+    <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
+    <a href="hr-letters.html"><span class="ic ic-hr"><span class="material-icons-round">mail</span></span>HR Letters</a>
+    <a href="onboarding.html"><span class="ic ic-hr"><span class="material-icons-round">how_to_reg</span></span>Onboarding</a>
+    <a href="offboarding.html"><span class="ic ic-hr"><span class="material-icons-round">logout</span></span>Offboarding</a>
+    <a href="celebrations.html"><span class="ic ic-cel"><span class="material-icons-round">auto_awesome</span></span>Celebrations</a>
+    <a href="document-expiry.html"><span class="ic ic-doc"><span class="material-icons-round">event_busy</span></span>Doc Expiry</a>
+    <a href="training-tracker.html"><span class="ic ic-trn"><span class="material-icons-round">model_training</span></span>Training</a>
+    <div class="nav-sec">Operations</div>
+    <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
+    <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
+    <a href="salary-structure.html"><span class="ic ic-ops"><span class="material-icons-round">account_tree</span></span>Salary Structure</a>
+    <a href="tds-calculator.html"><span class="ic ic-ops"><span class="material-icons-round">calculate</span></span>TDS Calculator</a>
+    <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
+    <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
+    <a href="analytics.html"><span class="ic ic-ops"><span class="material-icons-round">insights</span></span>Analytics</a>
+    <div class="nav-sec">Finance</div>
+    <a href="loan-management.html"><span class="ic ic-fin"><span class="material-icons-round">account_balance_wallet</span></span>Loans &amp; Advances</a>
+    <a href="expense-claims.html"><span class="ic ic-fin"><span class="material-icons-round">receipt</span></span>Expense Claims</a>
+    <div class="nav-sec">Recruitment</div>
+    <a href="job-openings.html"><span class="ic ic-int"><span class="material-icons-round">work</span></span>Job Openings</a>
+    <a href="candidates.html"><span class="ic ic-int"><span class="material-icons-round">people_alt</span></span>Candidates</a>
+    <div class="nav-sec">Assets</div>
+    <a href="asset-management.html"><span class="ic ic-doc"><span class="material-icons-round">inventory_2</span></span>Asset Management</a>
+    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">devices_other</span></span>Device Manager</a>
+    <div class="nav-sec">People</div>
+    <a href="grievance.html"><span class="ic ic-ppl"><span class="material-icons-round">support_agent</span></span>Grievance</a>
+    <a href="performance.html"><span class="ic ic-ppl"><span class="material-icons-round">leaderboard</span></span>Performance</a>
+    <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
+    <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
+    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">admin_panel_settings</span></span>Roles &amp; Perms</a>
+    <a href="company-settings.html" id="settingsLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">settings</span></span>Company Settings</a>
+    <a href="notifications.html" id="notifLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">notifications</span></span>Notifications</a>
+  </nav>
+  <div class="nav-bottom">
+    <div class="user-info"><div class="user-av" id="sideAvatar">SA</div><div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Super Admin</div></div></div>
+    <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
+  </div>
+</aside>
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="menu-btn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
+      <div>
+        <div class="page-title">Notifications</div>
+        <div class="page-sub">Alerts · Reminders · Preferences</div>
+      </div>
+    </div>
+    <button class="btn btn-ghost" onclick="markAllRead()"><span class="material-icons-round">done_all</span>Mark All Read</button>
+  </div>
+  <div class="scroll">
+    <div class="notif-layout">
+      <!-- NOTIFICATION FEED -->
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+          <div style="font-size:11px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.05em;">Recent Notifications <span id="unreadBadge" class="badge badge-blue" style="margin-left:6px;vertical-align:middle;"></span></div>
+          <div class="filters">
+            <select class="form-sel" style="padding:7px 11px;font-size:11px;width:auto;" id="filterCat" onchange="render()">
+              <option value="">All</option><option value="payroll">Payroll</option><option value="leave">Leave</option>
+              <option value="compliance">Compliance</option><option value="hr">HR</option><option value="system">System</option>
+            </select>
+          </div>
+        </div>
+        <div class="notif-list" id="notifList"></div>
+      </div>
+      <!-- PREFERENCES PANEL -->
+      <div>
+        <div class="settings-card">
+          <div class="settings-card-title"><span class="material-icons-round">tune</span>Notification Preferences</div>
+          <div class="toggle-row"><div><div class="toggle-label">Payroll Reminders</div><div class="toggle-desc">Salary disbursement and payroll alerts</div></div><label class="toggle"><input type="checkbox" id="pPayroll" checked><span class="toggle-slider"></span></label></div>
+          <div class="toggle-row"><div><div class="toggle-label">Leave Approvals</div><div class="toggle-desc">New leave requests from employees</div></div><label class="toggle"><input type="checkbox" id="pLeave" checked><span class="toggle-slider"></span></label></div>
+          <div class="toggle-row"><div><div class="toggle-label">Document Expiry</div><div class="toggle-desc">Passport, visa, licence expiry alerts</div></div><label class="toggle"><input type="checkbox" id="pDocExp" checked><span class="toggle-slider"></span></label></div>
+          <div class="toggle-row"><div><div class="toggle-label">Compliance Deadlines</div><div class="toggle-desc">PF, ESIC, TDS filing reminders</div></div><label class="toggle"><input type="checkbox" id="pCompliance" checked><span class="toggle-slider"></span></label></div>
+          <div class="toggle-row"><div><div class="toggle-label">Birthdays &amp; Anniversaries</div><div class="toggle-desc">Employee celebration reminders</div></div><label class="toggle"><input type="checkbox" id="pCelebrations" checked><span class="toggle-slider"></span></label></div>
+          <div class="toggle-row"><div><div class="toggle-label">Grievance Alerts</div><div class="toggle-desc">New grievances raised by employees</div></div><label class="toggle"><input type="checkbox" id="pGrievance" checked><span class="toggle-slider"></span></label></div>
+          <div class="toggle-row"><div><div class="toggle-label">Training Deadlines</div><div class="toggle-desc">Upcoming training completion deadlines</div></div><label class="toggle"><input type="checkbox" id="pTraining"><span class="toggle-slider"></span></label></div>
+          <div class="toggle-row"><div><div class="toggle-label">Loan EMI Reminders</div><div class="toggle-desc">Upcoming EMI deduction reminders</div></div><label class="toggle"><input type="checkbox" id="pLoan"><span class="toggle-slider"></span></label></div>
+        </div>
+        <div class="settings-card">
+          <div class="settings-card-title"><span class="material-icons-round">schedule</span>Reminder Timing</div>
+          <div class="form-group"><label class="form-label">Document Expiry Alert (days before)</label>
+            <select class="form-sel" id="rDocDays"><option value="30">30 Days</option><option value="60">60 Days</option><option value="90">90 Days</option></select>
+          </div>
+          <div class="form-group"><label class="form-label">Compliance Reminder (days before)</label>
+            <select class="form-sel" id="rCompDays"><option value="7">7 Days</option><option value="15">15 Days</option><option value="30">30 Days</option></select>
+          </div>
+          <div class="form-group"><label class="form-label">Payroll Processing Reminder</label>
+            <select class="form-sel" id="rPayDays"><option value="3">3 Days Before</option><option value="5">5 Days Before</option><option value="7">7 Days Before</option></select>
+          </div>
+          <button class="btn btn-blue" style="width:100%;justify-content:center;" onclick="savePrefs()"><span class="material-icons-round">save</span>Save Preferences</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="toast" id="toast"><span class="material-icons-round" id="toastIco">check_circle</span><span id="toastMsg"></span></div>
+<script>
+const NOTIF_KEY='kidv_notifications';
+const PREF_KEY='kidv_notif_prefs';
+
+const SAMPLE=[
+  {id:1,cat:'payroll',icon:'receipt_long',iconBg:'rgba(37,99,235,.1)',iconColor:'#2563eb',title:'Payroll Due in 3 Days',msg:'March 2026 payroll processing is due. Please review and approve.',time:'2 hours ago',read:false},
+  {id:2,cat:'leave',icon:'event_available',iconBg:'rgba(16,185,129,.1)',iconColor:'#10b981',title:'Leave Request Pending',msg:'Rajesh Patel has applied for 3 days Casual Leave (Mar 15-17).',time:'4 hours ago',read:false},
+  {id:3,cat:'compliance',icon:'gavel',iconBg:'rgba(239,68,68,.1)',iconColor:'#ef4444',title:'PF Filing Deadline',msg:'PF ECR for February 2026 is due by 15th March 2026.',time:'Yesterday',read:false},
+  {id:4,cat:'hr',icon:'auto_awesome',iconBg:'rgba(236,72,153,.1)',iconColor:'#ec4899',title:"Today's Celebrations",msg:'Priya Shah's birthday today! Send a wish 🎂',time:'Today 9:00 AM',read:true},
+  {id:5,cat:'hr',icon:'event_busy',iconBg:'rgba(245,158,11,.1)',iconColor:'#f59e0b',title:'Document Expiry Alert',msg:"Amit Kumar's passport expires in 28 days (Apr 10, 2026).",time:'Yesterday',read:true},
+  {id:6,cat:'payroll',icon:'account_balance_wallet',iconBg:'rgba(139,92,246,.1)',iconColor:'#8b5cf6',title:'Loan EMI Deduction',msg:'₹5,000 EMI for Suresh Mehta will be deducted in next payroll.',time:'2 days ago',read:true},
+  {id:7,cat:'system',icon:'info',iconBg:'rgba(6,182,212,.1)',iconColor:'#06b6d4',title:'System Update Available',msg:'KIDV Tech Payroll v2.4 is available with new features.',time:'3 days ago',read:true},
+  {id:8,cat:'compliance',icon:'assignment_late',iconBg:'rgba(249,115,22,.1)',iconColor:'#f97316',title:'ESIC Challan Pending',msg:'ESIC challan for Feb 2026 not yet generated.',time:'3 days ago',read:true},
+];
+
+let notifs=JSON.parse(localStorage.getItem(NOTIF_KEY)||'null')||SAMPLE;
+const saveNotifs=()=>localStorage.setItem(NOTIF_KEY,JSON.stringify(notifs));
+
+function init(){loadUserInfo();loadPrefs();render();}
+
+function render(){
+  const fc=document.getElementById('filterCat').value;
+  const filtered=notifs.filter(n=>!fc||n.cat===fc);
+  const unread=notifs.filter(n=>!n.read).length;
+  const badge=document.getElementById('unreadBadge');
+  badge.textContent=unread?unread+' New':'';
+  badge.style.display=unread?'':'none';
+  document.getElementById('notifList').innerHTML=filtered.length?filtered.map(n=>`
+    <div class="notif-item${n.read?'':' unread'}" id="notif-${n.id}">
+      <div class="notif-icon" style="background:${n.iconBg};"><span class="material-icons-round" style="color:${n.iconColor};">${n.icon}</span></div>
+      <div class="notif-body">
+        <div class="notif-title">${n.title}</div>
+        <div class="notif-msg">${n.msg}</div>
+        <div class="notif-time">${n.time}</div>
+      </div>
+      <div class="notif-actions">
+        ${!n.read?`<button class="btn btn-ghost btn-sm" title="Mark Read" onclick="markRead(${n.id})"><span class="material-icons-round" style="font-size:13px;">done</span></button>`:''}
+        <button class="btn btn-danger btn-sm" title="Delete" onclick="deleteNotif(${n.id})"><span class="material-icons-round" style="font-size:13px;">close</span></button>
+      </div>
+    </div>`).join(''):'<div class="empty-state"><span class="material-icons-round">notifications_none</span><div>No notifications</div></div>';
+}
+function markRead(id){const n=notifs.find(x=>x.id===id);if(n)n.read=true;saveNotifs();render();}
+function markAllRead(){notifs.forEach(n=>n.read=true);saveNotifs();render();showToast('All notifications marked as read.','success');}
+function deleteNotif(id){notifs=notifs.filter(x=>x.id!==id);saveNotifs();render();}
+
+function loadPrefs(){
+  const p=JSON.parse(localStorage.getItem(PREF_KEY)||'{}');
+  const toggles=['pPayroll','pLeave','pDocExp','pCompliance','pCelebrations','pGrievance','pTraining','pLoan'];
+  toggles.forEach(id=>{const el=document.getElementById(id);if(el&&p[id]!==undefined)el.checked=p[id];});
+  ['rDocDays','rCompDays','rPayDays'].forEach(id=>{const el=document.getElementById(id);if(el&&p[id])el.value=p[id];});
+}
+function savePrefs(){
+  const p={};
+  ['pPayroll','pLeave','pDocExp','pCompliance','pCelebrations','pGrievance','pTraining','pLoan'].forEach(id=>{const el=document.getElementById(id);if(el)p[id]=el.checked;});
+  ['rDocDays','rCompDays','rPayDays'].forEach(id=>{const el=document.getElementById(id);if(el)p[id]=el.value;});
+  localStorage.setItem(PREF_KEY,JSON.stringify(p));
+  showToast('Preferences saved!','success');
+}
+
+function loadUserInfo(){
+  const u=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+  if(u.name){const p=u.name.trim().split(' ');document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();document.getElementById('sideName').textContent=u.name;document.getElementById('sideRole').textContent=u.role||'';}
+  const r=(u.role||'').toLowerCase();
+  if(r==='super admin'||r==='admin'){
+    const ids=['adminNav','usersLink','rolesLink','settingsLink','notifLink'];
+    ids.forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='';});
+  }
+}
+function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');}
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');t.className='toast '+type;
+  document.getElementById('toastIco').textContent=type==='success'?'check_circle':type==='error'?'error':'info';
+  document.getElementById('toastMsg').textContent=msg;
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);
+}
+(function(){
+  const page=window.location.pathname.split('/').pop()||'index.html';
+  document.querySelectorAll('.nav a').forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')===page)a.classList.add('active');});
+})();
+</script></body></html>

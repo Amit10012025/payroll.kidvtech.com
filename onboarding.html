@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<!-- ═══ SEO - Google Search & Favicon ═══ -->
+<title>Onboarding | KIDV Tech HR Software</title>
+<meta name="description" content="Manage new employee onboarding checklists and joining formalities. KIDV Tech HR &amp; Payroll Software, Ahmedabad Gujarat.">
+<link rel="canonical" href="https://payroll.kidvtech.com/onboarding.html">
+<link rel="icon" type="image/png" href="logo-new.jpg">
+<link rel="apple-touch-icon" href="logo-new.jpg">
+<meta name="theme-color" content="#07101f">
+<meta name="robots" content="index, follow">
+<meta name="author" content="KIDV Tech">
+<meta name="keywords" content="payroll software, HR software, attendance management, employee management, payroll Ahmedabad, Gujarat, KIDV Tech payroll">
+<meta property="og:title" content="Onboarding | KIDV Tech">
+<meta property="og:description" content="New employee onboarding checklists and joining formalities.">
+<meta property="og:url" content="https://payroll.kidvtech.com/onboarding.html">
+<meta property="og:site_name" content="KIDV Tech Payroll">
+<meta property="og:image" content="https://payroll.kidvtech.com/logo-new.jpg">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "KIDV Tech Payroll Software",
+  "url": "https://payroll.kidvtech.com",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "description": "Smart HR & Payroll Management Software for Indian businesses",
+  "publisher": {
+    "@type": "Organization",
+    "name": "KIDV Tech",
+    "url": "https://www.kidvtech.com"
+  }
+}
+</script>
+<!-- ═══════════════════════════════════ -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round&display=block" rel="stylesheet">
+<script>
+if(!localStorage.getItem('kidv_logged_in')){window.location.replace('login.html');}
+const _u=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+if((_u.role||'').toLowerCase()!=='super admin'&&(_u.role||'').toLowerCase()!=='admin'){window.location.replace('index.html');}
+</script>
+<style>
+:root{--navy:#07101f;--blue:#2563eb;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--purple:#8b5cf6;--amber:#f59e0b;--orange:#f97316;--text-m:rgba(148,163,184,.65);--text-d:rgba(148,163,184,.32);--border-b:rgba(255,255,255,.11);--glass:rgba(255,255,255,.04);--sidebar-w:260px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:'Outfit',sans-serif;background:#eef2f7;overflow:hidden;}
+.app{display:flex;height:100vh;}
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden;border-right:1px solid rgba(255,255,255,.05);box-shadow:8px 0 40px rgba(0,0,0,.35);}
+.sidebar::before{content:'';position:absolute;top:-100px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar::after{content:'';position:absolute;bottom:80px;right:-100px;width:260px;height:260px;background:radial-gradient(circle,rgba(6,182,212,.09) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:199;backdrop-filter:blur(6px);}
+.logo-area{position:relative;z-index:1;flex-shrink:0;overflow:hidden;background:#fff;border-bottom:1px solid rgba(255,255,255,.06);}
+.logo-area img{width:100%;height:auto;display:block;}
+.nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 10px 4px;position:relative;z-index:1;}
+.nav::-webkit-scrollbar{width:3px;}.nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:99px;}
+.nav-sec{font-size:8.5px;color:var(--text-d);font-weight:700;text-transform:uppercase;letter-spacing:.2em;padding:0 8px;margin:16px 0 5px;display:flex;align-items:center;gap:8px;}
+.nav-sec::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07);}
+.nav a{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:11px;font-size:11px;font-weight:600;color:var(--text-m);text-decoration:none;margin-bottom:1px;text-transform:uppercase;letter-spacing:.055em;transition:color .18s,background .18s,transform .18s;position:relative;}
+.nav a:hover{color:rgba(241,245,249,.9);background:rgba(255,255,255,.07);transform:translateX(2px);}
+.nav a.active{color:#fff;background:linear-gradient(120deg,rgba(37,99,235,.32) 0%,rgba(6,182,212,.18) 100%);border:1px solid rgba(59,130,246,.28);box-shadow:0 4px 20px rgba(37,99,235,.22),inset 0 1px 0 rgba(255,255,255,.09);}
+.nav a.active::after{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:55%;background:linear-gradient(180deg,#93c5fd,#22d3ee);border-radius:0 3px 3px 0;box-shadow:0 0 10px rgba(96,165,250,.8);}
+.ic{width:29px;height:29px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .18s;}
+.ic .material-icons-round{font-size:15px;}
+.ic-main{background:rgba(37,99,235,.22);color:#93c5fd;border:1px solid rgba(37,99,235,.22);}
+.ic-hr{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-ops{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.18);}
+.ic-int{background:rgba(6,182,212,.22);color:#22d3ee;border:1px solid rgba(6,182,212,.3);}
+.ic-fin{background:rgba(16,185,129,.18);color:#6ee7b7;border:1px solid rgba(16,185,129,.18);}
+.ic-cel{background:rgba(236,72,153,.22);color:#f472b6;border:1px solid rgba(236,72,153,.3);}
+.ic-doc{background:rgba(245,158,11,.22);color:#fbbf24;border:1px solid rgba(245,158,11,.3);}
+.ic-trn{background:rgba(139,92,246,.22);color:#a78bfa;border:1px solid rgba(139,92,246,.3);}
+.ic-adm{background:rgba(239,68,68,.2);color:#fca5a5;border:1px solid rgba(239,68,68,.25);}
+.ic-ppl{background:rgba(99,102,241,.22);color:#a5b4fc;border:1px solid rgba(99,102,241,.3);}
+.nav a.active .ic{transform:scale(1.08);box-shadow:0 0 14px rgba(37,99,235,.4);}
+.nav-bottom{padding:11px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.22);position:relative;z-index:1;}
+.user-info{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--glass);margin-bottom:8px;border:1px solid var(--border-b);}
+.user-av{width:33px;height:33px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.user-name{font-size:10.5px;font-weight:700;color:#fff;text-transform:uppercase;}
+.user-role{font-size:8px;color:var(--text-d);font-weight:500;text-transform:uppercase;margin-top:1px;}
+.logout-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:10px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);color:rgba(252,165,165,.8);font-size:10px;font-weight:700;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;}
+.logout-btn:hover{background:rgba(239,68,68,.2);color:#fff;}
+.logout-btn .material-icons-round{font-size:14px;}
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;margin-left:var(--sidebar-w);}
+.topbar{background:#fff;border-bottom:1px solid #e8edf5;padding:11px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.topbar-left{display:flex;align-items:center;gap:12px;}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#475569;}
+.menu-btn .material-icons-round{font-size:22px;}
+.page-title{font-size:15px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.07em;}
+.page-sub{font-size:9px;color:#94a3b8;font-weight:500;margin-top:2px;letter-spacing:.05em;text-transform:uppercase;}
+.scroll{flex:1;overflow-y:auto;padding:18px 24px;}
+.scroll::-webkit-scrollbar{width:5px;}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;font-size:10.5px;font-weight:700;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.06em;font-family:'Outfit',sans-serif;white-space:nowrap;}
+.btn-blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.3);}
+.btn-blue:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,.44);}
+.btn-green{background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 4px 14px rgba(16,185,129,.3);}
+.btn-green:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(16,185,129,.4);}
+.btn-ghost{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}
+.btn-ghost:hover{background:#e2e8f0;}
+.btn-danger{background:#fef2f2;color:#ef4444;border:1px solid #fecaca;}
+.btn-danger:hover{background:#fee2e2;}
+.btn-amber{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;box-shadow:0 4px 14px rgba(245,158,11,.3);}
+.btn-sm{padding:6px 10px;font-size:10px;border-radius:8px;}
+.btn .material-icons-round{font-size:14px;}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.stat-box{background:#fff;border-radius:14px;border:1px solid #ecf0f6;padding:16px 18px;position:relative;overflow:hidden;transition:all .18s;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.stat-box:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.08);}
+.stat-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.sb-blue::before{background:linear-gradient(90deg,#2563eb,#06b6d4);}
+.sb-green::before{background:linear-gradient(90deg,#10b981,#06b6d4);}
+.sb-purple::before{background:linear-gradient(90deg,#8b5cf6,#ec4899);}
+.sb-orange::before{background:linear-gradient(90deg,#f97316,#fbbf24);}
+.sb-cyan::before{background:linear-gradient(90deg,#06b6d4,#2563eb);}
+.sb-red::before{background:linear-gradient(90deg,#ef4444,#f97316);}
+.stat-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
+.stat-icon .material-icons-round{font-size:17px;}
+.si-blue{background:rgba(37,99,235,.1);color:#2563eb;}
+.si-green{background:rgba(16,185,129,.1);color:#10b981;}
+.si-purple{background:rgba(139,92,246,.1);color:#8b5cf6;}
+.si-orange{background:rgba(249,115,22,.1);color:#f97316;}
+.si-cyan{background:rgba(6,182,212,.1);color:#06b6d4;}
+.si-red{background:rgba(239,68,68,.1);color:#ef4444;}
+.stat-lbl{font-size:8.5px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.06em;}
+.stat-val{font-size:26px;font-weight:900;color:#0f172a;margin-top:3px;font-family:'JetBrains Mono',monospace;}
+.stat-sub{font-size:9px;color:#94a3b8;font-weight:500;margin-top:3px;}
+.card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.04);animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.card:hover{box-shadow:0 6px 20px rgba(0,0,0,.08);transform:translateY(-2px);}
+.card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:8px;}
+.card-title{font-size:12px;font-weight:800;color:#0f172a;text-transform:uppercase;letter-spacing:.04em;}
+.card-sub{font-size:9.5px;color:#94a3b8;font-weight:500;margin-top:2px;}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:99px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;}
+.badge-blue{background:#eff6ff;color:#2563eb;}
+.badge-green{background:#dcfce7;color:#15803d;}
+.badge-red{background:#fef2f2;color:#dc2626;}
+.badge-amber{background:#fefce8;color:#a16207;}
+.badge-purple{background:#ede9fe;color:#6d28d9;}
+.badge-cyan{background:#ecfeff;color:#0e7490;}
+.badge-gray{background:#f1f5f9;color:#64748b;}
+.tbl-wrap{overflow-x:auto;border-radius:12px;border:1px solid #ecf0f6;}
+table{width:100%;border-collapse:collapse;background:#fff;}
+thead tr{background:#f8fafc;border-bottom:1px solid #e2e8f0;}
+th{padding:10px 14px;font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#64748b;text-align:left;white-space:nowrap;}
+td{padding:11px 14px;font-size:11.5px;font-weight:500;color:#334155;border-bottom:1px solid #f1f5f9;vertical-align:middle;}
+tbody tr:hover{background:#f8fafc;}
+tbody tr:last-child td{border-bottom:none;}
+.mo{position:fixed;inset:0;background:rgba(7,16,31,.65);backdrop-filter:blur(6px);z-index:500;display:none;align-items:center;justify-content:center;padding:16px;}
+.mo.open{display:flex;}
+.mb{background:#fff;border-radius:20px;width:90%;max-width:620px;max-height:92vh;overflow-y:auto;box-shadow:0 30px 70px rgba(0,0,0,.22);animation:mIn .25s cubic-bezier(.16,1,.3,1);}
+@keyframes mIn{from{opacity:0;transform:scale(.95) translateY(16px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.mb::-webkit-scrollbar{width:4px;}.mb::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+.mh{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-bottom:1px solid #f1f5f9;position:sticky;top:0;background:#fff;border-radius:20px 20px 0 0;z-index:1;}
+.mt{font-size:13px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:.06em;}
+.xbtn{width:32px;height:32px;background:#f1f5f9;border:none;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;color:#64748b;}
+.xbtn:hover{background:#fef2f2;color:#ef4444;}
+.xbtn .material-icons-round{font-size:16px;}
+.mbody{padding:22px;}
+.mfooter{display:flex;justify-content:flex-end;gap:10px;padding:14px 22px 20px;border-top:1px solid #f1f5f9;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.form-full{grid-column:1/-1;}
+.form-group{margin-bottom:14px;}
+.form-label{font-size:8.5px;font-weight:700;text-transform:uppercase;color:#64748b;letter-spacing:.08em;margin-bottom:5px;display:block;}
+.form-inp,.form-sel,.form-ta{width:100%;padding:10px 13px;border-radius:9px;border:1.5px solid #e2e8f0;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;color:#1e293b;background:#f8fafc;transition:all .15s;}
+.form-ta{resize:vertical;min-height:80px;}
+.form-inp:focus,.form-sel:focus,.form-ta:focus{outline:none;border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
+.sec-div{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#2563eb;border-bottom:2px solid #bfdbfe;padding-bottom:7px;margin:18px 0 14px;display:flex;align-items:center;justify-content:space-between;}
+.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 18px;border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.2);}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{background:#065f46;border-left:4px solid #6ee7b7;}
+.toast.error{background:#7f1d1d;border-left:4px solid #fca5a5;}
+.toast .material-icons-round{font-size:16px;}
+.empty-state{text-align:center;padding:60px 20px;color:#94a3b8;}
+.empty-state .material-icons-round{font-size:48px;margin-bottom:12px;display:block;opacity:.3;}
+.empty-state div{font-size:13px;font-weight:700;text-transform:uppercase;}
+.search-bar{display:flex;align-items:center;gap:8px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:8px 13px;min-width:220px;}
+.search-bar .material-icons-round{font-size:16px;color:#94a3b8;}
+.search-bar input{border:none;background:none;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;color:#1e293b;outline:none;width:100%;}
+.filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.step-bar{display:flex;align-items:center;gap:0;margin-bottom:22px;}
+.step{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;}
+.step.done{color:#10b981;}
+.step.active{color:#2563eb;}
+.step-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;background:#f1f5f9;color:#94a3b8;flex-shrink:0;}
+.step.done .step-num{background:#dcfce7;color:#15803d;}
+.step.active .step-num{background:#eff6ff;color:#2563eb;}
+.step-line{flex:1;height:2px;background:#e2e8f0;margin:0 8px;}
+.step-line.done{background:#10b981;}
+@media(max-width:768px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.sidebar-overlay.open{display:block;}.main{margin-left:0!important;}.menu-btn{display:flex!important;}.topbar,.scroll{padding:11px 14px;}.stats-row{grid-template-columns:1fr 1fr;}.form-grid,.form-grid-3{grid-template-columns:1fr;}}
+</style>
+<style>
+.ob-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;}
+.ob-card{background:#fff;border-radius:16px;border:1px solid #ecf0f6;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:all .2s;animation:fadeIn .3s ease;}
+.ob-card:hover{box-shadow:0 6px 20px rgba(0,0,0,.08);transform:translateY(-2px);}
+.ob-card-top{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.ob-avatar{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#2563eb,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;flex-shrink:0;}
+.ob-name{font-size:13px;font-weight:800;color:#0f172a;}
+.ob-dept{font-size:10px;color:#94a3b8;font-weight:500;margin-top:2px;}
+.ob-date{font-size:9px;color:#94a3b8;font-weight:600;text-transform:uppercase;}
+.progress-bar{height:6px;background:#f1f5f9;border-radius:99px;overflow:hidden;margin:10px 0 6px;}
+.progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#2563eb,#06b6d4);transition:width .4s;}
+.progress-lbl{font-size:9px;color:#94a3b8;font-weight:700;display:flex;justify-content:space-between;}
+.task-list{margin-top:12px;display:flex;flex-direction:column;gap:5px;}
+.task-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;cursor:pointer;transition:background .15s;border:1px solid #f1f5f9;}
+.task-item:hover{background:#f8fafc;}
+.task-item.done{background:#f0fdf4;border-color:#bbf7d0;}
+.task-item input[type=checkbox]{accent-color:#10b981;width:14px;height:14px;cursor:pointer;flex-shrink:0;}
+.task-item span{font-size:10.5px;font-weight:600;color:#475569;}
+.task-item.done span{color:#16a34a;text-decoration:line-through;}
+.ob-actions{display:flex;gap:6px;margin-top:14px;}
+</style>
+</head>
+<body onload="init()">
+<div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="logo-area"><img src="logo.png" alt="KIDV Tech"></div>
+  <nav class="nav">
+    <div class="nav-sec">Main</div>
+    <a href="index.html"><span class="ic ic-main"><span class="material-icons-round">dashboard</span></span>Dashboard</a>
+    <a href="employee-profile.html"><span class="ic ic-main"><span class="material-icons-round">badge</span></span>Employees</a>
+    <div class="nav-sec">HR</div>
+    <a href="leave-management.html"><span class="ic ic-hr"><span class="material-icons-round">event_available</span></span>Leave</a>
+    <a href="shifts.html"><span class="ic ic-hr"><span class="material-icons-round">schedule</span></span>Shifts</a>
+    <a href="holidays.html"><span class="ic ic-hr"><span class="material-icons-round">event</span></span>Holidays</a>
+    <a href="payslip.html"><span class="ic ic-hr"><span class="material-icons-round">description</span></span>Payslips</a>
+    <a href="hr-letters.html"><span class="ic ic-hr"><span class="material-icons-round">mail</span></span>HR Letters</a>
+    <a href="onboarding.html"><span class="ic ic-hr"><span class="material-icons-round">how_to_reg</span></span>Onboarding</a>
+    <a href="offboarding.html"><span class="ic ic-hr"><span class="material-icons-round">logout</span></span>Offboarding</a>
+    <a href="celebrations.html"><span class="ic ic-cel"><span class="material-icons-round">auto_awesome</span></span>Celebrations</a>
+    <a href="document-expiry.html"><span class="ic ic-doc"><span class="material-icons-round">event_busy</span></span>Doc Expiry</a>
+    <a href="training-tracker.html"><span class="ic ic-trn"><span class="material-icons-round">model_training</span></span>Training</a>
+    <div class="nav-sec">Operations</div>
+    <a href="attendance.html"><span class="ic ic-ops"><span class="material-icons-round">calendar_month</span></span>Attendance</a>
+    <a href="payroll.html"><span class="ic ic-ops"><span class="material-icons-round">receipt_long</span></span>Payroll</a>
+    <a href="salary-structure.html"><span class="ic ic-ops"><span class="material-icons-round">account_tree</span></span>Salary Structure</a>
+    <a href="tds-calculator.html"><span class="ic ic-ops"><span class="material-icons-round">calculate</span></span>TDS Calculator</a>
+    <a href="statutory-compliance.html"><span class="ic ic-ops"><span class="material-icons-round">gavel</span></span>Compliance</a>
+    <a href="reports.html"><span class="ic ic-ops"><span class="material-icons-round">bar_chart</span></span>Reports</a>
+    <a href="analytics.html"><span class="ic ic-ops"><span class="material-icons-round">insights</span></span>Analytics</a>
+    <div class="nav-sec">Finance</div>
+    <a href="loan-management.html"><span class="ic ic-fin"><span class="material-icons-round">account_balance_wallet</span></span>Loans &amp; Advances</a>
+    <a href="expense-claims.html"><span class="ic ic-fin"><span class="material-icons-round">receipt</span></span>Expense Claims</a>
+    <div class="nav-sec">Recruitment</div>
+    <a href="job-openings.html"><span class="ic ic-int"><span class="material-icons-round">work</span></span>Job Openings</a>
+    <a href="candidates.html"><span class="ic ic-int"><span class="material-icons-round">people_alt</span></span>Candidates</a>
+    <div class="nav-sec">Assets</div>
+    <a href="asset-management.html"><span class="ic ic-doc"><span class="material-icons-round">inventory_2</span></span>Asset Management</a>
+    <a href="device-manager.html"><span class="ic ic-int"><span class="material-icons-round">devices_other</span></span>Device Manager</a>
+    <div class="nav-sec">People</div>
+    <a href="grievance.html"><span class="ic ic-ppl"><span class="material-icons-round">support_agent</span></span>Grievance</a>
+    <a href="performance.html"><span class="ic ic-ppl"><span class="material-icons-round">leaderboard</span></span>Performance</a>
+    <div class="nav-sec" id="adminNav" style="display:none;">Admin</div>
+    <a href="users.html" id="usersLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">manage_accounts</span></span>Users</a>
+    <a href="roles.html" id="rolesLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">admin_panel_settings</span></span>Roles &amp; Perms</a>
+    <a href="company-settings.html" id="settingsLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">settings</span></span>Company Settings</a>
+    <a href="notifications.html" id="notifLink" style="display:none;"><span class="ic ic-adm"><span class="material-icons-round">notifications</span></span>Notifications</a>
+  </nav>
+  <div class="nav-bottom">
+    <div class="user-info"><div class="user-av" id="sideAvatar">SA</div><div><div class="user-name" id="sideName">Admin</div><div class="user-role" id="sideRole">Super Admin</div></div></div>
+    <button class="logout-btn" onclick="doLogout()"><span class="material-icons-round">logout</span>Logout</button>
+  </div>
+</aside>
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="menu-btn" onclick="openSidebar()"><span class="material-icons-round">menu</span></button>
+      <div>
+        <div class="page-title">Onboarding</div>
+        <div class="page-sub">New employee joining · Checklists · Task tracking</div>
+      </div>
+    </div>
+    <button class="btn btn-blue" onclick="openModal()"><span class="material-icons-round">add</span>New Onboarding</button>
+  </div>
+  <div class="scroll">
+    <div class="stats-row">
+      <div class="stat-box sb-blue"><div class="stat-icon si-blue"><span class="material-icons-round">how_to_reg</span></div><div class="stat-lbl">Total Onboarding</div><div class="stat-val" id="st-total">0</div></div>
+      <div class="stat-box sb-green"><div class="stat-icon si-green"><span class="material-icons-round">check_circle</span></div><div class="stat-lbl">Completed</div><div class="stat-val" id="st-done">0</div></div>
+      <div class="stat-box sb-orange"><div class="stat-icon si-orange"><span class="material-icons-round">pending</span></div><div class="stat-lbl">In Progress</div><div class="stat-val" id="st-prog">0</div></div>
+      <div class="stat-box sb-purple"><div class="stat-icon si-purple"><span class="material-icons-round">schedule</span></div><div class="stat-lbl">Joining This Month</div><div class="stat-val" id="st-month">0</div></div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
+      <div class="search-bar" style="max-width:280px;"><span class="material-icons-round">search</span><input type="text" id="searchInp" placeholder="Search employee..." oninput="render()"></div>
+      <select class="form-sel" style="width:auto;padding:8px 13px;font-size:11px;" id="filterStatus" onchange="render()">
+        <option value="">All Status</option>
+        <option value="pending">Pending</option>
+        <option value="inprogress">In Progress</option>
+        <option value="completed">Completed</option>
+      </select>
+    </div>
+    <div class="ob-grid" id="obGrid"></div>
+  </div>
+</div>
+</div>
+
+<div id="obModal" class="mo" onclick="if(event.target===this)closeModal()">
+  <div class="mb">
+    <div class="mh"><div class="mt" id="modalTitle">New Onboarding</div><button class="xbtn" onclick="closeModal()"><span class="material-icons-round">close</span></button></div>
+    <div class="mbody">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Employee Name *</label><input class="form-inp" type="text" id="fName" placeholder="Full name"></div>
+        <div class="form-group"><label class="form-label">Employee ID</label><input class="form-inp" type="text" id="fEmpId" placeholder="e.g. EMP042"></div>
+        <div class="form-group"><label class="form-label">Department *</label><input class="form-inp" type="text" id="fDept" placeholder="e.g. Engineering"></div>
+        <div class="form-group"><label class="form-label">Designation</label><input class="form-inp" type="text" id="fDesg" placeholder="e.g. Software Engineer"></div>
+        <div class="form-group"><label class="form-label">Joining Date *</label><input class="form-inp" type="date" id="fDate"></div>
+        <div class="form-group"><label class="form-label">Reporting Manager</label><input class="form-inp" type="text" id="fMgr" placeholder="Manager name"></div>
+      </div>
+      <div class="sec-div">Onboarding Tasks</div>
+      <div id="taskBuilder">
+        <div style="font-size:10px;color:#94a3b8;margin-bottom:10px;">Default tasks will be added. You can customise after saving.</div>
+      </div>
+      <input type="hidden" id="editId">
+    </div>
+    <div class="mfooter">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-blue" onclick="saveOb()"><span class="material-icons-round">save</span>Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="material-icons-round" id="toastIco">check_circle</span><span id="toastMsg"></span></div>
+<script>
+const DEFAULT_TASKS=[
+  'Document Collection (Aadhar, PAN, Degree)',
+  'Bank Account Details Submission',
+  'Offer Letter Signing',
+  'Company Policy Acknowledgement',
+  'IT Asset Allocation (Laptop / ID Card)',
+  'Email & System Access Setup',
+  'Induction & Orientation Program',
+  'Reporting Manager Introduction',
+  'Payroll Enrollment',
+  'Emergency Contact Form'
+];
+
+const KEY='kidv_onboarding';
+let records=JSON.parse(localStorage.getItem(KEY)||'[]');
+let nextId=records.reduce((m,r)=>Math.max(m,r.id||0),0)+1;
+const save=()=>localStorage.setItem(KEY,JSON.stringify(records));
+
+function init(){loadUserInfo();render();}
+
+function calcProgress(tasks){
+  if(!tasks||!tasks.length)return 0;
+  return Math.round(tasks.filter(t=>t.done).length/tasks.length*100);
+}
+function getStatus(pct){return pct===100?'completed':pct>0?'inprogress':'pending';}
+function statusBadge(pct){
+  const s=getStatus(pct);
+  const map={completed:['badge-green','check_circle','Completed'],inprogress:['badge-blue','pending','In Progress'],pending:['badge-amber','schedule','Pending']};
+  const [cls,ico,lbl]=map[s];
+  return `<span class="badge ${cls}"><span class="material-icons-round" style="font-size:11px;">${ico}</span>${lbl}</span>`;
+}
+
+function render(){
+  const q=(document.getElementById('searchInp').value||'').toLowerCase();
+  const fs=document.getElementById('filterStatus').value;
+  const now=new Date();
+  let filtered=records.filter(r=>{
+    const pct=calcProgress(r.tasks);
+    const st=getStatus(pct);
+    const matchQ=!q||(r.name||'').toLowerCase().includes(q)||(r.dept||'').toLowerCase().includes(q);
+    const matchF=!fs||st===fs;
+    return matchQ&&matchF;
+  });
+  // stats
+  const thisMonth=records.filter(r=>{const d=new Date(r.date);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();}).length;
+  document.getElementById('st-total').textContent=records.length;
+  document.getElementById('st-done').textContent=records.filter(r=>calcProgress(r.tasks)===100).length;
+  document.getElementById('st-prog').textContent=records.filter(r=>{const p=calcProgress(r.tasks);return p>0&&p<100;}).length;
+  document.getElementById('st-month').textContent=thisMonth;
+  const grid=document.getElementById('obGrid');
+  if(!filtered.length){grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><span class="material-icons-round">how_to_reg</span><div>No onboarding records found</div></div>';return;}
+  grid.innerHTML=filtered.map(r=>{
+    const pct=calcProgress(r.tasks);
+    const initials=(r.name||'').split(' ').map(w=>w[0]||'').join('').substring(0,2).toUpperCase();
+    const taskRows=r.tasks.map((t,i)=>`<label class="task-item${t.done?' done':''}" onclick="toggleTask(${r.id},${i},this)"><input type="checkbox" ${t.done?'checked':''} onclick="event.stopPropagation()"><span>${t.label}</span></label>`).join('');
+    return `<div class="ob-card">
+      <div class="ob-card-top">
+        <div class="ob-avatar">${initials}</div>
+        <div style="flex:1;min-width:0;">
+          <div class="ob-name">${r.name}</div>
+          <div class="ob-dept">${r.desg||''}${r.dept?' · '+r.dept:''}</div>
+        </div>
+        ${statusBadge(pct)}
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:9.5px;color:#64748b;font-weight:600;">
+        <span><span class="material-icons-round" style="font-size:12px;vertical-align:middle;">calendar_today</span> Joining: ${r.date||'—'}</span>
+        <span>${r.empId||''}</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="progress-lbl"><span>${pct}% Complete</span><span>${r.tasks.filter(t=>t.done).length}/${r.tasks.length} Tasks</span></div>
+      <div class="task-list">${taskRows}</div>
+      <div class="ob-actions">
+        <button class="btn btn-ghost btn-sm" onclick="editOb(${r.id})"><span class="material-icons-round">edit</span></button>
+        <button class="btn btn-danger btn-sm" onclick="delOb(${r.id})"><span class="material-icons-round">delete</span></button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleTask(id,idx,el){
+  const r=records.find(x=>x.id===id);if(!r)return;
+  r.tasks[idx].done=!r.tasks[idx].done;
+  save();render();
+}
+
+function openModal(){
+  document.getElementById('editId').value='';
+  ['fName','fEmpId','fDept','fDesg','fMgr'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fDate').value=new Date().toISOString().split('T')[0];
+  document.getElementById('modalTitle').textContent='New Onboarding';
+  document.getElementById('obModal').classList.add('open');
+}
+function closeModal(){document.getElementById('obModal').classList.remove('open');}
+
+function editOb(id){
+  const r=records.find(x=>x.id===id);if(!r)return;
+  document.getElementById('editId').value=id;
+  document.getElementById('fName').value=r.name||'';
+  document.getElementById('fEmpId').value=r.empId||'';
+  document.getElementById('fDept').value=r.dept||'';
+  document.getElementById('fDesg').value=r.desg||'';
+  document.getElementById('fDate').value=r.date||'';
+  document.getElementById('fMgr').value=r.mgr||'';
+  document.getElementById('modalTitle').textContent='Edit — '+r.name;
+  document.getElementById('obModal').classList.add('open');
+}
+
+function saveOb(){
+  const name=document.getElementById('fName').value.trim();
+  const date=document.getElementById('fDate').value;
+  if(!name||!date){showToast('Name and joining date are required.','error');return;}
+  const eid=document.getElementById('editId').value;
+  const data={name,empId:document.getElementById('fEmpId').value.trim(),dept:document.getElementById('fDept').value.trim(),desg:document.getElementById('fDesg').value.trim(),date,mgr:document.getElementById('fMgr').value.trim()};
+  if(eid){
+    const r=records.find(x=>x.id==eid);
+    if(r)Object.assign(r,data);
+    showToast('Onboarding record updated.','success');
+  } else {
+    records.push({id:nextId++,...data,tasks:DEFAULT_TASKS.map(l=>({label:l,done:false}))});
+    showToast('Onboarding record created.','success');
+  }
+  save();render();closeModal();
+}
+
+function delOb(id){
+  if(!confirm('Delete this onboarding record?'))return;
+  records=records.filter(x=>x.id!==id);
+  save();render();showToast('Record deleted.','success');
+}
+
+function loadUserInfo(){
+  const u=JSON.parse(localStorage.getItem('kidv_user')||'{}');
+  if(u.name){const p=u.name.trim().split(' ');document.getElementById('sideAvatar').textContent=(p.length>1?p[0][0]+p[1][0]:p[0][0]+(p[0][1]||'')).toUpperCase();document.getElementById('sideName').textContent=u.name;document.getElementById('sideRole').textContent=u.role||'';}
+  const r=(u.role||'').toLowerCase();
+  if(r==='super admin'||r==='admin'){
+    const ids=['adminNav','usersLink','rolesLink','settingsLink','notifLink'];
+    ids.forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='';});
+  }
+}
+function doLogout(){localStorage.removeItem('kidv_logged_in');localStorage.removeItem('kidv_user');window.location.replace('login.html');}
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sideOverlay').classList.add('open');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sideOverlay').classList.remove('open');}
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');t.className='toast '+type;
+  document.getElementById('toastIco').textContent=type==='success'?'check_circle':type==='error'?'error':'info';
+  document.getElementById('toastMsg').textContent=msg;
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);
+}
+(function(){
+  const page=window.location.pathname.split('/').pop()||'index.html';
+  document.querySelectorAll('.nav a').forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')===page)a.classList.add('active');});
+})();
+</script></body></html>
